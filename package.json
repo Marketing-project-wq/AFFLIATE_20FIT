@@ -4,7 +4,7 @@
   "description": "20FIT affiliate landing page, affiliate dashboard and admin console",
   "scripts": {
     "start": "node server.js",
-    "build": "python3 tools/unbundle.py"
+    "unbundle": "python3 tools/unbundle.py"
   },
   "engines": {
     "node": ">=20"
