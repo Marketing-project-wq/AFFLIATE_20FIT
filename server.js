@@ -1,20 +1,23 @@
 'use strict';
 // Serves the affiliate site. The landing page and /assets are public; the
-// affiliate dashboard and the admin console need a 20FIT account, checked
-// against Supabase Auth (the same accounts the 20FIT app uses).
+// affiliate dashboard needs a 20FIT account, checked against Supabase Auth
+// (the same accounts the 20FIT app uses), and the admin pages an account in
+// public.affiliate_admins.
 
 const http = require('http');
 const fs = require('fs');
 const path = require('path');
+const crypto = require('crypto');
+const { createAffiliateData } = require('./lib/affiliate-data');
+const { renderLanding } = require('./lib/landing-view');
+const { renderSettingsPage, parseForm } = require('./lib/admin-settings-view');
+const Calc = require('./public/assets/affiliate-calc.js');
 
 const PORT = Number(process.env.PORT) || 3000;
 // Public values (the publishable key ships in every Supabase client), so they
 // default here and can be overridden per environment.
 const SUPABASE_URL = (process.env.SUPABASE_URL || 'https://cpvzwqptzcxnwzfzgrmt.supabase.co').replace(/\/+$/, '');
 const SUPABASE_KEY = process.env.SUPABASE_PUBLISHABLE_KEY || 'sb_publishable_0t9vEOYeIo_YM1__X5iNMQ_qXofEozw';
-const ADMIN_EMAILS = new Set(
-  (process.env.ADMIN_EMAILS || '').split(',').map((e) => e.trim().toLowerCase()).filter(Boolean)
-);
 
 const PUBLIC_DIR = path.join(__dirname, 'public');
 const DASHBOARD_PATH = '/affiliatedashboard';
@@ -36,7 +39,6 @@ const MIME = {
 };
 
 const pages = {
-  landing: read('index.html'),
   dashboard: read('dashboard.html'),
   admin: read('admin.html'),
 };
@@ -44,6 +46,21 @@ const pages = {
 function read(name) {
   return fs.readFileSync(path.join(PUBLIC_DIR, name), 'utf8');
 }
+
+// Hand-written assets keep their names, so their URLs carry a content hash
+// for the year-long asset cache.
+function versioned(name) {
+  const hash = crypto.createHash('sha256').update(fs.readFileSync(path.join(PUBLIC_DIR, 'assets', name))).digest('hex');
+  return `/assets/${name}?v=${hash.slice(0, 12)}`;
+}
+
+const landingAssets = {
+  cssHref: versioned('landing.css'),
+  calcHref: versioned('affiliate-calc.js'),
+  jsHref: versioned('landing.js'),
+};
+
+const affiliateData = createAffiliateData({ supabaseUrl: SUPABASE_URL, supabaseKey: SUPABASE_KEY });
 
 // ── helpers ─────────────────────────────────────────────────────────────
 
@@ -185,7 +202,7 @@ async function authenticate(req) {
   }
   if (!accessToken) return null;
   const user = await cachedUser(accessToken);
-  return user ? { user, cookies } : null;
+  return user ? { user, cookies, accessToken } : null;
 }
 
 // Per-IP limit on password attempts; Supabase only sees this server's IP.
@@ -216,12 +233,35 @@ function initials(name) {
   return (letters[0] + (letters.length > 1 ? letters[letters.length - 1] : '')).toUpperCase();
 }
 
-function renderDashboard(user) {
+// The dashboard design hard-codes the commission scheme in its copy; these
+// swap in the configured values. (Its "2.5%" for PPh 21 is a tax rate and
+// stays.)
+function schemeCopy(settings) {
+  const days = settings.pendingDays;
+  const rate = Calc.percent(settings.commissionRate).replace(',', '.');
+  return [
+    ['Commission is held for 14 days after payment.', `Commission is held for ${days} days after the session is completed.`],
+    ['Released 14 days after payment', `Released ${days} days after the session`],
+    ['Refunded within the 14-day hold', `Refunded within the ${days}-day hold`],
+    ["Commission becomes available 14 days after your friend's payment", `Commission becomes available ${days} days after your friend's session`],
+    ['Earn 2.5% of every app purchase', `Earn ${rate} of every app purchase`],
+    ['2.5% of what they pay in the app', `${rate} of what they pay in the app`],
+    ['2.5% of every app purchase by friends', `${rate} of every app purchase by friends`],
+    ['MIN = 50000', `MIN = ${settings.minWithdrawal}`],
+    ["'Rp50.000 to go'", `'${Calc.rupiah(settings.minWithdrawal)} to go'`],
+  ];
+}
+
+function renderDashboard(user, settings) {
   const name = displayName(user);
-  return pages.dashboard
+  let html = pages.dashboard
     .split('__AF_USER_NAME_JS__').join(JSON.stringify(name).replace(/</g, '\\u003c'))
     .split('__AF_USER_INITIALS__').join(escapeHtml(initials(name)))
     .split('__AF_USER_EMAIL__').join(escapeHtml(templateSafe(user.email || '')));
+  if (settings) {
+    for (const [from, to] of schemeCopy(settings)) html = html.split(from).join(to);
+  }
+  return html;
 }
 
 function loginPage({ next, email = '', error = '' }) {
@@ -294,7 +334,7 @@ function forbiddenPage(email) {
 <style>body{margin:0;min-height:100vh;display:grid;place-items:center;padding:24px 16px;font:15px/1.55 system-ui,sans-serif;background:#f6f4f4;color:#141414}
 main{max-width:420px;text-align:center}a{color:#b0161f}</style></head>
 <body><main><h1>No access to the admin console</h1>
-<p>You're signed in as ${escapeHtml(email)}, which isn't on the admin list.</p>
+<p>You're signed in as ${escapeHtml(email)}, which isn't on the affiliate admin list.</p>
 <p><a href="${DASHBOARD_PATH}">Go to your affiliate dashboard</a> · <a href="/logout">Log out</a></p></main></body></html>`;
 }
 
@@ -307,7 +347,8 @@ async function serveProtected(req, res, url, render) {
   }
   const headers = { 'Cache-Control': 'private, no-store' };
   if (auth.cookies) headers['Set-Cookie'] = auth.cookies;
-  const result = render(auth.user);
+  const result = await render(auth.user, auth.accessToken);
+  if (result.redirect) return redirect(res, result.redirect, auth.cookies);
   send(res, result.status || 200, result.body, headers);
 }
 
@@ -328,6 +369,41 @@ function serveAsset(req, res, pathname) {
   });
 }
 
+// Admin = listed in public.affiliate_admins; Supabase answers for the
+// signed-in user's token. Cached briefly like the user lookup.
+const adminCache = new Map();
+
+async function isAdmin(accessToken) {
+  const hit = adminCache.get(accessToken);
+  if (hit && hit.until > Date.now()) return hit.admin;
+  const admin = await affiliateData.isAdmin(accessToken).catch(() => false);
+  if (adminCache.size > 1000) adminCache.clear();
+  adminCache.set(accessToken, { admin, until: Date.now() + USER_CACHE_MS });
+  return admin;
+}
+
+// Form posts must come from this site (on top of SameSite=Lax cookies).
+function sameOrigin(req) {
+  const origin = req.headers.origin;
+  if (!origin) return true;
+  try {
+    return new URL(origin).host === req.headers.host;
+  } catch {
+    return false;
+  }
+}
+
+async function settingsPage(user, accessToken, extra = {}) {
+  const [settings, audit] = await Promise.all([
+    affiliateData.readSettings(),
+    affiliateData.auditLog(accessToken).catch((err) => {
+      console.error('audit log:', err.message);
+      return null;
+    }),
+  ]);
+  return renderSettingsPage({ settings, audit, email: user.email || '', ...extra });
+}
+
 async function handle(req, res) {
   const url = new URL(req.url, 'http://localhost');
   const p = url.pathname.replace(/\/+$/, '') || '/';
@@ -339,20 +415,24 @@ async function handle(req, res) {
     switch (p) {
       case '/':
       case '/index.html':
-        return send(res, 200, pages.landing, { 'Cache-Control': 'public, max-age=300' });
+        return send(res, 200, renderLanding(await affiliateData.get(), landingAssets), { 'Cache-Control': 'public, max-age=60' });
       // Old links and a common misspelling.
       case '/dashboard.html':
       case '/affiliatedashbaord':
         return redirect(res, DASHBOARD_PATH);
       case DASHBOARD_PATH:
-        return serveProtected(req, res, url, (user) => ({ body: renderDashboard(user) }));
+        return serveProtected(req, res, url, async (user) => ({ body: renderDashboard(user, (await affiliateData.get()).settings) }));
       case '/admin.html':
         return redirect(res, '/admin');
       case '/admin':
-        return serveProtected(req, res, url, (user) =>
-          ADMIN_EMAILS.has(String(user.email || '').toLowerCase())
-            ? { body: pages.admin }
-            : { status: 403, body: forbiddenPage(user.email || '') });
+        return serveProtected(req, res, url, async (user, token) =>
+          (await isAdmin(token)) ? { body: pages.admin } : { status: 403, body: forbiddenPage(user.email || '') });
+      case '/admin/settings':
+        return serveProtected(req, res, url, async (user, token) => {
+          if (!(await isAdmin(token))) return { status: 403, body: forbiddenPage(user.email || '') };
+          const notice = url.searchParams.get('saved') ? 'Perubahan disimpan dan dicatat di riwayat.' : '';
+          return { body: await settingsPage(user, token, { notice }) };
+        });
       case '/login': {
         const next = safeNext(url.searchParams.get('next'));
         const auth = await authenticate(req);
@@ -379,6 +459,26 @@ async function handle(req, res) {
       return send(res, 401, loginPage({ next, email, error: 'That email and password don’t match a 20FIT account.' }), { 'Cache-Control': 'no-store' });
     }
     return redirect(res, next, sessionCookies(req, session));
+  }
+
+  if (method === 'POST' && p === '/admin/settings') {
+    if (!sameOrigin(req)) return send(res, 403, 'Forbidden');
+    const form = new URLSearchParams(await readBody(req, 64 * 1024));
+    return serveProtected(req, res, url, async (user, token) => {
+      if (!(await isAdmin(token))) return { status: 403, body: forbiddenPage(user.email || '') };
+      const values = Object.fromEntries(form);
+      let patch;
+      try {
+        patch = parseForm(form, affiliateData.PRICE_TABLES);
+      } catch (err) {
+        return { status: 400, body: await settingsPage(user, token, { values, error: err.message }) };
+      }
+      const result = await affiliateData.updateSettings(token, patch);
+      if (!result.ok) {
+        return { status: 400, body: await settingsPage(user, token, { values, error: `Gagal menyimpan: ${result.message}` }) };
+      }
+      return { redirect: '/admin/settings?saved=1' };
+    });
   }
 
   send(res, 404, 'Not found');

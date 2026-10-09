@@ -21,8 +21,8 @@ SRC = os.path.join(ROOT, 'src', 'bundles')
 OUT = os.path.join(ROOT, 'public')
 ASSETS = os.path.join(OUT, 'assets')
 
+# The landing page is rendered by the server (lib/landing-view.js).
 PAGES = {
-    'landing.html': 'index.html',
     'dashboard.html': 'dashboard.html',
     'admin.html': 'admin.html',
 }
@@ -84,7 +84,20 @@ def patch_dashboard(template):
     return template
 
 
-PATCHES = {'dashboard.html': patch_dashboard}
+ADMIN_PAGE_LINK = ('<a href="/affiliatedashboard" style="display:flex;align-items:center;gap:8px;'
+                   'padding:8px 10px;font-size:13px;text-decoration:none;white-space:nowrap">'
+                   '<i class="ph ph-arrow-square-out"></i>Affiliate page</a>')
+
+
+def patch_admin(template):
+    # The design's Settings tab is a mock; the real commission settings live
+    # on /admin/settings.
+    settings_link = ADMIN_PAGE_LINK.replace('/affiliatedashboard', '/admin/settings').replace(
+        'ph-arrow-square-out', 'ph-sliders-horizontal').replace('Affiliate page', 'Pengaturan komisi')
+    return replace_once(template, ADMIN_PAGE_LINK, settings_link + '\n  ' + ADMIN_PAGE_LINK, 'admin')
+
+
+PATCHES = {'dashboard.html': patch_dashboard, 'admin.html': patch_admin}
 
 
 def script_block(html, kind):
@@ -145,8 +158,11 @@ def unbundle(src_path, out_path, patch=None):
 
 def main():
     os.makedirs(ASSETS, exist_ok=True)
+    # Only extracted assets (content-hash names); hand-written ones such as
+    # landing.css stay.
     for name in os.listdir(ASSETS):
-        os.remove(os.path.join(ASSETS, name))
+        if re.match(r'^[0-9a-f]{16}\.[a-z0-9]+$', name):
+            os.remove(os.path.join(ASSETS, name))
     for src, out in PAGES.items():
         unbundle(os.path.join(SRC, src), os.path.join(OUT, out), PATCHES.get(src))
         print('%s -> public/%s' % (src, out))
