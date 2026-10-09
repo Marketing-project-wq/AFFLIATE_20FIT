@@ -94,7 +94,8 @@ def patch_admin(template):
     # on /admin/settings.
     settings_link = ADMIN_PAGE_LINK.replace('/affiliatedashboard', '/admin/settings').replace(
         'ph-arrow-square-out', 'ph-sliders-horizontal').replace('Affiliate page', 'Pengaturan komisi')
-    return replace_once(template, ADMIN_PAGE_LINK, settings_link + '\n  ' + ADMIN_PAGE_LINK, 'admin')
+    dashboard_link = ADMIN_PAGE_LINK.replace('/affiliatedashboard', '/dashboard')
+    return replace_once(template, ADMIN_PAGE_LINK, settings_link + '\n  ' + dashboard_link, 'admin')
 
 
 PATCHES = {'dashboard.html': patch_dashboard, 'admin.html': patch_admin}

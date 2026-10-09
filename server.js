@@ -20,7 +20,9 @@ const SUPABASE_URL = (process.env.SUPABASE_URL || 'https://cpvzwqptzcxnwzfzgrmt.
 const SUPABASE_KEY = process.env.SUPABASE_PUBLISHABLE_KEY || 'sb_publishable_0t9vEOYeIo_YM1__X5iNMQ_qXofEozw';
 
 const PUBLIC_DIR = path.join(__dirname, 'public');
-const DASHBOARD_PATH = '/affiliatedashboard';
+const DASHBOARD_PATH = '/dashboard';
+// Earlier addresses of the dashboard (and a common misspelling).
+const OLD_DASHBOARD_PATHS = ['/affiliatedashboard', '/affiliatedashbaord', '/dashboard.html'];
 const ACCESS_COOKIE = 'af_at';
 const REFRESH_COOKIE = 'af_rt';
 const REFRESH_MAX_AGE = 60 * 60 * 24 * 30;
@@ -117,10 +119,10 @@ function send(res, status, body, headers = {}) {
   res.end(body);
 }
 
-function redirect(res, location, cookies) {
+function redirect(res, location, cookies, status = 302) {
   const headers = { Location: location, 'Cache-Control': 'no-store' };
   if (cookies) headers['Set-Cookie'] = cookies;
-  send(res, 302, '', headers);
+  send(res, status, '', headers);
 }
 
 function readBody(req, limit = 10 * 1024) {
@@ -343,7 +345,7 @@ main{max-width:420px;text-align:center}a{color:#b0161f}</style></head>
 async function serveProtected(req, res, url, render) {
   const auth = await authenticate(req);
   if (!auth) {
-    return redirect(res, `/login?next=${encodeURIComponent(url.pathname)}`, clearCookies(req));
+    return redirect(res, `/login?next=${encodeURIComponent(url.pathname + url.search).replace(/%2F/g, '/')}`, clearCookies(req));
   }
   const headers = { 'Cache-Control': 'private, no-store' };
   if (auth.cookies) headers['Set-Cookie'] = auth.cookies;
@@ -412,15 +414,15 @@ async function handle(req, res) {
 
   if (p.startsWith('/assets/') && (method === 'GET' || method === 'HEAD')) return serveAsset(req, res, p);
 
+  if ((method === 'GET' || method === 'HEAD') && OLD_DASHBOARD_PATHS.includes(p)) {
+    return send(res, 301, '', { Location: DASHBOARD_PATH + url.search, 'Cache-Control': 'public, max-age=3600' });
+  }
+
   if (method === 'GET' || method === 'HEAD') {
     switch (p) {
       case '/':
       case '/index.html':
         return send(res, 200, renderLanding(await affiliateData.get(), landingAssets), { 'Cache-Control': 'public, max-age=60' });
-      // Old links and a common misspelling.
-      case '/dashboard.html':
-      case '/affiliatedashbaord':
-        return redirect(res, DASHBOARD_PATH);
       case DASHBOARD_PATH:
         return serveProtected(req, res, url, async (user) => ({ body: renderDashboard(user, (await affiliateData.get()).settings) }));
       case '/admin.html':

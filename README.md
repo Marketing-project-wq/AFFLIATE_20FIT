@@ -6,12 +6,13 @@ The 20FIT affiliate site, deployed on Railway as a small Node server
 | Path                  | Page                    | Access                                        |
 | --------------------- | ----------------------- | --------------------------------------------- |
 | `/`                   | Landing page            | Public                                        |
-| `/affiliatedashboard` | Affiliate dashboard     | Any signed-in 20FIT account                   |
+| `/dashboard`          | Affiliate dashboard     | Any signed-in 20FIT account                   |
 | `/admin`              | Affiliate admin console | Accounts listed in `public.affiliate_admins`  |
 | `/admin/settings`     | Program settings        | Accounts listed in `public.affiliate_admins`  |
 | `/login`, `/logout`   | Sign in / out           | Public                                        |
 
-`/affiliatedashbaord` and `/dashboard.html` redirect to `/affiliatedashboard`.
+`/affiliatedashboard`, `/affiliatedashbaord` and `/dashboard.html` redirect
+(301, query string kept) to `/dashboard`.
 
 ## Program settings
 
