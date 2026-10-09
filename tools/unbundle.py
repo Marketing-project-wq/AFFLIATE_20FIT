@@ -56,6 +56,18 @@ ACCOUNT_BAR = '''<div style="display:flex;flex-wrap:wrap;align-items:center;gap:
 '''
 
 
+# Type scale on top of the design's --font-heading/--font-body tokens:
+# Barlow Condensed Black for page titles, ExtraBold for section titles, Bold
+# (the token default) elsewhere; form controls don't inherit fonts by default.
+# It goes into the design's own stylesheet because the page renders inside a
+# shadow root that document-level CSS doesn't reach.
+TYPE_CSS = '''
+h1 { font-weight: 900; }
+h2, h3 { font-weight: 800; }
+button, input, select, textarea { font-family: inherit; }
+'''
+
+
 def replace_once(text, old, new, page):
     if text.count(old) != 1:
         raise SystemExit('%s: expected exactly one %r, found %d' % (page, old[:60], text.count(old)))
@@ -121,6 +133,11 @@ def unbundle(src_path, out_path, patch=None):
     if not head:
         raise SystemExit('%s: template has no <head>' % src_path)
     template = template[:head.end()] + resource_script + template[head.end():]
+    tokens = template.find('--font-heading:')
+    style_end = template.find('</style>', tokens)
+    if tokens < 0 or style_end < 0:
+        raise SystemExit('%s: no stylesheet defining --font-heading' % src_path)
+    template = template[:style_end] + TYPE_CSS + template[style_end:]
 
     with open(out_path, 'w', encoding='utf-8') as f:
         f.write(template)
