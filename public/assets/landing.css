@@ -226,3 +226,6 @@ footer a { color: inherit; }
 
 .hero-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; }
 .btn-lg { padding: 13px 24px; font-size: 18px; }
+
+.paused-note { display: flex; align-items: flex-start; gap: 8px; margin: 0 0 18px; padding: 10px 14px; border-radius: 12px; background: #fff4e5; color: #8a4b00; font-size: 14px; line-height: 1.45; }
+.paused-note svg { flex: none; margin-top: 2px; }

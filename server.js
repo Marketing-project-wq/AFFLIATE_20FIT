@@ -369,17 +369,18 @@ function serveAsset(req, res, pathname) {
   });
 }
 
-// Admin = listed in public.affiliate_admins; Supabase answers for the
-// signed-in user's token. Cached briefly like the user lookup.
-const adminCache = new Map();
+// Admin = listed in public.affiliate_admins, with a role (growth, finance
+// or super); Supabase answers for the signed-in user's token. Cached
+// briefly like the user lookup.
+const roleCache = new Map();
 
-async function isAdmin(accessToken) {
-  const hit = adminCache.get(accessToken);
-  if (hit && hit.until > Date.now()) return hit.admin;
-  const admin = await affiliateData.isAdmin(accessToken).catch(() => false);
-  if (adminCache.size > 1000) adminCache.clear();
-  adminCache.set(accessToken, { admin, until: Date.now() + USER_CACHE_MS });
-  return admin;
+async function adminRole(accessToken) {
+  const hit = roleCache.get(accessToken);
+  if (hit && hit.until > Date.now()) return hit.role;
+  const role = await affiliateData.adminRole(accessToken).catch(() => null);
+  if (roleCache.size > 1000) roleCache.clear();
+  roleCache.set(accessToken, { role, until: Date.now() + USER_CACHE_MS });
+  return role;
 }
 
 // Form posts must come from this site (on top of SameSite=Lax cookies).
@@ -393,15 +394,15 @@ function sameOrigin(req) {
   }
 }
 
-async function settingsPage(user, accessToken, extra = {}) {
+async function settingsPage(user, accessToken, role, extra = {}) {
   const [settings, audit] = await Promise.all([
-    affiliateData.readSettings(),
+    affiliateData.adminSettings(accessToken),
     affiliateData.auditLog(accessToken).catch((err) => {
       console.error('audit log:', err.message);
       return null;
     }),
   ]);
-  return renderSettingsPage({ settings, audit, email: user.email || '', ...extra });
+  return renderSettingsPage({ settings, audit, role, email: user.email || '', ...extra });
 }
 
 async function handle(req, res) {
@@ -426,12 +427,13 @@ async function handle(req, res) {
         return redirect(res, '/admin');
       case '/admin':
         return serveProtected(req, res, url, async (user, token) =>
-          (await isAdmin(token)) ? { body: pages.admin } : { status: 403, body: forbiddenPage(user.email || '') });
+          (await adminRole(token)) ? { body: pages.admin } : { status: 403, body: forbiddenPage(user.email || '') });
       case '/admin/settings':
         return serveProtected(req, res, url, async (user, token) => {
-          if (!(await isAdmin(token))) return { status: 403, body: forbiddenPage(user.email || '') };
+          const role = await adminRole(token);
+          if (!role) return { status: 403, body: forbiddenPage(user.email || '') };
           const notice = url.searchParams.get('saved') ? 'Perubahan disimpan dan dicatat di riwayat.' : '';
-          return { body: await settingsPage(user, token, { notice }) };
+          return { body: await settingsPage(user, token, role, { notice }) };
         });
       case '/login': {
         const next = safeNext(url.searchParams.get('next'));
@@ -465,17 +467,21 @@ async function handle(req, res) {
     if (!sameOrigin(req)) return send(res, 403, 'Forbidden');
     const form = new URLSearchParams(await readBody(req, 64 * 1024));
     return serveProtected(req, res, url, async (user, token) => {
-      if (!(await isAdmin(token))) return { status: 403, body: forbiddenPage(user.email || '') };
+      const role = await adminRole(token);
+      if (!role) return { status: 403, body: forbiddenPage(user.email || '') };
       const values = Object.fromEntries(form);
       let patch;
       try {
         patch = parseForm(form, affiliateData.PRICE_TABLES);
       } catch (err) {
-        return { status: 400, body: await settingsPage(user, token, { values, error: err.message }) };
+        return { status: 400, body: await settingsPage(user, token, role, { values, error: err.message }) };
+      }
+      if (!Object.keys(patch).length) {
+        return { status: 403, body: await settingsPage(user, token, role, { error: 'Peranmu tidak bisa mengubah pengaturan ini.' }) };
       }
       const result = await affiliateData.updateSettings(token, patch);
       if (!result.ok) {
-        return { status: 400, body: await settingsPage(user, token, { values, error: `Gagal menyimpan: ${result.message}` }) };
+        return { status: 400, body: await settingsPage(user, token, role, { values, error: `Gagal menyimpan: ${result.message}` }) };
       }
       return { redirect: '/admin/settings?saved=1' };
     });
