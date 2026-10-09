@@ -92,3 +92,65 @@
     });
   }
 })();
+
+// Product carousel: arrows and dots on top of the native scroll-snap track.
+// One dot per "page" (as many cards as fit); the track stays swipeable and
+// keyboard-scrollable without this.
+(function () {
+  'use strict';
+  document.querySelectorAll('[data-carousel]').forEach(function (root) {
+    var track = root.querySelector('.carousel-track');
+    var prev = root.querySelector('[data-prev]');
+    var next = root.querySelector('[data-next]');
+    var dotsEl = root.querySelector('[data-dots]');
+    var controls = root.querySelector('.carousel-controls');
+    var cards = track.children;
+    if (!cards.length) return;
+    var smooth = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
+    var pages = 0;
+
+    function step() {
+      var gap = parseFloat(getComputedStyle(track).columnGap) || 0;
+      return cards[0].getBoundingClientRect().width + gap;
+    }
+    function perView() { return Math.max(1, Math.floor((track.clientWidth + 1) / step())); }
+    function maxScroll() { return track.scrollWidth - track.clientWidth; }
+    function pageLeft(i) { return Math.min(i * perView() * step(), maxScroll()); }
+    function currentPage() {
+      if (track.scrollLeft >= maxScroll() - 2) return pages - 1;
+      return Math.round(track.scrollLeft / (perView() * step()));
+    }
+
+    function build() {
+      pages = Math.ceil(cards.length / perView());
+      controls.hidden = pages < 2;
+      dotsEl.innerHTML = '';
+      for (var i = 0; i < pages; i++) {
+        var b = document.createElement('button');
+        b.type = 'button';
+        b.setAttribute('aria-label', 'Halaman produk ' + (i + 1) + ' dari ' + pages);
+        b.addEventListener('click', go.bind(null, i));
+        dotsEl.appendChild(b);
+      }
+      sync();
+    }
+    function go(i) { track.scrollTo({ left: pageLeft(Math.max(0, Math.min(pages - 1, i))), behavior: smooth }); }
+    function sync() {
+      var cur = currentPage();
+      Array.prototype.forEach.call(dotsEl.children, function (d, i) { d.setAttribute('aria-current', String(i === cur)); });
+      prev.disabled = track.scrollLeft <= 2;
+      next.disabled = track.scrollLeft >= maxScroll() - 2;
+    }
+
+    prev.addEventListener('click', function () { go(currentPage() - 1); });
+    next.addEventListener('click', function () { go(currentPage() + 1); });
+    var raf = 0;
+    track.addEventListener('scroll', function () {
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(sync);
+    }, { passive: true });
+    var t = 0;
+    window.addEventListener('resize', function () { clearTimeout(t); t = setTimeout(build, 120); });
+    build();
+  });
+})();

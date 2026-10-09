@@ -90,7 +90,7 @@ aren't used here.
   `public/assets/affiliate-calc.js` holds the maths both sides share. If
   Supabase is unreachable it serves the last good data, or empty states.
 - **Dashboard and admin console**: designed in a design tool and exported as
-  self-unpacking bundles in `src/bundles/`. `npm run build` (`python3
+  self-unpacking bundles in `src/bundles/`. `npm run unbundle` (`python3
   tools/unbundle.py`) turns them into plain HTML in `public/` with assets in
   `public/assets/`. The dashboard still shows sample numbers; the server fills
   in the signed-in user's name and the configured scheme.
@@ -111,3 +111,11 @@ All optional.
 | `PORT`                     | `3000` (Railway sets it)                 |
 
 Run locally with `npm start`.
+
+## Deployment
+
+Railway deploys `main`. `railway.json` pins the Railpack builder, starts the
+server with `node server.js` and health-checks `/login` (it doesn't call
+Supabase). There is deliberately no `build` script: Railpack runs
+`npm run build` when one exists, and the unbundle step needs Python, which the
+Node image doesn't have. Its output in `public/` is committed instead.
