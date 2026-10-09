@@ -223,3 +223,6 @@ section { scroll-margin-top: 96px; }
 .closing h2 { max-width: 680px; text-wrap: balance; }
 footer { display: flex; flex-wrap: wrap; gap: 8px 20px; font-size: 13px; color: var(--neutral-500); margin-top: -48px; }
 footer a { color: inherit; }
+
+.hero-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; }
+.btn-lg { padding: 13px 24px; font-size: 18px; }

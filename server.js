@@ -240,10 +240,10 @@ function schemeCopy(settings) {
   const days = settings.pendingDays;
   const rate = Calc.percent(settings.commissionRate).replace(',', '.');
   return [
-    ['Commission is held for 14 days after payment.', `Commission is held for ${days} days after the session is completed.`],
-    ['Released 14 days after payment', `Released ${days} days after the session`],
+    ['Commission is held for 14 days after payment.', `Commission is held for ${days} days after payment.`],
+    ['Released 14 days after payment', `Released ${days} days after payment`],
     ['Refunded within the 14-day hold', `Refunded within the ${days}-day hold`],
-    ["Commission becomes available 14 days after your friend's payment", `Commission becomes available ${days} days after your friend's session`],
+    ["Commission becomes available 14 days after your friend's payment", `Commission becomes available ${days} days after your friend's payment`],
     ['Earn 2.5% of every app purchase', `Earn ${rate} of every app purchase`],
     ['2.5% of what they pay in the app', `${rate} of what they pay in the app`],
     ['2.5% of every app purchase by friends', `${rate} of every app purchase by friends`],

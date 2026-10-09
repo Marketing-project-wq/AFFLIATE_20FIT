@@ -22,7 +22,7 @@ The commission scheme lives in Supabase (project "20FIT ALL DATA"), table
 | --------------------- | ------------------------------------------------------------ |
 | `commission_rate`     | Rate for every product, e.g. `0.025` for 2,5%                |
 | `min_withdrawal`      | Minimum withdrawal in rupiah                                 |
-| `pending_days`        | Days a commission stays pending after the session            |
+| `pending_days`        | Hold period: days a commission stays Tertahan after payment  |
 | `monthly_potential`   | "Potensi maksimal per bulan" on the calculator               |
 | `sales_targets`       | `[{ "category", "target" }]` behind "Lihat target penjualan" |
 | `calculator_products` | `[{ "label", "table", "match" }]`: the calculator's chips    |
