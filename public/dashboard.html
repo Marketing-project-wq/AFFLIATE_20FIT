@@ -5189,27 +5189,11 @@ textarea.input { min-height: 90px; resize: vertical; }
 </helmet>
 <div ref="{{ rootRef }}" style="--color-bg:#f6f4f4;--color-surface:#ffffff;--color-text:#141414;--color-accent:#e5262f;--color-accent-2:#e5262f;--color-divider:color-mix(in srgb, #141414 14%, transparent);--color-neutral-100:#1a1a1a;--color-neutral-200:#2b2b2b;--color-neutral-300:#474747;--color-neutral-400:#5c5c5c;--color-neutral-500:#737373;--color-neutral-600:#9a9a9a;--color-neutral-700:#c4c4c4;--color-neutral-800:#e2e2e2;--color-neutral-900:#efefef;--color-accent-100:#3a0a0e;--color-accent-200:#6b0e15;--color-accent-300:#b0161f;--color-accent-400:#d01f29;--color-accent-500:#e5262f;--color-accent-600:#ef3e47;--color-accent-700:#ff9a9f;--color-accent-800:#ffd9db;--color-accent-900:#fff0f0;--color-accent-2-800:#ffd9db;--color-accent-2-100:#3a0a0e;--color-section:#ffe3e4;--color-section-glow:#ffc9cc;--color-section-ghost:#ffeef0;min-height:100vh;background:radial-gradient(680px 520px at 6% 0%, color-mix(in srgb, var(--color-accent-700) 70%, transparent), transparent 70%), radial-gradient(560px 560px at 96% 16%, rgba(255,255,255,.95), transparent 70%), radial-gradient(900px 600px at 50% 115%, color-mix(in srgb, var(--color-accent-800) 80%, transparent), transparent 70%), var(--color-bg);background-attachment:fixed;color:var(--color-text);font-family:var(--font-body)">
 
-<div style="display:flex;flex-wrap:wrap;align-items:center;gap:10px 20px;padding:8px 20px;background:color-mix(in srgb, var(--color-bg) 55%, transparent);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);font-size:12px;color:var(--color-neutral-300)">
-  <span style="letter-spacing:.1em;text-transform:uppercase;color:var(--color-accent-300)">Prototype</span>
-  <label style="display:flex;align-items:center;gap:8px">Scenario
-    <sc-raw-select class="input" style="border-radius:14px;border-color:color-mix(in srgb, var(--color-neutral-100) 14%, transparent);background:color-mix(in srgb, var(--color-neutral-100) 6%, transparent);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);min-height:28px;padding:2px 8px;font-size:12px;width:auto" value="{{ scenario }}" sc-camel-on-change="{{ onScenario }}">
-      <option value="not_joined">Not an affiliate yet</option>
-      <option value="below_min">Below Rp50.000 minimum</option>
-      <option value="ready">Ready to claim (first claim)</option>
-      <option value="in_progress">Claim in progress</option>
-      <option value="rejected">Claim rejected</option>
-    </sc-raw-select>
-  </label>
-  <div style="display:flex;align-items:center;gap:8px">Dashboard layout
-    <div style="border-radius:999px;border-color:color-mix(in srgb, var(--color-neutral-100) 14%, transparent);background:rgba(255,255,255,.58);box-shadow:inset 0 1px 0 rgba(255,255,255,.95), inset 0 0 0 1px rgba(20,20,20,.07);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);" class="seg">
-      <label class="seg-opt" style="padding:4px 10px;font-size:12px"><input type="radio" name="lay" checked="{{ layA }}" sc-camel-on-change="{{ setLayA }}">A · Stack</label>
-      <label class="seg-opt" style="padding:4px 10px;font-size:12px"><input type="radio" name="lay" checked="{{ layB }}" sc-camel-on-change="{{ setLayB }}">B · Sidebar</label>
-      <label class="seg-opt" style="padding:4px 10px;font-size:12px"><input type="radio" name="lay" checked="{{ layC }}" sc-camel-on-change="{{ setLayC }}">C · Activity</label>
-    </div>
-  </div>
-  <label style="display:flex;align-items:center;gap:6px;cursor:pointer"><input type="checkbox" checked="{{ termsBanner }}" sc-camel-on-change="{{ toggleBanner }}" style="accent-color:var(--color-accent)">T&amp;C update pending</label>
-  <a href="/" style="margin-left:auto;text-decoration:none;display:flex;align-items:center;gap:6px">Landing page <i class="ph ph-arrow-right"></i></a>
-  <a href="/admin.html" style="text-decoration:none;display:flex;align-items:center;gap:6px">Admin console <i class="ph ph-arrow-right"></i></a>
+<div style="display:flex;flex-wrap:wrap;align-items:center;gap:6px 16px;padding:8px 20px;background:color-mix(in srgb, var(--color-bg) 55%, transparent);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);font-size:12px;color:var(--color-neutral-300)">
+  <span style="letter-spacing:.1em;text-transform:uppercase;color:var(--color-accent-300)">Preview</span>
+  <span>Sample data. Your real commissions will show here once the program goes live.</span>
+  <span style="margin-left:auto">Signed in as <strong>__AF_USER_EMAIL__</strong></span>
+  <a href="/logout" style="text-decoration:none;display:flex;align-items:center;gap:6px">Log out <i class="ph ph-sign-out"></i></a>
 </div>
 
 <nav class="nav" style="background:linear-gradient(155deg, rgba(255,255,255,.78), rgba(255,255,255,.46));backdrop-filter:blur(28px) saturate(170%);-webkit-backdrop-filter:blur(28px) saturate(170%);box-shadow:inset 0 1px 0 rgba(255,255,255,.95), inset 0 0 0 1px rgba(20,20,20,.07), 0 12px 32px rgba(90,20,24,.10);border-radius:999px;width:calc(100% - 32px);max-width:1160px;margin:14px auto 4px;padding:8px 10px 8px 22px">
@@ -5217,7 +5201,7 @@ textarea.input { min-height: 90px; resize: vertical; }
   <a href="#">Home</a>
   <a href="#">Bookings</a>
   <a href="#" aria-current="page">Profile</a>
-  <span style="width:30px;height:30px;border-radius:50%;background:var(--color-neutral-800);display:grid;place-items:center;font-size:12px;color:var(--color-neutral-200)">RK</span>
+  <span style="width:30px;height:30px;border-radius:50%;background:var(--color-neutral-800);display:grid;place-items:center;font-size:12px;color:var(--color-neutral-200)">__AF_USER_INITIALS__</span>
 </nav>
 
 <main style="max-width:{{ g.max }};margin:0 auto;padding:8px 20px 72px;display:flex;flex-direction:column;gap:20px">
@@ -5556,7 +5540,7 @@ class Component extends DCLogic {
   }
   fmt(n) { return 'Rp' + Math.floor(n).toLocaleString('id-ID'); }
   fd(s) { const M = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']; const [y, m, d] = s.split('-'); return `${+d} ${M[+m - 1]} ${y}`; }
-  emptyForm(p) { return p ? { ...p } : { name: 'Rina Kartika', nik: '', npwp: '', bank: '', acct: '', holder: '' }; }
+  emptyForm(p) { return p ? { ...p } : { name: __AF_USER_NAME_JS__, nik: '', npwp: '', bank: '', acct: '', holder: '' }; }
   buildScenario(s) {
     const t = (id, who, product, d, amount, status, note) => ({ id, who, product, d, amount, status, note: note || '' });
     const held = [t('h1','D****i','Gym · Monthly membership','2026-10-06',10000,'held'), t('h2','R****a','Arena · Court package','2026-10-04',22500,'held'), t('h3','A****n','Visbody scan','2026-09-29',3750,'held')];
@@ -5564,7 +5548,7 @@ class Component extends DCLogic {
     const cancel = [t('x1','F****h','Open Arena · Monthly pass','2026-08-24',7500,'cancelled','Refunded within the 14-day hold')];
     const paid = [t('p1','R****a','Arena · Court package','2026-07-20',22500,'paid'), t('p2','S****o','PT · 8-session package','2026-07-14',45000,'paid'), t('p3','D****i','Gym · Monthly membership','2026-07-06',10000,'paid'), t('p4','M****a','Coach · Tennis package','2026-07-02',30000,'paid')];
     const paidClaim = { id: 'CLM-0412', d: '2026-08-04', amount: 107500, tax: 3225, net: 104275, status: 'paid', ref: 'BCA 0804-88213', paidD: '2026-08-06' };
-    const P = { name: 'Rina Kartika', nik: '3174015208940012', npwp: '', bank: 'BCA', acct: '5271034821', holder: 'Rina Kartika' };
+    const P = { name: __AF_USER_NAME_JS__, nik: '3174015208940012', npwp: '', bank: 'BCA', acct: '5271034821', holder: __AF_USER_NAME_JS__ };
     let tx = [], claims = [], profile = null;
     if (s === 'ready') { tx = [...held, ...batch('available'), ...cancel]; }
     else if (s === 'below_min') { const b = batch('available'); tx = [...held, b[2], b[4], ...paid]; claims = [paidClaim]; profile = P; }
