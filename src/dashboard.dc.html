@@ -5277,6 +5277,12 @@ textarea.input { min-height: 90px; resize: vertical; }
 .af-stat-c small{font-size:12px;color:color-mix(in srgb, var(--color-text) 55%, transparent)}
 @media (max-width:560px){.af-stat{padding:0 10px}.af-stat-k{font-size:10px;letter-spacing:.06em}.af-stat-k i{display:none}.af-stat-n .af-num{font-size:28px}.af-stat-c{font-size:13px}.af-stat-c small{font-size:11px}}
 
+/* Most Bought Products: the affiliate's own link per product */
+.af-plink{grid-column:2 / -1;display:flex;align-items:center;gap:8px;min-width:0;margin-top:-2px}
+.af-plink-url{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:12.5px;color:var(--color-neutral-300)}
+.btn.af-mini{flex:none;padding:5px 10px;font-size:12px;gap:5px}
+@media (max-width:420px){.af-mini span{display:none}}
+
 /* Sales charts */
 .af-chart{display:flex;align-items:stretch;gap:4px;height:190px}
 .af-barbtn{flex:1;min-width:0;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:4px;padding:0;margin:0;border:0;background:none;color:inherit;font:inherit;cursor:pointer;border-radius:8px}
@@ -5617,6 +5623,12 @@ textarea.input { min-height: 90px; resize: vertical; }
             <span class="af-num" style="width:28px;height:28px;border-radius:50%;display:grid;place-items:center;font-size:13px;background:{{ p.badgeBg }};color:{{ p.badgeColor }}">{{ p.rank }}</span>
             <div style="min-width:0;display:flex;flex-direction:column;gap:6px"><div style="font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ p.name }}</div><div class="af-track" style="height:6px"><div class="af-fill" style="width:{{ p.w }}"></div></div></div>
             <div class="af-num" style="text-align:right"><div style="font-size:14px;font-weight:500">{{ p.tx }}</div><div class="text-muted" style="font-size:12px">{{ p.comm }}</div></div>
+            <div class="af-plink">
+              <i class="ph ph-link-simple" style="color:var(--color-accent-300)"></i>
+              <span class="af-plink-url" title="{{ p.url }}">{{ p.urlLabel }}</span>
+              <button class="btn af-btn2 af-mini" disabled="{{ p.busy }}" sc-camel-on-click="{{ p.copy }}"><i class="ph ph-copy"></i><span>{{ tr.copyLink }}</span></button>
+              <sc-if value="{{ p.hasUrl }}" hint-placeholder-val="{{ false }}"><a class="btn af-btn2 af-mini" href="{{ p.wa }}" target="_blank" rel="noopener" aria-label="WhatsApp" title="WhatsApp"><i class="ph ph-whatsapp-logo"></i></a></sc-if>
+            </div>
           </div>
         </sc-for>
       </section>
@@ -6029,7 +6041,7 @@ class Component extends DCLogic {
       doneText: (net, acc, id) => `${net} will be transferred to ${acc || 'your account'}. You can follow claim ${id} in Claim history.`, linkCopied: 'Link copied', codeChanged: 'Code changed. Create the links you want to share again.',
       payoutRows: ['Name (KTP)', 'NIK', 'NPWP', 'Bank', 'Account number', 'Account holder'], npwpYes: 'Registered', npwpNo: 'None', payoutEdit: 'Change', payoutAdd: 'Add details',
       affRows: { status: 'Status', joined: 'Joined', terms: 'T&C', links: 'Active links' }, statusActive: 'Active', statusInactive: 'Deactivated', accepted: d => 'accepted ' + d,
-      cards: { total: 'Total', valid: 'Valid', pending: 'Pending' }, commissionWord: 'commission', recapNotes: d => ['Total = Valid + Pending', 'Valid: available, claimed, or paid', `Pending: still in the ${d}-day hold`], txUnit: n => n === 1 ? 'transaction' : 'transactions',
+      cards: { total: 'Total', valid: 'Valid', pending: 'Pending' }, commissionWord: 'commission', linkNotLoaded: 'Tap Copy link to get your link', linkReady: 'Your link is ready. Tap Copy link again.', recapNotes: d => ['Total = Valid + Pending', 'Valid: available, claimed, or paid', `Pending: still in the ${d}-day hold`], txUnit: n => n === 1 ? 'transaction' : 'transactions',
       commissionAmt: a => a + ' commission', cancelledLine: n => `${n} cancelled ${n === 1 ? 'purchase is' : 'purchases are'} not counted.`, weekly: 'Per week', monthly: 'Per month',
       lastN: (n, unit) => `Last ${n} ${unit}`, weeksUnit: 'weeks', monthsUnit: 'months', txCount: n => `${n} transaction${n === 1 ? '' : 's'}`,
       barAria: (p, t, c) => `${p}: ${t}, ${c}`, accountMissing: 'Your 20FIT profile isn’t set up yet. Complete it in the 20FIT app first.', profileSaved: 'Profile saved', unsaved: 'Unsaved changes'
@@ -6091,7 +6103,7 @@ class Component extends DCLogic {
       doneText: (net, acc, id) => `${net} akan ditransfer ke ${acc || 'rekeningmu'}. Status klaim ${id} bisa kamu pantau di Riwayat klaim.`, linkCopied: 'Link disalin', codeChanged: 'Kode diganti. Buat ulang link yang mau kamu bagikan.',
       payoutRows: ['Nama (KTP)', 'NIK', 'NPWP', 'Bank', 'Nomor rekening', 'Pemilik rekening'], npwpYes: 'Terdaftar', npwpNo: 'Tidak ada', payoutEdit: 'Ubah', payoutAdd: 'Isi data',
       affRows: { status: 'Status', joined: 'Bergabung', terms: 'S&K', links: 'Link aktif' }, statusActive: 'Aktif', statusInactive: 'Dinonaktifkan', accepted: d => 'disetujui ' + d,
-      cards: { total: 'Total', valid: 'Valid', pending: 'Pending' }, commissionWord: 'komisi', recapNotes: d => ['Total = Valid + Pending', 'Valid: tersedia, diklaim, atau sudah dibayar', `Pending: masih dalam masa tahan ${d} hari`], txUnit: () => 'transaksi',
+      cards: { total: 'Total', valid: 'Valid', pending: 'Pending' }, commissionWord: 'komisi', linkNotLoaded: 'Ketuk Salin link untuk mengambil link-mu', linkReady: 'Link siap. Ketuk Salin link sekali lagi.', recapNotes: d => ['Total = Valid + Pending', 'Valid: tersedia, diklaim, atau sudah dibayar', `Pending: masih dalam masa tahan ${d} hari`], txUnit: () => 'transaksi',
       commissionAmt: a => a + ' komisi', cancelledLine: n => `${n} transaksi batal tidak dihitung.`, weekly: 'Per minggu', monthly: 'Per bulan',
       lastN: (n, unit) => `${n} ${unit} terakhir`, weeksUnit: 'minggu', monthsUnit: 'bulan', txCount: n => `${n} transaksi`,
       barAria: (p, t, c) => `${p}: ${t}, ${c}`, accountMissing: 'Profil 20FIT kamu belum ada. Lengkapi dulu di aplikasi 20FIT.', profileSaved: 'Profile tersimpan', unsaved: 'Belum disimpan'
@@ -6250,9 +6262,26 @@ class Component extends DCLogic {
         week: Object.assign(this.chart(sd.weekly, s.selWeek, k => this.setState({ selWeek: k }), 'week', W), { title: W.weekly }),
         month: Object.assign(this.chart(sd.monthly, s.selMonth, k => this.setState({ selMonth: k }), 'month', W), { title: W.monthly }),
         noProducts: !prods.length,
-        products: prods.map((p, k) => ({ rank: k + 1, name: p.product, tx: W.txCount(Number(p.transactions) || 0), comm: W.commissionAmt(f(p.commission)),
+        products: prods.map((p, k) => {
+          // The link comes from the affiliate's own links (affiliate_my_links);
+          // a product sold through a link always has one. If it isn't loaded,
+          // Salin link fetches it first (POST link).
+          const link = s.links.find(l => l.product === p.product);
+          const slug = link ? link.slug : (s.products.find(c => c.name === p.product) || {}).slug;
+          const url = link ? link.url : '';
+          return { rank: k + 1, name: p.product, tx: W.txCount(Number(p.transactions) || 0), comm: W.commissionAmt(f(p.commission)),
+          url, urlLabel: url ? url.replace(/^https?:\/\//, '') : W.linkNotLoaded, hasUrl: !!url, busy: s.busy || (!url && !slug),
+          wa: url ? 'https://wa.me/?text=' + encodeURIComponent(W.waText(p.product, url)) : '#',
+          copy: () => url ? this.copy(url, W.linkCopied) : this.run(async () => {
+            // Copying after a network call can be blocked by the browser, so
+            // show the link and let the next tap copy it.
+            await this.api('POST', 'link', { slug });
+            await this.loadLinks(this.state.period);
+            this.flash(W.linkReady);
+          }),
           w: Math.max(3, Math.round((Number(p.transactions) || 0) / maxP * 100)) + '%',
-          badgeBg: k < 3 ? 'var(--color-accent)' : 'var(--af-panel)', badgeColor: k < 3 ? '#ffffff' : 'var(--color-text)' })) };
+          badgeBg: k < 3 ? 'var(--color-accent)' : 'var(--af-panel)', badgeColor: k < 3 ? '#ffffff' : 'var(--color-text)' };
+        }) };
     }
 
     // Profile: account (my20fit_profile), affiliate details, appearance
