@@ -74,7 +74,9 @@ def patch_admin(template):
     settings_link = ADMIN_PAGE_LINK.replace('/affiliatedashboard', '/admin/settings').replace(
         'ph-arrow-square-out', 'ph-sliders-horizontal').replace('Affiliate page', 'Pengaturan komisi')
     dashboard_link = ADMIN_PAGE_LINK.replace('/affiliatedashboard', '/dashboard')
-    return replace_once(template, ADMIN_PAGE_LINK, settings_link + '\n  ' + dashboard_link, 'admin')
+    template = replace_once(template, ADMIN_PAGE_LINK, settings_link + '\n  ' + dashboard_link, 'admin')
+    # The design's logo is a JPG on a grey box; use the transparent one.
+    return replace_once(template, 'https://media.20fit.id/wp-content/uploads/2026/09/20fit-email-logo.jpg', '/assets/20fit-logo.png', 'admin')
 
 
 PATCHES = {'admin.html': patch_admin}

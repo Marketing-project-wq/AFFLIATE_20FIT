@@ -64,7 +64,8 @@ img { display: block; max-width: 100%; }
   width: calc(100% - 32px); max-width: 1160px; margin: 12px auto 0; padding: 8px 8px 8px 22px; border-radius: 999px;
 }
 .nav-brand { display: flex; align-items: center; gap: 10px; margin-right: auto; color: inherit; text-decoration: none; }
-.nav-brand img { height: 28px; width: auto; mix-blend-mode: multiply; }
+.nav-brand img { height: 28px; width: auto; display: block; }
+@media (max-width: 420px) { .nav-brand img { height: 22px; } .nav-brand { gap: 8px; } }
 .nav-brand span { font-size: 13px; color: var(--neutral-400); }
 .nav-links { display: flex; gap: 18px; }
 .nav-links a { color: inherit; text-decoration: none; font-size: 14px; }

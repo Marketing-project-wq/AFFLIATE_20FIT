@@ -65,6 +65,7 @@ const landingAssets = {
   cssHref: versioned('landing.css'),
   calcHref: versioned('affiliate-calc.js'),
   jsHref: versioned('landing.js'),
+  logoHref: versioned('20fit-logo.png'),
 };
 
 const authScript = versioned('auth.js');
