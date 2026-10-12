@@ -12,7 +12,7 @@ const { createAffiliateData } = require('./lib/affiliate-data');
 const { renderLanding } = require('./lib/landing-view');
 const { renderSettingsPage, parseForm } = require('./lib/admin-settings-view');
 const { loginPage, forgotPage } = require('./lib/auth-pages');
-const Calc = require('./public/assets/affiliate-calc.js');
+const { createDashboardApi, friendly } = require('./lib/dashboard-api');
 
 const PORT = Number(process.env.PORT) || 3000;
 // Public values (the publishable key ships in every Supabase client), so they
@@ -70,6 +70,8 @@ const landingAssets = {
 const authScript = versioned('auth.js');
 
 const affiliateData = createAffiliateData({ supabaseUrl: SUPABASE_URL, supabaseKey: SUPABASE_KEY });
+const dashboardApi = createDashboardApi({ supabaseUrl: SUPABASE_URL, supabaseKey: SUPABASE_KEY });
+const qrScript = versioned('qrcode.js');
 
 // ── helpers ─────────────────────────────────────────────────────────────
 
@@ -275,35 +277,47 @@ function initials(name) {
   return (letters[0] + (letters.length > 1 ? letters[letters.length - 1] : '')).toUpperCase();
 }
 
-// The dashboard design hard-codes the commission scheme in its copy; these
-// swap in the configured values. (Its "2.5%" for PPh 21 is a tax rate and
-// stays.)
-function schemeCopy(settings) {
-  const days = settings.pendingDays;
-  const rate = Calc.percent(settings.commissionRate).replace(',', '.');
-  return [
-    ['Commission is held for 14 days after payment.', `Commission is held for ${days} days after payment.`],
-    ['Released 14 days after payment', `Released ${days} days after payment`],
-    ['Refunded within the 14-day hold', `Refunded within the ${days}-day hold`],
-    ["Commission becomes available 14 days after your friend's payment", `Commission becomes available ${days} days after your friend's payment`],
-    ['Earn 2.5% of every app purchase', `Earn ${rate} of every app purchase`],
-    ['2.5% of what they pay in the app', `${rate} of what they pay in the app`],
-    ['2.5% of every app purchase by friends', `${rate} of every app purchase by friends`],
-    ['MIN = 50000', `MIN = ${settings.minWithdrawal}`],
-    ["'Rp50.000 to go'", `'${Calc.rupiah(settings.minWithdrawal)} to go'`],
-  ];
+// The settings the dashboard shows (rate, minimum, hold, terms, program
+// status), never anything admin-only.
+function publicSettings(settings) {
+  if (!settings) return null;
+  return {
+    commissionRate: settings.commissionRate, minWithdrawal: settings.minWithdrawal, pendingDays: settings.pendingDays,
+    programStatus: settings.programStatus, termsVersion: settings.termsVersion,
+    termsUrl: /^https:\/\//.test(settings.termsUrl || '') ? settings.termsUrl : '', termsSummary: settings.termsSummary || '',
+  };
 }
 
-function renderDashboard(user, settings) {
+// JSON inside a <script>: no way to close the tag or break the line.
+function scriptJson(value) {
+  return JSON.stringify(value).replace(/</g, '\\u003c').replace(/\u2028/g, '\\u2028').replace(/\u2029/g, '\\u2029');
+}
+
+// The page is the dc design (src/dashboard.dc.html, built by
+// tools/unbundle.py); the server fills in the affiliate's own data first so
+// it never paints empty, and later actions go through /api/affiliate/*.
+async function renderDashboard(user, token) {
+  const { settings } = await affiliateData.get();
+  let state;
+  try {
+    state = await dashboardApi.state(token);
+  } catch (err) {
+    console.error('dashboard state:', err.message);
+    state = { error: friendly(err) };
+  }
   const name = displayName(user);
-  let html = pages.dashboard
-    .split('__AF_USER_NAME_JS__').join(JSON.stringify(name).replace(/</g, '\\u003c'))
+  const data = {
+    user: { name, email: user.email || '' },
+    settings: publicSettings(settings),
+    links: siteLinks(settings),
+    state,
+    qrSrc: qrScript,
+  };
+  const boot = `<script>window.__AF_DATA__ = ${scriptJson(data)};</script>`;
+  return pages.dashboard
+    .replace('<head>', `<head>${boot}`)
     .split('__AF_USER_INITIALS__').join(escapeHtml(initials(name)))
     .split('__AF_USER_EMAIL__').join(escapeHtml(templateSafe(user.email || '')));
-  if (settings) {
-    for (const [from, to] of schemeCopy(settings)) html = html.split(from).join(to);
-  }
-  return html;
 }
 
 async function renderLogin(opts) {
@@ -408,7 +422,7 @@ async function handle(req, res) {
       case '/index.html':
         return send(res, 200, renderLanding(await affiliateData.get(), landingAssets), { 'Cache-Control': 'public, max-age=60' });
       case DASHBOARD_PATH:
-        return serveProtected(req, res, url, async (user) => ({ body: renderDashboard(user, (await affiliateData.get()).settings) }));
+        return serveProtected(req, res, url, async (user, token) => ({ body: await renderDashboard(user, token) }));
       case '/admin.html':
         return redirect(res, '/admin');
       case '/admin':
@@ -499,7 +513,68 @@ async function handle(req, res) {
     });
   }
 
+  if (p.startsWith('/api/affiliate/')) return handleApi(req, res, url, p.slice('/api/affiliate/'.length), method);
+
   send(res, 404, 'Not found');
+}
+
+// ── /api/affiliate/* ────────────────────────────────────────────────────
+// Thin layer over the affiliate_* functions for the dashboard's actions.
+// The token stays in the HttpOnly cookie; the browser never holds it.
+
+const DAYS = { 7: 7, 30: 30, all: null };
+
+async function handleApi(req, res, url, route, method) {
+  if (method === 'POST' && !sameOrigin(req, true)) return sendJson(res, 403, { error: 'Forbidden' });
+  const auth = await authenticate(req);
+  if (!auth) return sendJson(res, 401, { error: 'Sesi kamu sudah habis. Masuk lagi.', login: `/login?next=${DASHBOARD_PATH}` }, { 'Set-Cookie': clearCookies(req) });
+  const headers = auth.cookies ? { 'Set-Cookie': auth.cookies } : {};
+  const token = auth.accessToken;
+  const ok = (data) => sendJson(res, 200, data, headers);
+
+  try {
+    let body = {};
+    if (method === 'POST') {
+      const raw = await readBody(req, 4 * 1024);
+      body = raw ? JSON.parse(raw) : {};
+      if (!body || typeof body !== 'object') body = {};
+    }
+    const daysParam = url.searchParams.get('days') || '30';
+    const days = Object.prototype.hasOwnProperty.call(DAYS, daysParam) ? DAYS[daysParam] : 30;
+    const proof = /^claims\/([^/]+)\/proof$/.exec(route);
+    const daily = /^links\/([^/]+)\/daily$/.exec(route);
+
+    if (method === 'GET') {
+      if (route === 'state') return ok(await dashboardApi.state(token));
+      if (route === 'links') return ok({ days: daysParam, links: await dashboardApi.links(token, days) });
+      if (daily) return ok({ days: daysParam, rows: await dashboardApi.daily(token, daily[1], days === null ? 90 : days) });
+      if (route === 'commissions') return ok({ rows: await dashboardApi.commissions(token, url.searchParams.get('link') || null) });
+      if (route === 'claim-preview') return ok(await dashboardApi.claimPreview(token));
+      if (proof) {
+        const target = await dashboardApi.proofUrl(token, proof[1]);
+        return redirect(res, target, auth.cookies);
+      }
+    }
+    if (method === 'POST') {
+      const { settings } = await affiliateData.get();
+      if (route === 'join') {
+        if (body.agree !== true) return sendJson(res, 400, { error: 'Centang persetujuan S&K dulu.' }, headers);
+        return ok({ affiliate: await dashboardApi.join(token, settings.termsVersion) });
+      }
+      if (route === 'accept-terms') return ok({ affiliate: await dashboardApi.acceptTerms(token, settings.termsVersion) });
+      if (route === 'code') return ok({ affiliate: await dashboardApi.changeCode(token, body.code) });
+      if (route === 'link') return ok(await dashboardApi.link(token, String(body.slug || '')));
+      if (route === 'payout-profile') return ok({ profile: await dashboardApi.savePayout(token, body) });
+      if (route === 'claim') return ok({ claim: await dashboardApi.submitClaim(token) });
+    }
+    return sendJson(res, 404, { error: 'Not found' }, headers);
+  } catch (err) {
+    if (err instanceof SyntaxError) return sendJson(res, 400, { error: 'Permintaan tidak valid.' }, headers);
+    if (err.status === 401) return sendJson(res, 401, { error: 'Sesi kamu sudah habis. Masuk lagi.', login: `/login?next=${DASHBOARD_PATH}` });
+    if (err.status === 404) return sendJson(res, 404, { error: 'Tidak ditemukan.' }, headers);
+    console.error(`api ${route}:`, err.message);
+    return sendJson(res, 400, { error: friendly(err) }, headers);
+  }
 }
 
 http.createServer((req, res) => {

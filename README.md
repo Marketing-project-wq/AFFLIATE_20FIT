@@ -91,11 +91,37 @@ aren't used here.
   placeholders. `public/assets/landing.js` adds the calculator's interaction;
   `public/assets/affiliate-calc.js` holds the maths both sides share. If
   Supabase is unreachable it serves the last good data, or empty states.
-- **Dashboard and admin console**: designed in a design tool and exported as
-  self-unpacking bundles in `src/bundles/`. `npm run unbundle` (`python3
-  tools/unbundle.py`) turns them into plain HTML in `public/` with assets in
-  `public/assets/`. The dashboard still shows sample numbers; the server fills
-  in the signed-in user's name and the configured scheme.
+- **Dashboard** (`/dashboard`): the design's dc component, edited in
+  `src/dashboard.dc.html` (markup and logic). `npm run unbundle` builds it
+  into `public/dashboard.html`, taking the assets from
+  `src/bundles/dashboard.html`. The server renders the page with the
+  affiliate's own data in `window.__AF_DATA__` (summary, links, purchases,
+  claims, payout details, catalog), and the page's actions go through
+  `/api/affiliate/*` with the session cookie; the browser never holds a token.
+  QR codes are drawn in the browser (`public/assets/qrcode.js`, MIT).
+- **Admin console** (`/admin`): still the design's prototype with sample
+  data; `/admin/settings` is real.
+
+### /api/affiliate/*
+
+Signed-in only; POSTs must come from this site's origin. Each one calls an
+`affiliate_*` function with the user's token and returns only the fields the
+page shows.
+
+| Method & path | Calls |
+| --- | --- |
+| `GET state` | everything for first paint |
+| `GET links?days=7\|30\|all` | `affiliate_my_links` |
+| `GET links/:id/daily?days=` | `affiliate_my_link_daily` |
+| `GET commissions?link=` | `affiliate_my_commissions` |
+| `GET claim-preview` | `affiliate_claim_preview` |
+| `GET claims/:id/proof` | signed URL to the proof in the private `affiliate-proofs` bucket |
+| `POST join` `{agree:true}` | `affiliate_join` (current terms version) |
+| `POST accept-terms` | `affiliate_accept_terms` |
+| `POST code` `{code}` | `affiliate_change_code` (once) |
+| `POST link` `{slug}` | `affiliate_get_link` |
+| `POST payout-profile` | `affiliate_save_payout_profile` |
+| `POST claim` | `affiliate_submit_claim` |
 
 ## Sign-in
 

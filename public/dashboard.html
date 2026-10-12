@@ -7,6 +7,8 @@
 <script src="/assets/8fe7df74405f3c55.js"></script>
 </head>
 <body>
+<noscript><div style="max-width:520px;margin:48px auto;padding:0 20px;font:15px/1.55 system-ui,sans-serif;color:#141414"><h1 style="font-size:24px">Dashboard butuh JavaScript</h1><p>Aktifkan JavaScript di browser kamu untuk melihat dashboard affiliate. <a href="/logout">Keluar</a></p></div></noscript>
+<style>x-dc{display:none}</style>
 <x-dc>
 <helmet>
 <style>/* Nocturne — design-system tokens and component classes. This file is the source of truth for the system's look; retune it here and see readme.md. */
@@ -5194,72 +5196,75 @@ button, input, select, textarea { font-family: inherit; }
 <div ref="{{ rootRef }}" style="--color-bg:#f6f4f4;--color-surface:#ffffff;--color-text:#141414;--color-accent:#e5262f;--color-accent-2:#e5262f;--color-divider:color-mix(in srgb, #141414 14%, transparent);--color-neutral-100:#1a1a1a;--color-neutral-200:#2b2b2b;--color-neutral-300:#474747;--color-neutral-400:#5c5c5c;--color-neutral-500:#737373;--color-neutral-600:#9a9a9a;--color-neutral-700:#c4c4c4;--color-neutral-800:#e2e2e2;--color-neutral-900:#efefef;--color-accent-100:#3a0a0e;--color-accent-200:#6b0e15;--color-accent-300:#b0161f;--color-accent-400:#d01f29;--color-accent-500:#e5262f;--color-accent-600:#ef3e47;--color-accent-700:#ff9a9f;--color-accent-800:#ffd9db;--color-accent-900:#fff0f0;--color-accent-2-800:#ffd9db;--color-accent-2-100:#3a0a0e;--color-section:#ffe3e4;--color-section-glow:#ffc9cc;--color-section-ghost:#ffeef0;min-height:100vh;background:radial-gradient(680px 520px at 6% 0%, color-mix(in srgb, var(--color-accent-700) 70%, transparent), transparent 70%), radial-gradient(560px 560px at 96% 16%, rgba(255,255,255,.95), transparent 70%), radial-gradient(900px 600px at 50% 115%, color-mix(in srgb, var(--color-accent-800) 80%, transparent), transparent 70%), var(--color-bg);background-attachment:fixed;color:var(--color-text);font-family:var(--font-body)">
 
 <div style="display:flex;flex-wrap:wrap;align-items:center;gap:6px 16px;padding:8px 20px;background:color-mix(in srgb, var(--color-bg) 55%, transparent);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);font-size:12px;color:var(--color-neutral-300)">
-  <span style="letter-spacing:.1em;text-transform:uppercase;color:var(--color-accent-300)">Preview</span>
-  <span>Sample data. Your real commissions will show here once the program goes live.</span>
-  <span style="margin-left:auto">Signed in as <strong>__AF_USER_EMAIL__</strong></span>
-  <a href="/logout" style="text-decoration:none;display:flex;align-items:center;gap:6px">Log out <i class="ph ph-sign-out"></i></a>
+  <span style="margin-left:auto">Masuk sebagai <strong>__AF_USER_EMAIL__</strong></span>
+  <a href="/logout" style="text-decoration:none;display:flex;align-items:center;gap:6px">Keluar <i class="ph ph-sign-out"></i></a>
 </div>
 
 <nav class="nav" style="background:linear-gradient(155deg, rgba(255,255,255,.78), rgba(255,255,255,.46));backdrop-filter:blur(28px) saturate(170%);-webkit-backdrop-filter:blur(28px) saturate(170%);box-shadow:inset 0 1px 0 rgba(255,255,255,.95), inset 0 0 0 1px rgba(20,20,20,.07), 0 12px 32px rgba(90,20,24,.10);border-radius:999px;width:calc(100% - 32px);max-width:1160px;margin:14px auto 4px;padding:8px 10px 8px 22px">
-  <span class="nav-brand" style="letter-spacing:.06em">20FIT</span>
-  <a href="#">Home</a>
-  <a href="#">Bookings</a>
-  <a href="#" aria-current="page">Profile</a>
+  <a href="/" class="nav-brand" style="letter-spacing:.06em;text-decoration:none;color:inherit">20FIT</a>
+  <a href="/">Program</a>
+  <a href="/#faq">FAQ</a>
+  <a href="/dashboard" aria-current="page">Dashboard</a>
   <span style="width:30px;height:30px;border-radius:50%;background:var(--color-neutral-800);display:grid;place-items:center;font-size:12px;color:var(--color-neutral-200)">__AF_USER_INITIALS__</span>
 </nav>
 
 <main style="max-width:{{ g.max }};margin:0 auto;padding:8px 20px 72px;display:flex;flex-direction:column;gap:20px">
-  <div style="display:flex;align-items:center;gap:6px;font-size:13px" class="text-muted"><a href="#" style="color:inherit;text-decoration:none">Profile</a><i class="ph ph-caret-right" style="font-size:11px"></i><span>Affiliate</span></div>
+  <div style="display:flex;align-items:center;gap:6px;font-size:13px" class="text-muted"><a href="/" style="color:inherit;text-decoration:none">Program affiliate</a><i class="ph ph-caret-right" style="font-size:11px"></i><span>Dashboard</span></div>
+
+  <sc-if value="{{ note.show }}" hint-placeholder-val="{{ false }}">
+    <div style="display:flex;flex-wrap:wrap;gap:12px 16px;align-items:center;padding:14px 16px;border-radius:16px;background:rgba(255,255,255,.58);box-shadow:inset 0 1px 0 rgba(255,255,255,.95), inset 0 0 0 1px rgba(20,20,20,.07);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);">
+      <i class="ph ph-info" style="font-size:22px;color:var(--color-accent-300)"></i>
+      <div style="flex:1;min-width:220px;font-size:14px"><div style="font-weight:500">{{ note.title }}</div><div style="color:var(--color-neutral-300)">{{ note.body }}</div></div>
+      <sc-if value="{{ note.reload }}" hint-placeholder-val="{{ false }}"><button style-hover="background:color-mix(in srgb, var(--color-neutral-100) 15%, transparent)" style="border-radius:999px;border-color:transparent;background:rgba(255,255,255,.58);box-shadow:inset 0 1px 0 rgba(255,255,255,.95), inset 0 0 0 1px rgba(20,20,20,.07);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);" class="btn btn-secondary" sc-camel-on-click="{{ reload }}">Muat ulang</button></sc-if>
+      <sc-if value="{{ note.hasSupport }}" hint-placeholder-val="{{ false }}"><a style-hover="background:color-mix(in srgb, var(--color-neutral-100) 15%, transparent)" style="border-radius:999px;border-color:transparent;background:rgba(255,255,255,.58);box-shadow:inset 0 1px 0 rgba(255,255,255,.95), inset 0 0 0 1px rgba(20,20,20,.07);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);" class="btn btn-secondary" href="{{ links.support }}" target="_blank" rel="noopener">Hubungi tim affiliate</a></sc-if>
+    </div>
+  </sc-if>
 
   <sc-if value="{{ notJoined }}" hint-placeholder-val="{{ false }}">
     <section style="display:flex;flex-direction:column;gap:28px">
       <div>
-        <div class="card-kicker">Affiliate program</div>
-        <h1 style="font-size:38px;max-width:640px;text-wrap:pretty;margin:10px 0 12px">Earn 2.5% of every app purchase your friends make. For life.</h1>
-        <p class="text-muted" style="max-width:560px;font-size:16px;text-wrap:pretty">Invite friends to the 20FIT app with your personal code. Each time they pay for something in the app, you earn commission — for as long as they use 20FIT.</p>
+        <div class="card-kicker">Program affiliate 20FIT</div>
+        <h1 style="font-size:38px;max-width:640px;text-wrap:pretty;margin:10px 0 12px">{{ t.heroTitle }}</h1>
+        <p class="text-muted" style="max-width:560px;font-size:16px;text-wrap:pretty">Bagikan link produk 20FIT ke teman. Setiap kali mereka membeli produk itu di app 20FIT lewat link-mu, kamu dapat komisi.</p>
       </div>
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px">
-        <div class="card" style="background:linear-gradient(155deg, rgba(255,255,255,.78), rgba(255,255,255,.46));backdrop-filter:blur(28px) saturate(170%);-webkit-backdrop-filter:blur(28px) saturate(170%);box-shadow:inset 0 1px 0 rgba(255,255,255,.95), inset 0 0 0 1px rgba(20,20,20,.07), 0 12px 32px rgba(90,20,24,.10);border-radius:22px;padding:18px;gap:8px"><span style="font-size:13px;color:var(--color-accent-300)">01</span><div class="card-title">Share your code</div><p class="card-body">Send your link or code over WhatsApp, socials or in person.</p></div>
-        <div class="card" style="background:linear-gradient(155deg, rgba(255,255,255,.78), rgba(255,255,255,.46));backdrop-filter:blur(28px) saturate(170%);-webkit-backdrop-filter:blur(28px) saturate(170%);box-shadow:inset 0 1px 0 rgba(255,255,255,.95), inset 0 0 0 1px rgba(20,20,20,.07), 0 12px 32px rgba(90,20,24,.10);border-radius:22px;padding:18px;gap:8px"><span style="font-size:13px;color:var(--color-accent-300)">02</span><div class="card-title">Your friend joins in the app</div><p class="card-body">They download the 20FIT app and sign up — your code is filled in for them.</p></div>
-        <div class="card" style="background:linear-gradient(155deg, rgba(255,255,255,.78), rgba(255,255,255,.46));backdrop-filter:blur(28px) saturate(170%);-webkit-backdrop-filter:blur(28px) saturate(170%);box-shadow:inset 0 1px 0 rgba(255,255,255,.95), inset 0 0 0 1px rgba(20,20,20,.07), 0 12px 32px rgba(90,20,24,.10);border-radius:22px;padding:18px;gap:8px"><span style="font-size:13px;color:var(--color-accent-300)">03</span><div class="card-title">You earn on every purchase</div><p class="card-body">2.5% of what they pay in the app, on every transaction, with no end date.</p></div>
+        <div class="card" style="background:linear-gradient(155deg, rgba(255,255,255,.78), rgba(255,255,255,.46));backdrop-filter:blur(28px) saturate(170%);-webkit-backdrop-filter:blur(28px) saturate(170%);box-shadow:inset 0 1px 0 rgba(255,255,255,.95), inset 0 0 0 1px rgba(20,20,20,.07), 0 12px 32px rgba(90,20,24,.10);border-radius:22px;padding:18px;gap:8px"><span style="font-size:13px;color:var(--color-accent-300)">01</span><div class="card-title">Bagikan link produk</div><p class="card-body">Pilih produk 20FIT di dashboard ini, lalu bagikan link-nya lewat WhatsApp, media sosial, atau QR code.</p></div>
+        <div class="card" style="background:linear-gradient(155deg, rgba(255,255,255,.78), rgba(255,255,255,.46));backdrop-filter:blur(28px) saturate(170%);-webkit-backdrop-filter:blur(28px) saturate(170%);box-shadow:inset 0 1px 0 rgba(255,255,255,.95), inset 0 0 0 1px rgba(20,20,20,.07), 0 12px 32px rgba(90,20,24,.10);border-radius:22px;padding:18px;gap:8px"><span style="font-size:13px;color:var(--color-accent-300)">02</span><div class="card-title">Temanmu beli di app</div><p class="card-body">Temanmu membuka link-mu dan membeli produk itu di app 20FIT. Akun baru maupun lama sama-sama dihitung.</p></div>
+        <div class="card" style="background:linear-gradient(155deg, rgba(255,255,255,.78), rgba(255,255,255,.46));backdrop-filter:blur(28px) saturate(170%);-webkit-backdrop-filter:blur(28px) saturate(170%);box-shadow:inset 0 1px 0 rgba(255,255,255,.95), inset 0 0 0 1px rgba(20,20,20,.07), 0 12px 32px rgba(90,20,24,.10);border-radius:22px;padding:18px;gap:8px"><span style="font-size:13px;color:var(--color-accent-300)">03</span><div class="card-title">Kamu dapat komisi</div><p class="card-body">{{ t.stepEarn }}</p></div>
       </div>
       <div class="card elev-sm" style="background:linear-gradient(155deg, rgba(255,255,255,.78), rgba(255,255,255,.46));backdrop-filter:blur(28px) saturate(170%);-webkit-backdrop-filter:blur(28px) saturate(170%);box-shadow:inset 0 1px 0 rgba(255,255,255,.95), inset 0 0 0 1px rgba(20,20,20,.07), 0 12px 32px rgba(90,20,24,.10);border-radius:22px;padding:22px;gap:14px">
-        <h5 style="margin:0">The short version of the terms</h5>
+        <h5 style="margin:0">Ringkasan S&amp;K</h5>
         <ul style="margin:0;padding-left:18px;display:flex;flex-direction:column;gap:6px;font-size:14px;color:var(--color-neutral-300)">
-          <li>Only purchases made in the 20FIT app count — not web, Cafe or Clinic cashiers.</li>
-          <li>One level: you earn from friends you invite directly, not from who they invite.</li>
-          <li>Commission is held for 14 days after payment. A refund in that window cancels it.</li>
-          <li>Claim once your available balance reaches Rp50.000. We pay by bank transfer.</li>
-          <li>20FIT may change the rate for future transactions or end the program.</li>
+          <sc-for list="{{ t.termsList }}" as="item" hint-placeholder-count="5"><li>{{ item.text }}</li></sc-for>
         </ul>
-        <a href="#" style="font-size:14px">Read the full Affiliate Terms (v1.0)</a>
-        <label style="display:flex;gap:10px;align-items:flex-start;font-size:14px;cursor:pointer"><input type="checkbox" checked="{{ agreed }}" sc-camel-on-change="{{ toggleAgree }}" style="accent-color:var(--color-accent);margin-top:3px">I have read and agree to the Affiliate Terms.</label>
-        <div><button style-hover="background:var(--color-accent-400);color:#ffffff" class="btn btn-primary" style="border-radius:999px;border-color:var(--color-accent-500);color:var(--color-text);background:var(--color-accent);color:#ffffff;box-shadow:inset 0 1px 0 rgba(255,255,255,.35), 0 0 18px color-mix(in srgb, var(--color-accent) 28%, transparent);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);padding:10px 18px" disabled="{{ joinDisabled }}" sc-camel-on-click="{{ join }}">Join as affiliate</button></div>
+        <sc-if value="{{ t.hasTermsUrl }}" hint-placeholder-val="{{ false }}"><a href="{{ t.termsUrl }}" target="_blank" rel="noopener" style="font-size:14px">{{ t.readTermsLabel }}</a></sc-if>
+        <label style="display:flex;gap:10px;align-items:flex-start;font-size:14px;cursor:pointer"><input type="checkbox" checked="{{ agreed }}" sc-camel-on-change="{{ toggleAgree }}" style="accent-color:var(--color-accent);margin-top:3px">{{ t.agreeLabel }}</label>
+        <div><button style-hover="background:var(--color-accent-400);color:#ffffff" class="btn btn-primary" style="border-radius:999px;border-color:var(--color-accent-500);color:var(--color-text);background:var(--color-accent);color:#ffffff;box-shadow:inset 0 1px 0 rgba(255,255,255,.35), 0 0 18px color-mix(in srgb, var(--color-accent) 28%, transparent);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);padding:10px 18px" disabled="{{ joinDisabled }}" sc-camel-on-click="{{ join }}">{{ joinLabel }}</button></div>
       </div>
     </section>
   </sc-if>
 
   <sc-if value="{{ joined }}" hint-placeholder-val="{{ true }}">
     <div style="display:flex;flex-direction:column;gap:4px">
-      <h2 style="margin:0">Affiliate</h2>
-      <p class="text-muted" style="margin:0;font-size:14px">2.5% of every app purchase by friends you invite, for life.</p>
+      <h2 style="margin:0">Dashboard affiliate</h2>
+      <p class="text-muted" style="margin:0;font-size:14px">{{ t.joinedSub }}</p>
     </div>
 
     <sc-if value="{{ showTermsBanner }}" hint-placeholder-val="{{ false }}">
       <div style="display:flex;flex-wrap:wrap;gap:12px 16px;align-items:center;padding:14px 16px;border-radius:16px;background:linear-gradient(155deg, color-mix(in srgb, var(--color-accent-500) 26%, transparent), color-mix(in srgb, var(--color-accent-700) 14%, transparent));box-shadow:inset 0 1px 0 rgba(255,255,255,.85), inset 0 0 0 1px color-mix(in srgb, var(--color-accent-300) 22%, transparent), 0 10px 30px color-mix(in srgb, var(--color-accent-700) 30%, transparent);backdrop-filter:blur(24px) saturate(160%);-webkit-backdrop-filter:blur(24px) saturate(160%)">
         <i class="ph ph-file-text" style="font-size:22px;color:var(--color-accent)"></i>
-        <div style="flex:1;min-width:220px;font-size:14px"><div style="font-weight:500">We updated the Affiliate Terms (v2.0)</div><div style="color:var(--color-neutral-300)">Review and accept them before your next claim.</div></div>
-        <button style-hover="background:var(--color-accent-400);color:#ffffff" style="border-radius:999px;border-color:var(--color-accent-500);color:var(--color-text);background:var(--color-accent);color:#ffffff;box-shadow:inset 0 1px 0 rgba(255,255,255,.35), 0 0 18px color-mix(in srgb, var(--color-accent) 28%, transparent);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);" class="btn btn-primary" sc-camel-on-click="{{ openConsent }}">Review and accept</button>
+        <div style="flex:1;min-width:220px;font-size:14px"><div style="font-weight:500">{{ t.updatedLabel }}</div><div style="color:var(--color-neutral-300)">Baca dan setujui dulu sebelum klaim berikutnya.</div></div>
+        <button style-hover="background:var(--color-accent-400);color:#ffffff" style="border-radius:999px;border-color:var(--color-accent-500);color:var(--color-text);background:var(--color-accent);color:#ffffff;box-shadow:inset 0 1px 0 rgba(255,255,255,.35), 0 0 18px color-mix(in srgb, var(--color-accent) 28%, transparent);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);" class="btn btn-primary" sc-camel-on-click="{{ openConsent }}">Baca dan setujui</button>
       </div>
     </sc-if>
 
     <sc-if value="{{ showRejected }}" hint-placeholder-val="{{ false }}">
       <div style="display:flex;flex-wrap:wrap;gap:12px 16px;align-items:center;padding:14px 16px;border-radius:16px;background:rgba(255,255,255,.58);box-shadow:inset 0 1px 0 rgba(255,255,255,.95), inset 0 0 0 1px rgba(20,20,20,.07);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);">
         <i class="ph ph-warning-circle" style="font-size:22px;color:var(--color-accent-300)"></i>
-        <div style="flex:1;min-width:220px;font-size:14px"><div style="font-weight:500">{{ rejected.title }}</div><div style="color:var(--color-neutral-300)">{{ rejected.reason }} Your commission is back in Available.</div></div>
+        <div style="flex:1;min-width:220px;font-size:14px"><div style="font-weight:500">{{ rejected.title }}</div><div style="color:var(--color-neutral-300)">{{ rejected.reason }} Komisimu sudah kembali ke saldo Tersedia.</div></div>
         <div style="display:flex;gap:8px">
-          <button style-hover="background:color-mix(in srgb, var(--color-neutral-100) 15%, transparent)" style="border-radius:999px;border-color:transparent;background:rgba(255,255,255,.58);box-shadow:inset 0 1px 0 rgba(255,255,255,.95), inset 0 0 0 1px rgba(20,20,20,.07);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);" class="btn btn-secondary" sc-camel-on-click="{{ dismissRejected }}">Dismiss</button>
-          <button style-hover="background:var(--color-accent-400);color:#ffffff" style="border-radius:999px;border-color:var(--color-accent-500);color:var(--color-text);background:var(--color-accent);color:#ffffff;box-shadow:inset 0 1px 0 rgba(255,255,255,.35), 0 0 18px color-mix(in srgb, var(--color-accent) 28%, transparent);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);" class="btn btn-primary" sc-camel-on-click="{{ openPayoutEdit }}">Update payout details</button>
+          <button style-hover="background:color-mix(in srgb, var(--color-neutral-100) 15%, transparent)" style="border-radius:999px;border-color:transparent;background:rgba(255,255,255,.58);box-shadow:inset 0 1px 0 rgba(255,255,255,.95), inset 0 0 0 1px rgba(20,20,20,.07);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);" class="btn btn-secondary" sc-camel-on-click="{{ dismissRejected }}">Tutup</button>
+          <button style-hover="background:var(--color-accent-400);color:#ffffff" style="border-radius:999px;border-color:var(--color-accent-500);color:var(--color-text);background:var(--color-accent);color:#ffffff;box-shadow:inset 0 1px 0 rgba(255,255,255,.35), 0 0 18px color-mix(in srgb, var(--color-accent) 28%, transparent);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);" class="btn btn-primary" sc-camel-on-click="{{ openPayoutEdit }}">Perbarui data pencairan</button>
         </div>
       </div>
     </sc-if>
@@ -5268,7 +5273,7 @@ button, input, select, textarea { font-family: inherit; }
 
       <div style="grid-area:wallet;display:flex;flex-direction:{{ g.walletDir }};gap:16px;align-self:start;position:{{ g.walletPos }};top:16px;min-width:0">
         <section class="card elev-sm" style="background:linear-gradient(155deg, rgba(255,255,255,.78), rgba(255,255,255,.46));backdrop-filter:blur(28px) saturate(170%);-webkit-backdrop-filter:blur(28px) saturate(170%);box-shadow:inset 0 1px 0 rgba(255,255,255,.95), inset 0 0 0 1px rgba(20,20,20,.07), 0 12px 32px rgba(90,20,24,.10);border-radius:22px;padding:20px;gap:14px">
-          <div style="display:flex;justify-content:space-between;align-items:center;gap:8px"><span class="card-kicker">Available to claim</span><span class="text-muted" style="font-size:12px">Minimum Rp50.000</span></div>
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:8px"><span class="card-kicker">Tersedia untuk klaim</span><span class="text-muted" style="font-size:12px">{{ bal.minLabel }}</span></div>
           <div style="font-size:40px;font-weight:500;letter-spacing:-.02em;line-height:1;font-variant-numeric:tabular-nums">{{ bal.available }}</div>
           <sc-if value="{{ bal.showProgress }}" hint-placeholder-val="{{ false }}">
             <div style="display:flex;flex-direction:column;gap:6px">
@@ -5277,12 +5282,12 @@ button, input, select, textarea { font-family: inherit; }
             </div>
           </sc-if>
           <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;padding-top:4px">
-            <div><div class="text-muted" style="font-size:12px;display:flex;align-items:center;gap:4px">Held <i class="ph ph-hourglass-medium"></i></div><div style="font-size:17px;font-variant-numeric:tabular-nums">{{ bal.held }}</div><div class="text-muted" style="font-size:11px">Released 14 days after payment</div></div>
-            <div><div class="text-muted" style="font-size:12px">Paid out</div><div style="font-size:17px;font-variant-numeric:tabular-nums">{{ bal.paid }}</div><div class="text-muted" style="font-size:11px">All time</div></div>
+            <div><div class="text-muted" style="font-size:12px;display:flex;align-items:center;gap:4px">Tertahan <i class="ph ph-hourglass-medium"></i></div><div style="font-size:17px;font-variant-numeric:tabular-nums">{{ bal.held }}</div><div class="text-muted" style="font-size:11px">{{ bal.heldNote }}</div></div>
+            <div><div class="text-muted" style="font-size:12px">Sudah dibayar</div><div style="font-size:17px;font-variant-numeric:tabular-nums">{{ bal.paid }}</div><div class="text-muted" style="font-size:11px">Sepanjang waktu</div></div>
           </div>
           <sc-if value="{{ ac.show }}" hint-placeholder-val="{{ false }}">
             <div style="padding:12px;border-radius:16px;background:linear-gradient(155deg, color-mix(in srgb, var(--color-accent-500) 26%, transparent), color-mix(in srgb, var(--color-accent-700) 14%, transparent));box-shadow:inset 0 1px 0 rgba(255,255,255,.85), inset 0 0 0 1px color-mix(in srgb, var(--color-accent-300) 22%, transparent), 0 10px 30px color-mix(in srgb, var(--color-accent-700) 30%, transparent);backdrop-filter:blur(24px) saturate(160%);-webkit-backdrop-filter:blur(24px) saturate(160%);display:flex;flex-direction:column;gap:4px">
-              <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:13px"><span>Claim {{ ac.id }}</span><span style="border-radius:999px;" class="tag tag-outline">{{ ac.label }}</span></div>
+              <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:13px"><span>Klaim {{ ac.id }}</span><span style="border-radius:999px;" class="tag tag-outline">{{ ac.label }}</span></div>
               <div style="font-size:20px;font-variant-numeric:tabular-nums">{{ ac.net }}</div>
               <div style="font-size:12px;color:var(--color-neutral-300)">{{ ac.detail }}</div>
             </div>
@@ -5293,47 +5298,58 @@ button, input, select, textarea { font-family: inherit; }
 
         <section class="card" style="background:linear-gradient(155deg, rgba(255,255,255,.78), rgba(255,255,255,.46));backdrop-filter:blur(28px) saturate(170%);-webkit-backdrop-filter:blur(28px) saturate(170%);box-shadow:inset 0 1px 0 rgba(255,255,255,.95), inset 0 0 0 1px rgba(20,20,20,.07), 0 12px 32px rgba(90,20,24,.10);border-radius:22px;padding:20px;gap:12px">
           <div style="display:flex;justify-content:space-between;align-items:center;gap:8px">
-            <span class="card-kicker">Your invite code</span>
-            <sc-if value="{{ share.canEdit }}" hint-placeholder-val="{{ false }}"><button class="btn btn-ghost" style="border-radius:999px;font-size:13px" sc-camel-on-click="{{ startEditCode }}">Edit code</button></sc-if>
+            <span class="card-kicker">Link saya</span>
+            <span class="text-muted" style="font-size:12px">{{ share.rateLabel }}</span>
           </div>
-          <sc-if value="{{ share.viewing }}" hint-placeholder-val="{{ true }}">
-            <div style="display:flex;flex-direction:column;gap:2px">
-              <div style="font-size:30px;letter-spacing:.12em;font-weight:500">{{ code }}</div>
-              <div class="text-muted" style="font-size:13px">20fit.id/r/{{ code }}</div>
+          <div class="text-muted" style="font-size:13px">{{ share.hint }}</div>
+          <div role="group" aria-label="Pilih produk" style="display:flex;flex-wrap:wrap;gap:6px">
+            <sc-for list="{{ share.products }}" as="o" hint-placeholder-count="6">
+              <button class="btn btn-secondary" style="border-radius:999px;font-size:13px;padding:6px 12px;border-color:transparent;background:{{ o.bg }};color:{{ o.color }};box-shadow:{{ o.shadow }}" aria-pressed="{{ o.pressed }}" disabled="{{ o.disabled }}" sc-camel-on-click="{{ o.pick }}">{{ o.label }}</button>
+            </sc-for>
+          </div>
+          <sc-if value="{{ share.loading }}" hint-placeholder-val="{{ false }}">
+            <div class="text-muted" style="font-size:13px">Menyiapkan link…</div>
+          </sc-if>
+          <sc-if value="{{ share.hasLink }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex;flex-direction:column;gap:2px;padding:12px;border-radius:16px;background:rgba(255,255,255,.58);box-shadow:inset 0 1px 0 rgba(255,255,255,.95), inset 0 0 0 1px rgba(20,20,20,.07)">
+              <div class="text-muted" style="font-size:12px">{{ share.product }}</div>
+              <div style="font-size:15px;font-weight:500;word-break:break-all">{{ share.url }}</div>
+            </div>
+            <div style="display:flex;flex-wrap:wrap;gap:8px">
+              <button style-hover="background:color-mix(in srgb, var(--color-neutral-100) 15%, transparent)" style="border-radius:999px;border-color:transparent;background:rgba(255,255,255,.58);box-shadow:inset 0 1px 0 rgba(255,255,255,.95), inset 0 0 0 1px rgba(20,20,20,.07);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);" class="btn btn-secondary" sc-camel-on-click="{{ copyLink }}"><i class="ph ph-link"></i>Salin link</button>
+              <a style-hover="background:color-mix(in srgb, var(--color-neutral-100) 15%, transparent)" style="border-radius:999px;border-color:transparent;background:rgba(255,255,255,.58);box-shadow:inset 0 1px 0 rgba(255,255,255,.95), inset 0 0 0 1px rgba(20,20,20,.07);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);" class="btn btn-secondary" href="{{ share.wa }}" target="_blank" rel="noopener"><i class="ph ph-whatsapp-logo"></i>WhatsApp</a>
+              <button style-hover="background:color-mix(in srgb, var(--color-neutral-100) 15%, transparent)" style="border-radius:999px;border-color:transparent;background:rgba(255,255,255,.58);box-shadow:inset 0 1px 0 rgba(255,255,255,.95), inset 0 0 0 1px rgba(20,20,20,.07);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);" class="btn btn-secondary" sc-camel-on-click="{{ downloadQr }}"><i class="ph ph-qr-code"></i>Unduh QR</button>
             </div>
           </sc-if>
+          <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:8px;padding-top:10px;background:linear-gradient(to right, transparent, var(--color-divider) 48px, var(--color-divider) calc(100% - 48px), transparent) no-repeat top / 100% 1px">
+            <span style="font-size:13px"><span class="text-muted">Kode affiliate </span><strong style="letter-spacing:.08em">{{ code }}</strong></span>
+            <sc-if value="{{ share.canEdit }}" hint-placeholder-val="{{ false }}"><button class="btn btn-ghost" style="border-radius:999px;font-size:13px" sc-camel-on-click="{{ startEditCode }}">Ubah kode</button></sc-if>
+          </div>
           <sc-if value="{{ share.editing }}" hint-placeholder-val="{{ false }}">
             <div class="field" style="display:flex;flex-direction:column;gap:6px">
-              <label>New code · 4–12 letters or numbers · can be changed once</label>
+              <label>Kode baru · 4–12 huruf atau angka · hanya bisa diganti sekali</label>
               <input class="input" style="border-radius:14px;border-color:color-mix(in srgb, var(--color-neutral-100) 14%, transparent);background:color-mix(in srgb, var(--color-neutral-100) 6%, transparent);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);text-transform:uppercase;letter-spacing:.08em" maxlength="12" value="{{ codeDraft }}" sc-camel-on-change="{{ onCodeDraft }}">
               <div style="font-size:12px;color:var(--color-accent-300)">{{ codeError }}</div>
-              <div style="display:flex;gap:8px"><button style-hover="background:var(--color-accent-400);color:#ffffff" style="border-radius:999px;border-color:var(--color-accent-500);color:var(--color-text);background:var(--color-accent);color:#ffffff;box-shadow:inset 0 1px 0 rgba(255,255,255,.35), 0 0 18px color-mix(in srgb, var(--color-accent) 28%, transparent);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);" class="btn btn-primary" sc-camel-on-click="{{ saveCode }}">Save code</button><button style-hover="background:color-mix(in srgb, var(--color-neutral-100) 15%, transparent)" style="border-radius:999px;border-color:transparent;background:rgba(255,255,255,.58);box-shadow:inset 0 1px 0 rgba(255,255,255,.95), inset 0 0 0 1px rgba(20,20,20,.07);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);" class="btn btn-secondary" sc-camel-on-click="{{ cancelCode }}">Cancel</button></div>
+              <div style="display:flex;gap:8px"><button style-hover="background:var(--color-accent-400);color:#ffffff" style="border-radius:999px;border-color:var(--color-accent-500);color:var(--color-text);background:var(--color-accent);color:#ffffff;box-shadow:inset 0 1px 0 rgba(255,255,255,.35), 0 0 18px color-mix(in srgb, var(--color-accent) 28%, transparent);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);" class="btn btn-primary" disabled="{{ busy }}" sc-camel-on-click="{{ saveCode }}">Simpan kode</button><button style-hover="background:color-mix(in srgb, var(--color-neutral-100) 15%, transparent)" style="border-radius:999px;border-color:transparent;background:rgba(255,255,255,.58);box-shadow:inset 0 1px 0 rgba(255,255,255,.95), inset 0 0 0 1px rgba(20,20,20,.07);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);" class="btn btn-secondary" sc-camel-on-click="{{ cancelCode }}">Batal</button></div>
             </div>
           </sc-if>
-          <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px">
-            <button style-hover="background:color-mix(in srgb, var(--color-neutral-100) 15%, transparent)" style="border-radius:999px;border-color:transparent;background:rgba(255,255,255,.58);box-shadow:inset 0 1px 0 rgba(255,255,255,.95), inset 0 0 0 1px rgba(20,20,20,.07);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);" class="btn btn-secondary" sc-camel-on-click="{{ copyCode }}"><i class="ph ph-copy"></i>Copy code</button>
-            <button style-hover="background:color-mix(in srgb, var(--color-neutral-100) 15%, transparent)" style="border-radius:999px;border-color:transparent;background:rgba(255,255,255,.58);box-shadow:inset 0 1px 0 rgba(255,255,255,.95), inset 0 0 0 1px rgba(20,20,20,.07);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);" class="btn btn-secondary" sc-camel-on-click="{{ copyLink }}"><i class="ph ph-link"></i>Copy link</button>
-            <a style-hover="background:color-mix(in srgb, var(--color-neutral-100) 15%, transparent)" style="border-radius:999px;border-color:transparent;background:rgba(255,255,255,.58);box-shadow:inset 0 1px 0 rgba(255,255,255,.95), inset 0 0 0 1px rgba(20,20,20,.07);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);" class="btn btn-secondary" href="{{ share.wa }}" target="_blank" rel="noopener"><i class="ph ph-whatsapp-logo"></i>WhatsApp</a>
-            <button style-hover="background:color-mix(in srgb, var(--color-neutral-100) 15%, transparent)" style="border-radius:999px;border-color:transparent;background:rgba(255,255,255,.58);box-shadow:inset 0 1px 0 rgba(255,255,255,.95), inset 0 0 0 1px rgba(20,20,20,.07);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);" class="btn btn-secondary" sc-camel-on-click="{{ downloadQr }}"><i class="ph ph-qr-code"></i>QR code</button>
-          </div>
           <div class="text-muted" style="font-size:12px">{{ share.note }}</div>
         </section>
       </div>
 
       <section class="card" style="background:linear-gradient(155deg, rgba(255,255,255,.78), rgba(255,255,255,.46));backdrop-filter:blur(28px) saturate(170%);-webkit-backdrop-filter:blur(28px) saturate(170%);box-shadow:inset 0 1px 0 rgba(255,255,255,.95), inset 0 0 0 1px rgba(20,20,20,.07), 0 12px 32px rgba(90,20,24,.10);border-radius:22px;grid-area:perf;padding:20px;gap:16px;min-width:0">
         <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px">
-          <h4 style="margin:0">Performance</h4>
+          <h4 style="margin:0">Performa link</h4>
           <div style="border-radius:999px;border-color:color-mix(in srgb, var(--color-neutral-100) 14%, transparent);background:rgba(255,255,255,.58);box-shadow:inset 0 1px 0 rgba(255,255,255,.95), inset 0 0 0 1px rgba(20,20,20,.07);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);" class="seg">
-            <label class="seg-opt"><input type="radio" name="period" checked="{{ p7 }}" sc-camel-on-change="{{ setP7 }}">7 days</label>
-            <label class="seg-opt"><input type="radio" name="period" checked="{{ p30 }}" sc-camel-on-change="{{ setP30 }}">30 days</label>
-            <label class="seg-opt"><input type="radio" name="period" checked="{{ pAll }}" sc-camel-on-change="{{ setPAll }}">All time</label>
+            <label class="seg-opt"><input type="radio" name="period" checked="{{ p7 }}" sc-camel-on-change="{{ setP7 }}">7 hari</label>
+            <label class="seg-opt"><input type="radio" name="period" checked="{{ p30 }}" sc-camel-on-change="{{ setP30 }}">30 hari</label>
+            <label class="seg-opt"><input type="radio" name="period" checked="{{ pAll }}" sc-camel-on-change="{{ setPAll }}">Semua</label>
           </div>
         </div>
         <sc-if value="{{ perf.empty }}" hint-placeholder-val="{{ false }}">
           <div style="display:flex;flex-direction:column;gap:10px;align-items:flex-start;padding:8px 0">
-            <div style="font-size:16px">No clicks yet. Share your code to get started.</div>
-            <div class="text-muted" style="font-size:13px;max-width:440px">Clicks on your link, sign-ups and purchases appear here as they happen.</div>
-            <button style-hover="background:var(--color-accent-400);color:#ffffff" style="border-radius:999px;border-color:var(--color-accent-500);color:var(--color-text);background:var(--color-accent);color:#ffffff;box-shadow:inset 0 1px 0 rgba(255,255,255,.35), 0 0 18px color-mix(in srgb, var(--color-accent) 28%, transparent);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);" class="btn btn-primary" sc-camel-on-click="{{ copyLink }}"><i class="ph ph-link"></i>Copy your link</button>
+            <div style="font-size:16px">{{ perf.emptyTitle }}</div>
+            <div class="text-muted" style="font-size:13px;max-width:440px">{{ perf.emptyBody }}</div>
           </div>
         </sc-if>
         <sc-if value="{{ perf.has }}" hint-placeholder-val="{{ true }}">
@@ -5346,9 +5362,50 @@ button, input, select, textarea { font-family: inherit; }
               </div>
             </sc-for>
             <div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding-top:12px;margin-top:4px;background:linear-gradient(to right, transparent, var(--color-divider) 48px, var(--color-divider) calc(100% - 48px), transparent) no-repeat top / 100% 1px">
-              <span class="text-muted" style="font-size:13px">Commission earned · {{ perf.periodLabel }}</span>
+              <span class="text-muted" style="font-size:13px">Komisi · {{ perf.periodLabel }}</span>
               <span style="font-size:24px;font-weight:500;font-variant-numeric:tabular-nums">{{ perf.comm }}</span>
             </div>
+            <div style="overflow-x:auto;margin-top:4px">
+              <sc-raw-table class="table" style="min-width:520px">
+                <sc-raw-thead><sc-raw-tr><sc-raw-th>Produk</sc-raw-th><sc-raw-th style="text-align:right">Dibuka</sc-raw-th><sc-raw-th style="text-align:right">Pembeli</sc-raw-th><sc-raw-th style="text-align:right">Transaksi</sc-raw-th><sc-raw-th style="text-align:right">Komisi</sc-raw-th><sc-raw-th></sc-raw-th></sc-raw-tr></sc-raw-thead>
+                <sc-raw-tbody>
+                  <sc-for list="{{ perf.links }}" as="l" hint-placeholder-count="3">
+                    <sc-raw-tr>
+                      <sc-raw-td>{{ l.product }}</sc-raw-td>
+                      <sc-raw-td style="text-align:right;font-variant-numeric:tabular-nums">{{ l.opens }}</sc-raw-td>
+                      <sc-raw-td style="text-align:right;font-variant-numeric:tabular-nums">{{ l.buyers }}</sc-raw-td>
+                      <sc-raw-td style="text-align:right;font-variant-numeric:tabular-nums">{{ l.transactions }}</sc-raw-td>
+                      <sc-raw-td style="text-align:right;font-variant-numeric:tabular-nums">{{ l.commission }}</sc-raw-td>
+                      <sc-raw-td style="text-align:right"><button class="btn btn-ghost" style="border-radius:999px;font-size:13px;padding:4px 10px" sc-camel-on-click="{{ l.open }}">Detail</button></sc-raw-td>
+                    </sc-raw-tr>
+                  </sc-for>
+                </sc-raw-tbody>
+              </sc-raw-table>
+            </div>
+            <sc-if value="{{ detail.show }}" hint-placeholder-val="{{ false }}">
+              <div style="display:flex;flex-direction:column;gap:12px;padding:14px;border-radius:16px;background:rgba(255,255,255,.58);box-shadow:inset 0 1px 0 rgba(255,255,255,.95), inset 0 0 0 1px rgba(20,20,20,.07)">
+                <div style="display:flex;justify-content:space-between;align-items:center;gap:8px">
+                  <div><div style="font-weight:500">{{ detail.product }}</div><div class="text-muted" style="font-size:12px">{{ detail.sub }}</div></div>
+                  <button class="btn btn-ghost" style="border-radius:999px;font-size:13px" aria-label="Tutup detail" sc-camel-on-click="{{ closeDetail }}"><i class="ph ph-x"></i></button>
+                </div>
+                <sc-if value="{{ detail.loading }}" hint-placeholder-val="{{ false }}"><div class="text-muted" style="font-size:13px">Memuat…</div></sc-if>
+                <sc-if value="{{ detail.ready }}" hint-placeholder-val="{{ true }}">
+                  <div role="img" aria-label="{{ detail.aria }}" style="display:flex;align-items:flex-end;gap:2px;height:120px;padding-top:8px">
+                    <sc-for list="{{ detail.days }}" as="d" hint-placeholder-count="30">
+                      <div title="{{ d.tip }}" style="flex:1;min-width:2px;height:100%;display:flex;flex-direction:column;justify-content:flex-end;gap:2px">
+                        <div style="height:{{ d.hOpen }};min-height:{{ d.minOpen }};border-radius:3px 3px 0 0;background:color-mix(in srgb, var(--color-accent-700) 70%, transparent)"></div>
+                        <div style="height:{{ d.hTx }};min-height:{{ d.minTx }};border-radius:3px;background:var(--color-accent)"></div>
+                      </div>
+                    </sc-for>
+                  </div>
+                  <div style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;font-size:12px" class="text-muted">
+                    <span><span style="display:inline-block;width:10px;height:10px;border-radius:3px;background:color-mix(in srgb, var(--color-accent-700) 70%, transparent);margin-right:4px"></span>Dibuka <span style="display:inline-block;width:10px;height:10px;border-radius:3px;background:var(--color-accent);margin:0 4px 0 10px"></span>Transaksi</span>
+                    <span>{{ detail.range }}</span>
+                  </div>
+                </sc-if>
+                <div><button style-hover="background:color-mix(in srgb, var(--color-neutral-100) 15%, transparent)" style="border-radius:999px;border-color:transparent;background:rgba(255,255,255,.58);box-shadow:inset 0 1px 0 rgba(255,255,255,.95), inset 0 0 0 1px rgba(20,20,20,.07);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);" class="btn btn-secondary" sc-camel-on-click="{{ detail.showPurchases }}"><i class="ph ph-list"></i>Lihat pembelian lewat link ini</button></div>
+              </div>
+            </sc-if>
           </div>
         </sc-if>
       </section>
@@ -5360,14 +5417,17 @@ button, input, select, textarea { font-family: inherit; }
       </div>
 
       <section class="card" style="background:linear-gradient(155deg, rgba(255,255,255,.78), rgba(255,255,255,.46));backdrop-filter:blur(28px) saturate(170%);-webkit-backdrop-filter:blur(28px) saturate(170%);box-shadow:inset 0 1px 0 rgba(255,255,255,.95), inset 0 0 0 1px rgba(20,20,20,.07), 0 12px 32px rgba(90,20,24,.10);border-radius:22px;grid-area:{{ g.gaTx }};display:{{ g.dTx }};padding:20px;gap:12px;min-width:0">
-        <div><h4 style="margin:0 0 4px">Referral transactions</h4><div class="text-muted" style="font-size:13px">Only your commission is shown — never what your friend paid.</div></div>
+        <div><h4 style="margin:0 0 4px">Pembelian lewat link-mu</h4><div class="text-muted" style="font-size:13px">Yang tampil hanya komisimu. Nama pembeli disamarkan dan nominal yang mereka bayar tidak ditampilkan.</div></div>
+        <sc-if value="{{ tx.filtered }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px;font-size:13px"><span class="tag tag-outline" style="border-radius:999px">{{ tx.filterLabel }}</span><button class="btn btn-ghost" style="border-radius:999px;font-size:13px" sc-camel-on-click="{{ clearFilter }}">Tampilkan semua</button></div>
+        </sc-if>
         <sc-if value="{{ txEmpty }}" hint-placeholder-val="{{ false }}">
-          <div class="text-muted" style="font-size:14px;padding:12px 0">No transactions yet. When a friend signs up with your code and pays for something in the app, it shows up here.</div>
+          <div class="text-muted" style="font-size:14px;padding:12px 0">{{ tx.empty }}</div>
         </sc-if>
         <sc-if value="{{ txHas }}" hint-placeholder-val="{{ true }}">
           <div style="overflow-x:auto">
             <sc-raw-table class="table" style="min-width:560px">
-              <sc-raw-thead><sc-raw-tr><sc-raw-th>Friend</sc-raw-th><sc-raw-th>Product</sc-raw-th><sc-raw-th>Date</sc-raw-th><sc-raw-th style="text-align:right">Commission</sc-raw-th><sc-raw-th>Status</sc-raw-th></sc-raw-tr></sc-raw-thead>
+              <sc-raw-thead><sc-raw-tr><sc-raw-th>Pembeli</sc-raw-th><sc-raw-th>Produk</sc-raw-th><sc-raw-th>Tanggal</sc-raw-th><sc-raw-th style="text-align:right">Komisi</sc-raw-th><sc-raw-th>Status</sc-raw-th></sc-raw-tr></sc-raw-thead>
               <sc-raw-tbody>
                 <sc-for list="{{ txRows }}" as="r" hint-placeholder-count="5">
                   <sc-raw-tr style="opacity:{{ r.op }}">
@@ -5385,14 +5445,14 @@ button, input, select, textarea { font-family: inherit; }
       </section>
 
       <section class="card" style="background:linear-gradient(155deg, rgba(255,255,255,.78), rgba(255,255,255,.46));backdrop-filter:blur(28px) saturate(170%);-webkit-backdrop-filter:blur(28px) saturate(170%);box-shadow:inset 0 1px 0 rgba(255,255,255,.95), inset 0 0 0 1px rgba(20,20,20,.07), 0 12px 32px rgba(90,20,24,.10);border-radius:22px;grid-area:{{ g.gaClaims }};display:{{ g.dClaims }};padding:20px;gap:12px;min-width:0">
-        <h4 style="margin:0">Claim history</h4>
+        <h4 style="margin:0">Riwayat klaim</h4>
         <sc-if value="{{ claimsEmpty }}" hint-placeholder-val="{{ false }}">
-          <div class="text-muted" style="font-size:14px;padding:12px 0">No claims yet. You can claim once your available balance reaches Rp50.000.</div>
+          <div class="text-muted" style="font-size:14px;padding:12px 0">{{ claimsEmptyText }}</div>
         </sc-if>
         <sc-if value="{{ claimsHas }}" hint-placeholder-val="{{ true }}">
           <div style="overflow-x:auto">
             <sc-raw-table class="table" style="min-width:560px">
-              <sc-raw-thead><sc-raw-tr><sc-raw-th>Claim</sc-raw-th><sc-raw-th>Submitted</sc-raw-th><sc-raw-th style="text-align:right">Amount</sc-raw-th><sc-raw-th>Status</sc-raw-th><sc-raw-th>Details</sc-raw-th></sc-raw-tr></sc-raw-thead>
+              <sc-raw-thead><sc-raw-tr><sc-raw-th>Klaim</sc-raw-th><sc-raw-th>Diajukan</sc-raw-th><sc-raw-th style="text-align:right">Jumlah</sc-raw-th><sc-raw-th>Status</sc-raw-th><sc-raw-th>Keterangan</sc-raw-th></sc-raw-tr></sc-raw-thead>
               <sc-raw-tbody>
                 <sc-for list="{{ claimRows }}" as="c" hint-placeholder-count="2">
                   <sc-raw-tr>
@@ -5400,7 +5460,7 @@ button, input, select, textarea { font-family: inherit; }
                     <sc-raw-td style="white-space:nowrap;color:var(--color-neutral-300)">{{ c.date }}</sc-raw-td>
                     <sc-raw-td style="text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap">{{ c.amount }}<div class="text-muted" style="font-size:11px">{{ c.net }}</div></sc-raw-td>
                     <sc-raw-td><span class="{{ c.cls }}">{{ c.label }}</span></sc-raw-td>
-                    <sc-raw-td style="font-size:13px;color:var(--color-neutral-300);max-width:260px">{{ c.detail }}<sc-if value="{{ c.hasProof }}" hint-placeholder-val="{{ false }}"> · <a href="#" sc-camel-on-click="{{ c.onProof }}">Transfer proof</a></sc-if></sc-raw-td>
+                    <sc-raw-td style="font-size:13px;color:var(--color-neutral-300);max-width:260px">{{ c.detail }}<sc-if value="{{ c.hasProof }}" hint-placeholder-val="{{ false }}"> · <a href="{{ c.proofHref }}" target="_blank" rel="noopener">Bukti transfer</a></sc-if></sc-raw-td>
                   </sc-raw-tr>
                 </sc-for>
               </sc-raw-tbody>
@@ -5410,9 +5470,9 @@ button, input, select, textarea { font-family: inherit; }
       </section>
 
       <section class="card" style="background:linear-gradient(155deg, rgba(255,255,255,.78), rgba(255,255,255,.46));backdrop-filter:blur(28px) saturate(170%);-webkit-backdrop-filter:blur(28px) saturate(170%);box-shadow:inset 0 1px 0 rgba(255,255,255,.95), inset 0 0 0 1px rgba(20,20,20,.07), 0 12px 32px rgba(90,20,24,.10);border-radius:22px;grid-area:activity;display:{{ g.dActivity }};padding:20px;gap:8px;min-width:0">
-        <h4 style="margin:0 0 6px">Activity</h4>
+        <h4 style="margin:0 0 6px">Aktivitas</h4>
         <sc-if value="{{ actEmpty }}" hint-placeholder-val="{{ false }}">
-          <div class="text-muted" style="font-size:14px;padding:12px 0">Nothing here yet. Commission from your friends' app purchases and your claims will appear in one timeline.</div>
+          <div class="text-muted" style="font-size:14px;padding:12px 0">Belum ada aktivitas. Komisi dari pembelian lewat link-mu dan klaimmu akan muncul di sini.</div>
         </sc-if>
         <sc-for list="{{ activity }}" as="a" hint-placeholder-count="5">
           <div style="display:grid;grid-template-columns:32px minmax(0,1fr) auto;gap:12px;align-items:center;padding:10px 0;background:linear-gradient(to right, transparent, color-mix(in srgb, var(--color-text) 8%, transparent) 48px, color-mix(in srgb, var(--color-text) 8%, transparent) calc(100% - 48px), transparent) no-repeat bottom / 100% 1px;opacity:{{ a.op }}">
@@ -5425,11 +5485,11 @@ button, input, select, textarea { font-family: inherit; }
 
       <section class="card" style="background:linear-gradient(155deg, rgba(255,255,255,.78), rgba(255,255,255,.46));backdrop-filter:blur(28px) saturate(170%);-webkit-backdrop-filter:blur(28px) saturate(170%);box-shadow:inset 0 1px 0 rgba(255,255,255,.95), inset 0 0 0 1px rgba(20,20,20,.07), 0 12px 32px rgba(90,20,24,.10);border-radius:22px;grid-area:{{ g.gaPayout }};display:{{ g.dPayout }};padding:20px;gap:12px;min-width:0">
         <div style="display:flex;justify-content:space-between;align-items:center;gap:8px">
-          <h4 style="margin:0">Payout details</h4>
-          <sc-if value="{{ payout.has }}" hint-placeholder-val="{{ false }}"><button class="btn btn-ghost" style="border-radius:999px;font-size:13px" sc-camel-on-click="{{ openPayoutEdit }}">Edit</button></sc-if>
+          <h4 style="margin:0">Data pencairan</h4>
+          <sc-if value="{{ payout.has }}" hint-placeholder-val="{{ false }}"><button class="btn btn-ghost" style="border-radius:999px;font-size:13px" sc-camel-on-click="{{ openPayoutEdit }}">Ubah</button></sc-if>
         </div>
         <sc-if value="{{ payout.none }}" hint-placeholder-val="{{ true }}">
-          <div class="text-muted" style="font-size:14px">We'll ask for your KTP and bank details at your first claim.</div>
+          <div class="text-muted" style="font-size:14px">Data KTP dan rekening diminta saat klaim pertama. Disimpan terenkripsi.</div>
         </sc-if>
         <sc-if value="{{ payout.has }}" hint-placeholder-val="{{ false }}">
           <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px 20px;font-size:14px">
@@ -5441,9 +5501,10 @@ button, input, select, textarea { font-family: inherit; }
       </section>
 
       <section style="grid-area:help;display:flex;flex-wrap:wrap;gap:8px 20px;align-items:center;font-size:13px;padding:4px 2px;min-width:0" class="text-muted">
-        <a href="#" style="display:flex;align-items:center;gap:6px"><i class="ph ph-file-text"></i>Affiliate Terms</a>
+        <sc-if value="{{ t.hasTermsUrl }}" hint-placeholder-val="{{ false }}"><a href="{{ t.termsUrl }}" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:6px"><i class="ph ph-file-text"></i>S&amp;K Affiliate</a></sc-if>
         <span>{{ termsLine }}</span>
-        <a href="#" style="display:flex;align-items:center;gap:6px"><i class="ph ph-chat-circle"></i>Contact affiliate support</a>
+        <a href="/#gabung" style="display:flex;align-items:center;gap:6px"><i class="ph ph-question"></i>Cara kerja &amp; FAQ</a>
+        <sc-if value="{{ links.hasSupport }}" hint-placeholder-val="{{ false }}"><a href="{{ links.support }}" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:6px"><i class="ph ph-chat-circle"></i>Hubungi tim affiliate</a></sc-if>
       </section>
     </div>
   </sc-if>
@@ -5454,62 +5515,61 @@ button, input, select, textarea { font-family: inherit; }
     <div class="dialog" style="background:linear-gradient(155deg, rgba(255,255,255,.9), rgba(255,255,255,.7));backdrop-filter:blur(28px) saturate(170%);-webkit-backdrop-filter:blur(28px) saturate(170%);box-shadow:inset 0 1px 0 rgba(255,255,255,.95), inset 0 0 0 1px rgba(20,20,20,.07), 0 12px 32px rgba(90,20,24,.10);border-radius:28px;width:min(480px,100%);max-height:calc(100vh - 32px);overflow:auto">
 
       <sc-if value="{{ dlg.consent }}" hint-placeholder-val="{{ false }}">
-        <div class="dialog-title">Affiliate Terms v2.0</div>
+        <div class="dialog-title">{{ t.consentTitle }}</div>
         <div class="dialog-body" style="display:flex;flex-direction:column;gap:10px">
-          <div>What changed:</div>
+          <div>Ringkasan:</div>
           <ul style="margin:0;padding-left:18px;display:flex;flex-direction:column;gap:6px;color:var(--color-neutral-300)">
-            <li>Refunds after a payout are deducted from your next claim, shown as an adjustment in your history.</li>
-            <li>Clearer rules on spam and misleading promotion.</li>
-            <li>What happens to your commission if the program is paused.</li>
+            <sc-for list="{{ t.consentList }}" as="item" hint-placeholder-count="5"><li>{{ item.text }}</li></sc-for>
           </ul>
-          <a href="#">Read the full terms</a>
-          <label style="display:flex;gap:10px;align-items:flex-start;cursor:pointer;padding-top:4px"><input type="checkbox" checked="{{ consentChecked }}" sc-camel-on-change="{{ toggleConsent }}" style="accent-color:var(--color-accent);margin-top:3px">I agree to the Affiliate Terms v2.0</label>
+          <sc-if value="{{ t.hasTermsUrl }}" hint-placeholder-val="{{ false }}"><a href="{{ t.termsUrl }}" target="_blank" rel="noopener">Baca S&amp;K lengkap</a></sc-if>
+          <label style="display:flex;gap:10px;align-items:flex-start;cursor:pointer;padding-top:4px"><input type="checkbox" checked="{{ consentChecked }}" sc-camel-on-change="{{ toggleConsent }}" style="accent-color:var(--color-accent);margin-top:3px">{{ t.consentLabel }}</label>
         </div>
-        <div class="dialog-actions"><button style-hover="background:color-mix(in srgb, var(--color-neutral-100) 15%, transparent)" style="border-radius:999px;border-color:transparent;background:rgba(255,255,255,.58);box-shadow:inset 0 1px 0 rgba(255,255,255,.95), inset 0 0 0 1px rgba(20,20,20,.07);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);" class="btn btn-secondary" sc-camel-on-click="{{ closeDialog }}">Not now</button><button style-hover="background:var(--color-accent-400);color:#ffffff" style="border-radius:999px;border-color:var(--color-accent-500);color:var(--color-text);background:var(--color-accent);color:#ffffff;box-shadow:inset 0 1px 0 rgba(255,255,255,.35), 0 0 18px color-mix(in srgb, var(--color-accent) 28%, transparent);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);" class="btn btn-primary" disabled="{{ consentDisabled }}" sc-camel-on-click="{{ acceptTerms }}">{{ consentCta }}</button></div>
+        <div class="dialog-actions"><button style-hover="background:color-mix(in srgb, var(--color-neutral-100) 15%, transparent)" style="border-radius:999px;border-color:transparent;background:rgba(255,255,255,.58);box-shadow:inset 0 1px 0 rgba(255,255,255,.95), inset 0 0 0 1px rgba(20,20,20,.07);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);" class="btn btn-secondary" sc-camel-on-click="{{ closeDialog }}">Nanti saja</button><button style-hover="background:var(--color-accent-400);color:#ffffff" style="border-radius:999px;border-color:var(--color-accent-500);color:var(--color-text);background:var(--color-accent);color:#ffffff;box-shadow:inset 0 1px 0 rgba(255,255,255,.35), 0 0 18px color-mix(in srgb, var(--color-accent) 28%, transparent);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);" class="btn btn-primary" disabled="{{ consentDisabled }}" sc-camel-on-click="{{ acceptTerms }}">{{ consentCta }}</button></div>
       </sc-if>
 
       <sc-if value="{{ dlg.payout }}" hint-placeholder-val="{{ false }}">
-        <div><div class="dialog-title">Payout details</div><div class="text-muted" style="font-size:13px;margin-top:4px">Needed once, to transfer your commission and withhold tax. Stored encrypted.</div></div>
+        <div><div class="dialog-title">Data pencairan</div><div class="text-muted" style="font-size:13px;margin-top:4px">Cukup sekali, untuk transfer komisi dan pemotongan pajak. Disimpan terenkripsi.</div></div>
         <div style="display:flex;flex-direction:column;gap:12px">
-          <div class="field"><label>Full name (as on KTP)</label><input style="border-radius:14px;border-color:color-mix(in srgb, var(--color-neutral-100) 14%, transparent);background:color-mix(in srgb, var(--color-neutral-100) 6%, transparent);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);" class="input" value="{{ form.name }}" sc-camel-on-change="{{ onF.name }}"><div style="font-size:12px;color:var(--color-accent-300);margin-top:4px">{{ err.name }}</div></div>
+          <div class="field"><label>Nama lengkap (sesuai KTP)</label><input style="border-radius:14px;border-color:color-mix(in srgb, var(--color-neutral-100) 14%, transparent);background:color-mix(in srgb, var(--color-neutral-100) 6%, transparent);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);" class="input" value="{{ form.name }}" sc-camel-on-change="{{ onF.name }}"><div style="font-size:12px;color:var(--color-accent-300);margin-top:4px">{{ err.name }}</div></div>
           <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px">
-            <div class="field"><label>NIK</label><input style="border-radius:14px;border-color:color-mix(in srgb, var(--color-neutral-100) 14%, transparent);background:color-mix(in srgb, var(--color-neutral-100) 6%, transparent);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);" class="input" inputmode="numeric" maxlength="16" placeholder="16 digits" value="{{ form.nik }}" sc-camel-on-change="{{ onF.nik }}"><div style="font-size:12px;color:var(--color-accent-300);margin-top:4px">{{ err.nik }}</div></div>
-            <div class="field"><label>NPWP (optional)</label><input style="border-radius:14px;border-color:color-mix(in srgb, var(--color-neutral-100) 14%, transparent);background:color-mix(in srgb, var(--color-neutral-100) 6%, transparent);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);" class="input" inputmode="numeric" maxlength="16" placeholder="15 or 16 digits" value="{{ form.npwp }}" sc-camel-on-change="{{ onF.npwp }}"><div style="font-size:12px;color:var(--color-accent-300);margin-top:4px">{{ err.npwp }}</div></div>
+            <div class="field"><label>NIK</label><input style="border-radius:14px;border-color:color-mix(in srgb, var(--color-neutral-100) 14%, transparent);background:color-mix(in srgb, var(--color-neutral-100) 6%, transparent);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);" class="input" inputmode="numeric" maxlength="16" placeholder="16 digit" value="{{ form.nik }}" sc-camel-on-change="{{ onF.nik }}"><div style="font-size:12px;color:var(--color-accent-300);margin-top:4px">{{ err.nik }}</div></div>
+            <div class="field"><label>NPWP (opsional)</label><input style="border-radius:14px;border-color:color-mix(in srgb, var(--color-neutral-100) 14%, transparent);background:color-mix(in srgb, var(--color-neutral-100) 6%, transparent);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);" class="input" inputmode="numeric" maxlength="16" placeholder="15 atau 16 digit" value="{{ form.npwp }}" sc-camel-on-change="{{ onF.npwp }}"><div style="font-size:12px;color:var(--color-accent-300);margin-top:4px">{{ err.npwp }}</div></div>
           </div>
           <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px">
             <div class="field"><label>Bank</label>
               <sc-raw-select style="border-radius:14px;border-color:color-mix(in srgb, var(--color-neutral-100) 14%, transparent);background:color-mix(in srgb, var(--color-neutral-100) 6%, transparent);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);" class="input" value="{{ form.bank }}" sc-camel-on-change="{{ onF.bank }}">
-                <option value="">Choose bank</option><option>BCA</option><option>Mandiri</option><option>BNI</option><option>BRI</option><option>CIMB Niaga</option><option>Permata</option><option>BSI</option><option>Bank Jago</option>
+                <option value="">Pilih bank</option><option>BCA</option><option>Mandiri</option><option>BNI</option><option>BRI</option><option>CIMB Niaga</option><option>Permata</option><option>BSI</option><option>Bank Jago</option>
               </sc-raw-select>
               <div style="font-size:12px;color:var(--color-accent-300);margin-top:4px">{{ err.bank }}</div></div>
-            <div class="field"><label>Account number</label><input style="border-radius:14px;border-color:color-mix(in srgb, var(--color-neutral-100) 14%, transparent);background:color-mix(in srgb, var(--color-neutral-100) 6%, transparent);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);" class="input" inputmode="numeric" value="{{ form.acct }}" sc-camel-on-change="{{ onF.acct }}"><div style="font-size:12px;color:var(--color-accent-300);margin-top:4px">{{ err.acct }}</div></div>
+            <div class="field"><label>Nomor rekening</label><input style="border-radius:14px;border-color:color-mix(in srgb, var(--color-neutral-100) 14%, transparent);background:color-mix(in srgb, var(--color-neutral-100) 6%, transparent);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);" class="input" inputmode="numeric" value="{{ form.acct }}" sc-camel-on-change="{{ onF.acct }}"><div style="font-size:12px;color:var(--color-accent-300);margin-top:4px">{{ err.acct }}</div></div>
           </div>
-          <div class="field"><label>Account holder name</label><input style="border-radius:14px;border-color:color-mix(in srgb, var(--color-neutral-100) 14%, transparent);background:color-mix(in srgb, var(--color-neutral-100) 6%, transparent);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);" class="input" value="{{ form.holder }}" sc-camel-on-change="{{ onF.holder }}"><div style="font-size:12px;color:var(--color-accent-300);margin-top:4px">{{ err.holder }}</div></div>
+          <div class="field"><label>Nama pemilik rekening</label><input style="border-radius:14px;border-color:color-mix(in srgb, var(--color-neutral-100) 14%, transparent);background:color-mix(in srgb, var(--color-neutral-100) 6%, transparent);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);" class="input" value="{{ form.holder }}" sc-camel-on-change="{{ onF.holder }}"><div style="font-size:12px;color:var(--color-accent-300);margin-top:4px">{{ err.holder }}</div></div>
           <div class="text-muted" style="font-size:12px">{{ taxHint }}</div>
         </div>
-        <div class="dialog-actions"><button style-hover="background:color-mix(in srgb, var(--color-neutral-100) 15%, transparent)" style="border-radius:999px;border-color:transparent;background:rgba(255,255,255,.58);box-shadow:inset 0 1px 0 rgba(255,255,255,.95), inset 0 0 0 1px rgba(20,20,20,.07);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);" class="btn btn-secondary" sc-camel-on-click="{{ closeDialog }}">Cancel</button><button style-hover="background:var(--color-accent-400);color:#ffffff" style="border-radius:999px;border-color:var(--color-accent-500);color:var(--color-text);background:var(--color-accent);color:#ffffff;box-shadow:inset 0 1px 0 rgba(255,255,255,.35), 0 0 18px color-mix(in srgb, var(--color-accent) 28%, transparent);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);" class="btn btn-primary" sc-camel-on-click="{{ savePayout }}">{{ payoutCta }}</button></div>
+        <div class="dialog-actions"><button style-hover="background:color-mix(in srgb, var(--color-neutral-100) 15%, transparent)" style="border-radius:999px;border-color:transparent;background:rgba(255,255,255,.58);box-shadow:inset 0 1px 0 rgba(255,255,255,.95), inset 0 0 0 1px rgba(20,20,20,.07);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);" class="btn btn-secondary" sc-camel-on-click="{{ closeDialog }}">Batal</button><button style-hover="background:var(--color-accent-400);color:#ffffff" style="border-radius:999px;border-color:var(--color-accent-500);color:var(--color-text);background:var(--color-accent);color:#ffffff;box-shadow:inset 0 1px 0 rgba(255,255,255,.35), 0 0 18px color-mix(in srgb, var(--color-accent) 28%, transparent);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);" class="btn btn-primary" disabled="{{ busy }}" sc-camel-on-click="{{ savePayout }}">{{ payoutCta }}</button></div>
       </sc-if>
 
       <sc-if value="{{ dlg.summary }}" hint-placeholder-val="{{ false }}">
-        <div class="dialog-title">Claim your commission</div>
+        <div class="dialog-title">Klaim komisi</div>
         <div style="display:flex;flex-direction:column;gap:10px;font-size:14px">
-          <div style="display:flex;justify-content:space-between;gap:12px"><span class="text-muted">Available commission</span><span style="font-variant-numeric:tabular-nums">{{ sum.gross }}</span></div>
+          <div style="display:flex;justify-content:space-between;gap:12px"><span class="text-muted">Komisi Tersedia</span><span style="font-variant-numeric:tabular-nums">{{ sum.gross }}</span></div>
           <div style="display:flex;justify-content:space-between;gap:12px"><span class="text-muted">{{ sum.taxLabel }}</span><span style="font-variant-numeric:tabular-nums">{{ sum.tax }}</span></div>
-          <div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding-top:10px;background:linear-gradient(to right, transparent, var(--color-divider) 48px, var(--color-divider) calc(100% - 48px), transparent) no-repeat top / 100% 1px"><span>You'll receive</span><span style="font-size:24px;font-weight:500;font-variant-numeric:tabular-nums">{{ sum.net }}</span></div>
+          <sc-if value="{{ sum.hasAdjustment }}" hint-placeholder-val="{{ false }}"><div style="display:flex;justify-content:space-between;gap:12px"><span class="text-muted">Penyesuaian (refund setelah pencairan)</span><span style="font-variant-numeric:tabular-nums">{{ sum.adjustment }}</span></div></sc-if>
+          <div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding-top:10px;background:linear-gradient(to right, transparent, var(--color-divider) 48px, var(--color-divider) calc(100% - 48px), transparent) no-repeat top / 100% 1px"><span>Yang kamu terima</span><span style="font-size:24px;font-weight:500;font-variant-numeric:tabular-nums">{{ sum.net }}</span></div>
           <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px;border-radius:16px;background:rgba(255,255,255,.58);box-shadow:inset 0 1px 0 rgba(255,255,255,.95), inset 0 0 0 1px rgba(20,20,20,.07);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);">
-            <div><div class="text-muted" style="font-size:12px">Transfer to</div><div>{{ sum.account }}</div><div class="text-muted" style="font-size:12px">{{ sum.holder }}</div></div>
-            <button class="btn btn-ghost" style="border-radius:999px;font-size:13px" sc-camel-on-click="{{ editFromSummary }}">Change</button>
+            <div><div class="text-muted" style="font-size:12px">Transfer ke</div><div>{{ sum.account }}</div><div class="text-muted" style="font-size:12px">{{ sum.holder }}</div></div>
+            <button class="btn btn-ghost" style="border-radius:999px;font-size:13px" sc-camel-on-click="{{ editFromSummary }}">Ubah</button>
           </div>
-          <div class="text-muted" style="font-size:12px">All available commission is locked to this claim. Tax is an estimate until confirmed by 20FIT finance.</div>
+          <div class="text-muted" style="font-size:12px">Seluruh saldo Tersedia masuk ke klaim ini. Potongan pajak bisa disesuaikan setelah dicek tim finance 20FIT.</div>
         </div>
-        <div class="dialog-actions"><button style-hover="background:color-mix(in srgb, var(--color-neutral-100) 15%, transparent)" style="border-radius:999px;border-color:transparent;background:rgba(255,255,255,.58);box-shadow:inset 0 1px 0 rgba(255,255,255,.95), inset 0 0 0 1px rgba(20,20,20,.07);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);" class="btn btn-secondary" sc-camel-on-click="{{ closeDialog }}">Cancel</button><button style-hover="background:var(--color-accent-400);color:#ffffff" style="border-radius:999px;border-color:var(--color-accent-500);color:var(--color-text);background:var(--color-accent);color:#ffffff;box-shadow:inset 0 1px 0 rgba(255,255,255,.35), 0 0 18px color-mix(in srgb, var(--color-accent) 28%, transparent);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);" class="btn btn-primary" sc-camel-on-click="{{ submitClaim }}">Submit claim</button></div>
+        <div class="dialog-actions"><button style-hover="background:color-mix(in srgb, var(--color-neutral-100) 15%, transparent)" style="border-radius:999px;border-color:transparent;background:rgba(255,255,255,.58);box-shadow:inset 0 1px 0 rgba(255,255,255,.95), inset 0 0 0 1px rgba(20,20,20,.07);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);" class="btn btn-secondary" sc-camel-on-click="{{ closeDialog }}">Batal</button><button style-hover="background:var(--color-accent-400);color:#ffffff" style="border-radius:999px;border-color:var(--color-accent-500);color:var(--color-text);background:var(--color-accent);color:#ffffff;box-shadow:inset 0 1px 0 rgba(255,255,255,.35), 0 0 18px color-mix(in srgb, var(--color-accent) 28%, transparent);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);" class="btn btn-primary" disabled="{{ busy }}" sc-camel-on-click="{{ submitClaim }}">Ajukan klaim</button></div>
       </sc-if>
 
       <sc-if value="{{ dlg.done }}" hint-placeholder-val="{{ false }}">
         <span style="width:44px;height:44px;border-radius:50%;display:grid;place-items:center;box-shadow:inset 0 0 0 1px var(--color-accent);color:var(--color-accent);font-size:22px"><i class="ph ph-check"></i></span>
-        <div class="dialog-title">Claim submitted</div>
+        <div class="dialog-title">Klaim diajukan</div>
         <div class="dialog-body">{{ doneText }}</div>
-        <div class="dialog-actions"><button style-hover="background:var(--color-accent-400);color:#ffffff" style="border-radius:999px;border-color:var(--color-accent-500);color:var(--color-text);background:var(--color-accent);color:#ffffff;box-shadow:inset 0 1px 0 rgba(255,255,255,.35), 0 0 18px color-mix(in srgb, var(--color-accent) 28%, transparent);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);" class="btn btn-primary" sc-camel-on-click="{{ closeDialog }}">Done</button></div>
+        <div class="dialog-actions"><button style-hover="background:var(--color-accent-400);color:#ffffff" style="border-radius:999px;border-color:var(--color-accent-500);color:var(--color-text);background:var(--color-accent);color:#ffffff;box-shadow:inset 0 1px 0 rgba(255,255,255,.35), 0 0 18px color-mix(in srgb, var(--color-accent) 28%, transparent);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);" class="btn btn-primary" sc-camel-on-click="{{ closeDialog }}">Selesai</button></div>
       </sc-if>
     </div>
   </div>
@@ -5520,13 +5580,22 @@ button, input, select, textarea { font-family: inherit; }
 </sc-if>
 </div>
 </x-dc>
-<script type="text/x-dc" data-dc-script="" data-props="{&quot;scenario&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;not_joined&quot;,&quot;below_min&quot;,&quot;ready&quot;,&quot;in_progress&quot;,&quot;rejected&quot;],&quot;default&quot;:&quot;ready&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;layout&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;A&quot;,&quot;B&quot;,&quot;C&quot;],&quot;default&quot;:&quot;A&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;termsBanner&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;}}">
+<script type="text/x-dc" data-dc-script="">
+// Affiliate dashboard (/dashboard). The server puts the signed-in
+// affiliate's data in window.__AF_DATA__ before the page paints; every
+// action after that goes through /api/affiliate/*, which calls Supabase
+// with the session cookie. Nothing here holds a token. All numbers and
+// rules (rate, minimum claim, hold days, tax, terms) come from the data.
 class Component extends DCLogic {
   constructor(props) {
     super(props);
     this.rootRef = React.createRef();
-    this.state = Object.assign(this.initState(props.scenario ?? 'ready'), {
-      layout: props.layout ?? 'A', termsBanner: props.termsBanner ?? false, narrow: false, toast: ''
+    const D = window.__AF_DATA__ || {};
+    this.D = { user: D.user || { name: '', email: '' }, settings: D.settings || {}, links: D.links || {}, qrSrc: D.qrSrc || '' };
+    this.state = Object.assign(this.fromState(D.state || { error: 'Data dashboard tidak bisa dimuat.' }), {
+      narrow: false, toast: '', dialog: null, claimFlow: false, form: this.emptyForm(null), errors: {}, busy: false,
+      agreed: false, consentChecked: false, rejectDismissed: false, editingCode: false, codeDraft: '', codeError: '',
+      period: '30', share: { slug: '', url: '', product: '', loading: false }, detail: null, txFilter: null, filtered: null, preview: null, doneText: ''
     });
   }
   componentDidMount() {
@@ -5537,167 +5606,350 @@ class Component extends DCLogic {
     }
   }
   componentWillUnmount() { this.ro && this.ro.disconnect(); clearTimeout(this.tt); }
-  componentDidUpdate(p) {
-    if (p.scenario !== this.props.scenario && this.props.scenario) this.setState(this.initState(this.props.scenario));
-    if (p.layout !== this.props.layout && this.props.layout) this.setState({ layout: this.props.layout });
-    if (p.termsBanner !== this.props.termsBanner) this.setState({ termsBanner: !!this.props.termsBanner, termsAccepted: false });
+
+  fromState(st) {
+    return {
+      error: st.error || '', joined: !!st.joined, products: st.products || [], aff: st.affiliate || null, summary: st.summary || null,
+      links: st.links || [], commissions: st.commissions || [], claims: st.claims || [], adjustments: st.adjustments || [], profile: st.payoutProfile || null
+    };
   }
-  fmt(n) { return 'Rp' + Math.floor(n).toLocaleString('id-ID'); }
-  fd(s) { const M = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']; const [y, m, d] = s.split('-'); return `${+d} ${M[+m - 1]} ${y}`; }
-  emptyForm(p) { return p ? { ...p } : { name: __AF_USER_NAME_JS__, nik: '', npwp: '', bank: '', acct: '', holder: '' }; }
-  buildScenario(s) {
-    const t = (id, who, product, d, amount, status, note) => ({ id, who, product, d, amount, status, note: note || '' });
-    const held = [t('h1','D****i','Gym · Monthly membership','2026-10-06',10000,'held'), t('h2','R****a','Arena · Court package','2026-10-04',22500,'held'), t('h3','A****n','Visbody scan','2026-09-29',3750,'held')];
-    const batch = st => [t('b1','R****a','Arena · Court package','2026-09-20',22500,st), t('b2','S****o','PT · 8-session package','2026-09-18',45000,st), t('b3','D****i','Gym · Monthly membership','2026-09-06',10000,st), t('b4','M****a','Coach · Tennis package','2026-09-02',30000,st), t('b5','A****n','Youngstar · Swim term','2026-08-28',18750,st)];
-    const cancel = [t('x1','F****h','Open Arena · Monthly pass','2026-08-24',7500,'cancelled','Refunded within the 14-day hold')];
-    const paid = [t('p1','R****a','Arena · Court package','2026-07-20',22500,'paid'), t('p2','S****o','PT · 8-session package','2026-07-14',45000,'paid'), t('p3','D****i','Gym · Monthly membership','2026-07-06',10000,'paid'), t('p4','M****a','Coach · Tennis package','2026-07-02',30000,'paid')];
-    const paidClaim = { id: 'CLM-0412', d: '2026-08-04', amount: 107500, tax: 3225, net: 104275, status: 'paid', ref: 'BCA 0804-88213', paidD: '2026-08-06' };
-    const P = { name: __AF_USER_NAME_JS__, nik: '3174015208940012', npwp: '', bank: 'BCA', acct: '5271034821', holder: __AF_USER_NAME_JS__ };
-    let tx = [], claims = [], profile = null;
-    if (s === 'ready') { tx = [...held, ...batch('available'), ...cancel]; }
-    else if (s === 'below_min') { const b = batch('available'); tx = [...held, b[2], b[4], ...paid]; claims = [paidClaim]; profile = P; }
-    else if (s === 'in_progress') { tx = [...held, ...batch('claimed'), ...cancel, ...paid]; claims = [{ id: 'CLM-0438', d: '2026-10-05', amount: 126250, tax: 3787, net: 122463, status: 'processing', est: '2026-10-09' }, paidClaim]; profile = P; }
-    else if (s === 'rejected') { tx = [...held, ...batch('available'), ...cancel, ...paid]; claims = [{ id: 'CLM-0431', d: '2026-10-01', amount: 126250, tax: 3787, net: 122463, status: 'rejected', reason: "The account holder name doesn't match the name on your KTP." }, paidClaim]; profile = { ...P, holder: 'Rina K' }; }
-    return { tx, claims, profile };
+
+  // ── formatting (Indonesian, Asia/Jakarta) ──
+  fmt(n) { return 'Rp' + Math.floor(Number(n) || 0).toLocaleString('id-ID'); }
+  pct(r) { return (Math.round(Number(r) * 10000) / 100).toLocaleString('id-ID', { maximumFractionDigits: 2 }) + '%'; }
+  fd(iso) {
+    if (!iso) return '';
+    const d = new Date(/^\d{4}-\d{2}-\d{2}$/.test(iso) ? iso + 'T00:00:00+07:00' : iso);
+    return isNaN(d) ? '' : d.toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric', timeZone: 'Asia/Jakarta' });
   }
-  initState(s) {
-    const d = this.buildScenario(s);
-    return { scenario: s, joined: s !== 'not_joined', agreed: false, code: 'RINA25', codeEdited: false, editingCode: false, codeDraft: '', codeError: '',
-      period: '30d', tab: 'tx', tx: d.tx, claims: d.claims, profile: d.profile, dialog: null, claimFlow: false, form: this.emptyForm(d.profile), errors: {},
-      termsAccepted: false, consentChecked: false, rejectDismissed: false };
-  }
-  flash(msg) { clearTimeout(this.tt); this.setState({ toast: msg }); this.tt = setTimeout(() => this.setState({ toast: '' }), 2200); }
+  claimNo(c) { return c && c.no ? 'CLM-' + String(c.no).padStart(4, '0') : 'Klaim'; }
+  emptyForm(p) { return { name: (p && p.ktp_name) || this.D.user.name || '', nik: '', npwp: '', bank: (p && p.bank_name) || '', acct: '', holder: (p && p.account_holder) || '' }; }
+  flash(msg) { clearTimeout(this.tt); this.setState({ toast: msg }); this.tt = setTimeout(() => this.setState({ toast: '' }), 2600); }
   copy(text, msg) { try { navigator.clipboard && navigator.clipboard.writeText(text).catch(() => {}); } catch (e) {} this.flash(msg); }
-  grid() {
-    const { layout: L, narrow: n, tab } = this.state;
-    if (L === 'B') {
-      const base = { gaTx: 'panel', gaClaims: 'panel', gaPayout: 'panel', dTabs: 'flex', dActivity: 'none', dTx: tab === 'tx' ? 'flex' : 'none', dClaims: tab === 'claims' ? 'flex' : 'none', dPayout: tab === 'payout' ? 'flex' : 'none', walletDir: 'column' };
-      return n ? { ...base, max: '760px', cols: 'minmax(0,1fr)', rows: 'auto', areas: '"wallet" "perf" "tabs" "panel" "help"', walletPos: 'static' }
-               : { ...base, max: '1160px', cols: 'minmax(0,360px) minmax(0,1fr)', rows: 'auto auto auto auto 1fr', areas: '"wallet perf" "wallet tabs" "wallet panel" "wallet help" "wallet ."', walletPos: 'sticky' };
-    }
-    if (L === 'C') {
-      const base = { gaTx: 'tx', gaClaims: 'claims', gaPayout: 'payout', dTabs: 'none', dActivity: 'flex', dTx: 'none', dClaims: 'none', dPayout: 'flex', walletDir: 'column-reverse', walletPos: 'static' };
-      return n ? { ...base, max: '760px', cols: 'minmax(0,1fr)', rows: 'auto', areas: '"wallet" "perf" "activity" "payout" "help"' }
-               : { ...base, max: '1160px', cols: 'minmax(0,1fr) minmax(0,1fr)', rows: 'auto', areas: '"wallet perf" "activity activity" "payout payout" "help help"' };
-    }
-    return { max: '760px', cols: 'minmax(0,1fr)', rows: 'auto', areas: '"wallet" "perf" "tx" "claims" "payout" "help"', gaTx: 'tx', gaClaims: 'claims', gaPayout: 'payout',
-      dTabs: 'none', dActivity: 'none', dTx: 'flex', dClaims: 'flex', dPayout: 'flex', walletDir: 'column', walletPos: 'static' };
+
+  // ── server calls ──
+  async api(method, path, body) {
+    const res = await fetch('/api/affiliate/' + path, {
+      method, credentials: 'same-origin', headers: body ? { 'Content-Type': 'application/json' } : {}, body: body ? JSON.stringify(body) : undefined
+    });
+    const data = await res.json().catch(() => ({}));
+    if (res.status === 401 && data.login) { location.assign(data.login); throw new Error(data.error || 'Sesi habis'); }
+    if (!res.ok) throw new Error(data.error || 'Terjadi kesalahan. Coba lagi.');
+    return data;
+  }
+  async run(fn) {
+    if (this.state.busy) return;
+    this.setState({ busy: true });
+    try { await fn(); } catch (e) { this.flash(e.message); } finally { this.setState({ busy: false }); }
+  }
+  async refresh() {
+    const st = await this.api('GET', 'state');
+    this.setState(this.fromState(st));
+    if (this.state.period !== '30') await this.loadLinks(this.state.period);
+  }
+  async loadLinks(p) {
+    const r = await this.api('GET', 'links?days=' + (p === 'all' ? 'all' : p));
+    this.setState({ links: r.links, period: p });
+  }
+  async openDetail(l) {
+    this.setState({ detail: { id: l.id, product: l.product, rows: null } });
+    try {
+      const p = this.state.period;
+      const r = await this.api('GET', 'links/' + l.id + '/daily?days=' + (p === 'all' ? 'all' : p));
+      if (this.state.detail && this.state.detail.id === l.id) this.setState({ detail: { id: l.id, product: l.product, rows: r.rows } });
+    } catch (e) { this.flash(e.message); this.setState({ detail: null }); }
+  }
+  async showPurchases(id, product) {
+    try {
+      const r = await this.api('GET', 'commissions?link=' + encodeURIComponent(id));
+      this.setState({ txFilter: { id, product }, filtered: r.rows });
+    } catch (e) { this.flash(e.message); }
+  }
+  pickProduct(slug) {
+    const p = this.state.products.find(x => x.slug === slug);
+    this.setState({ share: { slug, url: '', product: p ? p.name : '', loading: true } });
+    this.api('POST', 'link', { slug })
+      .then(r => {
+        this.setState({ share: { slug, url: r.url, product: r.product, loading: false } });
+        if (!this.state.links.some(l => l.id === r.id)) this.loadLinks(this.state.period).catch(() => {});
+      })
+      .catch(e => { this.setState({ share: { slug: '', url: '', product: '', loading: false } }); this.flash(e.message); });
+  }
+  loadQr() {
+    if (window.qrcode) return Promise.resolve(window.qrcode);
+    return new Promise((ok, fail) => {
+      const s = document.createElement('script'); s.src = this.D.qrSrc;
+      s.onload = () => ok(window.qrcode); s.onerror = () => fail(new Error('QR tidak bisa dibuat. Coba lagi.'));
+      document.head.appendChild(s);
+    });
+  }
+  async downloadQr() {
+    const { url, slug } = this.state.share;
+    if (!url) return;
+    try {
+      const qrcode = await this.loadQr();
+      const qr = qrcode(0, 'M'); qr.addData(url); qr.make();
+      const n = qr.getModuleCount(), cell = 10, pad = 4 * cell, size = n * cell + pad * 2;
+      const c = document.createElement('canvas'); c.width = c.height = size;
+      const g = c.getContext('2d'); g.fillStyle = '#ffffff'; g.fillRect(0, 0, size, size); g.fillStyle = '#141414';
+      for (let r = 0; r < n; r++) for (let k = 0; k < n; k++) if (qr.isDark(r, k)) g.fillRect(pad + k * cell, pad + r * cell, cell, cell);
+      const a = document.createElement('a'); a.href = c.toDataURL('image/png'); a.download = 'qr-20fit-' + (this.state.aff ? this.state.aff.code : '') + '-' + slug + '.png';
+      document.body.appendChild(a); a.click(); a.remove();
+      this.flash('QR code diunduh');
+    } catch (e) { this.flash(e.message); }
+  }
+
+  // ── claim flow ──
+  termsOutdated() { const s = this.state; return !!(s.aff && this.D.settings.termsVersion && s.aff.termsVersion !== this.D.settings.termsVersion); }
+  nextClaimStep() { return !this.state.profile ? 'payout' : 'summary'; }
+  async openSummary() {
+    const preview = await this.api('GET', 'claim-preview');
+    this.setState({ preview, dialog: 'summary' });
   }
   validate(f) {
     const e = {};
-    if (!f.name.trim()) e.name = 'Enter your name as it appears on your KTP.';
-    if (!/^\d{16}$/.test(f.nik)) e.nik = 'NIK must be 16 digits.';
-    if (f.npwp && !/^\d{15,16}$/.test(f.npwp)) e.npwp = 'NPWP must be 15 or 16 digits.';
-    if (!f.bank) e.bank = 'Choose your bank.';
-    if (!/^\d{6,20}$/.test(f.acct)) e.acct = 'Enter a valid account number.';
-    if (!f.holder.trim()) e.holder = 'Enter the account holder name.';
-    else if (f.name.trim() && f.holder.trim().toLowerCase() !== f.name.trim().toLowerCase()) e.holder = 'Must match your KTP name exactly, or the transfer will be rejected.';
+    if (!f.name.trim()) e.name = 'Isi nama sesuai KTP.';
+    if (!/^\d{16}$/.test(f.nik)) e.nik = 'NIK harus 16 digit.';
+    if (f.npwp && !/^\d{15,16}$/.test(f.npwp)) e.npwp = 'NPWP harus 15 atau 16 digit.';
+    if (!f.bank) e.bank = 'Pilih bank.';
+    if (!/^\d{6,20}$/.test(f.acct)) e.acct = 'Isi nomor rekening yang valid.';
+    if (!f.holder.trim()) e.holder = 'Isi nama pemilik rekening.';
+    else if (f.name.trim() && f.holder.trim().toLowerCase() !== f.name.trim().toLowerCase()) e.holder = 'Harus sama persis dengan nama di KTP, atau transfer akan ditolak.';
     return e;
   }
+
+  grid() {
+    return { max: '760px', cols: 'minmax(0,1fr)', rows: 'auto', areas: '"wallet" "perf" "tx" "claims" "payout" "help"', gaTx: 'tx', gaClaims: 'claims', gaPayout: 'payout',
+      dTabs: 'none', dActivity: 'none', dTx: 'flex', dClaims: 'flex', dPayout: 'flex', walletDir: 'column', walletPos: 'static' };
+  }
+
   renderVals() {
-    const s = this.state, f = n => this.fmt(n), fd = d => this.fd(d), MIN = 50000;
-    const sum = st => s.tx.filter(x => x.status === st).reduce((a, x) => a + x.amount, 0);
-    const held = sum('held'), avail = sum('available'), paid = sum('paid');
+    const s = this.state, S = this.D.settings, L = this.D.links, f = n => this.fmt(n), fd = d => this.fd(d);
+    const sm = s.summary || {};
+    const rate = this.pct(S.commissionRate || 0);
+    const MIN = Number(sm.min_claim != null ? sm.min_claim : S.minWithdrawal) || 0;
+    const days = Number(sm.pending_days != null ? sm.pending_days : S.pendingDays) || 0;
+    const paused = S.programStatus === 'paused';
+    const suspended = !!(s.aff && s.aff.status !== 'active');
+    const avail = Number(sm.available) || 0, held = Number(sm.held) || 0, paid = Number(sm.paid) || 0;
     const active = s.claims.find(c => c.status === 'submitted' || c.status === 'processing');
     const latest = s.claims[0];
-    const needTerms = s.termsBanner && !s.termsAccepted;
-    let note;
-    if (active) note = 'One claim at a time. You can claim again once this one is paid.';
-    else if (avail >= MIN) note = 'Paid by bank transfer to your account.';
-    else if (avail > 0) note = 'Claim opens once Available reaches Rp50.000.';
-    else note = "Commission becomes available 14 days after your friend's payment, if it isn't refunded.";
-    const TX = { held: ['Held', 'tag tag-neutral'], available: ['Available', 'tag tag-accent'], claimed: ['In claim', 'tag tag-outline'], paid: ['Paid', 'tag tag-neutral'], cancelled: ['Cancelled', 'tag tag-neutral'] };
-    const CL = { submitted: ['Submitted', 'tag tag-outline'], processing: ['Processing', 'tag tag-outline'], paid: ['Paid', 'tag tag-accent'], rejected: ['Rejected', 'tag tag-neutral'] };
-    const claimDetail = c => c.status === 'paid' ? `Ref ${c.ref} · paid ${fd(c.paidD)}` : c.status === 'rejected' ? c.reason : c.status === 'processing' ? `Estimated transfer ${fd(c.est)}` : 'Waiting for 20FIT finance to review';
-    const txSorted = [...s.tx].sort((a, b) => b.d.localeCompare(a.d));
-    const txRows = txSorted.map(x => ({ who: x.who, product: x.product, date: fd(x.d), amount: f(x.amount), label: TX[x.status][0], cls: TX[x.status][1], note: x.note, op: x.status === 'cancelled' ? 0.6 : 1, deco: x.status === 'cancelled' ? 'line-through' : 'none' }));
-    const claimRows = s.claims.map(c => ({ id: c.id, date: fd(c.d), amount: f(c.amount), net: 'Net ' + f(c.net), label: CL[c.status][0], cls: CL[c.status][1], detail: claimDetail(c), hasProof: c.status === 'paid', onProof: e => { e.preventDefault(); this.flash('Opening transfer proof'); } }));
-    const activity = [
-      ...s.tx.map(x => ({ d: x.d, icon: x.status === 'cancelled' ? 'ph ph-arrow-u-up-left' : 'ph ph-arrow-down-left', title: `${x.who} · ${x.product}`, sub: `${fd(x.d)} · ${x.status === 'cancelled' ? x.note : 'Commission'}`, amount: (x.status === 'cancelled' ? '' : '+') + f(x.amount), label: TX[x.status][0], cls: TX[x.status][1], op: x.status === 'cancelled' ? 0.6 : 1 })),
-      ...s.claims.map(c => ({ d: c.d + 'z', icon: 'ph ph-bank', title: `Claim ${c.id} · net ${f(c.net)}`, sub: `${fd(c.d)} · ${claimDetail(c)}`, amount: f(c.amount), label: CL[c.status][0], cls: CL[c.status][1], op: 1 }))
-    ].sort((a, b) => b.d.localeCompare(a.d));
-    // performance
-    const P = { '7d': [38, 2, 2, '2026-10-01', 'last 7 days'], '30d': [164, 7, 5, '2026-09-08', 'last 30 days'], all: [486, 14, 9, '0000', 'all time'] }[s.period];
-    const hasData = s.tx.length > 0;
-    const comm = s.tx.filter(x => x.status !== 'cancelled' && x.d >= P[3]).reduce((a, x) => a + x.amount, 0);
-    const pct = (a, b) => b ? Math.round(a / b * 1000) / 10 + '%' : '–';
-    const w = v => Math.max(2, Math.round(Math.sqrt(v / P[0]) * 100)) + '%';
-    const perfRows = [
-      { label: 'Link clicks', value: P[0], sub: '', w: '100%' },
-      { label: 'Sign-ups', value: P[1], sub: pct(P[1], P[0]), w: w(P[1]) },
-      { label: 'Transacting', value: P[2], sub: pct(P[2], P[1]), w: w(P[2]) }
+    const needTerms = this.termsOutdated();
+    const taxNpwp = Number(sm.tax_rate_npwp), taxNo = Number(sm.tax_rate_no_npwp);
+
+    const termsList = [
+      'Hanya pembelian di app 20FIT yang dihitung, bukan web, kasir Cafe, atau Clinic.',
+      'Akun pembeli baru maupun lama sama-sama dihitung. Pembelian lewat link sendiri tidak dihitung.',
+      `Komisi ditahan ${days} hari setelah pembayaran lunas. Refund di masa itu membatalkan komisinya.`,
+      `Klaim mulai ${f(MIN)} saldo Tersedia, dibayar lewat transfer bank.`,
+      '20FIT bisa mengubah rate untuk transaksi berikutnya atau menghentikan program.'
     ];
-    const pf = s.profile, rate = pf && pf.npwp ? 0.025 : 0.03, tax = Math.floor(avail * rate);
-    const g = s.joined ? this.grid() : { ...this.grid(), max: '760px' };
-    const setP = p => () => this.setState({ period: p });
-    const setL = l => () => this.setState({ layout: l });
+    const summaryLines = String(S.termsSummary || '').split(/\n+/).map(x => x.replace(/^[-•*]\s*/, '').trim()).filter(Boolean);
+    const t = {
+      heroTitle: `Dapat ${rate} dari setiap pembelian di app lewat link-mu.`,
+      stepEarn: `${rate} dari yang dibayar pembeli, untuk setiap transaksi di app lewat link-mu.`,
+      joinedSub: `${rate} dari setiap transaksi di app 20FIT lewat link produkmu.`,
+      termsList: termsList.map(text => ({ text })), consentList: (summaryLines.length ? summaryLines : termsList).map(text => ({ text })),
+      termsVersion: S.termsVersion || '', termsUrl: S.termsUrl || '#', hasTermsUrl: !!S.termsUrl,
+      agreeLabel: `Saya sudah membaca dan setuju dengan S&K Affiliate ${S.termsVersion || ''}.`,
+      consentLabel: `Saya setuju dengan S&K Affiliate ${S.termsVersion || ''}`,
+      consentTitle: `S&K Affiliate ${S.termsVersion || ''}`,
+      readTermsLabel: `Baca S&K Affiliate lengkap (${S.termsVersion || ''})`,
+      updatedLabel: `S&K Affiliate diperbarui (${S.termsVersion || ''})`
+    };
+
+    // notices at the top of the page
+    let note = { show: false, title: '', body: '', reload: false, hasSupport: false };
+    if (s.error) note = { show: true, title: 'Data belum bisa dimuat', body: s.error, reload: true, hasSupport: false };
+    else if (suspended) note = { show: true, title: 'Akun affiliate kamu sedang dinonaktifkan', body: 'Data tetap bisa dilihat, tapi klaim dan link baru tidak tersedia untuk sementara.' + (L.support ? '' : ' Hubungi tim affiliate 20FIT untuk info lebih lanjut.'), reload: false, hasSupport: !!L.support };
+    else if (paused) note = { show: true, title: s.joined ? 'Program affiliate sedang dijeda' : 'Pendaftaran affiliate sedang ditutup', body: s.joined ? 'Link baru belum bisa dibuat. Komisi yang sudah tercatat tetap aman dan bisa diklaim.' : 'Kamu belum bisa bergabung sekarang. Coba lagi nanti.', reload: false, hasSupport: false };
+
+    // balance
+    let bnote;
+    if (suspended) bnote = 'Klaim tidak tersedia selama akun dinonaktifkan.';
+    else if (active) bnote = 'Satu klaim dalam satu waktu. Kamu bisa klaim lagi setelah klaim ini dibayar.';
+    else if (sm.claim_blocker === 'adjustments_exceed_balance') bnote = 'Saldo masih habis untuk potongan refund setelah pencairan.';
+    else if (avail >= MIN) bnote = 'Dibayar lewat transfer bank ke rekening atas namamu.';
+    else if (avail > 0) bnote = `Klaim bisa diajukan setelah saldo Tersedia mencapai ${f(MIN)}.`;
+    else bnote = `Komisi jadi Tersedia ${days} hari setelah pembelian lunas, kalau tidak direfund.`;
+    const TX = { held: ['Tertahan', 'tag tag-neutral'], available: ['Tersedia', 'tag tag-accent'], claimed: ['Diklaim', 'tag tag-outline'], paid: ['Dibayar', 'tag tag-neutral'], cancelled: ['Batal', 'tag tag-neutral'] };
+    const CL = { submitted: ['Diajukan', 'tag tag-outline'], processing: ['Diproses', 'tag tag-outline'], paid: ['Dibayar', 'tag tag-accent'], rejected: ['Ditolak', 'tag tag-neutral'] };
+    const REASON = { refund: 'Direfund', refunded: 'Direfund', self_purchase: 'Pembelian lewat link sendiri', product_mismatch: 'Produk berbeda dari link', product_inactive: 'Produk tidak aktif', affiliate_inactive: 'Akun affiliate tidak aktif', link_inactive: 'Link dinonaktifkan', program_paused: 'Program sedang dijeda' };
+    const reason = r => REASON[r] || (r ? 'Dibatalkan' : '');
+    const acct = c => c.bank ? `${c.bank} ${c.account}` : '';
+    const claimDetail = c => c.status === 'paid' ? `Ref ${c.transferRef || '–'} · dibayar ${fd(c.paidAt)}`
+      : c.status === 'rejected' ? (c.rejectReason || 'Ditolak')
+      : c.status === 'processing' ? (c.estimatedTransfer ? `Perkiraan transfer ${fd(c.estimatedTransfer)}` : 'Sedang diproses tim finance 20FIT')
+      : 'Menunggu dicek tim finance 20FIT';
+
+    // purchases (all, or one link)
+    const txSource = s.txFilter ? (s.filtered || []) : s.commissions;
+    const txRows = txSource.map(x => ({ who: x.buyer || '–', product: x.product, date: fd(x.at), amount: f(x.amount), label: (TX[x.status] || [x.status, 'tag tag-neutral'])[0], cls: (TX[x.status] || ['', 'tag tag-neutral'])[1],
+      note: x.status === 'cancelled' ? reason(x.cancelReason) : x.status === 'held' ? `Tersedia ${fd(x.availableAt)}` : '', op: x.status === 'cancelled' ? 0.6 : 1, deco: x.status === 'cancelled' ? 'line-through' : 'none' }));
+    const totalOpens = s.links.reduce((a, l) => a + l.opens, 0);
+    let txEmpty;
+    if (s.txFilter) txEmpty = 'Belum ada pembelian lewat link ini.';
+    else if (!s.links.length) txEmpty = 'Belum ada link. Pilih produk di Link saya, lalu bagikan ke temanmu.';
+    else if (!totalOpens) txEmpty = 'Link-mu belum pernah dibuka di app. Pembelian lewat link-mu akan muncul di sini.';
+    else txEmpty = 'Link-mu sudah dibuka, tapi belum ada pembelian. Pembelian di app lewat link-mu akan muncul di sini.';
+
+    const claimRows = s.claims.map(c => ({ id: this.claimNo(c), date: fd(c.submittedAt), amount: f(c.gross), net: 'Diterima ' + f(c.net), label: (CL[c.status] || [c.status])[0], cls: (CL[c.status] || ['', 'tag tag-neutral'])[1],
+      detail: claimDetail(c), hasProof: c.status === 'paid' && c.hasProof, proofHref: '/api/affiliate/claims/' + c.id + '/proof' }));
+    const activity = [
+      ...s.commissions.map(x => ({ d: x.at, icon: x.status === 'cancelled' ? 'ph ph-arrow-u-up-left' : 'ph ph-arrow-down-left', title: `${x.buyer} · ${x.product}`, sub: `${fd(x.at)} · ${x.status === 'cancelled' ? reason(x.cancelReason) : 'Komisi'}`, amount: (x.status === 'cancelled' ? '' : '+') + f(x.amount), label: (TX[x.status] || [''])[0], cls: (TX[x.status] || ['', ''])[1], op: x.status === 'cancelled' ? 0.6 : 1 })),
+      ...s.claims.map(c => ({ d: c.submittedAt, icon: 'ph ph-bank', title: `${this.claimNo(c)} · diterima ${f(c.net)}`, sub: `${fd(c.submittedAt)} · ${claimDetail(c)}`, amount: f(c.gross), label: (CL[c.status] || [''])[0], cls: (CL[c.status] || ['', ''])[1], op: 1 })),
+      ...s.adjustments.map(a => ({ d: a.at, icon: 'ph ph-arrows-left-right', title: 'Penyesuaian · ' + (a.reason || 'refund setelah pencairan'), sub: fd(a.at), amount: f(a.amount), label: a.applied ? 'Dipotong' : 'Menunggu klaim', cls: 'tag tag-neutral', op: 1 }))
+    ].sort((a, b) => String(b.d).localeCompare(String(a.d)));
+
+    // performance
+    const P = { '7': '7 hari terakhir', '30': '30 hari terakhir', all: 'sepanjang waktu' };
+    const tot = k => s.links.reduce((a, l) => a + (Number(l[k]) || 0), 0);
+    const opens = tot('opens'), buyers = tot('buyers'), txs = tot('transactions'), comm = tot('commission');
+    const rel = (a, b) => b ? (Math.round(a / b * 1000) / 10).toLocaleString('id-ID') + '%' : '–';
+    const w = v => opens ? Math.max(2, Math.round(Math.sqrt(v / opens) * 100)) + '%' : '2%';
+    const perfRows = [
+      { label: 'Dibuka di app', value: opens.toLocaleString('id-ID'), sub: '', w: '100%' },
+      { label: 'Pembeli', value: buyers.toLocaleString('id-ID'), sub: rel(buyers, opens), w: w(buyers) },
+      { label: 'Transaksi', value: txs.toLocaleString('id-ID'), sub: '', w: w(txs) }
+    ];
+    const perfLinks = [...s.links].sort((a, b) => b.commission - a.commission || b.opens - a.opens).map(l => ({
+      product: l.product, opens: l.opens.toLocaleString('id-ID'), buyers: l.buyers.toLocaleString('id-ID'), transactions: l.transactions.toLocaleString('id-ID'), commission: f(l.commission), open: () => this.openDetail(l) }));
+    let perfEmpty = null;
+    if (!s.links.length) perfEmpty = ['Belum ada link.', 'Pilih produk di Link saya, lalu bagikan. Link yang dibuka, pembeli, dan transaksi akan muncul di sini.'];
+    else if (!opens && !txs) perfEmpty = ['Belum ada yang membuka link-mu ' + (s.period === 'all' ? 'sejauh ini.' : 'di periode ini.'), 'Bagikan link-mu lewat WhatsApp atau media sosial. Data muncul setelah link dibuka di app 20FIT.'];
+
+    let detail = { show: false };
+    if (s.detail) {
+      const rows = s.detail.rows || [];
+      const maxO = Math.max(1, ...rows.map(r => r.opens)), maxT = Math.max(1, ...rows.map(r => r.transactions));
+      const sumO = rows.reduce((a, r) => a + r.opens, 0), sumT = rows.reduce((a, r) => a + r.transactions, 0), sumC = rows.reduce((a, r) => a + r.commission, 0);
+      detail = { show: true, product: s.detail.product, loading: !s.detail.rows, ready: !!s.detail.rows,
+        sub: s.detail.rows ? `${sumO} dibuka · ${sumT} transaksi · ${f(sumC)} komisi · ${P[s.period === 'all' ? 'all' : s.period].replace('sepanjang waktu', '90 hari terakhir')}` : '',
+        aria: `Grafik harian: ${sumO} kali dibuka, ${sumT} transaksi`,
+        range: rows.length ? `${fd(rows[0].day)} – ${fd(rows[rows.length - 1].day)}` : '',
+        days: rows.map(r => ({ tip: `${fd(r.day)}: ${r.opens} dibuka, ${r.transactions} transaksi, ${f(r.commission)}`,
+          hOpen: Math.round(r.opens / maxO * 60) + '%', minOpen: r.opens ? '3px' : '0', hTx: Math.round(r.transactions / maxT * 35) + '%', minTx: r.transactions ? '3px' : '0' })),
+        showPurchases: () => this.showPurchases(s.detail.id, s.detail.product) };
+    }
+
+    // link sharing
+    const canShare = s.joined && !paused && !suspended;
+    const share = {
+      rateLabel: `${rate} per transaksi`,
+      hint: canShare ? 'Pilih produk, lalu bagikan link-nya. Komisi dihitung dari pembelian produk itu di app lewat link-mu.' : 'Link baru belum bisa dibuat saat ini.',
+      products: s.products.map(p => {
+        const on = s.share.slug === p.slug;
+        return { label: p.name, pressed: on ? 'true' : 'false', disabled: !canShare || s.share.loading,
+          bg: on ? 'var(--color-accent)' : 'rgba(255,255,255,.58)', color: on ? '#ffffff' : 'var(--color-text)',
+          shadow: on ? '0 0 14px color-mix(in srgb, var(--color-accent) 40%, transparent)' : 'inset 0 1px 0 rgba(255,255,255,.95), inset 0 0 0 1px rgba(20,20,20,.07)',
+          pick: () => this.pickProduct(p.slug) };
+      }),
+      loading: s.share.loading, hasLink: !!s.share.url && !s.share.loading, url: s.share.url, product: s.share.product,
+      wa: 'https://wa.me/?text=' + encodeURIComponent(`Cek ${s.share.product} di app 20FIT lewat link ini: ${s.share.url}`),
+      canEdit: !!(s.aff && s.aff.codeChangeable) && !s.editingCode && !suspended, editing: s.editingCode,
+      note: s.aff && !s.aff.codeChangeable ? 'Kode sudah pernah diganti dan tidak bisa diganti lagi. Link lama dengan kode sebelumnya tidak berlaku lagi.' : 'Kode ada di setiap link-mu dan bisa diganti sekali. Setelah diganti, link dengan kode lama tidak berlaku lagi.'
+    };
+
+    const pf = s.profile;
+    const preview = s.preview || {};
+    const taxRate = Number(preview.tax_rate);
+    const setP = p => () => { if (p !== s.period) this.run(async () => { await this.loadLinks(p); if (this.state.detail) await this.openDetail({ id: this.state.detail.id, product: this.state.detail.product }); }); };
     const onF = {};
     ['name', 'nik', 'npwp', 'bank', 'acct', 'holder'].forEach(k => {
       onF[k] = e => { let v = e.target.value; if (['nik', 'npwp', 'acct'].includes(k)) v = v.replace(/\D/g, ''); this.setState(st => ({ form: { ...st.form, [k]: v }, errors: { ...st.errors, [k]: '' } })); };
     });
-    const nextAfterTerms = () => !this.state.profile ? 'payout' : 'summary';
-    const wa = 'https://wa.me/?text=' + encodeURIComponent(`Join me on 20FIT! Download the app and sign up with my code ${s.code}: https://20fit.id/r/${s.code}`);
+    const latestRejected = latest && latest.status === 'rejected';
+    const claimDisabled = this.state.busy || suspended || !!active || !sm.can_claim;
+
     return {
-      rootRef: this.rootRef, g, scenario: s.scenario,
-      onScenario: e => this.setState(this.initState(e.target.value)),
-      layA: s.layout === 'A', layB: s.layout === 'B', layC: s.layout === 'C', setLayA: setL('A'), setLayB: setL('B'), setLayC: setL('C'),
-      termsBanner: s.termsBanner, toggleBanner: () => this.setState(st => ({ termsBanner: !st.termsBanner, termsAccepted: false })),
-      notJoined: !s.joined, joined: s.joined, agreed: s.agreed, joinDisabled: !s.agreed,
+      rootRef: this.rootRef, g: s.joined ? this.grid() : { ...this.grid(), max: '760px' }, t, note, links: { support: L.support || '#', hasSupport: !!L.support },
+      reload: () => location.reload(),
+      notJoined: !s.joined && !s.error, joined: s.joined, agreed: s.agreed, joinDisabled: !s.agreed || paused || s.busy,
+      joinLabel: paused ? 'Pendaftaran sedang ditutup' : 'Gabung jadi affiliate',
       toggleAgree: () => this.setState(st => ({ agreed: !st.agreed })),
-      join: () => { this.setState({ joined: true, tx: [], claims: [], profile: null, form: this.emptyForm(null), scenario: s.scenario }); this.flash(`You're in. Your code is ${s.code}.`); },
-      showTermsBanner: needTerms, openConsent: () => this.setState({ dialog: 'consent', claimFlow: false, consentChecked: false }),
-      showRejected: latest && latest.status === 'rejected' && !s.rejectDismissed,
-      rejected: latest && latest.status === 'rejected' ? { title: `Claim ${latest.id} of ${f(latest.amount)} was rejected`, reason: latest.reason } : { title: '', reason: '' },
+      join: () => this.run(async () => { await this.api('POST', 'join', { agree: true }); await this.refresh(); this.flash('Selamat bergabung! Pilih produk dan bagikan link pertamamu.'); }),
+      showTermsBanner: s.joined && needTerms,
+      openConsent: () => this.setState({ dialog: 'consent', claimFlow: false, consentChecked: false }),
+      showRejected: latestRejected && !s.rejectDismissed,
+      rejected: latestRejected ? { title: `${this.claimNo(latest)} sebesar ${f(latest.gross)} ditolak.`, reason: latest.rejectReason || '' } : { title: '', reason: '' },
       dismissRejected: () => this.setState({ rejectDismissed: true }),
-      openPayoutEdit: () => this.setState({ dialog: 'payout', claimFlow: false, form: this.emptyForm(this.state.profile), errors: {} }),
-      bal: { available: f(avail), held: f(held), paid: f(paid), showProgress: !active && avail < MIN, pct: Math.min(100, avail / MIN * 100) + '%', toGo: avail > 0 ? `${f(MIN - avail)} more to claim` : 'Rp50.000 to go', claimDisabled: active || avail < MIN, claimLabel: avail >= MIN && !active ? `Claim ${f(avail)}` : 'Claim', note },
-      ac: active ? { show: true, id: active.id, label: CL[active.status][0], net: f(active.net), detail: claimDetail(active) + ` · to ${pf ? pf.bank + ' ••••' + pf.acct.slice(-4) : ''}` } : { show: false },
-      startClaim: () => this.setState({ dialog: needTerms ? 'consent' : nextAfterTerms(), claimFlow: true, consentChecked: false, form: this.emptyForm(this.state.profile), errors: {} }),
-      code: s.code, codeDraft: s.codeDraft, codeError: s.codeError,
-      share: { canEdit: !s.codeEdited && !s.editingCode, viewing: !s.editingCode, editing: s.editingCode, wa, note: s.codeEdited ? "You've changed your code once. It can't be changed again." : 'You can change your code once.' },
-      startEditCode: () => this.setState({ editingCode: true, codeDraft: s.code, codeError: '' }),
+      openPayoutEdit: () => this.setState({ dialog: 'payout', claimFlow: false, form: this.emptyForm(pf), errors: {} }),
+      bal: { available: f(avail), held: f(held), paid: f(paid), minLabel: 'Minimum ' + f(MIN), heldNote: `Jadi Tersedia ${days} hari setelah lunas`,
+        showProgress: !active && avail < MIN, pct: Math.min(100, MIN ? avail / MIN * 100 : 100) + '%', toGo: `${f(Math.max(MIN - avail, 0))} lagi untuk bisa klaim`,
+        claimDisabled, claimLabel: !claimDisabled ? `Klaim ${f(avail)}` : 'Klaim', note: bnote },
+      ac: active ? { show: true, id: this.claimNo(active), label: CL[active.status][0], net: f(active.net), detail: claimDetail(active) + (acct(active) ? ` · ke ${acct(active)}` : '') } : { show: false },
+      startClaim: () => this.run(async () => {
+        if (needTerms) return this.setState({ dialog: 'consent', claimFlow: true, consentChecked: false });
+        if (!this.state.profile) return this.setState({ dialog: 'payout', claimFlow: true, form: this.emptyForm(null), errors: {} });
+        await this.openSummary();
+      }),
+      code: s.aff ? s.aff.code : '', codeDraft: s.codeDraft, codeError: s.codeError, share, busy: s.busy,
+      startEditCode: () => this.setState({ editingCode: true, codeDraft: s.aff ? s.aff.code : '', codeError: '' }),
       onCodeDraft: e => this.setState({ codeDraft: e.target.value.toUpperCase().replace(/[^A-Z0-9]/g, ''), codeError: '' }),
       cancelCode: () => this.setState({ editingCode: false }),
       saveCode: () => {
         const c = this.state.codeDraft;
-        if (!/^[A-Z0-9]{4,12}$/.test(c)) return this.setState({ codeError: 'Use 4–12 letters or numbers.' });
-        if (['20FIT', 'ARENA', 'GYMFIT', 'PROMO'].includes(c)) return this.setState({ codeError: 'That code is taken. Try another.' });
-        if (c === this.state.code) return this.setState({ editingCode: false });
-        this.setState({ code: c, codeEdited: true, editingCode: false }); this.flash('Code updated');
+        if (!/^[A-Z0-9]{4,12}$/.test(c)) return this.setState({ codeError: 'Pakai 4–12 huruf atau angka.' });
+        if (s.aff && c === s.aff.code) return this.setState({ editingCode: false });
+        this.setState({ busy: true });
+        this.api('POST', 'code', { code: c })
+          .then(() => { this.setState({ editingCode: false, share: { slug: '', url: '', product: '', loading: false } }); this.flash('Kode diganti. Buat ulang link yang mau kamu bagikan.'); return this.refresh(); })
+          .catch(e => this.setState({ codeError: e.message }))
+          .finally(() => this.setState({ busy: false }));
       },
-      copyCode: () => this.copy(s.code, 'Code copied'), copyLink: () => this.copy('https://20fit.id/r/' + s.code, 'Link copied'), downloadQr: () => this.flash('QR code downloaded'),
-      p7: s.period === '7d', p30: s.period === '30d', pAll: s.period === 'all', setP7: setP('7d'), setP30: setP('30d'), setPAll: setP('all'),
-      perf: { empty: !hasData, has: hasData, rows: perfRows, comm: f(comm), periodLabel: P[4] },
-      tabs: [['tx', 'Transactions'], ['claims', 'Claims'], ['payout', 'Payout details']].map(([k, l]) => ({ label: l, color: s.tab === k ? 'var(--color-text)' : 'var(--color-neutral-400)', shadow: s.tab === k ? 'inset 0 -2px 0 var(--color-accent)' : 'none', on: () => this.setState({ tab: k }) })),
-      txEmpty: !s.tx.length, txHas: s.tx.length > 0, txRows,
+      copyLink: () => s.share.url && this.copy(s.share.url, 'Link disalin'),
+      downloadQr: () => this.downloadQr(),
+      p7: s.period === '7', p30: s.period === '30', pAll: s.period === 'all', setP7: setP('7'), setP30: setP('30'), setPAll: setP('all'),
+      perf: { empty: !!perfEmpty, has: !perfEmpty, emptyTitle: perfEmpty ? perfEmpty[0] : '', emptyBody: perfEmpty ? perfEmpty[1] : '',
+        rows: perfRows, comm: f(comm), periodLabel: P[s.period], links: perfLinks },
+      detail, closeDetail: () => this.setState({ detail: null }),
+      tx: { filtered: !!s.txFilter, filterLabel: s.txFilter ? 'Link: ' + s.txFilter.product : '', empty: txEmpty },
+      clearFilter: () => this.setState({ txFilter: null, filtered: null }),
+      tabs: [],
+      txEmpty: !txRows.length, txHas: txRows.length > 0, txRows,
       claimsEmpty: !s.claims.length, claimsHas: s.claims.length > 0, claimRows,
+      claimsEmptyText: `Belum ada klaim. Kamu bisa klaim setelah saldo Tersedia mencapai ${f(MIN)}.`,
       activity, actEmpty: !activity.length,
-      payout: { has: !!pf, none: !pf, rows: pf ? [{ k: 'Name (KTP)', v: pf.name }, { k: 'NIK', v: pf.nik.slice(0, 4) + ' •••• •••• ' + pf.nik.slice(-4) }, { k: 'NPWP', v: pf.npwp ? '••••••••••' + pf.npwp.slice(-4) : 'Not provided' }, { k: 'Bank', v: pf.bank }, { k: 'Account number', v: '•••• ' + pf.acct.slice(-4) }, { k: 'Account holder', v: pf.holder }] : [] },
-      termsLine: s.termsAccepted ? 'v2.0 · accepted 8 Oct 2026' : 'v1.0 · accepted 12 Jun 2026',
+      payout: { has: !!pf, none: !pf, rows: pf ? [{ k: 'Nama (KTP)', v: pf.ktp_name }, { k: 'NIK', v: pf.nik }, { k: 'NPWP', v: pf.has_npwp ? 'Terdaftar' : 'Tidak ada' }, { k: 'Bank', v: pf.bank_name }, { k: 'Nomor rekening', v: pf.account_no }, { k: 'Pemilik rekening', v: pf.account_holder }] : [] },
+      termsLine: s.aff ? `S&K ${s.aff.termsVersion || '–'}${s.aff.termsAcceptedAt ? ' · disetujui ' + fd(s.aff.termsAcceptedAt) : ''}` : '',
       dlg: { open: !!s.dialog, consent: s.dialog === 'consent', payout: s.dialog === 'payout', summary: s.dialog === 'summary', done: s.dialog === 'done' },
       backdrop: e => { if (e.target === e.currentTarget) this.setState({ dialog: null }); },
       closeDialog: () => this.setState({ dialog: null }),
-      consentChecked: s.consentChecked, consentDisabled: !s.consentChecked, toggleConsent: () => this.setState(st => ({ consentChecked: !st.consentChecked })),
-      consentCta: s.claimFlow ? 'Accept and continue' : 'Accept',
-      acceptTerms: () => { const flow = this.state.claimFlow; this.setState({ termsAccepted: true, dialog: flow ? nextAfterTerms() : null }); if (!flow) this.flash('Terms v2.0 accepted'); },
+      consentChecked: s.consentChecked, consentDisabled: !s.consentChecked || s.busy, toggleConsent: () => this.setState(st => ({ consentChecked: !st.consentChecked })),
+      consentCta: s.claimFlow ? 'Setujui dan lanjut' : 'Setujui',
+      acceptTerms: () => this.run(async () => {
+        await this.api('POST', 'accept-terms', {});
+        await this.refresh();
+        if (!this.state.claimFlow) { this.setState({ dialog: null }); return this.flash('S&K disetujui'); }
+        if (!this.state.profile) return this.setState({ dialog: 'payout', form: this.emptyForm(null), errors: {} });
+        await this.openSummary();
+      }),
       form: s.form, err: s.errors, onF,
-      taxHint: s.form.npwp ? 'With NPWP, PPh 21 is withheld at an estimated 2.5%.' : 'Without NPWP, PPh 21 is withheld at a higher estimated rate (3%).',
-      payoutCta: s.claimFlow ? 'Save and continue' : 'Save',
+      taxHint: (taxNpwp || taxNo) ? (s.form.npwp ? `Dengan NPWP, PPh 21 dipotong sekitar ${this.pct(taxNpwp)}.` : `Tanpa NPWP, PPh 21 dipotong lebih tinggi, sekitar ${this.pct(taxNo)}.`) : 'PPh 21 dipotong saat klaim sesuai ketentuan.',
+      payoutCta: s.claimFlow ? 'Simpan dan lanjut' : 'Simpan',
       savePayout: () => {
         const e = this.validate(this.state.form);
         if (Object.keys(e).length) return this.setState({ errors: e });
-        const flow = this.state.claimFlow;
-        this.setState({ profile: { ...this.state.form }, dialog: flow ? 'summary' : null, rejectDismissed: true });
-        if (!flow) this.flash('Payout details saved');
+        const fm = this.state.form;
+        this.run(async () => {
+          const r = await this.api('POST', 'payout-profile', { name: fm.name, nik: fm.nik, npwp: fm.npwp, bank: fm.bank, account: fm.acct, holder: fm.holder });
+          this.setState({ profile: r.profile, rejectDismissed: true, form: this.emptyForm(r.profile) });
+          if (this.state.claimFlow) { await this.refresh(); await this.openSummary(); }
+          else { this.setState({ dialog: null }); this.flash('Data pencairan tersimpan'); }
+        });
       },
-      sum: { gross: f(avail), tax: '−' + f(tax), net: f(avail - tax), taxLabel: `PPh 21 withholding (${pf && pf.npwp ? '2.5%, with NPWP' : '3%, no NPWP'})`, account: pf ? `${pf.bank} •••• ${pf.acct.slice(-4)}` : '', holder: pf ? pf.holder : '' },
-      editFromSummary: () => this.setState({ dialog: 'payout', claimFlow: true, form: this.emptyForm(this.state.profile), errors: {} }),
-      submitClaim: () => this.setState(st => ({
-        dialog: 'done', rejectDismissed: true,
-        tx: st.tx.map(x => x.status === 'available' ? { ...x, status: 'claimed' } : x),
-        claims: [{ id: 'CLM-0447', d: '2026-10-08', amount: avail, tax, net: avail - tax, status: 'submitted' }, ...st.claims]
-      })),
-      doneText: `${f(avail - tax)} will be transferred to ${pf ? pf.bank + ' •••• ' + pf.acct.slice(-4) : 'your account'}. We'll notify you when it's paid.`,
+      sum: { gross: f(preview.gross), tax: '−' + f(preview.tax), net: f(preview.net),
+        taxLabel: `Potongan PPh 21 (${taxRate ? this.pct(taxRate) : '–'}${preview.payout_profile ? (preview.payout_profile.has_npwp ? ', dengan NPWP' : ', tanpa NPWP') : ''})`,
+        hasAdjustment: Number(preview.adjustments) !== 0 && preview.adjustments != null, adjustment: f(preview.adjustments),
+        account: preview.payout_profile ? `${preview.payout_profile.bank_name} ${preview.payout_profile.account_no}` : '', holder: preview.payout_profile ? preview.payout_profile.account_holder : '' },
+      editFromSummary: () => this.setState({ dialog: 'payout', claimFlow: true, form: this.emptyForm(pf), errors: {} }),
+      submitClaim: () => this.run(async () => {
+        const r = await this.api('POST', 'claim', {});
+        const c = r.claim;
+        this.setState({ dialog: 'done', rejectDismissed: true, doneText: `${f(c.net)} akan ditransfer ke ${c.bank ? c.bank + ' ' + c.account : 'rekeningmu'}. Status klaim ${this.claimNo(c)} bisa kamu pantau di Riwayat klaim.` });
+        await this.refresh();
+      }),
+      doneText: s.doneText,
       hasToast: !!s.toast, toast: s.toast
     };
   }

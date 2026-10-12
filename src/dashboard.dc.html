@@ -1,0 +1,5956 @@
+<!DOCTYPE html>
+<html><head>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800;900&family=Manrope:wght@200..800&display=swap">
+<script src="22b0d1ad-ff48-436c-b221-9a4fc2957f0b"></script>
+</head>
+<body>
+<noscript><div style="max-width:520px;margin:48px auto;padding:0 20px;font:15px/1.55 system-ui,sans-serif;color:#141414"><h1 style="font-size:24px">Dashboard butuh JavaScript</h1><p>Aktifkan JavaScript di browser kamu untuk melihat dashboard affiliate. <a href="/logout">Keluar</a></p></div></noscript>
+<style>x-dc{display:none}</style>
+<x-dc>
+<helmet>
+<style>/* Nocturne — design-system tokens and component classes. This file is the source of truth for the system's look; retune it here and see readme.md. */
+/* cyrillic-ext */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("11130e39-cbab-438a-aa10-d48a91e9808a") format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("5018c486-4547-4225-a84b-2dbf61490e65") format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* greek-ext */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("a57070ae-1815-4e26-a4b7-73500c53a402") format('woff2');
+  unicode-range: U+1F00-1FFF;
+}
+/* greek */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("34655aae-a3bd-48d6-bc21-fde2a1f61c01") format('woff2');
+  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("ef5fe42f-eebb-4921-9dd0-1400d29634f9") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("5e1f70a0-7a73-4d36-b8d5-5f6ea18a362f") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("9d49d1d6-8ba6-4e5a-8723-4a5567ab5919") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("11130e39-cbab-438a-aa10-d48a91e9808a") format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("5018c486-4547-4225-a84b-2dbf61490e65") format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* greek-ext */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("a57070ae-1815-4e26-a4b7-73500c53a402") format('woff2');
+  unicode-range: U+1F00-1FFF;
+}
+/* greek */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("34655aae-a3bd-48d6-bc21-fde2a1f61c01") format('woff2');
+  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("ef5fe42f-eebb-4921-9dd0-1400d29634f9") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("5e1f70a0-7a73-4d36-b8d5-5f6ea18a362f") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("9d49d1d6-8ba6-4e5a-8723-4a5567ab5919") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("11130e39-cbab-438a-aa10-d48a91e9808a") format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("5018c486-4547-4225-a84b-2dbf61490e65") format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* greek-ext */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("a57070ae-1815-4e26-a4b7-73500c53a402") format('woff2');
+  unicode-range: U+1F00-1FFF;
+}
+/* greek */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("34655aae-a3bd-48d6-bc21-fde2a1f61c01") format('woff2');
+  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("ef5fe42f-eebb-4921-9dd0-1400d29634f9") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("5e1f70a0-7a73-4d36-b8d5-5f6ea18a362f") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("9d49d1d6-8ba6-4e5a-8723-4a5567ab5919") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("11130e39-cbab-438a-aa10-d48a91e9808a") format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("5018c486-4547-4225-a84b-2dbf61490e65") format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* greek-ext */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("a57070ae-1815-4e26-a4b7-73500c53a402") format('woff2');
+  unicode-range: U+1F00-1FFF;
+}
+/* greek */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("34655aae-a3bd-48d6-bc21-fde2a1f61c01") format('woff2');
+  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("ef5fe42f-eebb-4921-9dd0-1400d29634f9") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("5e1f70a0-7a73-4d36-b8d5-5f6ea18a362f") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("9d49d1d6-8ba6-4e5a-8723-4a5567ab5919") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+
+:root {
+  --color-bg: #161826;
+  --color-surface: #232532;
+  --color-text: #e9e9ed;
+  --color-accent: #9184d9; /* review round 7 (Barron): the accent moves to
+     the product's blurple — OKLCH hue 289.2, the hue of the app's own Pro
+     accent (#9a8fe0, --om-accent-pro) — at the same lightness the steel
+     accent held (L 0.660, so the documented ratios survive) and chroma
+     in the product blurple's own range (its token sits at C 0.118; the
+     accent takes 0.125, from the old steel's 0.030):
+     the accent now reads as an accent rather than another neutral. */
+  --color-accent-2: #a7a1db; /* the machine-derived stand-in follows: same
+     hue, same L 0.734, chroma at the same 2:3 proportion it held */
+  --color-divider: color-mix(in srgb, #e9e9ed 16%, transparent);
+
+  /* Tonal ramps — generated in OKLCH on one shared lightness scale, so the
+     same step of any role matches the others in visual value. */
+  --color-neutral-100: #f3f5fe;
+  --color-neutral-200: #e4e7f5;
+  --color-neutral-300: #cfd3e5;
+  --color-neutral-400: #b2b6ca;
+  --color-neutral-500: #9397ab;
+  --color-neutral-600: #75798c;
+  --color-neutral-700: #595d6c;
+  --color-neutral-800: #3f424d;
+  --color-neutral-900: #292b31;
+
+  --color-accent-100: #f5f4ff;
+  --color-accent-200: #e7e5fe;
+  --color-accent-300: #d2cefd;
+  --color-accent-400: #b5abfc;
+  --color-accent-500: #968ae0;
+  --color-accent-600: #796cbf;
+  --color-accent-700: #5d5294;
+  --color-accent-800: #423a6a;
+  --color-accent-900: #2b2741;
+
+  --color-accent-2-100: #f5f4ff;
+  --color-accent-2-200: #e7e5fe;
+  --color-accent-2-300: #d2cefd;
+  --color-accent-2-400: #b5afe8;
+  --color-accent-2-500: #9690c9;
+  --color-accent-2-600: #7972a9;
+  --color-accent-2-700: #5c5783;
+  --color-accent-2-800: #423e5d;
+  --color-accent-2-900: #2b293a;
+
+  /* Deck section-divider ground — review round 3: saturation as presence.
+     Dividers take a saturated deep indigo (hue 277, the neutral ramp's own
+     family; C 0.094 — written when the accent held C 0.030, before the
+     round-7 blurple raised it past the ground's) with a lighter bloom and
+     a ghost tint of the same hue, while the slide grounds stay
+     desaturated. Deck-scale fills only — not interface colors. */
+  --color-section: #262a60;
+  --color-section-glow: #353b80;
+  --color-section-ghost: #4c5397;
+
+  --font-heading: "Barlow Condensed", "Arial Narrow", system-ui, sans-serif;
+  --font-heading-weight: 700;
+  --font-body: "Manrope", system-ui, sans-serif;
+
+  --space-1: 2.8px;
+  --space-2: 5.6px;
+  --space-3: 8.4px;
+  --space-4: 11.2px;
+  --space-6: 16.8px;
+  --space-8: 22.4px;
+
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 14px;
+
+  /* Elevation — derived from the ground: soft ink-tinted shadows on a
+     light theme, a hairline edge + ambient darkness on a dark one. */
+  --shadow-sm: 0 0 0 1px #3f424d;
+  --shadow-md: 0 0 0 1px #595d6c, 0 6px 18px rgba(0,0,0,0.55);
+  --shadow-lg: 0 0 0 1px #9397ab, 0 16px 40px rgba(0,0,0,0.65);
+}
+
+body {
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-body);
+}
+h1, h2, h3, h4 { font-family: var(--font-heading); font-weight: var(--font-heading-weight); }
+
+.lighten{mix-blend-mode:lighten;background-color:transparent}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   Components — built with the tokens above. Plain CSS
+   on plain HTML: no JavaScript, no build step. Each class is documented in
+   readme.md and demonstrated in foundations/ and components/.
+   ══════════════════════════════════════════════════════════════════════ */
+
+*, *::before, *::after { box-sizing: border-box; }
+body { margin: 0; font-size: 15px; line-height: 1.55; font-weight: 400; }
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading); font-weight: var(--font-heading-weight);
+  line-height: 1.12; letter-spacing: -0.015em; margin: 0 0 var(--space-2);
+}
+h1 { font-size: 42px; }
+h2 { font-size: 32px; }
+h3 { font-size: 25px; }
+h4 { font-size: 20px; }
+h5 { font-size: 16px; }
+h6 { font-size: 13px; }
+h6 { letter-spacing: 0.08em; text-transform: uppercase; }
+p { margin: 0 0 var(--space-3); }
+a { color: var(--color-accent); text-underline-offset: 3px; }
+img { display: block; max-width: 100%; }
+figure { margin: 0; }
+figcaption {
+  font-size: 11px; margin-top: var(--space-1);
+  color: color-mix(in srgb, var(--color-text) 55%, transparent);
+}
+.text-muted { color: color-mix(in srgb, var(--color-text) 55%, transparent); }
+:focus { outline: none; }
+:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+::selection { background: color-mix(in srgb, var(--color-accent) 30%, transparent); }
+
+/* — rules — */
+/* Rules fade to transparent at both ends instead of stopping cleanly — a
+   Nocturne signature. The ramp is 48px an end (one deck baseline unit),
+   painted from the same divider token. Freestanding rules fade; box
+   outlines, in-control separators, and short accent marks stay solid. */
+.hr {
+  height: 1px; border: 0; margin: var(--space-4) 0;
+  background: linear-gradient(to right,
+    transparent, var(--color-divider) 48px,
+    var(--color-divider) calc(100% - 48px), transparent);
+}
+
+/* — buttons — */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+  cursor: pointer; text-decoration: none;
+  font-family: var(--font-heading); font-weight: var(--font-heading-weight);
+  font-size: 14px; line-height: 1.2; color: var(--color-text); /* matches the .input's 14px —
+     the pair sits side by side in sign-up rows */
+  background: transparent; border: 1px solid transparent;
+  padding: var(--space-2) calc(var(--space-3) * 1.2);
+  border-radius: var(--radius-md);
+}
+.btn svg { display: block; }
+.btn:disabled { opacity: 0.45; cursor: not-allowed; }
+.btn-primary { color: var(--color-accent); border-color: var(--color-accent); }
+.btn-primary:hover { background: color-mix(in srgb, var(--color-accent) 12%, transparent); }
+.btn-primary:active { background: color-mix(in srgb, var(--color-accent) 22%, transparent); }
+.btn-secondary { border-color: var(--color-divider); }
+.btn-secondary:hover { background: color-mix(in srgb, var(--color-text) 7%, transparent); }
+.btn-secondary:active { background: color-mix(in srgb, var(--color-text) 14%, transparent); }
+.btn-ghost { color: var(--color-accent); padding-inline: var(--space-1); }
+.btn-ghost:hover { background: color-mix(in srgb, var(--color-accent) 10%, transparent); }
+.btn-ghost:active { background: color-mix(in srgb, var(--color-accent) 18%, transparent); }
+.btn-icon { width: 36px; height: 36px; padding: 0; }
+.btn-block { width: 100%; margin-top: var(--space-2); }
+
+/* — forms — */
+.field > label {
+  display: block; font-size: 12px; margin-bottom: 5px;
+  color: color-mix(in srgb, var(--color-text) 70%, transparent);
+}
+.input {
+  width: 100%; min-height: 36px; padding: 6px 10px; font: inherit;
+  font-size: 14px; color: var(--color-text); caret-color: var(--color-accent);
+  background: var(--color-surface);
+  border: 1px solid var(--color-divider); border-radius: var(--radius-md);
+}
+.input:hover { border-color: color-mix(in srgb, var(--color-text) 45%, transparent); }
+.input:focus-visible { border-color: var(--color-accent); outline-offset: 0; }
+textarea.input { min-height: 90px; resize: vertical; }
+.radio { display: inline-flex; align-items: center; gap: 8px; cursor: pointer; font-size: 14px; }
+.radio input, .seg-opt input {
+  position: absolute; opacity: 0; width: 0; height: 0; pointer-events: none;
+}
+.radio .dot {
+  width: 16px; height: 16px; flex: none; border-radius: 50%;
+  border: 1.5px solid var(--color-divider);
+}
+.radio:hover .dot { border-color: var(--color-accent); }
+.radio input:checked + .dot {
+  border-color: var(--color-accent); background: var(--color-accent);
+  box-shadow: inset 0 0 0 4px var(--color-bg);
+}
+.radio input:focus-visible + .dot { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+.seg {
+  display: inline-flex; overflow: hidden;
+  border: 1px solid var(--color-divider); border-radius: var(--radius-md);
+}
+.seg-opt {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 7px 12px; font-size: 13px; cursor: pointer;
+}
+.seg-opt + .seg-opt { border-left: 1px solid var(--color-divider); }
+.seg-opt:has(input:checked) { color: var(--color-accent); box-shadow: inset 0 0 0 1px var(--color-accent); }
+.seg-opt:not(:has(input:checked)):hover { background: color-mix(in srgb, var(--color-text) 7%, transparent); }
+.seg-opt:has(input:focus-visible) { outline: 2px solid var(--color-accent); outline-offset: -2px; }
+
+/* — cards — */
+.card {
+  display: flex; flex-direction: column; gap: var(--space-2);
+  padding: var(--space-3); border-radius: var(--radius-md); background: var(--color-surface);
+}
+.card-kicker { font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-accent); }
+.card-title {
+  font-family: var(--font-heading); font-weight: var(--font-heading-weight);
+  font-size: 17px; line-height: 1.2;
+}
+.card-body { margin: 0; font-size: 13px; opacity: 0.8; flex: 1; }
+.card-meta {
+  display: flex; align-items: center; gap: 6px; font-size: 11px;
+  color: color-mix(in srgb, var(--color-text) 50%, transparent);
+}
+.elev-sm { box-shadow: var(--shadow-sm); }
+.elev-md { box-shadow: var(--shadow-md); }
+.elev-lg { box-shadow: var(--shadow-lg); }
+
+/* — tags — */
+.tag {
+  display: inline-flex; align-items: center; font-size: 11px;
+  letter-spacing: 0.02em; padding: 3px 10px;
+  border-radius: calc(var(--radius-md) * 0.75);
+}
+.tag-accent { background: var(--color-accent-800); color: var(--color-accent-100); }
+.tag-accent-2 { background: var(--color-accent-2-800); color: var(--color-accent-2-100); }
+.tag-neutral { background: var(--color-neutral-800); color: var(--color-neutral-100); }
+.tag-outline { border: 1px solid var(--color-accent); color: var(--color-accent); }
+
+/* — navigation — */
+.nav {
+  display: flex; align-items: center; gap: var(--space-4);
+  padding: var(--space-3) var(--space-4);
+  border-bottom: none;
+}
+.nav-brand {
+  font-family: var(--font-heading); font-weight: var(--font-heading-weight);
+  font-size: 18px; margin-right: auto;
+}
+.nav a { color: inherit; text-decoration: none; font-size: 14px; }
+.nav a:hover, .nav a[aria-current='page'] { color: var(--color-accent); }
+
+/* — tables — */
+.table { width: 100%; border-collapse: collapse; font-size: 14px; }
+.table th {
+  text-align: left; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase;
+  color: color-mix(in srgb, var(--color-text) 60%, transparent);
+  padding: var(--space-2); border-bottom: 1px solid transparent; /* keeps layout; the row paints the fading rule */
+}
+.table td {
+  padding: var(--space-2);
+  border-bottom: 1px solid transparent;
+}
+/* Row rules as row-level strips so the end-fade spans the row, not each cell. */
+.table thead tr {
+  background: linear-gradient(to right,
+    transparent, var(--color-divider) 48px,
+    var(--color-divider) calc(100% - 48px), transparent) no-repeat bottom / 100% 1px;
+}
+.table tbody tr {
+  background: linear-gradient(to right,
+    transparent, color-mix(in srgb, var(--color-text) 8%, transparent) 48px,
+    color-mix(in srgb, var(--color-text) 8%, transparent) calc(100% - 48px), transparent) no-repeat bottom / 100% 1px;
+}
+.table tbody tr:hover {
+  /* the hover tint layers over the row rule, which keeps painting */
+  background:
+    linear-gradient(color-mix(in srgb, var(--color-text) 4%, transparent),
+                    color-mix(in srgb, var(--color-text) 4%, transparent)) no-repeat 0 0 / 100% 100%,
+    linear-gradient(to right,
+      transparent, color-mix(in srgb, var(--color-text) 8%, transparent) 48px,
+      color-mix(in srgb, var(--color-text) 8%, transparent) calc(100% - 48px), transparent) no-repeat bottom / 100% 1px;
+}
+
+/* — dialog — */
+.dialog-backdrop {
+  position: fixed; inset: 0; display: grid; place-items: center;
+  padding: var(--space-4);
+  background: color-mix(in srgb, var(--color-neutral-900) 50%, transparent);
+}
+.dialog {
+  width: min(440px, 100%); display: flex; flex-direction: column; gap: var(--space-3);
+  padding: var(--space-4); border-radius: var(--radius-lg);
+  background: var(--color-surface); box-shadow: var(--shadow-lg);
+}
+.dialog-title {
+  font-family: var(--font-heading); font-weight: var(--font-heading-weight);
+  font-size: 20px;
+}
+.dialog-body { font-size: 14px; opacity: 0.85; }
+.dialog-actions { display: flex; justify-content: flex-end; gap: var(--space-2); margin-top: var(--space-2); }
+
+</style>
+<script src="23028fcf-3ef9-4770-b890-8a5a01c4f468"></script>
+<style>@font-face {
+  font-family: "Phosphor";
+  src:
+    url("b0b17c45-e72b-4340-ae9e-60ee14329844") format("woff2"),
+    url("621c3dc4-bf1d-4e0d-ac37-81e50355c935") format("woff"),
+    url("95115f1d-c0a5-49db-b9ad-63361122586e") format("truetype"),
+    url("bb353325-7d16-4f47-9841-326f0cdcc7d3#Phosphor") format("svg");
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+
+.ph {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: "Phosphor" !important;
+  speak: never;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Enable Ligatures ================ */
+  letter-spacing: 0;
+  -webkit-font-feature-settings: "liga";
+  -moz-font-feature-settings: "liga=1";
+  -moz-font-feature-settings: "liga";
+  -ms-font-feature-settings: "liga" 1;
+  font-feature-settings: "liga";
+  -webkit-font-variant-ligatures: discretionary-ligatures;
+  font-variant-ligatures: discretionary-ligatures;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.ph.ph-acorn:before {
+  content: "\eb9a";
+}
+.ph.ph-address-book:before {
+  content: "\e6f8";
+}
+.ph.ph-address-book-tabs:before {
+  content: "\ee4e";
+}
+.ph.ph-air-traffic-control:before {
+  content: "\ecd8";
+}
+.ph.ph-airplane:before {
+  content: "\e002";
+}
+.ph.ph-airplane-in-flight:before {
+  content: "\e4fe";
+}
+.ph.ph-airplane-landing:before {
+  content: "\e502";
+}
+.ph.ph-airplane-takeoff:before {
+  content: "\e504";
+}
+.ph.ph-airplane-taxiing:before {
+  content: "\e500";
+}
+.ph.ph-airplane-tilt:before {
+  content: "\e5d6";
+}
+.ph.ph-airplay:before {
+  content: "\e004";
+}
+.ph.ph-alarm:before {
+  content: "\e006";
+}
+.ph.ph-alien:before {
+  content: "\e8a6";
+}
+.ph.ph-align-bottom:before {
+  content: "\e506";
+}
+.ph.ph-align-bottom-simple:before {
+  content: "\eb0c";
+}
+.ph.ph-align-center-horizontal:before {
+  content: "\e50a";
+}
+.ph.ph-align-center-horizontal-simple:before {
+  content: "\eb0e";
+}
+.ph.ph-align-center-vertical:before {
+  content: "\e50c";
+}
+.ph.ph-align-center-vertical-simple:before {
+  content: "\eb10";
+}
+.ph.ph-align-left:before {
+  content: "\e50e";
+}
+.ph.ph-align-left-simple:before {
+  content: "\eaee";
+}
+.ph.ph-align-right:before {
+  content: "\e510";
+}
+.ph.ph-align-right-simple:before {
+  content: "\eb12";
+}
+.ph.ph-align-top:before {
+  content: "\e512";
+}
+.ph.ph-align-top-simple:before {
+  content: "\eb14";
+}
+.ph.ph-amazon-logo:before {
+  content: "\e96c";
+}
+.ph.ph-ambulance:before {
+  content: "\e572";
+}
+.ph.ph-anchor:before {
+  content: "\e514";
+}
+.ph.ph-anchor-simple:before {
+  content: "\e5d8";
+}
+.ph.ph-android-logo:before {
+  content: "\e008";
+}
+.ph.ph-angle:before {
+  content: "\e7bc";
+}
+.ph.ph-angular-logo:before {
+  content: "\eb80";
+}
+.ph.ph-aperture:before {
+  content: "\e00a";
+}
+.ph.ph-app-store-logo:before {
+  content: "\e974";
+}
+.ph.ph-app-window:before {
+  content: "\e5da";
+}
+.ph.ph-apple-logo:before {
+  content: "\e516";
+}
+.ph.ph-apple-podcasts-logo:before {
+  content: "\eb96";
+}
+.ph.ph-approximate-equals:before {
+  content: "\edaa";
+}
+.ph.ph-archive:before {
+  content: "\e00c";
+}
+.ph.ph-armchair:before {
+  content: "\e012";
+}
+.ph.ph-arrow-arc-left:before {
+  content: "\e014";
+}
+.ph.ph-arrow-arc-right:before {
+  content: "\e016";
+}
+.ph.ph-arrow-bend-double-up-left:before {
+  content: "\e03a";
+}
+.ph.ph-arrow-bend-double-up-right:before {
+  content: "\e03c";
+}
+.ph.ph-arrow-bend-down-left:before {
+  content: "\e018";
+}
+.ph.ph-arrow-bend-down-right:before {
+  content: "\e01a";
+}
+.ph.ph-arrow-bend-left-down:before {
+  content: "\e01c";
+}
+.ph.ph-arrow-bend-left-up:before {
+  content: "\e01e";
+}
+.ph.ph-arrow-bend-right-down:before {
+  content: "\e020";
+}
+.ph.ph-arrow-bend-right-up:before {
+  content: "\e022";
+}
+.ph.ph-arrow-bend-up-left:before {
+  content: "\e024";
+}
+.ph.ph-arrow-bend-up-right:before {
+  content: "\e026";
+}
+.ph.ph-arrow-circle-down:before {
+  content: "\e028";
+}
+.ph.ph-arrow-circle-down-left:before {
+  content: "\e02a";
+}
+.ph.ph-arrow-circle-down-right:before {
+  content: "\e02c";
+}
+.ph.ph-arrow-circle-left:before {
+  content: "\e05a";
+}
+.ph.ph-arrow-circle-right:before {
+  content: "\e02e";
+}
+.ph.ph-arrow-circle-up:before {
+  content: "\e030";
+}
+.ph.ph-arrow-circle-up-left:before {
+  content: "\e032";
+}
+.ph.ph-arrow-circle-up-right:before {
+  content: "\e034";
+}
+.ph.ph-arrow-clockwise:before {
+  content: "\e036";
+}
+.ph.ph-arrow-counter-clockwise:before {
+  content: "\e038";
+}
+.ph.ph-arrow-down:before {
+  content: "\e03e";
+}
+.ph.ph-arrow-down-left:before {
+  content: "\e040";
+}
+.ph.ph-arrow-down-right:before {
+  content: "\e042";
+}
+.ph.ph-arrow-elbow-down-left:before {
+  content: "\e044";
+}
+.ph.ph-arrow-elbow-down-right:before {
+  content: "\e046";
+}
+.ph.ph-arrow-elbow-left:before {
+  content: "\e048";
+}
+.ph.ph-arrow-elbow-left-down:before {
+  content: "\e04a";
+}
+.ph.ph-arrow-elbow-left-up:before {
+  content: "\e04c";
+}
+.ph.ph-arrow-elbow-right:before {
+  content: "\e04e";
+}
+.ph.ph-arrow-elbow-right-down:before {
+  content: "\e050";
+}
+.ph.ph-arrow-elbow-right-up:before {
+  content: "\e052";
+}
+.ph.ph-arrow-elbow-up-left:before {
+  content: "\e054";
+}
+.ph.ph-arrow-elbow-up-right:before {
+  content: "\e056";
+}
+.ph.ph-arrow-fat-down:before {
+  content: "\e518";
+}
+.ph.ph-arrow-fat-left:before {
+  content: "\e51a";
+}
+.ph.ph-arrow-fat-line-down:before {
+  content: "\e51c";
+}
+.ph.ph-arrow-fat-line-left:before {
+  content: "\e51e";
+}
+.ph.ph-arrow-fat-line-right:before {
+  content: "\e520";
+}
+.ph.ph-arrow-fat-line-up:before {
+  content: "\e522";
+}
+.ph.ph-arrow-fat-lines-down:before {
+  content: "\e524";
+}
+.ph.ph-arrow-fat-lines-left:before {
+  content: "\e526";
+}
+.ph.ph-arrow-fat-lines-right:before {
+  content: "\e528";
+}
+.ph.ph-arrow-fat-lines-up:before {
+  content: "\e52a";
+}
+.ph.ph-arrow-fat-right:before {
+  content: "\e52c";
+}
+.ph.ph-arrow-fat-up:before {
+  content: "\e52e";
+}
+.ph.ph-arrow-left:before {
+  content: "\e058";
+}
+.ph.ph-arrow-line-down:before {
+  content: "\e05c";
+}
+.ph.ph-arrow-line-down-left:before {
+  content: "\e05e";
+}
+.ph.ph-arrow-line-down-right:before {
+  content: "\e060";
+}
+.ph.ph-arrow-line-left:before {
+  content: "\e062";
+}
+.ph.ph-arrow-line-right:before {
+  content: "\e064";
+}
+.ph.ph-arrow-line-up:before {
+  content: "\e066";
+}
+.ph.ph-arrow-line-up-left:before {
+  content: "\e068";
+}
+.ph.ph-arrow-line-up-right:before {
+  content: "\e06a";
+}
+.ph.ph-arrow-right:before {
+  content: "\e06c";
+}
+.ph.ph-arrow-square-down:before {
+  content: "\e06e";
+}
+.ph.ph-arrow-square-down-left:before {
+  content: "\e070";
+}
+.ph.ph-arrow-square-down-right:before {
+  content: "\e072";
+}
+.ph.ph-arrow-square-in:before {
+  content: "\e5dc";
+}
+.ph.ph-arrow-square-left:before {
+  content: "\e074";
+}
+.ph.ph-arrow-square-out:before {
+  content: "\e5de";
+}
+.ph.ph-arrow-square-right:before {
+  content: "\e076";
+}
+.ph.ph-arrow-square-up:before {
+  content: "\e078";
+}
+.ph.ph-arrow-square-up-left:before {
+  content: "\e07a";
+}
+.ph.ph-arrow-square-up-right:before {
+  content: "\e07c";
+}
+.ph.ph-arrow-u-down-left:before {
+  content: "\e07e";
+}
+.ph.ph-arrow-u-down-right:before {
+  content: "\e080";
+}
+.ph.ph-arrow-u-left-down:before {
+  content: "\e082";
+}
+.ph.ph-arrow-u-left-up:before {
+  content: "\e084";
+}
+.ph.ph-arrow-u-right-down:before {
+  content: "\e086";
+}
+.ph.ph-arrow-u-right-up:before {
+  content: "\e088";
+}
+.ph.ph-arrow-u-up-left:before {
+  content: "\e08a";
+}
+.ph.ph-arrow-u-up-right:before {
+  content: "\e08c";
+}
+.ph.ph-arrow-up:before {
+  content: "\e08e";
+}
+.ph.ph-arrow-up-left:before {
+  content: "\e090";
+}
+.ph.ph-arrow-up-right:before {
+  content: "\e092";
+}
+.ph.ph-arrows-clockwise:before {
+  content: "\e094";
+}
+.ph.ph-arrows-counter-clockwise:before {
+  content: "\e096";
+}
+.ph.ph-arrows-down-up:before {
+  content: "\e098";
+}
+.ph.ph-arrows-horizontal:before {
+  content: "\eb06";
+}
+.ph.ph-arrows-in:before {
+  content: "\e09a";
+}
+.ph.ph-arrows-in-cardinal:before {
+  content: "\e09c";
+}
+.ph.ph-arrows-in-line-horizontal:before {
+  content: "\e530";
+}
+.ph.ph-arrows-in-line-vertical:before {
+  content: "\e532";
+}
+.ph.ph-arrows-in-simple:before {
+  content: "\e09e";
+}
+.ph.ph-arrows-left-right:before {
+  content: "\e0a0";
+}
+.ph.ph-arrows-merge:before {
+  content: "\ed3e";
+}
+.ph.ph-arrows-out:before {
+  content: "\e0a2";
+}
+.ph.ph-arrows-out-cardinal:before {
+  content: "\e0a4";
+}
+.ph.ph-arrows-out-line-horizontal:before {
+  content: "\e534";
+}
+.ph.ph-arrows-out-line-vertical:before {
+  content: "\e536";
+}
+.ph.ph-arrows-out-simple:before {
+  content: "\e0a6";
+}
+.ph.ph-arrows-split:before {
+  content: "\ed3c";
+}
+.ph.ph-arrows-vertical:before {
+  content: "\eb04";
+}
+.ph.ph-article:before {
+  content: "\e0a8";
+}
+.ph.ph-article-medium:before {
+  content: "\e5e0";
+}
+.ph.ph-article-ny-times:before {
+  content: "\e5e2";
+}
+.ph.ph-asclepius:before {
+  content: "\ee34";
+}
+.ph.ph-caduceus:before {
+  content: "\ee34";
+}
+.ph.ph-asterisk:before {
+  content: "\e0aa";
+}
+.ph.ph-asterisk-simple:before {
+  content: "\e832";
+}
+.ph.ph-at:before {
+  content: "\e0ac";
+}
+.ph.ph-atom:before {
+  content: "\e5e4";
+}
+.ph.ph-avocado:before {
+  content: "\ee04";
+}
+.ph.ph-axe:before {
+  content: "\e9fc";
+}
+.ph.ph-baby:before {
+  content: "\e774";
+}
+.ph.ph-baby-carriage:before {
+  content: "\e818";
+}
+.ph.ph-backpack:before {
+  content: "\e922";
+}
+.ph.ph-backspace:before {
+  content: "\e0ae";
+}
+.ph.ph-bag:before {
+  content: "\e0b0";
+}
+.ph.ph-bag-simple:before {
+  content: "\e5e6";
+}
+.ph.ph-balloon:before {
+  content: "\e76c";
+}
+.ph.ph-bandaids:before {
+  content: "\e0b2";
+}
+.ph.ph-bank:before {
+  content: "\e0b4";
+}
+.ph.ph-barbell:before {
+  content: "\e0b6";
+}
+.ph.ph-barcode:before {
+  content: "\e0b8";
+}
+.ph.ph-barn:before {
+  content: "\ec72";
+}
+.ph.ph-barricade:before {
+  content: "\e948";
+}
+.ph.ph-baseball:before {
+  content: "\e71a";
+}
+.ph.ph-baseball-cap:before {
+  content: "\ea28";
+}
+.ph.ph-baseball-helmet:before {
+  content: "\ee4a";
+}
+.ph.ph-basket:before {
+  content: "\e964";
+}
+.ph.ph-basketball:before {
+  content: "\e724";
+}
+.ph.ph-bathtub:before {
+  content: "\e81e";
+}
+.ph.ph-battery-charging:before {
+  content: "\e0ba";
+}
+.ph.ph-battery-charging-vertical:before {
+  content: "\e0bc";
+}
+.ph.ph-battery-empty:before {
+  content: "\e0be";
+}
+.ph.ph-battery-full:before {
+  content: "\e0c0";
+}
+.ph.ph-battery-high:before {
+  content: "\e0c2";
+}
+.ph.ph-battery-low:before {
+  content: "\e0c4";
+}
+.ph.ph-battery-medium:before {
+  content: "\e0c6";
+}
+.ph.ph-battery-plus:before {
+  content: "\e808";
+}
+.ph.ph-battery-plus-vertical:before {
+  content: "\ec50";
+}
+.ph.ph-battery-vertical-empty:before {
+  content: "\e7c6";
+}
+.ph.ph-battery-vertical-full:before {
+  content: "\e7c4";
+}
+.ph.ph-battery-vertical-high:before {
+  content: "\e7c2";
+}
+.ph.ph-battery-vertical-low:before {
+  content: "\e7be";
+}
+.ph.ph-battery-vertical-medium:before {
+  content: "\e7c0";
+}
+.ph.ph-battery-warning:before {
+  content: "\e0c8";
+}
+.ph.ph-battery-warning-vertical:before {
+  content: "\e0ca";
+}
+.ph.ph-beach-ball:before {
+  content: "\ed24";
+}
+.ph.ph-beanie:before {
+  content: "\ea2a";
+}
+.ph.ph-bed:before {
+  content: "\e0cc";
+}
+.ph.ph-beer-bottle:before {
+  content: "\e7b0";
+}
+.ph.ph-beer-stein:before {
+  content: "\eb62";
+}
+.ph.ph-behance-logo:before {
+  content: "\e7f4";
+}
+.ph.ph-bell:before {
+  content: "\e0ce";
+}
+.ph.ph-bell-ringing:before {
+  content: "\e5e8";
+}
+.ph.ph-bell-simple:before {
+  content: "\e0d0";
+}
+.ph.ph-bell-simple-ringing:before {
+  content: "\e5ea";
+}
+.ph.ph-bell-simple-slash:before {
+  content: "\e0d2";
+}
+.ph.ph-bell-simple-z:before {
+  content: "\e5ec";
+}
+.ph.ph-bell-slash:before {
+  content: "\e0d4";
+}
+.ph.ph-bell-z:before {
+  content: "\e5ee";
+}
+.ph.ph-belt:before {
+  content: "\ea2c";
+}
+.ph.ph-bezier-curve:before {
+  content: "\eb00";
+}
+.ph.ph-bicycle:before {
+  content: "\e0d6";
+}
+.ph.ph-binary:before {
+  content: "\ee60";
+}
+.ph.ph-binoculars:before {
+  content: "\ea64";
+}
+.ph.ph-biohazard:before {
+  content: "\e9e0";
+}
+.ph.ph-bird:before {
+  content: "\e72c";
+}
+.ph.ph-blueprint:before {
+  content: "\eda0";
+}
+.ph.ph-bluetooth:before {
+  content: "\e0da";
+}
+.ph.ph-bluetooth-connected:before {
+  content: "\e0dc";
+}
+.ph.ph-bluetooth-slash:before {
+  content: "\e0de";
+}
+.ph.ph-bluetooth-x:before {
+  content: "\e0e0";
+}
+.ph.ph-boat:before {
+  content: "\e786";
+}
+.ph.ph-bomb:before {
+  content: "\ee0a";
+}
+.ph.ph-bone:before {
+  content: "\e7f2";
+}
+.ph.ph-book:before {
+  content: "\e0e2";
+}
+.ph.ph-book-bookmark:before {
+  content: "\e0e4";
+}
+.ph.ph-book-open:before {
+  content: "\e0e6";
+}
+.ph.ph-book-open-text:before {
+  content: "\e8f2";
+}
+.ph.ph-book-open-user:before {
+  content: "\ede0";
+}
+.ph.ph-bookmark:before {
+  content: "\e0e8";
+}
+.ph.ph-bookmark-simple:before {
+  content: "\e0ea";
+}
+.ph.ph-bookmarks:before {
+  content: "\e0ec";
+}
+.ph.ph-bookmarks-simple:before {
+  content: "\e5f0";
+}
+.ph.ph-books:before {
+  content: "\e758";
+}
+.ph.ph-boot:before {
+  content: "\ecca";
+}
+.ph.ph-boules:before {
+  content: "\e722";
+}
+.ph.ph-bounding-box:before {
+  content: "\e6ce";
+}
+.ph.ph-bowl-food:before {
+  content: "\eaa4";
+}
+.ph.ph-bowl-steam:before {
+  content: "\e8e4";
+}
+.ph.ph-bowling-ball:before {
+  content: "\ea34";
+}
+.ph.ph-box-arrow-down:before {
+  content: "\e00e";
+}
+.ph.ph-archive-box:before {
+  content: "\e00e";
+}
+.ph.ph-box-arrow-up:before {
+  content: "\ee54";
+}
+.ph.ph-boxing-glove:before {
+  content: "\ea36";
+}
+.ph.ph-brackets-angle:before {
+  content: "\e862";
+}
+.ph.ph-brackets-curly:before {
+  content: "\e860";
+}
+.ph.ph-brackets-round:before {
+  content: "\e864";
+}
+.ph.ph-brackets-square:before {
+  content: "\e85e";
+}
+.ph.ph-brain:before {
+  content: "\e74e";
+}
+.ph.ph-brandy:before {
+  content: "\e6b4";
+}
+.ph.ph-bread:before {
+  content: "\e81c";
+}
+.ph.ph-bridge:before {
+  content: "\ea68";
+}
+.ph.ph-briefcase:before {
+  content: "\e0ee";
+}
+.ph.ph-briefcase-metal:before {
+  content: "\e5f2";
+}
+.ph.ph-broadcast:before {
+  content: "\e0f2";
+}
+.ph.ph-broom:before {
+  content: "\ec54";
+}
+.ph.ph-browser:before {
+  content: "\e0f4";
+}
+.ph.ph-browsers:before {
+  content: "\e0f6";
+}
+.ph.ph-bug:before {
+  content: "\e5f4";
+}
+.ph.ph-bug-beetle:before {
+  content: "\e5f6";
+}
+.ph.ph-bug-droid:before {
+  content: "\e5f8";
+}
+.ph.ph-building:before {
+  content: "\e100";
+}
+.ph.ph-building-apartment:before {
+  content: "\e0fe";
+}
+.ph.ph-building-office:before {
+  content: "\e0ff";
+}
+.ph.ph-buildings:before {
+  content: "\e102";
+}
+.ph.ph-bulldozer:before {
+  content: "\ec6c";
+}
+.ph.ph-bus:before {
+  content: "\e106";
+}
+.ph.ph-butterfly:before {
+  content: "\ea6e";
+}
+.ph.ph-cable-car:before {
+  content: "\e49c";
+}
+.ph.ph-cactus:before {
+  content: "\e918";
+}
+.ph.ph-cake:before {
+  content: "\e780";
+}
+.ph.ph-calculator:before {
+  content: "\e538";
+}
+.ph.ph-calendar:before {
+  content: "\e108";
+}
+.ph.ph-calendar-blank:before {
+  content: "\e10a";
+}
+.ph.ph-calendar-check:before {
+  content: "\e712";
+}
+.ph.ph-calendar-dot:before {
+  content: "\e7b2";
+}
+.ph.ph-calendar-dots:before {
+  content: "\e7b4";
+}
+.ph.ph-calendar-heart:before {
+  content: "\e8b0";
+}
+.ph.ph-calendar-minus:before {
+  content: "\ea14";
+}
+.ph.ph-calendar-plus:before {
+  content: "\e714";
+}
+.ph.ph-calendar-slash:before {
+  content: "\ea12";
+}
+.ph.ph-calendar-star:before {
+  content: "\e8b2";
+}
+.ph.ph-calendar-x:before {
+  content: "\e10c";
+}
+.ph.ph-call-bell:before {
+  content: "\e7de";
+}
+.ph.ph-camera:before {
+  content: "\e10e";
+}
+.ph.ph-camera-plus:before {
+  content: "\ec58";
+}
+.ph.ph-camera-rotate:before {
+  content: "\e7a4";
+}
+.ph.ph-camera-slash:before {
+  content: "\e110";
+}
+.ph.ph-campfire:before {
+  content: "\e9d8";
+}
+.ph.ph-car:before {
+  content: "\e112";
+}
+.ph.ph-car-battery:before {
+  content: "\ee30";
+}
+.ph.ph-car-profile:before {
+  content: "\e8cc";
+}
+.ph.ph-car-simple:before {
+  content: "\e114";
+}
+.ph.ph-cardholder:before {
+  content: "\e5fa";
+}
+.ph.ph-cards:before {
+  content: "\e0f8";
+}
+.ph.ph-cards-three:before {
+  content: "\ee50";
+}
+.ph.ph-caret-circle-double-down:before {
+  content: "\e116";
+}
+.ph.ph-caret-circle-double-left:before {
+  content: "\e118";
+}
+.ph.ph-caret-circle-double-right:before {
+  content: "\e11a";
+}
+.ph.ph-caret-circle-double-up:before {
+  content: "\e11c";
+}
+.ph.ph-caret-circle-down:before {
+  content: "\e11e";
+}
+.ph.ph-caret-circle-left:before {
+  content: "\e120";
+}
+.ph.ph-caret-circle-right:before {
+  content: "\e122";
+}
+.ph.ph-caret-circle-up:before {
+  content: "\e124";
+}
+.ph.ph-caret-circle-up-down:before {
+  content: "\e13e";
+}
+.ph.ph-caret-double-down:before {
+  content: "\e126";
+}
+.ph.ph-caret-double-left:before {
+  content: "\e128";
+}
+.ph.ph-caret-double-right:before {
+  content: "\e12a";
+}
+.ph.ph-caret-double-up:before {
+  content: "\e12c";
+}
+.ph.ph-caret-down:before {
+  content: "\e136";
+}
+.ph.ph-caret-left:before {
+  content: "\e138";
+}
+.ph.ph-caret-line-down:before {
+  content: "\e134";
+}
+.ph.ph-caret-line-left:before {
+  content: "\e132";
+}
+.ph.ph-caret-line-right:before {
+  content: "\e130";
+}
+.ph.ph-caret-line-up:before {
+  content: "\e12e";
+}
+.ph.ph-caret-right:before {
+  content: "\e13a";
+}
+.ph.ph-caret-up:before {
+  content: "\e13c";
+}
+.ph.ph-caret-up-down:before {
+  content: "\e140";
+}
+.ph.ph-carrot:before {
+  content: "\ed38";
+}
+.ph.ph-cash-register:before {
+  content: "\ed80";
+}
+.ph.ph-cassette-tape:before {
+  content: "\ed2e";
+}
+.ph.ph-castle-turret:before {
+  content: "\e9d0";
+}
+.ph.ph-cat:before {
+  content: "\e748";
+}
+.ph.ph-cell-signal-full:before {
+  content: "\e142";
+}
+.ph.ph-cell-signal-high:before {
+  content: "\e144";
+}
+.ph.ph-cell-signal-low:before {
+  content: "\e146";
+}
+.ph.ph-cell-signal-medium:before {
+  content: "\e148";
+}
+.ph.ph-cell-signal-none:before {
+  content: "\e14a";
+}
+.ph.ph-cell-signal-slash:before {
+  content: "\e14c";
+}
+.ph.ph-cell-signal-x:before {
+  content: "\e14e";
+}
+.ph.ph-cell-tower:before {
+  content: "\ebaa";
+}
+.ph.ph-certificate:before {
+  content: "\e766";
+}
+.ph.ph-chair:before {
+  content: "\e950";
+}
+.ph.ph-chalkboard:before {
+  content: "\e5fc";
+}
+.ph.ph-chalkboard-simple:before {
+  content: "\e5fe";
+}
+.ph.ph-chalkboard-teacher:before {
+  content: "\e600";
+}
+.ph.ph-champagne:before {
+  content: "\eaca";
+}
+.ph.ph-charging-station:before {
+  content: "\e8d0";
+}
+.ph.ph-chart-bar:before {
+  content: "\e150";
+}
+.ph.ph-chart-bar-horizontal:before {
+  content: "\e152";
+}
+.ph.ph-chart-donut:before {
+  content: "\eaa6";
+}
+.ph.ph-chart-line:before {
+  content: "\e154";
+}
+.ph.ph-chart-line-down:before {
+  content: "\e8b6";
+}
+.ph.ph-chart-line-up:before {
+  content: "\e156";
+}
+.ph.ph-chart-pie:before {
+  content: "\e158";
+}
+.ph.ph-chart-pie-slice:before {
+  content: "\e15a";
+}
+.ph.ph-chart-polar:before {
+  content: "\eaa8";
+}
+.ph.ph-chart-scatter:before {
+  content: "\eaac";
+}
+.ph.ph-chat:before {
+  content: "\e15c";
+}
+.ph.ph-chat-centered:before {
+  content: "\e160";
+}
+.ph.ph-chat-centered-dots:before {
+  content: "\e164";
+}
+.ph.ph-chat-centered-slash:before {
+  content: "\e162";
+}
+.ph.ph-chat-centered-text:before {
+  content: "\e166";
+}
+.ph.ph-chat-circle:before {
+  content: "\e168";
+}
+.ph.ph-chat-circle-dots:before {
+  content: "\e16c";
+}
+.ph.ph-chat-circle-slash:before {
+  content: "\e16a";
+}
+.ph.ph-chat-circle-text:before {
+  content: "\e16e";
+}
+.ph.ph-chat-dots:before {
+  content: "\e170";
+}
+.ph.ph-chat-slash:before {
+  content: "\e15e";
+}
+.ph.ph-chat-teardrop:before {
+  content: "\e172";
+}
+.ph.ph-chat-teardrop-dots:before {
+  content: "\e176";
+}
+.ph.ph-chat-teardrop-slash:before {
+  content: "\e174";
+}
+.ph.ph-chat-teardrop-text:before {
+  content: "\e178";
+}
+.ph.ph-chat-text:before {
+  content: "\e17a";
+}
+.ph.ph-chats:before {
+  content: "\e17c";
+}
+.ph.ph-chats-circle:before {
+  content: "\e17e";
+}
+.ph.ph-chats-teardrop:before {
+  content: "\e180";
+}
+.ph.ph-check:before {
+  content: "\e182";
+}
+.ph.ph-check-circle:before {
+  content: "\e184";
+}
+.ph.ph-check-fat:before {
+  content: "\eba6";
+}
+.ph.ph-check-square:before {
+  content: "\e186";
+}
+.ph.ph-check-square-offset:before {
+  content: "\e188";
+}
+.ph.ph-checkerboard:before {
+  content: "\e8c4";
+}
+.ph.ph-checks:before {
+  content: "\e53a";
+}
+.ph.ph-cheers:before {
+  content: "\ea4a";
+}
+.ph.ph-cheese:before {
+  content: "\e9fe";
+}
+.ph.ph-chef-hat:before {
+  content: "\ed8e";
+}
+.ph.ph-cherries:before {
+  content: "\e830";
+}
+.ph.ph-church:before {
+  content: "\ecea";
+}
+.ph.ph-cigarette:before {
+  content: "\ed90";
+}
+.ph.ph-cigarette-slash:before {
+  content: "\ed92";
+}
+.ph.ph-circle:before {
+  content: "\e18a";
+}
+.ph.ph-circle-dashed:before {
+  content: "\e602";
+}
+.ph.ph-circle-half:before {
+  content: "\e18c";
+}
+.ph.ph-circle-half-tilt:before {
+  content: "\e18e";
+}
+.ph.ph-circle-notch:before {
+  content: "\eb44";
+}
+.ph.ph-circles-four:before {
+  content: "\e190";
+}
+.ph.ph-circles-three:before {
+  content: "\e192";
+}
+.ph.ph-circles-three-plus:before {
+  content: "\e194";
+}
+.ph.ph-circuitry:before {
+  content: "\e9c2";
+}
+.ph.ph-city:before {
+  content: "\ea6a";
+}
+.ph.ph-clipboard:before {
+  content: "\e196";
+}
+.ph.ph-clipboard-text:before {
+  content: "\e198";
+}
+.ph.ph-clock:before {
+  content: "\e19a";
+}
+.ph.ph-clock-afternoon:before {
+  content: "\e19c";
+}
+.ph.ph-clock-clockwise:before {
+  content: "\e19e";
+}
+.ph.ph-clock-countdown:before {
+  content: "\ed2c";
+}
+.ph.ph-clock-counter-clockwise:before {
+  content: "\e1a0";
+}
+.ph.ph-clock-user:before {
+  content: "\edec";
+}
+.ph.ph-closed-captioning:before {
+  content: "\e1a4";
+}
+.ph.ph-cloud:before {
+  content: "\e1aa";
+}
+.ph.ph-cloud-arrow-down:before {
+  content: "\e1ac";
+}
+.ph.ph-cloud-arrow-up:before {
+  content: "\e1ae";
+}
+.ph.ph-cloud-check:before {
+  content: "\e1b0";
+}
+.ph.ph-cloud-fog:before {
+  content: "\e53c";
+}
+.ph.ph-cloud-lightning:before {
+  content: "\e1b2";
+}
+.ph.ph-cloud-moon:before {
+  content: "\e53e";
+}
+.ph.ph-cloud-rain:before {
+  content: "\e1b4";
+}
+.ph.ph-cloud-slash:before {
+  content: "\e1b6";
+}
+.ph.ph-cloud-snow:before {
+  content: "\e1b8";
+}
+.ph.ph-cloud-sun:before {
+  content: "\e540";
+}
+.ph.ph-cloud-warning:before {
+  content: "\ea98";
+}
+.ph.ph-cloud-x:before {
+  content: "\ea96";
+}
+.ph.ph-clover:before {
+  content: "\edc8";
+}
+.ph.ph-club:before {
+  content: "\e1ba";
+}
+.ph.ph-coat-hanger:before {
+  content: "\e7fe";
+}
+.ph.ph-coda-logo:before {
+  content: "\e7ce";
+}
+.ph.ph-code:before {
+  content: "\e1bc";
+}
+.ph.ph-code-block:before {
+  content: "\eafe";
+}
+.ph.ph-code-simple:before {
+  content: "\e1be";
+}
+.ph.ph-codepen-logo:before {
+  content: "\e978";
+}
+.ph.ph-codesandbox-logo:before {
+  content: "\ea06";
+}
+.ph.ph-coffee:before {
+  content: "\e1c2";
+}
+.ph.ph-coffee-bean:before {
+  content: "\e1c0";
+}
+.ph.ph-coin:before {
+  content: "\e60e";
+}
+.ph.ph-coin-vertical:before {
+  content: "\eb48";
+}
+.ph.ph-coins:before {
+  content: "\e78e";
+}
+.ph.ph-columns:before {
+  content: "\e546";
+}
+.ph.ph-columns-plus-left:before {
+  content: "\e544";
+}
+.ph.ph-columns-plus-right:before {
+  content: "\e542";
+}
+.ph.ph-command:before {
+  content: "\e1c4";
+}
+.ph.ph-compass:before {
+  content: "\e1c8";
+}
+.ph.ph-compass-rose:before {
+  content: "\e1c6";
+}
+.ph.ph-compass-tool:before {
+  content: "\ea0e";
+}
+.ph.ph-computer-tower:before {
+  content: "\e548";
+}
+.ph.ph-confetti:before {
+  content: "\e81a";
+}
+.ph.ph-contactless-payment:before {
+  content: "\ed42";
+}
+.ph.ph-control:before {
+  content: "\eca6";
+}
+.ph.ph-cookie:before {
+  content: "\e6ca";
+}
+.ph.ph-cooking-pot:before {
+  content: "\e764";
+}
+.ph.ph-copy:before {
+  content: "\e1ca";
+}
+.ph.ph-copy-simple:before {
+  content: "\e1cc";
+}
+.ph.ph-copyleft:before {
+  content: "\e86a";
+}
+.ph.ph-copyright:before {
+  content: "\e54a";
+}
+.ph.ph-corners-in:before {
+  content: "\e1ce";
+}
+.ph.ph-corners-out:before {
+  content: "\e1d0";
+}
+.ph.ph-couch:before {
+  content: "\e7f6";
+}
+.ph.ph-court-basketball:before {
+  content: "\ee36";
+}
+.ph.ph-cow:before {
+  content: "\eabe";
+}
+.ph.ph-cowboy-hat:before {
+  content: "\ed12";
+}
+.ph.ph-cpu:before {
+  content: "\e610";
+}
+.ph.ph-crane:before {
+  content: "\ed48";
+}
+.ph.ph-crane-tower:before {
+  content: "\ed49";
+}
+.ph.ph-credit-card:before {
+  content: "\e1d2";
+}
+.ph.ph-cricket:before {
+  content: "\ee12";
+}
+.ph.ph-crop:before {
+  content: "\e1d4";
+}
+.ph.ph-cross:before {
+  content: "\e8a0";
+}
+.ph.ph-crosshair:before {
+  content: "\e1d6";
+}
+.ph.ph-crosshair-simple:before {
+  content: "\e1d8";
+}
+.ph.ph-crown:before {
+  content: "\e614";
+}
+.ph.ph-crown-cross:before {
+  content: "\ee5e";
+}
+.ph.ph-crown-simple:before {
+  content: "\e616";
+}
+.ph.ph-cube:before {
+  content: "\e1da";
+}
+.ph.ph-cube-focus:before {
+  content: "\ed0a";
+}
+.ph.ph-cube-transparent:before {
+  content: "\ec7c";
+}
+.ph.ph-currency-btc:before {
+  content: "\e618";
+}
+.ph.ph-currency-circle-dollar:before {
+  content: "\e54c";
+}
+.ph.ph-currency-cny:before {
+  content: "\e54e";
+}
+.ph.ph-currency-dollar:before {
+  content: "\e550";
+}
+.ph.ph-currency-dollar-simple:before {
+  content: "\e552";
+}
+.ph.ph-currency-eth:before {
+  content: "\eada";
+}
+.ph.ph-currency-eur:before {
+  content: "\e554";
+}
+.ph.ph-currency-gbp:before {
+  content: "\e556";
+}
+.ph.ph-currency-inr:before {
+  content: "\e558";
+}
+.ph.ph-currency-jpy:before {
+  content: "\e55a";
+}
+.ph.ph-currency-krw:before {
+  content: "\e55c";
+}
+.ph.ph-currency-kzt:before {
+  content: "\ec4c";
+}
+.ph.ph-currency-ngn:before {
+  content: "\eb52";
+}
+.ph.ph-currency-rub:before {
+  content: "\e55e";
+}
+.ph.ph-cursor:before {
+  content: "\e1dc";
+}
+.ph.ph-cursor-click:before {
+  content: "\e7c8";
+}
+.ph.ph-cursor-text:before {
+  content: "\e7d8";
+}
+.ph.ph-cylinder:before {
+  content: "\e8fc";
+}
+.ph.ph-database:before {
+  content: "\e1de";
+}
+.ph.ph-desk:before {
+  content: "\ed16";
+}
+.ph.ph-desktop:before {
+  content: "\e560";
+}
+.ph.ph-desktop-tower:before {
+  content: "\e562";
+}
+.ph.ph-detective:before {
+  content: "\e83e";
+}
+.ph.ph-dev-to-logo:before {
+  content: "\ed0e";
+}
+.ph.ph-device-mobile:before {
+  content: "\e1e0";
+}
+.ph.ph-device-mobile-camera:before {
+  content: "\e1e2";
+}
+.ph.ph-device-mobile-slash:before {
+  content: "\ee46";
+}
+.ph.ph-device-mobile-speaker:before {
+  content: "\e1e4";
+}
+.ph.ph-device-rotate:before {
+  content: "\edf2";
+}
+.ph.ph-device-tablet:before {
+  content: "\e1e6";
+}
+.ph.ph-device-tablet-camera:before {
+  content: "\e1e8";
+}
+.ph.ph-device-tablet-speaker:before {
+  content: "\e1ea";
+}
+.ph.ph-devices:before {
+  content: "\eba4";
+}
+.ph.ph-diamond:before {
+  content: "\e1ec";
+}
+.ph.ph-diamonds-four:before {
+  content: "\e8f4";
+}
+.ph.ph-dice-five:before {
+  content: "\e1ee";
+}
+.ph.ph-dice-four:before {
+  content: "\e1f0";
+}
+.ph.ph-dice-one:before {
+  content: "\e1f2";
+}
+.ph.ph-dice-six:before {
+  content: "\e1f4";
+}
+.ph.ph-dice-three:before {
+  content: "\e1f6";
+}
+.ph.ph-dice-two:before {
+  content: "\e1f8";
+}
+.ph.ph-disc:before {
+  content: "\e564";
+}
+.ph.ph-disco-ball:before {
+  content: "\ed98";
+}
+.ph.ph-discord-logo:before {
+  content: "\e61a";
+}
+.ph.ph-divide:before {
+  content: "\e1fa";
+}
+.ph.ph-dna:before {
+  content: "\e924";
+}
+.ph.ph-dog:before {
+  content: "\e74a";
+}
+.ph.ph-door:before {
+  content: "\e61c";
+}
+.ph.ph-door-open:before {
+  content: "\e7e6";
+}
+.ph.ph-dot:before {
+  content: "\ecde";
+}
+.ph.ph-dot-outline:before {
+  content: "\ece0";
+}
+.ph.ph-dots-nine:before {
+  content: "\e1fc";
+}
+.ph.ph-dots-six:before {
+  content: "\e794";
+}
+.ph.ph-dots-six-vertical:before {
+  content: "\eae2";
+}
+.ph.ph-dots-three:before {
+  content: "\e1fe";
+}
+.ph.ph-dots-three-circle:before {
+  content: "\e200";
+}
+.ph.ph-dots-three-circle-vertical:before {
+  content: "\e202";
+}
+.ph.ph-dots-three-outline:before {
+  content: "\e204";
+}
+.ph.ph-dots-three-outline-vertical:before {
+  content: "\e206";
+}
+.ph.ph-dots-three-vertical:before {
+  content: "\e208";
+}
+.ph.ph-download:before {
+  content: "\e20a";
+}
+.ph.ph-download-simple:before {
+  content: "\e20c";
+}
+.ph.ph-dress:before {
+  content: "\ea7e";
+}
+.ph.ph-dresser:before {
+  content: "\e94e";
+}
+.ph.ph-dribbble-logo:before {
+  content: "\e20e";
+}
+.ph.ph-drone:before {
+  content: "\ed74";
+}
+.ph.ph-drop:before {
+  content: "\e210";
+}
+.ph.ph-drop-half:before {
+  content: "\e566";
+}
+.ph.ph-drop-half-bottom:before {
+  content: "\eb40";
+}
+.ph.ph-drop-simple:before {
+  content: "\ee32";
+}
+.ph.ph-drop-slash:before {
+  content: "\e954";
+}
+.ph.ph-dropbox-logo:before {
+  content: "\e7d0";
+}
+.ph.ph-ear:before {
+  content: "\e70c";
+}
+.ph.ph-ear-slash:before {
+  content: "\e70e";
+}
+.ph.ph-egg:before {
+  content: "\e812";
+}
+.ph.ph-egg-crack:before {
+  content: "\eb64";
+}
+.ph.ph-eject:before {
+  content: "\e212";
+}
+.ph.ph-eject-simple:before {
+  content: "\e6ae";
+}
+.ph.ph-elevator:before {
+  content: "\ecc0";
+}
+.ph.ph-empty:before {
+  content: "\edbc";
+}
+.ph.ph-engine:before {
+  content: "\ea80";
+}
+.ph.ph-envelope:before {
+  content: "\e214";
+}
+.ph.ph-envelope-open:before {
+  content: "\e216";
+}
+.ph.ph-envelope-simple:before {
+  content: "\e218";
+}
+.ph.ph-envelope-simple-open:before {
+  content: "\e21a";
+}
+.ph.ph-equalizer:before {
+  content: "\ebbc";
+}
+.ph.ph-equals:before {
+  content: "\e21c";
+}
+.ph.ph-eraser:before {
+  content: "\e21e";
+}
+.ph.ph-escalator-down:before {
+  content: "\ecba";
+}
+.ph.ph-escalator-up:before {
+  content: "\ecbc";
+}
+.ph.ph-exam:before {
+  content: "\e742";
+}
+.ph.ph-exclamation-mark:before {
+  content: "\ee44";
+}
+.ph.ph-exclude:before {
+  content: "\e882";
+}
+.ph.ph-exclude-square:before {
+  content: "\e880";
+}
+.ph.ph-export:before {
+  content: "\eaf0";
+}
+.ph.ph-eye:before {
+  content: "\e220";
+}
+.ph.ph-eye-closed:before {
+  content: "\e222";
+}
+.ph.ph-eye-slash:before {
+  content: "\e224";
+}
+.ph.ph-eyedropper:before {
+  content: "\e568";
+}
+.ph.ph-eyedropper-sample:before {
+  content: "\eac4";
+}
+.ph.ph-eyeglasses:before {
+  content: "\e7ba";
+}
+.ph.ph-eyes:before {
+  content: "\ee5c";
+}
+.ph.ph-face-mask:before {
+  content: "\e56a";
+}
+.ph.ph-facebook-logo:before {
+  content: "\e226";
+}
+.ph.ph-factory:before {
+  content: "\e760";
+}
+.ph.ph-faders:before {
+  content: "\e228";
+}
+.ph.ph-faders-horizontal:before {
+  content: "\e22a";
+}
+.ph.ph-fallout-shelter:before {
+  content: "\e9de";
+}
+.ph.ph-fan:before {
+  content: "\e9f2";
+}
+.ph.ph-farm:before {
+  content: "\ec70";
+}
+.ph.ph-fast-forward:before {
+  content: "\e6a6";
+}
+.ph.ph-fast-forward-circle:before {
+  content: "\e22c";
+}
+.ph.ph-feather:before {
+  content: "\e9c0";
+}
+.ph.ph-fediverse-logo:before {
+  content: "\ed66";
+}
+.ph.ph-figma-logo:before {
+  content: "\e22e";
+}
+.ph.ph-file:before {
+  content: "\e230";
+}
+.ph.ph-file-archive:before {
+  content: "\eb2a";
+}
+.ph.ph-file-arrow-down:before {
+  content: "\e232";
+}
+.ph.ph-file-arrow-up:before {
+  content: "\e61e";
+}
+.ph.ph-file-audio:before {
+  content: "\ea20";
+}
+.ph.ph-file-c:before {
+  content: "\eb32";
+}
+.ph.ph-file-c-sharp:before {
+  content: "\eb30";
+}
+.ph.ph-file-cloud:before {
+  content: "\e95e";
+}
+.ph.ph-file-code:before {
+  content: "\e914";
+}
+.ph.ph-file-cpp:before {
+  content: "\eb2e";
+}
+.ph.ph-file-css:before {
+  content: "\eb34";
+}
+.ph.ph-file-csv:before {
+  content: "\eb1c";
+}
+.ph.ph-file-dashed:before {
+  content: "\e704";
+}
+.ph.ph-file-dotted:before {
+  content: "\e704";
+}
+.ph.ph-file-doc:before {
+  content: "\eb1e";
+}
+.ph.ph-file-html:before {
+  content: "\eb38";
+}
+.ph.ph-file-image:before {
+  content: "\ea24";
+}
+.ph.ph-file-ini:before {
+  content: "\eb33";
+}
+.ph.ph-file-jpg:before {
+  content: "\eb1a";
+}
+.ph.ph-file-js:before {
+  content: "\eb24";
+}
+.ph.ph-file-jsx:before {
+  content: "\eb3a";
+}
+.ph.ph-file-lock:before {
+  content: "\e95c";
+}
+.ph.ph-file-magnifying-glass:before {
+  content: "\e238";
+}
+.ph.ph-file-search:before {
+  content: "\e238";
+}
+.ph.ph-file-md:before {
+  content: "\ed50";
+}
+.ph.ph-file-minus:before {
+  content: "\e234";
+}
+.ph.ph-file-pdf:before {
+  content: "\e702";
+}
+.ph.ph-file-plus:before {
+  content: "\e236";
+}
+.ph.ph-file-png:before {
+  content: "\eb18";
+}
+.ph.ph-file-ppt:before {
+  content: "\eb20";
+}
+.ph.ph-file-py:before {
+  content: "\eb2c";
+}
+.ph.ph-file-rs:before {
+  content: "\eb28";
+}
+.ph.ph-file-sql:before {
+  content: "\ed4e";
+}
+.ph.ph-file-svg:before {
+  content: "\ed08";
+}
+.ph.ph-file-text:before {
+  content: "\e23a";
+}
+.ph.ph-file-ts:before {
+  content: "\eb26";
+}
+.ph.ph-file-tsx:before {
+  content: "\eb3c";
+}
+.ph.ph-file-txt:before {
+  content: "\eb35";
+}
+.ph.ph-file-video:before {
+  content: "\ea22";
+}
+.ph.ph-file-vue:before {
+  content: "\eb3e";
+}
+.ph.ph-file-x:before {
+  content: "\e23c";
+}
+.ph.ph-file-xls:before {
+  content: "\eb22";
+}
+.ph.ph-file-zip:before {
+  content: "\e958";
+}
+.ph.ph-files:before {
+  content: "\e710";
+}
+.ph.ph-film-reel:before {
+  content: "\e8c0";
+}
+.ph.ph-film-script:before {
+  content: "\eb50";
+}
+.ph.ph-film-slate:before {
+  content: "\e8c2";
+}
+.ph.ph-film-strip:before {
+  content: "\e792";
+}
+.ph.ph-fingerprint:before {
+  content: "\e23e";
+}
+.ph.ph-fingerprint-simple:before {
+  content: "\e240";
+}
+.ph.ph-finn-the-human:before {
+  content: "\e56c";
+}
+.ph.ph-fire:before {
+  content: "\e242";
+}
+.ph.ph-fire-extinguisher:before {
+  content: "\e9e8";
+}
+.ph.ph-fire-simple:before {
+  content: "\e620";
+}
+.ph.ph-fire-truck:before {
+  content: "\e574";
+}
+.ph.ph-first-aid:before {
+  content: "\e56e";
+}
+.ph.ph-first-aid-kit:before {
+  content: "\e570";
+}
+.ph.ph-fish:before {
+  content: "\e728";
+}
+.ph.ph-fish-simple:before {
+  content: "\e72a";
+}
+.ph.ph-flag:before {
+  content: "\e244";
+}
+.ph.ph-flag-banner:before {
+  content: "\e622";
+}
+.ph.ph-flag-banner-fold:before {
+  content: "\ecf2";
+}
+.ph.ph-flag-checkered:before {
+  content: "\ea38";
+}
+.ph.ph-flag-pennant:before {
+  content: "\ecf0";
+}
+.ph.ph-flame:before {
+  content: "\e624";
+}
+.ph.ph-flashlight:before {
+  content: "\e246";
+}
+.ph.ph-flask:before {
+  content: "\e79e";
+}
+.ph.ph-flip-horizontal:before {
+  content: "\ed6a";
+}
+.ph.ph-flip-vertical:before {
+  content: "\ed6c";
+}
+.ph.ph-floppy-disk:before {
+  content: "\e248";
+}
+.ph.ph-floppy-disk-back:before {
+  content: "\eaf4";
+}
+.ph.ph-flow-arrow:before {
+  content: "\e6ec";
+}
+.ph.ph-flower:before {
+  content: "\e75e";
+}
+.ph.ph-flower-lotus:before {
+  content: "\e6cc";
+}
+.ph.ph-flower-tulip:before {
+  content: "\eacc";
+}
+.ph.ph-flying-saucer:before {
+  content: "\eb4a";
+}
+.ph.ph-folder:before {
+  content: "\e24a";
+}
+.ph.ph-folder-notch:before {
+  content: "\e24a";
+}
+.ph.ph-folder-dashed:before {
+  content: "\e8f8";
+}
+.ph.ph-folder-dotted:before {
+  content: "\e8f8";
+}
+.ph.ph-folder-lock:before {
+  content: "\ea3c";
+}
+.ph.ph-folder-minus:before {
+  content: "\e254";
+}
+.ph.ph-folder-notch-minus:before {
+  content: "\e254";
+}
+.ph.ph-folder-open:before {
+  content: "\e256";
+}
+.ph.ph-folder-notch-open:before {
+  content: "\e256";
+}
+.ph.ph-folder-plus:before {
+  content: "\e258";
+}
+.ph.ph-folder-notch-plus:before {
+  content: "\e258";
+}
+.ph.ph-folder-simple:before {
+  content: "\e25a";
+}
+.ph.ph-folder-simple-dashed:before {
+  content: "\ec2a";
+}
+.ph.ph-folder-simple-dotted:before {
+  content: "\ec2a";
+}
+.ph.ph-folder-simple-lock:before {
+  content: "\eb5e";
+}
+.ph.ph-folder-simple-minus:before {
+  content: "\e25c";
+}
+.ph.ph-folder-simple-plus:before {
+  content: "\e25e";
+}
+.ph.ph-folder-simple-star:before {
+  content: "\ec2e";
+}
+.ph.ph-folder-simple-user:before {
+  content: "\eb60";
+}
+.ph.ph-folder-star:before {
+  content: "\ea86";
+}
+.ph.ph-folder-user:before {
+  content: "\eb46";
+}
+.ph.ph-folders:before {
+  content: "\e260";
+}
+.ph.ph-football:before {
+  content: "\e718";
+}
+.ph.ph-football-helmet:before {
+  content: "\ee4c";
+}
+.ph.ph-footprints:before {
+  content: "\ea88";
+}
+.ph.ph-fork-knife:before {
+  content: "\e262";
+}
+.ph.ph-four-k:before {
+  content: "\ea5c";
+}
+.ph.ph-frame-corners:before {
+  content: "\e626";
+}
+.ph.ph-framer-logo:before {
+  content: "\e264";
+}
+.ph.ph-function:before {
+  content: "\ebe4";
+}
+.ph.ph-funnel:before {
+  content: "\e266";
+}
+.ph.ph-funnel-simple:before {
+  content: "\e268";
+}
+.ph.ph-funnel-simple-x:before {
+  content: "\e26a";
+}
+.ph.ph-funnel-x:before {
+  content: "\e26c";
+}
+.ph.ph-game-controller:before {
+  content: "\e26e";
+}
+.ph.ph-garage:before {
+  content: "\ecd6";
+}
+.ph.ph-gas-can:before {
+  content: "\e8ce";
+}
+.ph.ph-gas-pump:before {
+  content: "\e768";
+}
+.ph.ph-gauge:before {
+  content: "\e628";
+}
+.ph.ph-gavel:before {
+  content: "\ea32";
+}
+.ph.ph-gear:before {
+  content: "\e270";
+}
+.ph.ph-gear-fine:before {
+  content: "\e87c";
+}
+.ph.ph-gear-six:before {
+  content: "\e272";
+}
+.ph.ph-gender-female:before {
+  content: "\e6e0";
+}
+.ph.ph-gender-intersex:before {
+  content: "\e6e6";
+}
+.ph.ph-gender-male:before {
+  content: "\e6e2";
+}
+.ph.ph-gender-neuter:before {
+  content: "\e6ea";
+}
+.ph.ph-gender-nonbinary:before {
+  content: "\e6e4";
+}
+.ph.ph-gender-transgender:before {
+  content: "\e6e8";
+}
+.ph.ph-ghost:before {
+  content: "\e62a";
+}
+.ph.ph-gif:before {
+  content: "\e274";
+}
+.ph.ph-gift:before {
+  content: "\e276";
+}
+.ph.ph-git-branch:before {
+  content: "\e278";
+}
+.ph.ph-git-commit:before {
+  content: "\e27a";
+}
+.ph.ph-git-diff:before {
+  content: "\e27c";
+}
+.ph.ph-git-fork:before {
+  content: "\e27e";
+}
+.ph.ph-git-merge:before {
+  content: "\e280";
+}
+.ph.ph-git-pull-request:before {
+  content: "\e282";
+}
+.ph.ph-github-logo:before {
+  content: "\e576";
+}
+.ph.ph-gitlab-logo:before {
+  content: "\e694";
+}
+.ph.ph-gitlab-logo-simple:before {
+  content: "\e696";
+}
+.ph.ph-globe:before {
+  content: "\e288";
+}
+.ph.ph-globe-hemisphere-east:before {
+  content: "\e28a";
+}
+.ph.ph-globe-hemisphere-west:before {
+  content: "\e28c";
+}
+.ph.ph-globe-simple:before {
+  content: "\e28e";
+}
+.ph.ph-globe-simple-x:before {
+  content: "\e284";
+}
+.ph.ph-globe-stand:before {
+  content: "\e290";
+}
+.ph.ph-globe-x:before {
+  content: "\e286";
+}
+.ph.ph-goggles:before {
+  content: "\ecb4";
+}
+.ph.ph-golf:before {
+  content: "\ea3e";
+}
+.ph.ph-goodreads-logo:before {
+  content: "\ed10";
+}
+.ph.ph-google-cardboard-logo:before {
+  content: "\e7b6";
+}
+.ph.ph-google-chrome-logo:before {
+  content: "\e976";
+}
+.ph.ph-google-drive-logo:before {
+  content: "\e8f6";
+}
+.ph.ph-google-logo:before {
+  content: "\e292";
+}
+.ph.ph-google-photos-logo:before {
+  content: "\eb92";
+}
+.ph.ph-google-play-logo:before {
+  content: "\e294";
+}
+.ph.ph-google-podcasts-logo:before {
+  content: "\eb94";
+}
+.ph.ph-gps:before {
+  content: "\edd8";
+}
+.ph.ph-gps-fix:before {
+  content: "\edd6";
+}
+.ph.ph-gps-slash:before {
+  content: "\edd4";
+}
+.ph.ph-gradient:before {
+  content: "\eb42";
+}
+.ph.ph-graduation-cap:before {
+  content: "\e62c";
+}
+.ph.ph-grains:before {
+  content: "\ec68";
+}
+.ph.ph-grains-slash:before {
+  content: "\ec6a";
+}
+.ph.ph-graph:before {
+  content: "\eb58";
+}
+.ph.ph-graphics-card:before {
+  content: "\e612";
+}
+.ph.ph-greater-than:before {
+  content: "\edc4";
+}
+.ph.ph-greater-than-or-equal:before {
+  content: "\eda2";
+}
+.ph.ph-grid-four:before {
+  content: "\e296";
+}
+.ph.ph-grid-nine:before {
+  content: "\ec8c";
+}
+.ph.ph-guitar:before {
+  content: "\ea8a";
+}
+.ph.ph-hair-dryer:before {
+  content: "\ea66";
+}
+.ph.ph-hamburger:before {
+  content: "\e790";
+}
+.ph.ph-hammer:before {
+  content: "\e80e";
+}
+.ph.ph-hand:before {
+  content: "\e298";
+}
+.ph.ph-hand-arrow-down:before {
+  content: "\ea4e";
+}
+.ph.ph-hand-arrow-up:before {
+  content: "\ee5a";
+}
+.ph.ph-hand-coins:before {
+  content: "\ea8c";
+}
+.ph.ph-hand-deposit:before {
+  content: "\ee82";
+}
+.ph.ph-hand-eye:before {
+  content: "\ea4c";
+}
+.ph.ph-hand-fist:before {
+  content: "\e57a";
+}
+.ph.ph-hand-grabbing:before {
+  content: "\e57c";
+}
+.ph.ph-hand-heart:before {
+  content: "\e810";
+}
+.ph.ph-hand-palm:before {
+  content: "\e57e";
+}
+.ph.ph-hand-peace:before {
+  content: "\e7cc";
+}
+.ph.ph-hand-pointing:before {
+  content: "\e29a";
+}
+.ph.ph-hand-soap:before {
+  content: "\e630";
+}
+.ph.ph-hand-swipe-left:before {
+  content: "\ec94";
+}
+.ph.ph-hand-swipe-right:before {
+  content: "\ec92";
+}
+.ph.ph-hand-tap:before {
+  content: "\ec90";
+}
+.ph.ph-hand-waving:before {
+  content: "\e580";
+}
+.ph.ph-hand-withdraw:before {
+  content: "\ee80";
+}
+.ph.ph-handbag:before {
+  content: "\e29c";
+}
+.ph.ph-handbag-simple:before {
+  content: "\e62e";
+}
+.ph.ph-hands-clapping:before {
+  content: "\e6a0";
+}
+.ph.ph-hands-praying:before {
+  content: "\ecc8";
+}
+.ph.ph-handshake:before {
+  content: "\e582";
+}
+.ph.ph-hard-drive:before {
+  content: "\e29e";
+}
+.ph.ph-hard-drives:before {
+  content: "\e2a0";
+}
+.ph.ph-hard-hat:before {
+  content: "\ed46";
+}
+.ph.ph-hash:before {
+  content: "\e2a2";
+}
+.ph.ph-hash-straight:before {
+  content: "\e2a4";
+}
+.ph.ph-head-circuit:before {
+  content: "\e7d4";
+}
+.ph.ph-headlights:before {
+  content: "\e6fe";
+}
+.ph.ph-headphones:before {
+  content: "\e2a6";
+}
+.ph.ph-headset:before {
+  content: "\e584";
+}
+.ph.ph-heart:before {
+  content: "\e2a8";
+}
+.ph.ph-heart-break:before {
+  content: "\ebe8";
+}
+.ph.ph-heart-half:before {
+  content: "\ec48";
+}
+.ph.ph-heart-straight:before {
+  content: "\e2aa";
+}
+.ph.ph-heart-straight-break:before {
+  content: "\eb98";
+}
+.ph.ph-heartbeat:before {
+  content: "\e2ac";
+}
+.ph.ph-hexagon:before {
+  content: "\e2ae";
+}
+.ph.ph-high-definition:before {
+  content: "\ea8e";
+}
+.ph.ph-high-heel:before {
+  content: "\e8e8";
+}
+.ph.ph-highlighter:before {
+  content: "\ec76";
+}
+.ph.ph-highlighter-circle:before {
+  content: "\e632";
+}
+.ph.ph-hockey:before {
+  content: "\ec86";
+}
+.ph.ph-hoodie:before {
+  content: "\ecd0";
+}
+.ph.ph-horse:before {
+  content: "\e2b0";
+}
+.ph.ph-hospital:before {
+  content: "\e844";
+}
+.ph.ph-hourglass:before {
+  content: "\e2b2";
+}
+.ph.ph-hourglass-high:before {
+  content: "\e2b4";
+}
+.ph.ph-hourglass-low:before {
+  content: "\e2b6";
+}
+.ph.ph-hourglass-medium:before {
+  content: "\e2b8";
+}
+.ph.ph-hourglass-simple:before {
+  content: "\e2ba";
+}
+.ph.ph-hourglass-simple-high:before {
+  content: "\e2bc";
+}
+.ph.ph-hourglass-simple-low:before {
+  content: "\e2be";
+}
+.ph.ph-hourglass-simple-medium:before {
+  content: "\e2c0";
+}
+.ph.ph-house:before {
+  content: "\e2c2";
+}
+.ph.ph-house-line:before {
+  content: "\e2c4";
+}
+.ph.ph-house-simple:before {
+  content: "\e2c6";
+}
+.ph.ph-hurricane:before {
+  content: "\e88e";
+}
+.ph.ph-ice-cream:before {
+  content: "\e804";
+}
+.ph.ph-identification-badge:before {
+  content: "\e6f6";
+}
+.ph.ph-identification-card:before {
+  content: "\e2c8";
+}
+.ph.ph-image:before {
+  content: "\e2ca";
+}
+.ph.ph-image-broken:before {
+  content: "\e7a8";
+}
+.ph.ph-image-square:before {
+  content: "\e2cc";
+}
+.ph.ph-images:before {
+  content: "\e836";
+}
+.ph.ph-images-square:before {
+  content: "\e834";
+}
+.ph.ph-infinity:before {
+  content: "\e634";
+}
+.ph.ph-lemniscate:before {
+  content: "\e634";
+}
+.ph.ph-info:before {
+  content: "\e2ce";
+}
+.ph.ph-instagram-logo:before {
+  content: "\e2d0";
+}
+.ph.ph-intersect:before {
+  content: "\e2d2";
+}
+.ph.ph-intersect-square:before {
+  content: "\e87a";
+}
+.ph.ph-intersect-three:before {
+  content: "\ecc4";
+}
+.ph.ph-intersection:before {
+  content: "\edba";
+}
+.ph.ph-invoice:before {
+  content: "\ee42";
+}
+.ph.ph-island:before {
+  content: "\ee06";
+}
+.ph.ph-jar:before {
+  content: "\e7e0";
+}
+.ph.ph-jar-label:before {
+  content: "\e7e1";
+}
+.ph.ph-jeep:before {
+  content: "\e2d4";
+}
+.ph.ph-joystick:before {
+  content: "\ea5e";
+}
+.ph.ph-kanban:before {
+  content: "\eb54";
+}
+.ph.ph-key:before {
+  content: "\e2d6";
+}
+.ph.ph-key-return:before {
+  content: "\e782";
+}
+.ph.ph-keyboard:before {
+  content: "\e2d8";
+}
+.ph.ph-keyhole:before {
+  content: "\ea78";
+}
+.ph.ph-knife:before {
+  content: "\e636";
+}
+.ph.ph-ladder:before {
+  content: "\e9e4";
+}
+.ph.ph-ladder-simple:before {
+  content: "\ec26";
+}
+.ph.ph-lamp:before {
+  content: "\e638";
+}
+.ph.ph-lamp-pendant:before {
+  content: "\ee2e";
+}
+.ph.ph-laptop:before {
+  content: "\e586";
+}
+.ph.ph-lasso:before {
+  content: "\edc6";
+}
+.ph.ph-lastfm-logo:before {
+  content: "\e842";
+}
+.ph.ph-layout:before {
+  content: "\e6d6";
+}
+.ph.ph-leaf:before {
+  content: "\e2da";
+}
+.ph.ph-lectern:before {
+  content: "\e95a";
+}
+.ph.ph-lego:before {
+  content: "\e8c6";
+}
+.ph.ph-lego-smiley:before {
+  content: "\e8c7";
+}
+.ph.ph-less-than:before {
+  content: "\edac";
+}
+.ph.ph-less-than-or-equal:before {
+  content: "\eda4";
+}
+.ph.ph-letter-circle-h:before {
+  content: "\ebf8";
+}
+.ph.ph-letter-circle-p:before {
+  content: "\ec08";
+}
+.ph.ph-letter-circle-v:before {
+  content: "\ec14";
+}
+.ph.ph-lifebuoy:before {
+  content: "\e63a";
+}
+.ph.ph-lightbulb:before {
+  content: "\e2dc";
+}
+.ph.ph-lightbulb-filament:before {
+  content: "\e63c";
+}
+.ph.ph-lighthouse:before {
+  content: "\e9f6";
+}
+.ph.ph-lightning:before {
+  content: "\e2de";
+}
+.ph.ph-lightning-a:before {
+  content: "\ea84";
+}
+.ph.ph-lightning-slash:before {
+  content: "\e2e0";
+}
+.ph.ph-line-segment:before {
+  content: "\e6d2";
+}
+.ph.ph-line-segments:before {
+  content: "\e6d4";
+}
+.ph.ph-line-vertical:before {
+  content: "\ed70";
+}
+.ph.ph-link:before {
+  content: "\e2e2";
+}
+.ph.ph-link-break:before {
+  content: "\e2e4";
+}
+.ph.ph-link-simple:before {
+  content: "\e2e6";
+}
+.ph.ph-link-simple-break:before {
+  content: "\e2e8";
+}
+.ph.ph-link-simple-horizontal:before {
+  content: "\e2ea";
+}
+.ph.ph-link-simple-horizontal-break:before {
+  content: "\e2ec";
+}
+.ph.ph-linkedin-logo:before {
+  content: "\e2ee";
+}
+.ph.ph-linktree-logo:before {
+  content: "\edee";
+}
+.ph.ph-linux-logo:before {
+  content: "\eb02";
+}
+.ph.ph-list:before {
+  content: "\e2f0";
+}
+.ph.ph-list-bullets:before {
+  content: "\e2f2";
+}
+.ph.ph-list-checks:before {
+  content: "\eadc";
+}
+.ph.ph-list-dashes:before {
+  content: "\e2f4";
+}
+.ph.ph-list-heart:before {
+  content: "\ebde";
+}
+.ph.ph-list-magnifying-glass:before {
+  content: "\ebe0";
+}
+.ph.ph-list-numbers:before {
+  content: "\e2f6";
+}
+.ph.ph-list-plus:before {
+  content: "\e2f8";
+}
+.ph.ph-list-star:before {
+  content: "\ebdc";
+}
+.ph.ph-lock:before {
+  content: "\e2fa";
+}
+.ph.ph-lock-key:before {
+  content: "\e2fe";
+}
+.ph.ph-lock-key-open:before {
+  content: "\e300";
+}
+.ph.ph-lock-laminated:before {
+  content: "\e302";
+}
+.ph.ph-lock-laminated-open:before {
+  content: "\e304";
+}
+.ph.ph-lock-open:before {
+  content: "\e306";
+}
+.ph.ph-lock-simple:before {
+  content: "\e308";
+}
+.ph.ph-lock-simple-open:before {
+  content: "\e30a";
+}
+.ph.ph-lockers:before {
+  content: "\ecb8";
+}
+.ph.ph-log:before {
+  content: "\ed82";
+}
+.ph.ph-magic-wand:before {
+  content: "\e6b6";
+}
+.ph.ph-magnet:before {
+  content: "\e680";
+}
+.ph.ph-magnet-straight:before {
+  content: "\e682";
+}
+.ph.ph-magnifying-glass:before {
+  content: "\e30c";
+}
+.ph.ph-magnifying-glass-minus:before {
+  content: "\e30e";
+}
+.ph.ph-magnifying-glass-plus:before {
+  content: "\e310";
+}
+.ph.ph-mailbox:before {
+  content: "\ec1e";
+}
+.ph.ph-map-pin:before {
+  content: "\e316";
+}
+.ph.ph-map-pin-area:before {
+  content: "\ee3a";
+}
+.ph.ph-map-pin-line:before {
+  content: "\e318";
+}
+.ph.ph-map-pin-plus:before {
+  content: "\e314";
+}
+.ph.ph-map-pin-simple:before {
+  content: "\ee3e";
+}
+.ph.ph-map-pin-simple-area:before {
+  content: "\ee3c";
+}
+.ph.ph-map-pin-simple-line:before {
+  content: "\ee38";
+}
+.ph.ph-map-trifold:before {
+  content: "\e31a";
+}
+.ph.ph-markdown-logo:before {
+  content: "\e508";
+}
+.ph.ph-marker-circle:before {
+  content: "\e640";
+}
+.ph.ph-martini:before {
+  content: "\e31c";
+}
+.ph.ph-mask-happy:before {
+  content: "\e9f4";
+}
+.ph.ph-mask-sad:before {
+  content: "\eb9e";
+}
+.ph.ph-mastodon-logo:before {
+  content: "\ed68";
+}
+.ph.ph-math-operations:before {
+  content: "\e31e";
+}
+.ph.ph-matrix-logo:before {
+  content: "\ed64";
+}
+.ph.ph-medal:before {
+  content: "\e320";
+}
+.ph.ph-medal-military:before {
+  content: "\ecfc";
+}
+.ph.ph-medium-logo:before {
+  content: "\e322";
+}
+.ph.ph-megaphone:before {
+  content: "\e324";
+}
+.ph.ph-megaphone-simple:before {
+  content: "\e642";
+}
+.ph.ph-member-of:before {
+  content: "\edc2";
+}
+.ph.ph-memory:before {
+  content: "\e9c4";
+}
+.ph.ph-messenger-logo:before {
+  content: "\e6d8";
+}
+.ph.ph-meta-logo:before {
+  content: "\ed02";
+}
+.ph.ph-meteor:before {
+  content: "\e9ba";
+}
+.ph.ph-metronome:before {
+  content: "\ec8e";
+}
+.ph.ph-microphone:before {
+  content: "\e326";
+}
+.ph.ph-microphone-slash:before {
+  content: "\e328";
+}
+.ph.ph-microphone-stage:before {
+  content: "\e75c";
+}
+.ph.ph-microscope:before {
+  content: "\ec7a";
+}
+.ph.ph-microsoft-excel-logo:before {
+  content: "\eb6c";
+}
+.ph.ph-microsoft-outlook-logo:before {
+  content: "\eb70";
+}
+.ph.ph-microsoft-powerpoint-logo:before {
+  content: "\eace";
+}
+.ph.ph-microsoft-teams-logo:before {
+  content: "\eb66";
+}
+.ph.ph-microsoft-word-logo:before {
+  content: "\eb6a";
+}
+.ph.ph-minus:before {
+  content: "\e32a";
+}
+.ph.ph-minus-circle:before {
+  content: "\e32c";
+}
+.ph.ph-minus-square:before {
+  content: "\ed4c";
+}
+.ph.ph-money:before {
+  content: "\e588";
+}
+.ph.ph-money-wavy:before {
+  content: "\ee68";
+}
+.ph.ph-monitor:before {
+  content: "\e32e";
+}
+.ph.ph-monitor-arrow-up:before {
+  content: "\e58a";
+}
+.ph.ph-monitor-play:before {
+  content: "\e58c";
+}
+.ph.ph-moon:before {
+  content: "\e330";
+}
+.ph.ph-moon-stars:before {
+  content: "\e58e";
+}
+.ph.ph-moped:before {
+  content: "\e824";
+}
+.ph.ph-moped-front:before {
+  content: "\e822";
+}
+.ph.ph-mosque:before {
+  content: "\ecee";
+}
+.ph.ph-motorcycle:before {
+  content: "\e80a";
+}
+.ph.ph-mountains:before {
+  content: "\e7ae";
+}
+.ph.ph-mouse:before {
+  content: "\e33a";
+}
+.ph.ph-mouse-left-click:before {
+  content: "\e334";
+}
+.ph.ph-mouse-middle-click:before {
+  content: "\e338";
+}
+.ph.ph-mouse-right-click:before {
+  content: "\e336";
+}
+.ph.ph-mouse-scroll:before {
+  content: "\e332";
+}
+.ph.ph-mouse-simple:before {
+  content: "\e644";
+}
+.ph.ph-music-note:before {
+  content: "\e33c";
+}
+.ph.ph-music-note-simple:before {
+  content: "\e33e";
+}
+.ph.ph-music-notes:before {
+  content: "\e340";
+}
+.ph.ph-music-notes-minus:before {
+  content: "\ee0c";
+}
+.ph.ph-music-notes-plus:before {
+  content: "\eb7c";
+}
+.ph.ph-music-notes-simple:before {
+  content: "\e342";
+}
+.ph.ph-navigation-arrow:before {
+  content: "\eade";
+}
+.ph.ph-needle:before {
+  content: "\e82e";
+}
+.ph.ph-network:before {
+  content: "\edde";
+}
+.ph.ph-network-slash:before {
+  content: "\eddc";
+}
+.ph.ph-network-x:before {
+  content: "\edda";
+}
+.ph.ph-newspaper:before {
+  content: "\e344";
+}
+.ph.ph-newspaper-clipping:before {
+  content: "\e346";
+}
+.ph.ph-not-equals:before {
+  content: "\eda6";
+}
+.ph.ph-not-member-of:before {
+  content: "\edae";
+}
+.ph.ph-not-subset-of:before {
+  content: "\edb0";
+}
+.ph.ph-not-superset-of:before {
+  content: "\edb2";
+}
+.ph.ph-notches:before {
+  content: "\ed3a";
+}
+.ph.ph-note:before {
+  content: "\e348";
+}
+.ph.ph-note-blank:before {
+  content: "\e34a";
+}
+.ph.ph-note-pencil:before {
+  content: "\e34c";
+}
+.ph.ph-notebook:before {
+  content: "\e34e";
+}
+.ph.ph-notepad:before {
+  content: "\e63e";
+}
+.ph.ph-notification:before {
+  content: "\e6fa";
+}
+.ph.ph-notion-logo:before {
+  content: "\e9a0";
+}
+.ph.ph-nuclear-plant:before {
+  content: "\ed7c";
+}
+.ph.ph-number-circle-eight:before {
+  content: "\e352";
+}
+.ph.ph-number-circle-five:before {
+  content: "\e358";
+}
+.ph.ph-number-circle-four:before {
+  content: "\e35e";
+}
+.ph.ph-number-circle-nine:before {
+  content: "\e364";
+}
+.ph.ph-number-circle-one:before {
+  content: "\e36a";
+}
+.ph.ph-number-circle-seven:before {
+  content: "\e370";
+}
+.ph.ph-number-circle-six:before {
+  content: "\e376";
+}
+.ph.ph-number-circle-three:before {
+  content: "\e37c";
+}
+.ph.ph-number-circle-two:before {
+  content: "\e382";
+}
+.ph.ph-number-circle-zero:before {
+  content: "\e388";
+}
+.ph.ph-number-eight:before {
+  content: "\e350";
+}
+.ph.ph-number-five:before {
+  content: "\e356";
+}
+.ph.ph-number-four:before {
+  content: "\e35c";
+}
+.ph.ph-number-nine:before {
+  content: "\e362";
+}
+.ph.ph-number-one:before {
+  content: "\e368";
+}
+.ph.ph-number-seven:before {
+  content: "\e36e";
+}
+.ph.ph-number-six:before {
+  content: "\e374";
+}
+.ph.ph-number-square-eight:before {
+  content: "\e354";
+}
+.ph.ph-number-square-five:before {
+  content: "\e35a";
+}
+.ph.ph-number-square-four:before {
+  content: "\e360";
+}
+.ph.ph-number-square-nine:before {
+  content: "\e366";
+}
+.ph.ph-number-square-one:before {
+  content: "\e36c";
+}
+.ph.ph-number-square-seven:before {
+  content: "\e372";
+}
+.ph.ph-number-square-six:before {
+  content: "\e378";
+}
+.ph.ph-number-square-three:before {
+  content: "\e37e";
+}
+.ph.ph-number-square-two:before {
+  content: "\e384";
+}
+.ph.ph-number-square-zero:before {
+  content: "\e38a";
+}
+.ph.ph-number-three:before {
+  content: "\e37a";
+}
+.ph.ph-number-two:before {
+  content: "\e380";
+}
+.ph.ph-number-zero:before {
+  content: "\e386";
+}
+.ph.ph-numpad:before {
+  content: "\e3c8";
+}
+.ph.ph-nut:before {
+  content: "\e38c";
+}
+.ph.ph-ny-times-logo:before {
+  content: "\e646";
+}
+.ph.ph-octagon:before {
+  content: "\e38e";
+}
+.ph.ph-office-chair:before {
+  content: "\ea46";
+}
+.ph.ph-onigiri:before {
+  content: "\ee2c";
+}
+.ph.ph-open-ai-logo:before {
+  content: "\e7d2";
+}
+.ph.ph-option:before {
+  content: "\e8a8";
+}
+.ph.ph-orange:before {
+  content: "\ee40";
+}
+.ph.ph-orange-slice:before {
+  content: "\ed36";
+}
+.ph.ph-oven:before {
+  content: "\ed8c";
+}
+.ph.ph-package:before {
+  content: "\e390";
+}
+.ph.ph-paint-brush:before {
+  content: "\e6f0";
+}
+.ph.ph-paint-brush-broad:before {
+  content: "\e590";
+}
+.ph.ph-paint-brush-household:before {
+  content: "\e6f2";
+}
+.ph.ph-paint-bucket:before {
+  content: "\e392";
+}
+.ph.ph-paint-roller:before {
+  content: "\e6f4";
+}
+.ph.ph-palette:before {
+  content: "\e6c8";
+}
+.ph.ph-panorama:before {
+  content: "\eaa2";
+}
+.ph.ph-pants:before {
+  content: "\ec88";
+}
+.ph.ph-paper-plane:before {
+  content: "\e394";
+}
+.ph.ph-paper-plane-right:before {
+  content: "\e396";
+}
+.ph.ph-paper-plane-tilt:before {
+  content: "\e398";
+}
+.ph.ph-paperclip:before {
+  content: "\e39a";
+}
+.ph.ph-paperclip-horizontal:before {
+  content: "\e592";
+}
+.ph.ph-parachute:before {
+  content: "\ea7c";
+}
+.ph.ph-paragraph:before {
+  content: "\e960";
+}
+.ph.ph-parallelogram:before {
+  content: "\ecc6";
+}
+.ph.ph-park:before {
+  content: "\ecb2";
+}
+.ph.ph-password:before {
+  content: "\e752";
+}
+.ph.ph-path:before {
+  content: "\e39c";
+}
+.ph.ph-patreon-logo:before {
+  content: "\e98a";
+}
+.ph.ph-pause:before {
+  content: "\e39e";
+}
+.ph.ph-pause-circle:before {
+  content: "\e3a0";
+}
+.ph.ph-paw-print:before {
+  content: "\e648";
+}
+.ph.ph-paypal-logo:before {
+  content: "\e98c";
+}
+.ph.ph-peace:before {
+  content: "\e3a2";
+}
+.ph.ph-pen:before {
+  content: "\e3aa";
+}
+.ph.ph-pen-nib:before {
+  content: "\e3ac";
+}
+.ph.ph-pen-nib-straight:before {
+  content: "\e64a";
+}
+.ph.ph-pencil:before {
+  content: "\e3ae";
+}
+.ph.ph-pencil-circle:before {
+  content: "\e3b0";
+}
+.ph.ph-pencil-line:before {
+  content: "\e3b2";
+}
+.ph.ph-pencil-ruler:before {
+  content: "\e906";
+}
+.ph.ph-pencil-simple:before {
+  content: "\e3b4";
+}
+.ph.ph-pencil-simple-line:before {
+  content: "\ebc6";
+}
+.ph.ph-pencil-simple-slash:before {
+  content: "\ecf6";
+}
+.ph.ph-pencil-slash:before {
+  content: "\ecf8";
+}
+.ph.ph-pentagon:before {
+  content: "\ec7e";
+}
+.ph.ph-pentagram:before {
+  content: "\ec5c";
+}
+.ph.ph-pepper:before {
+  content: "\e94a";
+}
+.ph.ph-percent:before {
+  content: "\e3b6";
+}
+.ph.ph-person:before {
+  content: "\e3a8";
+}
+.ph.ph-person-arms-spread:before {
+  content: "\ecfe";
+}
+.ph.ph-person-simple:before {
+  content: "\e72e";
+}
+.ph.ph-person-simple-bike:before {
+  content: "\e734";
+}
+.ph.ph-person-simple-circle:before {
+  content: "\ee58";
+}
+.ph.ph-person-simple-hike:before {
+  content: "\ed54";
+}
+.ph.ph-person-simple-run:before {
+  content: "\e730";
+}
+.ph.ph-person-simple-ski:before {
+  content: "\e71c";
+}
+.ph.ph-person-simple-snowboard:before {
+  content: "\e71e";
+}
+.ph.ph-person-simple-swim:before {
+  content: "\e736";
+}
+.ph.ph-person-simple-tai-chi:before {
+  content: "\ed5c";
+}
+.ph.ph-person-simple-throw:before {
+  content: "\e732";
+}
+.ph.ph-person-simple-walk:before {
+  content: "\e73a";
+}
+.ph.ph-perspective:before {
+  content: "\ebe6";
+}
+.ph.ph-phone:before {
+  content: "\e3b8";
+}
+.ph.ph-phone-call:before {
+  content: "\e3ba";
+}
+.ph.ph-phone-disconnect:before {
+  content: "\e3bc";
+}
+.ph.ph-phone-incoming:before {
+  content: "\e3be";
+}
+.ph.ph-phone-list:before {
+  content: "\e3cc";
+}
+.ph.ph-phone-outgoing:before {
+  content: "\e3c0";
+}
+.ph.ph-phone-pause:before {
+  content: "\e3ca";
+}
+.ph.ph-phone-plus:before {
+  content: "\ec56";
+}
+.ph.ph-phone-slash:before {
+  content: "\e3c2";
+}
+.ph.ph-phone-transfer:before {
+  content: "\e3c6";
+}
+.ph.ph-phone-x:before {
+  content: "\e3c4";
+}
+.ph.ph-phosphor-logo:before {
+  content: "\e3ce";
+}
+.ph.ph-pi:before {
+  content: "\ec80";
+}
+.ph.ph-piano-keys:before {
+  content: "\e9c8";
+}
+.ph.ph-picnic-table:before {
+  content: "\ee26";
+}
+.ph.ph-picture-in-picture:before {
+  content: "\e64c";
+}
+.ph.ph-piggy-bank:before {
+  content: "\ea04";
+}
+.ph.ph-pill:before {
+  content: "\e700";
+}
+.ph.ph-ping-pong:before {
+  content: "\ea42";
+}
+.ph.ph-pint-glass:before {
+  content: "\edd0";
+}
+.ph.ph-pinterest-logo:before {
+  content: "\e64e";
+}
+.ph.ph-pinwheel:before {
+  content: "\eb9c";
+}
+.ph.ph-pipe:before {
+  content: "\ed86";
+}
+.ph.ph-pipe-wrench:before {
+  content: "\ed88";
+}
+.ph.ph-pix-logo:before {
+  content: "\ecc2";
+}
+.ph.ph-pizza:before {
+  content: "\e796";
+}
+.ph.ph-placeholder:before {
+  content: "\e650";
+}
+.ph.ph-planet:before {
+  content: "\e652";
+}
+.ph.ph-plant:before {
+  content: "\ebae";
+}
+.ph.ph-play:before {
+  content: "\e3d0";
+}
+.ph.ph-play-circle:before {
+  content: "\e3d2";
+}
+.ph.ph-play-pause:before {
+  content: "\e8be";
+}
+.ph.ph-playlist:before {
+  content: "\e6aa";
+}
+.ph.ph-plug:before {
+  content: "\e946";
+}
+.ph.ph-plug-charging:before {
+  content: "\eb5c";
+}
+.ph.ph-plugs:before {
+  content: "\eb56";
+}
+.ph.ph-plugs-connected:before {
+  content: "\eb5a";
+}
+.ph.ph-plus:before {
+  content: "\e3d4";
+}
+.ph.ph-plus-circle:before {
+  content: "\e3d6";
+}
+.ph.ph-plus-minus:before {
+  content: "\e3d8";
+}
+.ph.ph-plus-square:before {
+  content: "\ed4a";
+}
+.ph.ph-poker-chip:before {
+  content: "\e594";
+}
+.ph.ph-police-car:before {
+  content: "\ec4a";
+}
+.ph.ph-polygon:before {
+  content: "\e6d0";
+}
+.ph.ph-popcorn:before {
+  content: "\eb4e";
+}
+.ph.ph-popsicle:before {
+  content: "\ebbe";
+}
+.ph.ph-potted-plant:before {
+  content: "\ec22";
+}
+.ph.ph-power:before {
+  content: "\e3da";
+}
+.ph.ph-prescription:before {
+  content: "\e7a2";
+}
+.ph.ph-presentation:before {
+  content: "\e654";
+}
+.ph.ph-presentation-chart:before {
+  content: "\e656";
+}
+.ph.ph-printer:before {
+  content: "\e3dc";
+}
+.ph.ph-prohibit:before {
+  content: "\e3de";
+}
+.ph.ph-prohibit-inset:before {
+  content: "\e3e0";
+}
+.ph.ph-projector-screen:before {
+  content: "\e658";
+}
+.ph.ph-projector-screen-chart:before {
+  content: "\e65a";
+}
+.ph.ph-pulse:before {
+  content: "\e000";
+}
+.ph.ph-activity:before {
+  content: "\e000";
+}
+.ph.ph-push-pin:before {
+  content: "\e3e2";
+}
+.ph.ph-push-pin-simple:before {
+  content: "\e65c";
+}
+.ph.ph-push-pin-simple-slash:before {
+  content: "\e65e";
+}
+.ph.ph-push-pin-slash:before {
+  content: "\e3e4";
+}
+.ph.ph-puzzle-piece:before {
+  content: "\e596";
+}
+.ph.ph-qr-code:before {
+  content: "\e3e6";
+}
+.ph.ph-question:before {
+  content: "\e3e8";
+}
+.ph.ph-question-mark:before {
+  content: "\e3e9";
+}
+.ph.ph-queue:before {
+  content: "\e6ac";
+}
+.ph.ph-quotes:before {
+  content: "\e660";
+}
+.ph.ph-rabbit:before {
+  content: "\eac2";
+}
+.ph.ph-racquet:before {
+  content: "\ee02";
+}
+.ph.ph-radical:before {
+  content: "\e3ea";
+}
+.ph.ph-radio:before {
+  content: "\e77e";
+}
+.ph.ph-radio-button:before {
+  content: "\eb08";
+}
+.ph.ph-radioactive:before {
+  content: "\e9dc";
+}
+.ph.ph-rainbow:before {
+  content: "\e598";
+}
+.ph.ph-rainbow-cloud:before {
+  content: "\e59a";
+}
+.ph.ph-ranking:before {
+  content: "\ed62";
+}
+.ph.ph-read-cv-logo:before {
+  content: "\ed0c";
+}
+.ph.ph-receipt:before {
+  content: "\e3ec";
+}
+.ph.ph-receipt-x:before {
+  content: "\ed40";
+}
+.ph.ph-record:before {
+  content: "\e3ee";
+}
+.ph.ph-rectangle:before {
+  content: "\e3f0";
+}
+.ph.ph-rectangle-dashed:before {
+  content: "\e3f2";
+}
+.ph.ph-recycle:before {
+  content: "\e75a";
+}
+.ph.ph-reddit-logo:before {
+  content: "\e59c";
+}
+.ph.ph-repeat:before {
+  content: "\e3f6";
+}
+.ph.ph-repeat-once:before {
+  content: "\e3f8";
+}
+.ph.ph-replit-logo:before {
+  content: "\eb8a";
+}
+.ph.ph-resize:before {
+  content: "\ed6e";
+}
+.ph.ph-rewind:before {
+  content: "\e6a8";
+}
+.ph.ph-rewind-circle:before {
+  content: "\e3fa";
+}
+.ph.ph-road-horizon:before {
+  content: "\e838";
+}
+.ph.ph-robot:before {
+  content: "\e762";
+}
+.ph.ph-rocket:before {
+  content: "\e3fc";
+}
+.ph.ph-rocket-launch:before {
+  content: "\e3fe";
+}
+.ph.ph-rows:before {
+  content: "\e5a2";
+}
+.ph.ph-rows-plus-bottom:before {
+  content: "\e59e";
+}
+.ph.ph-rows-plus-top:before {
+  content: "\e5a0";
+}
+.ph.ph-rss:before {
+  content: "\e400";
+}
+.ph.ph-rss-simple:before {
+  content: "\e402";
+}
+.ph.ph-rug:before {
+  content: "\ea1a";
+}
+.ph.ph-ruler:before {
+  content: "\e6b8";
+}
+.ph.ph-sailboat:before {
+  content: "\e78a";
+}
+.ph.ph-scales:before {
+  content: "\e750";
+}
+.ph.ph-scan:before {
+  content: "\ebb6";
+}
+.ph.ph-scan-smiley:before {
+  content: "\ebb4";
+}
+.ph.ph-scissors:before {
+  content: "\eae0";
+}
+.ph.ph-scooter:before {
+  content: "\e820";
+}
+.ph.ph-screencast:before {
+  content: "\e404";
+}
+.ph.ph-screwdriver:before {
+  content: "\e86e";
+}
+.ph.ph-scribble:before {
+  content: "\e806";
+}
+.ph.ph-scribble-loop:before {
+  content: "\e662";
+}
+.ph.ph-scroll:before {
+  content: "\eb7a";
+}
+.ph.ph-seal:before {
+  content: "\e604";
+}
+.ph.ph-circle-wavy:before {
+  content: "\e604";
+}
+.ph.ph-seal-check:before {
+  content: "\e606";
+}
+.ph.ph-circle-wavy-check:before {
+  content: "\e606";
+}
+.ph.ph-seal-percent:before {
+  content: "\e60a";
+}
+.ph.ph-seal-question:before {
+  content: "\e608";
+}
+.ph.ph-circle-wavy-question:before {
+  content: "\e608";
+}
+.ph.ph-seal-warning:before {
+  content: "\e60c";
+}
+.ph.ph-circle-wavy-warning:before {
+  content: "\e60c";
+}
+.ph.ph-seat:before {
+  content: "\eb8e";
+}
+.ph.ph-seatbelt:before {
+  content: "\edfe";
+}
+.ph.ph-security-camera:before {
+  content: "\eca4";
+}
+.ph.ph-selection:before {
+  content: "\e69a";
+}
+.ph.ph-selection-all:before {
+  content: "\e746";
+}
+.ph.ph-selection-background:before {
+  content: "\eaf8";
+}
+.ph.ph-selection-foreground:before {
+  content: "\eaf6";
+}
+.ph.ph-selection-inverse:before {
+  content: "\e744";
+}
+.ph.ph-selection-plus:before {
+  content: "\e69c";
+}
+.ph.ph-selection-slash:before {
+  content: "\e69e";
+}
+.ph.ph-shapes:before {
+  content: "\ec5e";
+}
+.ph.ph-share:before {
+  content: "\e406";
+}
+.ph.ph-share-fat:before {
+  content: "\ed52";
+}
+.ph.ph-share-network:before {
+  content: "\e408";
+}
+.ph.ph-shield:before {
+  content: "\e40a";
+}
+.ph.ph-shield-check:before {
+  content: "\e40c";
+}
+.ph.ph-shield-checkered:before {
+  content: "\e708";
+}
+.ph.ph-shield-chevron:before {
+  content: "\e40e";
+}
+.ph.ph-shield-plus:before {
+  content: "\e706";
+}
+.ph.ph-shield-slash:before {
+  content: "\e410";
+}
+.ph.ph-shield-star:before {
+  content: "\ec34";
+}
+.ph.ph-shield-warning:before {
+  content: "\e412";
+}
+.ph.ph-shipping-container:before {
+  content: "\e78c";
+}
+.ph.ph-shirt-folded:before {
+  content: "\ea92";
+}
+.ph.ph-shooting-star:before {
+  content: "\ecfa";
+}
+.ph.ph-shopping-bag:before {
+  content: "\e416";
+}
+.ph.ph-shopping-bag-open:before {
+  content: "\e418";
+}
+.ph.ph-shopping-cart:before {
+  content: "\e41e";
+}
+.ph.ph-shopping-cart-simple:before {
+  content: "\e420";
+}
+.ph.ph-shovel:before {
+  content: "\e9e6";
+}
+.ph.ph-shower:before {
+  content: "\e776";
+}
+.ph.ph-shrimp:before {
+  content: "\eab4";
+}
+.ph.ph-shuffle:before {
+  content: "\e422";
+}
+.ph.ph-shuffle-angular:before {
+  content: "\e424";
+}
+.ph.ph-shuffle-simple:before {
+  content: "\e426";
+}
+.ph.ph-sidebar:before {
+  content: "\eab6";
+}
+.ph.ph-sidebar-simple:before {
+  content: "\ec24";
+}
+.ph.ph-sigma:before {
+  content: "\eab8";
+}
+.ph.ph-sign-in:before {
+  content: "\e428";
+}
+.ph.ph-sign-out:before {
+  content: "\e42a";
+}
+.ph.ph-signature:before {
+  content: "\ebac";
+}
+.ph.ph-signpost:before {
+  content: "\e89c";
+}
+.ph.ph-sim-card:before {
+  content: "\e664";
+}
+.ph.ph-siren:before {
+  content: "\e9b8";
+}
+.ph.ph-sketch-logo:before {
+  content: "\e42c";
+}
+.ph.ph-skip-back:before {
+  content: "\e5a4";
+}
+.ph.ph-skip-back-circle:before {
+  content: "\e42e";
+}
+.ph.ph-skip-forward:before {
+  content: "\e5a6";
+}
+.ph.ph-skip-forward-circle:before {
+  content: "\e430";
+}
+.ph.ph-skull:before {
+  content: "\e916";
+}
+.ph.ph-skype-logo:before {
+  content: "\e8dc";
+}
+.ph.ph-slack-logo:before {
+  content: "\e5a8";
+}
+.ph.ph-sliders:before {
+  content: "\e432";
+}
+.ph.ph-sliders-horizontal:before {
+  content: "\e434";
+}
+.ph.ph-slideshow:before {
+  content: "\ed32";
+}
+.ph.ph-smiley:before {
+  content: "\e436";
+}
+.ph.ph-smiley-angry:before {
+  content: "\ec62";
+}
+.ph.ph-smiley-blank:before {
+  content: "\e438";
+}
+.ph.ph-smiley-meh:before {
+  content: "\e43a";
+}
+.ph.ph-smiley-melting:before {
+  content: "\ee56";
+}
+.ph.ph-smiley-nervous:before {
+  content: "\e43c";
+}
+.ph.ph-smiley-sad:before {
+  content: "\e43e";
+}
+.ph.ph-smiley-sticker:before {
+  content: "\e440";
+}
+.ph.ph-smiley-wink:before {
+  content: "\e666";
+}
+.ph.ph-smiley-x-eyes:before {
+  content: "\e442";
+}
+.ph.ph-snapchat-logo:before {
+  content: "\e668";
+}
+.ph.ph-sneaker:before {
+  content: "\e80c";
+}
+.ph.ph-sneaker-move:before {
+  content: "\ed60";
+}
+.ph.ph-snowflake:before {
+  content: "\e5aa";
+}
+.ph.ph-soccer-ball:before {
+  content: "\e716";
+}
+.ph.ph-sock:before {
+  content: "\ecce";
+}
+.ph.ph-solar-panel:before {
+  content: "\ed7a";
+}
+.ph.ph-solar-roof:before {
+  content: "\ed7b";
+}
+.ph.ph-sort-ascending:before {
+  content: "\e444";
+}
+.ph.ph-sort-descending:before {
+  content: "\e446";
+}
+.ph.ph-soundcloud-logo:before {
+  content: "\e8de";
+}
+.ph.ph-spade:before {
+  content: "\e448";
+}
+.ph.ph-sparkle:before {
+  content: "\e6a2";
+}
+.ph.ph-speaker-hifi:before {
+  content: "\ea08";
+}
+.ph.ph-speaker-high:before {
+  content: "\e44a";
+}
+.ph.ph-speaker-low:before {
+  content: "\e44c";
+}
+.ph.ph-speaker-none:before {
+  content: "\e44e";
+}
+.ph.ph-speaker-simple-high:before {
+  content: "\e450";
+}
+.ph.ph-speaker-simple-low:before {
+  content: "\e452";
+}
+.ph.ph-speaker-simple-none:before {
+  content: "\e454";
+}
+.ph.ph-speaker-simple-slash:before {
+  content: "\e456";
+}
+.ph.ph-speaker-simple-x:before {
+  content: "\e458";
+}
+.ph.ph-speaker-slash:before {
+  content: "\e45a";
+}
+.ph.ph-speaker-x:before {
+  content: "\e45c";
+}
+.ph.ph-speedometer:before {
+  content: "\ee74";
+}
+.ph.ph-sphere:before {
+  content: "\ee66";
+}
+.ph.ph-spinner:before {
+  content: "\e66a";
+}
+.ph.ph-spinner-ball:before {
+  content: "\ee28";
+}
+.ph.ph-spinner-gap:before {
+  content: "\e66c";
+}
+.ph.ph-spiral:before {
+  content: "\e9fa";
+}
+.ph.ph-split-horizontal:before {
+  content: "\e872";
+}
+.ph.ph-split-vertical:before {
+  content: "\e876";
+}
+.ph.ph-spotify-logo:before {
+  content: "\e66e";
+}
+.ph.ph-spray-bottle:before {
+  content: "\e7e4";
+}
+.ph.ph-square:before {
+  content: "\e45e";
+}
+.ph.ph-square-half:before {
+  content: "\e462";
+}
+.ph.ph-square-half-bottom:before {
+  content: "\eb16";
+}
+.ph.ph-square-logo:before {
+  content: "\e690";
+}
+.ph.ph-square-split-horizontal:before {
+  content: "\e870";
+}
+.ph.ph-square-split-vertical:before {
+  content: "\e874";
+}
+.ph.ph-squares-four:before {
+  content: "\e464";
+}
+.ph.ph-stack:before {
+  content: "\e466";
+}
+.ph.ph-stack-minus:before {
+  content: "\edf4";
+}
+.ph.ph-stack-overflow-logo:before {
+  content: "\eb78";
+}
+.ph.ph-stack-plus:before {
+  content: "\edf6";
+}
+.ph.ph-stack-simple:before {
+  content: "\e468";
+}
+.ph.ph-stairs:before {
+  content: "\e8ec";
+}
+.ph.ph-stamp:before {
+  content: "\ea48";
+}
+.ph.ph-standard-definition:before {
+  content: "\ea90";
+}
+.ph.ph-star:before {
+  content: "\e46a";
+}
+.ph.ph-star-and-crescent:before {
+  content: "\ecf4";
+}
+.ph.ph-star-four:before {
+  content: "\e6a4";
+}
+.ph.ph-star-half:before {
+  content: "\e70a";
+}
+.ph.ph-star-of-david:before {
+  content: "\e89e";
+}
+.ph.ph-steam-logo:before {
+  content: "\ead4";
+}
+.ph.ph-steering-wheel:before {
+  content: "\e9ac";
+}
+.ph.ph-steps:before {
+  content: "\ecbe";
+}
+.ph.ph-stethoscope:before {
+  content: "\e7ea";
+}
+.ph.ph-sticker:before {
+  content: "\e5ac";
+}
+.ph.ph-stool:before {
+  content: "\ea44";
+}
+.ph.ph-stop:before {
+  content: "\e46c";
+}
+.ph.ph-stop-circle:before {
+  content: "\e46e";
+}
+.ph.ph-storefront:before {
+  content: "\e470";
+}
+.ph.ph-strategy:before {
+  content: "\ea3a";
+}
+.ph.ph-stripe-logo:before {
+  content: "\e698";
+}
+.ph.ph-student:before {
+  content: "\e73e";
+}
+.ph.ph-subset-of:before {
+  content: "\edc0";
+}
+.ph.ph-subset-proper-of:before {
+  content: "\edb6";
+}
+.ph.ph-subtitles:before {
+  content: "\e1a8";
+}
+.ph.ph-subtitles-slash:before {
+  content: "\e1a6";
+}
+.ph.ph-subtract:before {
+  content: "\ebd6";
+}
+.ph.ph-subtract-square:before {
+  content: "\ebd4";
+}
+.ph.ph-subway:before {
+  content: "\e498";
+}
+.ph.ph-suitcase:before {
+  content: "\e5ae";
+}
+.ph.ph-suitcase-rolling:before {
+  content: "\e9b0";
+}
+.ph.ph-suitcase-simple:before {
+  content: "\e5b0";
+}
+.ph.ph-sun:before {
+  content: "\e472";
+}
+.ph.ph-sun-dim:before {
+  content: "\e474";
+}
+.ph.ph-sun-horizon:before {
+  content: "\e5b6";
+}
+.ph.ph-sunglasses:before {
+  content: "\e816";
+}
+.ph.ph-superset-of:before {
+  content: "\edb8";
+}
+.ph.ph-superset-proper-of:before {
+  content: "\edb4";
+}
+.ph.ph-swap:before {
+  content: "\e83c";
+}
+.ph.ph-swatches:before {
+  content: "\e5b8";
+}
+.ph.ph-swimming-pool:before {
+  content: "\ecb6";
+}
+.ph.ph-sword:before {
+  content: "\e5ba";
+}
+.ph.ph-synagogue:before {
+  content: "\ecec";
+}
+.ph.ph-syringe:before {
+  content: "\e968";
+}
+.ph.ph-t-shirt:before {
+  content: "\e670";
+}
+.ph.ph-table:before {
+  content: "\e476";
+}
+.ph.ph-tabs:before {
+  content: "\e778";
+}
+.ph.ph-tag:before {
+  content: "\e478";
+}
+.ph.ph-tag-chevron:before {
+  content: "\e672";
+}
+.ph.ph-tag-simple:before {
+  content: "\e47a";
+}
+.ph.ph-target:before {
+  content: "\e47c";
+}
+.ph.ph-taxi:before {
+  content: "\e902";
+}
+.ph.ph-tea-bag:before {
+  content: "\e8e6";
+}
+.ph.ph-telegram-logo:before {
+  content: "\e5bc";
+}
+.ph.ph-television:before {
+  content: "\e754";
+}
+.ph.ph-television-simple:before {
+  content: "\eae6";
+}
+.ph.ph-tennis-ball:before {
+  content: "\e720";
+}
+.ph.ph-tent:before {
+  content: "\e8ba";
+}
+.ph.ph-terminal:before {
+  content: "\e47e";
+}
+.ph.ph-terminal-window:before {
+  content: "\eae8";
+}
+.ph.ph-test-tube:before {
+  content: "\e7a0";
+}
+.ph.ph-text-a-underline:before {
+  content: "\ed34";
+}
+.ph.ph-text-aa:before {
+  content: "\e6ee";
+}
+.ph.ph-text-align-center:before {
+  content: "\e480";
+}
+.ph.ph-text-align-justify:before {
+  content: "\e482";
+}
+.ph.ph-text-align-left:before {
+  content: "\e484";
+}
+.ph.ph-text-align-right:before {
+  content: "\e486";
+}
+.ph.ph-text-b:before {
+  content: "\e5be";
+}
+.ph.ph-text-bolder:before {
+  content: "\e5be";
+}
+.ph.ph-text-columns:before {
+  content: "\ec96";
+}
+.ph.ph-text-h:before {
+  content: "\e6ba";
+}
+.ph.ph-text-h-five:before {
+  content: "\e6c4";
+}
+.ph.ph-text-h-four:before {
+  content: "\e6c2";
+}
+.ph.ph-text-h-one:before {
+  content: "\e6bc";
+}
+.ph.ph-text-h-six:before {
+  content: "\e6c6";
+}
+.ph.ph-text-h-three:before {
+  content: "\e6c0";
+}
+.ph.ph-text-h-two:before {
+  content: "\e6be";
+}
+.ph.ph-text-indent:before {
+  content: "\ea1e";
+}
+.ph.ph-text-italic:before {
+  content: "\e5c0";
+}
+.ph.ph-text-outdent:before {
+  content: "\ea1c";
+}
+.ph.ph-text-strikethrough:before {
+  content: "\e5c2";
+}
+.ph.ph-text-subscript:before {
+  content: "\ec98";
+}
+.ph.ph-text-superscript:before {
+  content: "\ec9a";
+}
+.ph.ph-text-t:before {
+  content: "\e48a";
+}
+.ph.ph-text-t-slash:before {
+  content: "\e488";
+}
+.ph.ph-text-underline:before {
+  content: "\e5c4";
+}
+.ph.ph-textbox:before {
+  content: "\eb0a";
+}
+.ph.ph-thermometer:before {
+  content: "\e5c6";
+}
+.ph.ph-thermometer-cold:before {
+  content: "\e5c8";
+}
+.ph.ph-thermometer-hot:before {
+  content: "\e5ca";
+}
+.ph.ph-thermometer-simple:before {
+  content: "\e5cc";
+}
+.ph.ph-threads-logo:before {
+  content: "\ed9e";
+}
+.ph.ph-three-d:before {
+  content: "\ea5a";
+}
+.ph.ph-thumbs-down:before {
+  content: "\e48c";
+}
+.ph.ph-thumbs-up:before {
+  content: "\e48e";
+}
+.ph.ph-ticket:before {
+  content: "\e490";
+}
+.ph.ph-tidal-logo:before {
+  content: "\ed1c";
+}
+.ph.ph-tiktok-logo:before {
+  content: "\eaf2";
+}
+.ph.ph-tilde:before {
+  content: "\eda8";
+}
+.ph.ph-timer:before {
+  content: "\e492";
+}
+.ph.ph-tip-jar:before {
+  content: "\e7e2";
+}
+.ph.ph-tipi:before {
+  content: "\ed30";
+}
+.ph.ph-tire:before {
+  content: "\edd2";
+}
+.ph.ph-toggle-left:before {
+  content: "\e674";
+}
+.ph.ph-toggle-right:before {
+  content: "\e676";
+}
+.ph.ph-toilet:before {
+  content: "\e79a";
+}
+.ph.ph-toilet-paper:before {
+  content: "\e79c";
+}
+.ph.ph-toolbox:before {
+  content: "\eca0";
+}
+.ph.ph-tooth:before {
+  content: "\e9cc";
+}
+.ph.ph-tornado:before {
+  content: "\e88c";
+}
+.ph.ph-tote:before {
+  content: "\e494";
+}
+.ph.ph-tote-simple:before {
+  content: "\e678";
+}
+.ph.ph-towel:before {
+  content: "\ede6";
+}
+.ph.ph-tractor:before {
+  content: "\ec6e";
+}
+.ph.ph-trademark:before {
+  content: "\e9f0";
+}
+.ph.ph-trademark-registered:before {
+  content: "\e3f4";
+}
+.ph.ph-traffic-cone:before {
+  content: "\e9a8";
+}
+.ph.ph-traffic-sign:before {
+  content: "\e67a";
+}
+.ph.ph-traffic-signal:before {
+  content: "\e9aa";
+}
+.ph.ph-train:before {
+  content: "\e496";
+}
+.ph.ph-train-regional:before {
+  content: "\e49e";
+}
+.ph.ph-train-simple:before {
+  content: "\e4a0";
+}
+.ph.ph-tram:before {
+  content: "\e9ec";
+}
+.ph.ph-translate:before {
+  content: "\e4a2";
+}
+.ph.ph-trash:before {
+  content: "\e4a6";
+}
+.ph.ph-trash-simple:before {
+  content: "\e4a8";
+}
+.ph.ph-tray:before {
+  content: "\e4aa";
+}
+.ph.ph-tray-arrow-down:before {
+  content: "\e010";
+}
+.ph.ph-archive-tray:before {
+  content: "\e010";
+}
+.ph.ph-tray-arrow-up:before {
+  content: "\ee52";
+}
+.ph.ph-treasure-chest:before {
+  content: "\ede2";
+}
+.ph.ph-tree:before {
+  content: "\e6da";
+}
+.ph.ph-tree-evergreen:before {
+  content: "\e6dc";
+}
+.ph.ph-tree-palm:before {
+  content: "\e91a";
+}
+.ph.ph-tree-structure:before {
+  content: "\e67c";
+}
+.ph.ph-tree-view:before {
+  content: "\ee48";
+}
+.ph.ph-trend-down:before {
+  content: "\e4ac";
+}
+.ph.ph-trend-up:before {
+  content: "\e4ae";
+}
+.ph.ph-triangle:before {
+  content: "\e4b0";
+}
+.ph.ph-triangle-dashed:before {
+  content: "\e4b2";
+}
+.ph.ph-trolley:before {
+  content: "\e5b2";
+}
+.ph.ph-trolley-suitcase:before {
+  content: "\e5b4";
+}
+.ph.ph-trophy:before {
+  content: "\e67e";
+}
+.ph.ph-truck:before {
+  content: "\e4b4";
+}
+.ph.ph-truck-trailer:before {
+  content: "\e4b6";
+}
+.ph.ph-tumblr-logo:before {
+  content: "\e8d4";
+}
+.ph.ph-twitch-logo:before {
+  content: "\e5ce";
+}
+.ph.ph-twitter-logo:before {
+  content: "\e4ba";
+}
+.ph.ph-umbrella:before {
+  content: "\e684";
+}
+.ph.ph-umbrella-simple:before {
+  content: "\e686";
+}
+.ph.ph-union:before {
+  content: "\edbe";
+}
+.ph.ph-unite:before {
+  content: "\e87e";
+}
+.ph.ph-unite-square:before {
+  content: "\e878";
+}
+.ph.ph-upload:before {
+  content: "\e4be";
+}
+.ph.ph-upload-simple:before {
+  content: "\e4c0";
+}
+.ph.ph-usb:before {
+  content: "\e956";
+}
+.ph.ph-user:before {
+  content: "\e4c2";
+}
+.ph.ph-user-check:before {
+  content: "\eafa";
+}
+.ph.ph-user-circle:before {
+  content: "\e4c4";
+}
+.ph.ph-user-circle-check:before {
+  content: "\ec38";
+}
+.ph.ph-user-circle-dashed:before {
+  content: "\ec36";
+}
+.ph.ph-user-circle-gear:before {
+  content: "\e4c6";
+}
+.ph.ph-user-circle-minus:before {
+  content: "\e4c8";
+}
+.ph.ph-user-circle-plus:before {
+  content: "\e4ca";
+}
+.ph.ph-user-focus:before {
+  content: "\e6fc";
+}
+.ph.ph-user-gear:before {
+  content: "\e4cc";
+}
+.ph.ph-user-list:before {
+  content: "\e73c";
+}
+.ph.ph-user-minus:before {
+  content: "\e4ce";
+}
+.ph.ph-user-plus:before {
+  content: "\e4d0";
+}
+.ph.ph-user-rectangle:before {
+  content: "\e4d2";
+}
+.ph.ph-user-sound:before {
+  content: "\eca8";
+}
+.ph.ph-user-square:before {
+  content: "\e4d4";
+}
+.ph.ph-user-switch:before {
+  content: "\e756";
+}
+.ph.ph-users:before {
+  content: "\e4d6";
+}
+.ph.ph-users-four:before {
+  content: "\e68c";
+}
+.ph.ph-users-three:before {
+  content: "\e68e";
+}
+.ph.ph-van:before {
+  content: "\e826";
+}
+.ph.ph-vault:before {
+  content: "\e76e";
+}
+.ph.ph-vector-three:before {
+  content: "\ee62";
+}
+.ph.ph-vector-two:before {
+  content: "\ee64";
+}
+.ph.ph-vibrate:before {
+  content: "\e4d8";
+}
+.ph.ph-video:before {
+  content: "\e740";
+}
+.ph.ph-video-camera:before {
+  content: "\e4da";
+}
+.ph.ph-video-camera-slash:before {
+  content: "\e4dc";
+}
+.ph.ph-video-conference:before {
+  content: "\edce";
+}
+.ph.ph-vignette:before {
+  content: "\eba2";
+}
+.ph.ph-vinyl-record:before {
+  content: "\ecac";
+}
+.ph.ph-virtual-reality:before {
+  content: "\e7b8";
+}
+.ph.ph-virus:before {
+  content: "\e7d6";
+}
+.ph.ph-visor:before {
+  content: "\ee2a";
+}
+.ph.ph-voicemail:before {
+  content: "\e4de";
+}
+.ph.ph-volleyball:before {
+  content: "\e726";
+}
+.ph.ph-wall:before {
+  content: "\e688";
+}
+.ph.ph-wallet:before {
+  content: "\e68a";
+}
+.ph.ph-warehouse:before {
+  content: "\ecd4";
+}
+.ph.ph-warning:before {
+  content: "\e4e0";
+}
+.ph.ph-warning-circle:before {
+  content: "\e4e2";
+}
+.ph.ph-warning-diamond:before {
+  content: "\e7fc";
+}
+.ph.ph-warning-octagon:before {
+  content: "\e4e4";
+}
+.ph.ph-washing-machine:before {
+  content: "\ede8";
+}
+.ph.ph-watch:before {
+  content: "\e4e6";
+}
+.ph.ph-wave-sawtooth:before {
+  content: "\ea9c";
+}
+.ph.ph-wave-sine:before {
+  content: "\ea9a";
+}
+.ph.ph-wave-square:before {
+  content: "\ea9e";
+}
+.ph.ph-wave-triangle:before {
+  content: "\eaa0";
+}
+.ph.ph-waveform:before {
+  content: "\e802";
+}
+.ph.ph-waveform-slash:before {
+  content: "\e800";
+}
+.ph.ph-waves:before {
+  content: "\e6de";
+}
+.ph.ph-webcam:before {
+  content: "\e9b2";
+}
+.ph.ph-webcam-slash:before {
+  content: "\ecdc";
+}
+.ph.ph-webhooks-logo:before {
+  content: "\ecae";
+}
+.ph.ph-wechat-logo:before {
+  content: "\e8d2";
+}
+.ph.ph-whatsapp-logo:before {
+  content: "\e5d0";
+}
+.ph.ph-wheelchair:before {
+  content: "\e4e8";
+}
+.ph.ph-wheelchair-motion:before {
+  content: "\e89a";
+}
+.ph.ph-wifi-high:before {
+  content: "\e4ea";
+}
+.ph.ph-wifi-low:before {
+  content: "\e4ec";
+}
+.ph.ph-wifi-medium:before {
+  content: "\e4ee";
+}
+.ph.ph-wifi-none:before {
+  content: "\e4f0";
+}
+.ph.ph-wifi-slash:before {
+  content: "\e4f2";
+}
+.ph.ph-wifi-x:before {
+  content: "\e4f4";
+}
+.ph.ph-wind:before {
+  content: "\e5d2";
+}
+.ph.ph-windmill:before {
+  content: "\e9f8";
+}
+.ph.ph-windows-logo:before {
+  content: "\e692";
+}
+.ph.ph-wine:before {
+  content: "\e6b2";
+}
+.ph.ph-wrench:before {
+  content: "\e5d4";
+}
+.ph.ph-x:before {
+  content: "\e4f6";
+}
+.ph.ph-x-circle:before {
+  content: "\e4f8";
+}
+.ph.ph-x-logo:before {
+  content: "\e4bc";
+}
+.ph.ph-x-square:before {
+  content: "\e4fa";
+}
+.ph.ph-yarn:before {
+  content: "\ed9a";
+}
+.ph.ph-yin-yang:before {
+  content: "\e92a";
+}
+.ph.ph-youtube-logo:before {
+  content: "\e4fc";
+}
+</style>
+<style>body{margin:0;background:#f6f4f4}a{color:var(--color-accent)}a:hover{color:var(--color-accent-300)}.ph{line-height:1}</style>
+</helmet>
+<div ref="{{ rootRef }}" style="--color-bg:#f6f4f4;--color-surface:#ffffff;--color-text:#141414;--color-accent:#e5262f;--color-accent-2:#e5262f;--color-divider:color-mix(in srgb, #141414 14%, transparent);--color-neutral-100:#1a1a1a;--color-neutral-200:#2b2b2b;--color-neutral-300:#474747;--color-neutral-400:#5c5c5c;--color-neutral-500:#737373;--color-neutral-600:#9a9a9a;--color-neutral-700:#c4c4c4;--color-neutral-800:#e2e2e2;--color-neutral-900:#efefef;--color-accent-100:#3a0a0e;--color-accent-200:#6b0e15;--color-accent-300:#b0161f;--color-accent-400:#d01f29;--color-accent-500:#e5262f;--color-accent-600:#ef3e47;--color-accent-700:#ff9a9f;--color-accent-800:#ffd9db;--color-accent-900:#fff0f0;--color-accent-2-800:#ffd9db;--color-accent-2-100:#3a0a0e;--color-section:#ffe3e4;--color-section-glow:#ffc9cc;--color-section-ghost:#ffeef0;min-height:100vh;background:radial-gradient(680px 520px at 6% 0%, color-mix(in srgb, var(--color-accent-700) 70%, transparent), transparent 70%), radial-gradient(560px 560px at 96% 16%, rgba(255,255,255,.95), transparent 70%), radial-gradient(900px 600px at 50% 115%, color-mix(in srgb, var(--color-accent-800) 80%, transparent), transparent 70%), var(--color-bg);background-attachment:fixed;color:var(--color-text);font-family:var(--font-body)">
+
+<div style="display:flex;flex-wrap:wrap;align-items:center;gap:6px 16px;padding:8px 20px;background:color-mix(in srgb, var(--color-bg) 55%, transparent);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);font-size:12px;color:var(--color-neutral-300)">
+  <span style="margin-left:auto">Masuk sebagai <strong>__AF_USER_EMAIL__</strong></span>
+  <a href="/logout" style="text-decoration:none;display:flex;align-items:center;gap:6px">Keluar <i class="ph ph-sign-out"></i></a>
+</div>
+
+<nav class="nav" style="background:linear-gradient(155deg, rgba(255,255,255,.78), rgba(255,255,255,.46));backdrop-filter:blur(28px) saturate(170%);-webkit-backdrop-filter:blur(28px) saturate(170%);box-shadow:inset 0 1px 0 rgba(255,255,255,.95), inset 0 0 0 1px rgba(20,20,20,.07), 0 12px 32px rgba(90,20,24,.10);border-radius:999px;width:calc(100% - 32px);max-width:1160px;margin:14px auto 4px;padding:8px 10px 8px 22px">
+  <a href="/" class="nav-brand" style="letter-spacing:.06em;text-decoration:none;color:inherit">20FIT</a>
+  <a href="/">Program</a>
+  <a href="/#faq">FAQ</a>
+  <a href="/dashboard" aria-current="page">Dashboard</a>
+  <span style="width:30px;height:30px;border-radius:50%;background:var(--color-neutral-800);display:grid;place-items:center;font-size:12px;color:var(--color-neutral-200)">__AF_USER_INITIALS__</span>
+</nav>
+
+<main style="max-width:{{ g.max }};margin:0 auto;padding:8px 20px 72px;display:flex;flex-direction:column;gap:20px">
+  <div style="display:flex;align-items:center;gap:6px;font-size:13px" class="text-muted"><a href="/" style="color:inherit;text-decoration:none">Program affiliate</a><i class="ph ph-caret-right" style="font-size:11px"></i><span>Dashboard</span></div>
+
+  <sc-if value="{{ note.show }}" hint-placeholder-val="{{ false }}">
+    <div style="display:flex;flex-wrap:wrap;gap:12px 16px;align-items:center;padding:14px 16px;border-radius:16px;background:rgba(255,255,255,.58);box-shadow:inset 0 1px 0 rgba(255,255,255,.95), inset 0 0 0 1px rgba(20,20,20,.07);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);">
+      <i class="ph ph-info" style="font-size:22px;color:var(--color-accent-300)"></i>
+      <div style="flex:1;min-width:220px;font-size:14px"><div style="font-weight:500">{{ note.title }}</div><div style="color:var(--color-neutral-300)">{{ note.body }}</div></div>
+      <sc-if value="{{ note.reload }}" hint-placeholder-val="{{ false }}"><button style-hover="background:color-mix(in srgb, var(--color-neutral-100) 15%, transparent)" style="border-radius:999px;border-color:transparent;background:rgba(255,255,255,.58);box-shadow:inset 0 1px 0 rgba(255,255,255,.95), inset 0 0 0 1px rgba(20,20,20,.07);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);" class="btn btn-secondary" sc-camel-on-click="{{ reload }}">Muat ulang</button></sc-if>
+      <sc-if value="{{ note.hasSupport }}" hint-placeholder-val="{{ false }}"><a style-hover="background:color-mix(in srgb, var(--color-neutral-100) 15%, transparent)" style="border-radius:999px;border-color:transparent;background:rgba(255,255,255,.58);box-shadow:inset 0 1px 0 rgba(255,255,255,.95), inset 0 0 0 1px rgba(20,20,20,.07);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);" class="btn btn-secondary" href="{{ links.support }}" target="_blank" rel="noopener">Hubungi tim affiliate</a></sc-if>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ notJoined }}" hint-placeholder-val="{{ false }}">
+    <section style="display:flex;flex-direction:column;gap:28px">
+      <div>
+        <div class="card-kicker">Program affiliate 20FIT</div>
+        <h1 style="font-size:38px;max-width:640px;text-wrap:pretty;margin:10px 0 12px">{{ t.heroTitle }}</h1>
+        <p class="text-muted" style="max-width:560px;font-size:16px;text-wrap:pretty">Bagikan link produk 20FIT ke teman. Setiap kali mereka membeli produk itu di app 20FIT lewat link-mu, kamu dapat komisi.</p>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px">
+        <div class="card" style="background:linear-gradient(155deg, rgba(255,255,255,.78), rgba(255,255,255,.46));backdrop-filter:blur(28px) saturate(170%);-webkit-backdrop-filter:blur(28px) saturate(170%);box-shadow:inset 0 1px 0 rgba(255,255,255,.95), inset 0 0 0 1px rgba(20,20,20,.07), 0 12px 32px rgba(90,20,24,.10);border-radius:22px;padding:18px;gap:8px"><span style="font-size:13px;color:var(--color-accent-300)">01</span><div class="card-title">Bagikan link produk</div><p class="card-body">Pilih produk 20FIT di dashboard ini, lalu bagikan link-nya lewat WhatsApp, media sosial, atau QR code.</p></div>
+        <div class="card" style="background:linear-gradient(155deg, rgba(255,255,255,.78), rgba(255,255,255,.46));backdrop-filter:blur(28px) saturate(170%);-webkit-backdrop-filter:blur(28px) saturate(170%);box-shadow:inset 0 1px 0 rgba(255,255,255,.95), inset 0 0 0 1px rgba(20,20,20,.07), 0 12px 32px rgba(90,20,24,.10);border-radius:22px;padding:18px;gap:8px"><span style="font-size:13px;color:var(--color-accent-300)">02</span><div class="card-title">Temanmu beli di app</div><p class="card-body">Temanmu membuka link-mu dan membeli produk itu di app 20FIT. Akun baru maupun lama sama-sama dihitung.</p></div>
+        <div class="card" style="background:linear-gradient(155deg, rgba(255,255,255,.78), rgba(255,255,255,.46));backdrop-filter:blur(28px) saturate(170%);-webkit-backdrop-filter:blur(28px) saturate(170%);box-shadow:inset 0 1px 0 rgba(255,255,255,.95), inset 0 0 0 1px rgba(20,20,20,.07), 0 12px 32px rgba(90,20,24,.10);border-radius:22px;padding:18px;gap:8px"><span style="font-size:13px;color:var(--color-accent-300)">03</span><div class="card-title">Kamu dapat komisi</div><p class="card-body">{{ t.stepEarn }}</p></div>
+      </div>
+      <div class="card elev-sm" style="background:linear-gradient(155deg, rgba(255,255,255,.78), rgba(255,255,255,.46));backdrop-filter:blur(28px) saturate(170%);-webkit-backdrop-filter:blur(28px) saturate(170%);box-shadow:inset 0 1px 0 rgba(255,255,255,.95), inset 0 0 0 1px rgba(20,20,20,.07), 0 12px 32px rgba(90,20,24,.10);border-radius:22px;padding:22px;gap:14px">
+        <h5 style="margin:0">Ringkasan S&amp;K</h5>
+        <ul style="margin:0;padding-left:18px;display:flex;flex-direction:column;gap:6px;font-size:14px;color:var(--color-neutral-300)">
+          <sc-for list="{{ t.termsList }}" as="item" hint-placeholder-count="5"><li>{{ item.text }}</li></sc-for>
+        </ul>
+        <sc-if value="{{ t.hasTermsUrl }}" hint-placeholder-val="{{ false }}"><a href="{{ t.termsUrl }}" target="_blank" rel="noopener" style="font-size:14px">{{ t.readTermsLabel }}</a></sc-if>
+        <label style="display:flex;gap:10px;align-items:flex-start;font-size:14px;cursor:pointer"><input type="checkbox" checked="{{ agreed }}" sc-camel-on-change="{{ toggleAgree }}" style="accent-color:var(--color-accent);margin-top:3px">{{ t.agreeLabel }}</label>
+        <div><button style-hover="background:var(--color-accent-400);color:#ffffff" class="btn btn-primary" style="border-radius:999px;border-color:var(--color-accent-500);color:var(--color-text);background:var(--color-accent);color:#ffffff;box-shadow:inset 0 1px 0 rgba(255,255,255,.35), 0 0 18px color-mix(in srgb, var(--color-accent) 28%, transparent);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);padding:10px 18px" disabled="{{ joinDisabled }}" sc-camel-on-click="{{ join }}">{{ joinLabel }}</button></div>
+      </div>
+    </section>
+  </sc-if>
+
+  <sc-if value="{{ joined }}" hint-placeholder-val="{{ true }}">
+    <div style="display:flex;flex-direction:column;gap:4px">
+      <h2 style="margin:0">Dashboard affiliate</h2>
+      <p class="text-muted" style="margin:0;font-size:14px">{{ t.joinedSub }}</p>
+    </div>
+
+    <sc-if value="{{ showTermsBanner }}" hint-placeholder-val="{{ false }}">
+      <div style="display:flex;flex-wrap:wrap;gap:12px 16px;align-items:center;padding:14px 16px;border-radius:16px;background:linear-gradient(155deg, color-mix(in srgb, var(--color-accent-500) 26%, transparent), color-mix(in srgb, var(--color-accent-700) 14%, transparent));box-shadow:inset 0 1px 0 rgba(255,255,255,.85), inset 0 0 0 1px color-mix(in srgb, var(--color-accent-300) 22%, transparent), 0 10px 30px color-mix(in srgb, var(--color-accent-700) 30%, transparent);backdrop-filter:blur(24px) saturate(160%);-webkit-backdrop-filter:blur(24px) saturate(160%)">
+        <i class="ph ph-file-text" style="font-size:22px;color:var(--color-accent)"></i>
+        <div style="flex:1;min-width:220px;font-size:14px"><div style="font-weight:500">{{ t.updatedLabel }}</div><div style="color:var(--color-neutral-300)">Baca dan setujui dulu sebelum klaim berikutnya.</div></div>
+        <button style-hover="background:var(--color-accent-400);color:#ffffff" style="border-radius:999px;border-color:var(--color-accent-500);color:var(--color-text);background:var(--color-accent);color:#ffffff;box-shadow:inset 0 1px 0 rgba(255,255,255,.35), 0 0 18px color-mix(in srgb, var(--color-accent) 28%, transparent);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);" class="btn btn-primary" sc-camel-on-click="{{ openConsent }}">Baca dan setujui</button>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ showRejected }}" hint-placeholder-val="{{ false }}">
+      <div style="display:flex;flex-wrap:wrap;gap:12px 16px;align-items:center;padding:14px 16px;border-radius:16px;background:rgba(255,255,255,.58);box-shadow:inset 0 1px 0 rgba(255,255,255,.95), inset 0 0 0 1px rgba(20,20,20,.07);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);">
+        <i class="ph ph-warning-circle" style="font-size:22px;color:var(--color-accent-300)"></i>
+        <div style="flex:1;min-width:220px;font-size:14px"><div style="font-weight:500">{{ rejected.title }}</div><div style="color:var(--color-neutral-300)">{{ rejected.reason }} Komisimu sudah kembali ke saldo Tersedia.</div></div>
+        <div style="display:flex;gap:8px">
+          <button style-hover="background:color-mix(in srgb, var(--color-neutral-100) 15%, transparent)" style="border-radius:999px;border-color:transparent;background:rgba(255,255,255,.58);box-shadow:inset 0 1px 0 rgba(255,255,255,.95), inset 0 0 0 1px rgba(20,20,20,.07);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);" class="btn btn-secondary" sc-camel-on-click="{{ dismissRejected }}">Tutup</button>
+          <button style-hover="background:var(--color-accent-400);color:#ffffff" style="border-radius:999px;border-color:var(--color-accent-500);color:var(--color-text);background:var(--color-accent);color:#ffffff;box-shadow:inset 0 1px 0 rgba(255,255,255,.35), 0 0 18px color-mix(in srgb, var(--color-accent) 28%, transparent);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);" class="btn btn-primary" sc-camel-on-click="{{ openPayoutEdit }}">Perbarui data pencairan</button>
+        </div>
+      </div>
+    </sc-if>
+
+    <div style="display:grid;grid-template-columns:{{ g.cols }};grid-template-rows:{{ g.rows }};grid-template-areas:{{ g.areas }};gap:16px;align-items:start">
+
+      <div style="grid-area:wallet;display:flex;flex-direction:{{ g.walletDir }};gap:16px;align-self:start;position:{{ g.walletPos }};top:16px;min-width:0">
+        <section class="card elev-sm" style="background:linear-gradient(155deg, rgba(255,255,255,.78), rgba(255,255,255,.46));backdrop-filter:blur(28px) saturate(170%);-webkit-backdrop-filter:blur(28px) saturate(170%);box-shadow:inset 0 1px 0 rgba(255,255,255,.95), inset 0 0 0 1px rgba(20,20,20,.07), 0 12px 32px rgba(90,20,24,.10);border-radius:22px;padding:20px;gap:14px">
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:8px"><span class="card-kicker">Tersedia untuk klaim</span><span class="text-muted" style="font-size:12px">{{ bal.minLabel }}</span></div>
+          <div style="font-size:40px;font-weight:500;letter-spacing:-.02em;line-height:1;font-variant-numeric:tabular-nums">{{ bal.available }}</div>
+          <sc-if value="{{ bal.showProgress }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex;flex-direction:column;gap:6px">
+              <div style="height:6px;border-radius:3px;background:color-mix(in srgb, var(--color-neutral-100) 9%, transparent);overflow:hidden"><div style="height:100%;width:{{ bal.pct }};background:linear-gradient(90deg, var(--color-accent-600), var(--color-accent-400));box-shadow:0 0 12px color-mix(in srgb, var(--color-accent) 60%, transparent);border-radius:3px"></div></div>
+              <div style="font-size:13px;color:var(--color-accent-300)">{{ bal.toGo }}</div>
+            </div>
+          </sc-if>
+          <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;padding-top:4px">
+            <div><div class="text-muted" style="font-size:12px;display:flex;align-items:center;gap:4px">Tertahan <i class="ph ph-hourglass-medium"></i></div><div style="font-size:17px;font-variant-numeric:tabular-nums">{{ bal.held }}</div><div class="text-muted" style="font-size:11px">{{ bal.heldNote }}</div></div>
+            <div><div class="text-muted" style="font-size:12px">Sudah dibayar</div><div style="font-size:17px;font-variant-numeric:tabular-nums">{{ bal.paid }}</div><div class="text-muted" style="font-size:11px">Sepanjang waktu</div></div>
+          </div>
+          <sc-if value="{{ ac.show }}" hint-placeholder-val="{{ false }}">
+            <div style="padding:12px;border-radius:16px;background:linear-gradient(155deg, color-mix(in srgb, var(--color-accent-500) 26%, transparent), color-mix(in srgb, var(--color-accent-700) 14%, transparent));box-shadow:inset 0 1px 0 rgba(255,255,255,.85), inset 0 0 0 1px color-mix(in srgb, var(--color-accent-300) 22%, transparent), 0 10px 30px color-mix(in srgb, var(--color-accent-700) 30%, transparent);backdrop-filter:blur(24px) saturate(160%);-webkit-backdrop-filter:blur(24px) saturate(160%);display:flex;flex-direction:column;gap:4px">
+              <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:13px"><span>Klaim {{ ac.id }}</span><span style="border-radius:999px;" class="tag tag-outline">{{ ac.label }}</span></div>
+              <div style="font-size:20px;font-variant-numeric:tabular-nums">{{ ac.net }}</div>
+              <div style="font-size:12px;color:var(--color-neutral-300)">{{ ac.detail }}</div>
+            </div>
+          </sc-if>
+          <button style-hover="background:var(--color-accent-400);color:#ffffff" class="btn btn-primary btn-block" style="border-radius:999px;border-color:var(--color-accent-500);color:var(--color-text);background:var(--color-accent);color:#ffffff;box-shadow:inset 0 1px 0 rgba(255,255,255,.35), 0 0 18px color-mix(in srgb, var(--color-accent) 28%, transparent);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);padding:10px 14px" disabled="{{ bal.claimDisabled }}" sc-camel-on-click="{{ startClaim }}">{{ bal.claimLabel }}</button>
+          <div class="text-muted" style="font-size:12px;margin-top:-6px">{{ bal.note }}</div>
+        </section>
+
+        <section class="card" style="background:linear-gradient(155deg, rgba(255,255,255,.78), rgba(255,255,255,.46));backdrop-filter:blur(28px) saturate(170%);-webkit-backdrop-filter:blur(28px) saturate(170%);box-shadow:inset 0 1px 0 rgba(255,255,255,.95), inset 0 0 0 1px rgba(20,20,20,.07), 0 12px 32px rgba(90,20,24,.10);border-radius:22px;padding:20px;gap:12px">
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:8px">
+            <span class="card-kicker">Link saya</span>
+            <span class="text-muted" style="font-size:12px">{{ share.rateLabel }}</span>
+          </div>
+          <div class="text-muted" style="font-size:13px">{{ share.hint }}</div>
+          <div role="group" aria-label="Pilih produk" style="display:flex;flex-wrap:wrap;gap:6px">
+            <sc-for list="{{ share.products }}" as="o" hint-placeholder-count="6">
+              <button class="btn btn-secondary" style="border-radius:999px;font-size:13px;padding:6px 12px;border-color:transparent;background:{{ o.bg }};color:{{ o.color }};box-shadow:{{ o.shadow }}" aria-pressed="{{ o.pressed }}" disabled="{{ o.disabled }}" sc-camel-on-click="{{ o.pick }}">{{ o.label }}</button>
+            </sc-for>
+          </div>
+          <sc-if value="{{ share.loading }}" hint-placeholder-val="{{ false }}">
+            <div class="text-muted" style="font-size:13px">Menyiapkan link…</div>
+          </sc-if>
+          <sc-if value="{{ share.hasLink }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex;flex-direction:column;gap:2px;padding:12px;border-radius:16px;background:rgba(255,255,255,.58);box-shadow:inset 0 1px 0 rgba(255,255,255,.95), inset 0 0 0 1px rgba(20,20,20,.07)">
+              <div class="text-muted" style="font-size:12px">{{ share.product }}</div>
+              <div style="font-size:15px;font-weight:500;word-break:break-all">{{ share.url }}</div>
+            </div>
+            <div style="display:flex;flex-wrap:wrap;gap:8px">
+              <button style-hover="background:color-mix(in srgb, var(--color-neutral-100) 15%, transparent)" style="border-radius:999px;border-color:transparent;background:rgba(255,255,255,.58);box-shadow:inset 0 1px 0 rgba(255,255,255,.95), inset 0 0 0 1px rgba(20,20,20,.07);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);" class="btn btn-secondary" sc-camel-on-click="{{ copyLink }}"><i class="ph ph-link"></i>Salin link</button>
+              <a style-hover="background:color-mix(in srgb, var(--color-neutral-100) 15%, transparent)" style="border-radius:999px;border-color:transparent;background:rgba(255,255,255,.58);box-shadow:inset 0 1px 0 rgba(255,255,255,.95), inset 0 0 0 1px rgba(20,20,20,.07);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);" class="btn btn-secondary" href="{{ share.wa }}" target="_blank" rel="noopener"><i class="ph ph-whatsapp-logo"></i>WhatsApp</a>
+              <button style-hover="background:color-mix(in srgb, var(--color-neutral-100) 15%, transparent)" style="border-radius:999px;border-color:transparent;background:rgba(255,255,255,.58);box-shadow:inset 0 1px 0 rgba(255,255,255,.95), inset 0 0 0 1px rgba(20,20,20,.07);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);" class="btn btn-secondary" sc-camel-on-click="{{ downloadQr }}"><i class="ph ph-qr-code"></i>Unduh QR</button>
+            </div>
+          </sc-if>
+          <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:8px;padding-top:10px;background:linear-gradient(to right, transparent, var(--color-divider) 48px, var(--color-divider) calc(100% - 48px), transparent) no-repeat top / 100% 1px">
+            <span style="font-size:13px"><span class="text-muted">Kode affiliate </span><strong style="letter-spacing:.08em">{{ code }}</strong></span>
+            <sc-if value="{{ share.canEdit }}" hint-placeholder-val="{{ false }}"><button class="btn btn-ghost" style="border-radius:999px;font-size:13px" sc-camel-on-click="{{ startEditCode }}">Ubah kode</button></sc-if>
+          </div>
+          <sc-if value="{{ share.editing }}" hint-placeholder-val="{{ false }}">
+            <div class="field" style="display:flex;flex-direction:column;gap:6px">
+              <label>Kode baru · 4–12 huruf atau angka · hanya bisa diganti sekali</label>
+              <input class="input" style="border-radius:14px;border-color:color-mix(in srgb, var(--color-neutral-100) 14%, transparent);background:color-mix(in srgb, var(--color-neutral-100) 6%, transparent);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);text-transform:uppercase;letter-spacing:.08em" maxlength="12" value="{{ codeDraft }}" sc-camel-on-change="{{ onCodeDraft }}">
+              <div style="font-size:12px;color:var(--color-accent-300)">{{ codeError }}</div>
+              <div style="display:flex;gap:8px"><button style-hover="background:var(--color-accent-400);color:#ffffff" style="border-radius:999px;border-color:var(--color-accent-500);color:var(--color-text);background:var(--color-accent);color:#ffffff;box-shadow:inset 0 1px 0 rgba(255,255,255,.35), 0 0 18px color-mix(in srgb, var(--color-accent) 28%, transparent);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);" class="btn btn-primary" disabled="{{ busy }}" sc-camel-on-click="{{ saveCode }}">Simpan kode</button><button style-hover="background:color-mix(in srgb, var(--color-neutral-100) 15%, transparent)" style="border-radius:999px;border-color:transparent;background:rgba(255,255,255,.58);box-shadow:inset 0 1px 0 rgba(255,255,255,.95), inset 0 0 0 1px rgba(20,20,20,.07);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);" class="btn btn-secondary" sc-camel-on-click="{{ cancelCode }}">Batal</button></div>
+            </div>
+          </sc-if>
+          <div class="text-muted" style="font-size:12px">{{ share.note }}</div>
+        </section>
+      </div>
+
+      <section class="card" style="background:linear-gradient(155deg, rgba(255,255,255,.78), rgba(255,255,255,.46));backdrop-filter:blur(28px) saturate(170%);-webkit-backdrop-filter:blur(28px) saturate(170%);box-shadow:inset 0 1px 0 rgba(255,255,255,.95), inset 0 0 0 1px rgba(20,20,20,.07), 0 12px 32px rgba(90,20,24,.10);border-radius:22px;grid-area:perf;padding:20px;gap:16px;min-width:0">
+        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px">
+          <h4 style="margin:0">Performa link</h4>
+          <div style="border-radius:999px;border-color:color-mix(in srgb, var(--color-neutral-100) 14%, transparent);background:rgba(255,255,255,.58);box-shadow:inset 0 1px 0 rgba(255,255,255,.95), inset 0 0 0 1px rgba(20,20,20,.07);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);" class="seg">
+            <label class="seg-opt"><input type="radio" name="period" checked="{{ p7 }}" sc-camel-on-change="{{ setP7 }}">7 hari</label>
+            <label class="seg-opt"><input type="radio" name="period" checked="{{ p30 }}" sc-camel-on-change="{{ setP30 }}">30 hari</label>
+            <label class="seg-opt"><input type="radio" name="period" checked="{{ pAll }}" sc-camel-on-change="{{ setPAll }}">Semua</label>
+          </div>
+        </div>
+        <sc-if value="{{ perf.empty }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;flex-direction:column;gap:10px;align-items:flex-start;padding:8px 0">
+            <div style="font-size:16px">{{ perf.emptyTitle }}</div>
+            <div class="text-muted" style="font-size:13px;max-width:440px">{{ perf.emptyBody }}</div>
+          </div>
+        </sc-if>
+        <sc-if value="{{ perf.has }}" hint-placeholder-val="{{ true }}">
+          <div style="display:flex;flex-direction:column;gap:12px">
+            <sc-for list="{{ perf.rows }}" as="r" hint-placeholder-count="3">
+              <div style="display:grid;grid-template-columns:96px minmax(0,1fr) minmax(88px,auto);gap:12px;align-items:center">
+                <span class="text-muted" style="font-size:13px">{{ r.label }}</span>
+                <div style="height:8px;border-radius:4px;background:color-mix(in srgb, var(--color-neutral-100) 9%, transparent)"><div style="height:100%;width:{{ r.w }};min-width:4px;border-radius:4px;background:linear-gradient(90deg, var(--color-accent-600), var(--color-accent-400));box-shadow:0 0 14px color-mix(in srgb, var(--color-accent) 60%, transparent)"></div></div>
+                <span style="text-align:right;font-variant-numeric:tabular-nums"><span style="font-weight:500">{{ r.value }}</span> <span class="text-muted" style="font-size:12px">{{ r.sub }}</span></span>
+              </div>
+            </sc-for>
+            <div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding-top:12px;margin-top:4px;background:linear-gradient(to right, transparent, var(--color-divider) 48px, var(--color-divider) calc(100% - 48px), transparent) no-repeat top / 100% 1px">
+              <span class="text-muted" style="font-size:13px">Komisi · {{ perf.periodLabel }}</span>
+              <span style="font-size:24px;font-weight:500;font-variant-numeric:tabular-nums">{{ perf.comm }}</span>
+            </div>
+            <div style="overflow-x:auto;margin-top:4px">
+              <sc-raw-table class="table" style="min-width:520px">
+                <sc-raw-thead><sc-raw-tr><sc-raw-th>Produk</sc-raw-th><sc-raw-th style="text-align:right">Dibuka</sc-raw-th><sc-raw-th style="text-align:right">Pembeli</sc-raw-th><sc-raw-th style="text-align:right">Transaksi</sc-raw-th><sc-raw-th style="text-align:right">Komisi</sc-raw-th><sc-raw-th></sc-raw-th></sc-raw-tr></sc-raw-thead>
+                <sc-raw-tbody>
+                  <sc-for list="{{ perf.links }}" as="l" hint-placeholder-count="3">
+                    <sc-raw-tr>
+                      <sc-raw-td>{{ l.product }}</sc-raw-td>
+                      <sc-raw-td style="text-align:right;font-variant-numeric:tabular-nums">{{ l.opens }}</sc-raw-td>
+                      <sc-raw-td style="text-align:right;font-variant-numeric:tabular-nums">{{ l.buyers }}</sc-raw-td>
+                      <sc-raw-td style="text-align:right;font-variant-numeric:tabular-nums">{{ l.transactions }}</sc-raw-td>
+                      <sc-raw-td style="text-align:right;font-variant-numeric:tabular-nums">{{ l.commission }}</sc-raw-td>
+                      <sc-raw-td style="text-align:right"><button class="btn btn-ghost" style="border-radius:999px;font-size:13px;padding:4px 10px" sc-camel-on-click="{{ l.open }}">Detail</button></sc-raw-td>
+                    </sc-raw-tr>
+                  </sc-for>
+                </sc-raw-tbody>
+              </sc-raw-table>
+            </div>
+            <sc-if value="{{ detail.show }}" hint-placeholder-val="{{ false }}">
+              <div style="display:flex;flex-direction:column;gap:12px;padding:14px;border-radius:16px;background:rgba(255,255,255,.58);box-shadow:inset 0 1px 0 rgba(255,255,255,.95), inset 0 0 0 1px rgba(20,20,20,.07)">
+                <div style="display:flex;justify-content:space-between;align-items:center;gap:8px">
+                  <div><div style="font-weight:500">{{ detail.product }}</div><div class="text-muted" style="font-size:12px">{{ detail.sub }}</div></div>
+                  <button class="btn btn-ghost" style="border-radius:999px;font-size:13px" aria-label="Tutup detail" sc-camel-on-click="{{ closeDetail }}"><i class="ph ph-x"></i></button>
+                </div>
+                <sc-if value="{{ detail.loading }}" hint-placeholder-val="{{ false }}"><div class="text-muted" style="font-size:13px">Memuat…</div></sc-if>
+                <sc-if value="{{ detail.ready }}" hint-placeholder-val="{{ true }}">
+                  <div role="img" aria-label="{{ detail.aria }}" style="display:flex;align-items:flex-end;gap:2px;height:120px;padding-top:8px">
+                    <sc-for list="{{ detail.days }}" as="d" hint-placeholder-count="30">
+                      <div title="{{ d.tip }}" style="flex:1;min-width:2px;height:100%;display:flex;flex-direction:column;justify-content:flex-end;gap:2px">
+                        <div style="height:{{ d.hOpen }};min-height:{{ d.minOpen }};border-radius:3px 3px 0 0;background:color-mix(in srgb, var(--color-accent-700) 70%, transparent)"></div>
+                        <div style="height:{{ d.hTx }};min-height:{{ d.minTx }};border-radius:3px;background:var(--color-accent)"></div>
+                      </div>
+                    </sc-for>
+                  </div>
+                  <div style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;font-size:12px" class="text-muted">
+                    <span><span style="display:inline-block;width:10px;height:10px;border-radius:3px;background:color-mix(in srgb, var(--color-accent-700) 70%, transparent);margin-right:4px"></span>Dibuka <span style="display:inline-block;width:10px;height:10px;border-radius:3px;background:var(--color-accent);margin:0 4px 0 10px"></span>Transaksi</span>
+                    <span>{{ detail.range }}</span>
+                  </div>
+                </sc-if>
+                <div><button style-hover="background:color-mix(in srgb, var(--color-neutral-100) 15%, transparent)" style="border-radius:999px;border-color:transparent;background:rgba(255,255,255,.58);box-shadow:inset 0 1px 0 rgba(255,255,255,.95), inset 0 0 0 1px rgba(20,20,20,.07);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);" class="btn btn-secondary" sc-camel-on-click="{{ detail.showPurchases }}"><i class="ph ph-list"></i>Lihat pembelian lewat link ini</button></div>
+              </div>
+            </sc-if>
+          </div>
+        </sc-if>
+      </section>
+
+      <div role="tablist" style="grid-area:tabs;display:{{ g.dTabs }};gap:4px;min-width:0">
+        <sc-for list="{{ tabs }}" as="tb" hint-placeholder-count="3">
+          <button class="btn btn-ghost" style="border-radius:999px;padding:8px 12px;color:{{ tb.color }};box-shadow:{{ tb.shadow }};border-radius:0" sc-camel-on-click="{{ tb.on }}">{{ tb.label }}</button>
+        </sc-for>
+      </div>
+
+      <section class="card" style="background:linear-gradient(155deg, rgba(255,255,255,.78), rgba(255,255,255,.46));backdrop-filter:blur(28px) saturate(170%);-webkit-backdrop-filter:blur(28px) saturate(170%);box-shadow:inset 0 1px 0 rgba(255,255,255,.95), inset 0 0 0 1px rgba(20,20,20,.07), 0 12px 32px rgba(90,20,24,.10);border-radius:22px;grid-area:{{ g.gaTx }};display:{{ g.dTx }};padding:20px;gap:12px;min-width:0">
+        <div><h4 style="margin:0 0 4px">Pembelian lewat link-mu</h4><div class="text-muted" style="font-size:13px">Yang tampil hanya komisimu. Nama pembeli disamarkan dan nominal yang mereka bayar tidak ditampilkan.</div></div>
+        <sc-if value="{{ tx.filtered }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px;font-size:13px"><span class="tag tag-outline" style="border-radius:999px">{{ tx.filterLabel }}</span><button class="btn btn-ghost" style="border-radius:999px;font-size:13px" sc-camel-on-click="{{ clearFilter }}">Tampilkan semua</button></div>
+        </sc-if>
+        <sc-if value="{{ txEmpty }}" hint-placeholder-val="{{ false }}">
+          <div class="text-muted" style="font-size:14px;padding:12px 0">{{ tx.empty }}</div>
+        </sc-if>
+        <sc-if value="{{ txHas }}" hint-placeholder-val="{{ true }}">
+          <div style="overflow-x:auto">
+            <sc-raw-table class="table" style="min-width:560px">
+              <sc-raw-thead><sc-raw-tr><sc-raw-th>Pembeli</sc-raw-th><sc-raw-th>Produk</sc-raw-th><sc-raw-th>Tanggal</sc-raw-th><sc-raw-th style="text-align:right">Komisi</sc-raw-th><sc-raw-th>Status</sc-raw-th></sc-raw-tr></sc-raw-thead>
+              <sc-raw-tbody>
+                <sc-for list="{{ txRows }}" as="r" hint-placeholder-count="5">
+                  <sc-raw-tr style="opacity:{{ r.op }}">
+                    <sc-raw-td>{{ r.who }}</sc-raw-td>
+                    <sc-raw-td style="color:var(--color-neutral-300)">{{ r.product }}</sc-raw-td>
+                    <sc-raw-td style="white-space:nowrap;color:var(--color-neutral-300)">{{ r.date }}</sc-raw-td>
+                    <sc-raw-td style="text-align:right;font-variant-numeric:tabular-nums;text-decoration:{{ r.deco }}">{{ r.amount }}</sc-raw-td>
+                    <sc-raw-td><span class="{{ r.cls }}" title="{{ r.note }}">{{ r.label }}</span></sc-raw-td>
+                  </sc-raw-tr>
+                </sc-for>
+              </sc-raw-tbody>
+            </sc-raw-table>
+          </div>
+        </sc-if>
+      </section>
+
+      <section class="card" style="background:linear-gradient(155deg, rgba(255,255,255,.78), rgba(255,255,255,.46));backdrop-filter:blur(28px) saturate(170%);-webkit-backdrop-filter:blur(28px) saturate(170%);box-shadow:inset 0 1px 0 rgba(255,255,255,.95), inset 0 0 0 1px rgba(20,20,20,.07), 0 12px 32px rgba(90,20,24,.10);border-radius:22px;grid-area:{{ g.gaClaims }};display:{{ g.dClaims }};padding:20px;gap:12px;min-width:0">
+        <h4 style="margin:0">Riwayat klaim</h4>
+        <sc-if value="{{ claimsEmpty }}" hint-placeholder-val="{{ false }}">
+          <div class="text-muted" style="font-size:14px;padding:12px 0">{{ claimsEmptyText }}</div>
+        </sc-if>
+        <sc-if value="{{ claimsHas }}" hint-placeholder-val="{{ true }}">
+          <div style="overflow-x:auto">
+            <sc-raw-table class="table" style="min-width:560px">
+              <sc-raw-thead><sc-raw-tr><sc-raw-th>Klaim</sc-raw-th><sc-raw-th>Diajukan</sc-raw-th><sc-raw-th style="text-align:right">Jumlah</sc-raw-th><sc-raw-th>Status</sc-raw-th><sc-raw-th>Keterangan</sc-raw-th></sc-raw-tr></sc-raw-thead>
+              <sc-raw-tbody>
+                <sc-for list="{{ claimRows }}" as="c" hint-placeholder-count="2">
+                  <sc-raw-tr>
+                    <sc-raw-td style="white-space:nowrap">{{ c.id }}</sc-raw-td>
+                    <sc-raw-td style="white-space:nowrap;color:var(--color-neutral-300)">{{ c.date }}</sc-raw-td>
+                    <sc-raw-td style="text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap">{{ c.amount }}<div class="text-muted" style="font-size:11px">{{ c.net }}</div></sc-raw-td>
+                    <sc-raw-td><span class="{{ c.cls }}">{{ c.label }}</span></sc-raw-td>
+                    <sc-raw-td style="font-size:13px;color:var(--color-neutral-300);max-width:260px">{{ c.detail }}<sc-if value="{{ c.hasProof }}" hint-placeholder-val="{{ false }}"> · <a href="{{ c.proofHref }}" target="_blank" rel="noopener">Bukti transfer</a></sc-if></sc-raw-td>
+                  </sc-raw-tr>
+                </sc-for>
+              </sc-raw-tbody>
+            </sc-raw-table>
+          </div>
+        </sc-if>
+      </section>
+
+      <section class="card" style="background:linear-gradient(155deg, rgba(255,255,255,.78), rgba(255,255,255,.46));backdrop-filter:blur(28px) saturate(170%);-webkit-backdrop-filter:blur(28px) saturate(170%);box-shadow:inset 0 1px 0 rgba(255,255,255,.95), inset 0 0 0 1px rgba(20,20,20,.07), 0 12px 32px rgba(90,20,24,.10);border-radius:22px;grid-area:activity;display:{{ g.dActivity }};padding:20px;gap:8px;min-width:0">
+        <h4 style="margin:0 0 6px">Aktivitas</h4>
+        <sc-if value="{{ actEmpty }}" hint-placeholder-val="{{ false }}">
+          <div class="text-muted" style="font-size:14px;padding:12px 0">Belum ada aktivitas. Komisi dari pembelian lewat link-mu dan klaimmu akan muncul di sini.</div>
+        </sc-if>
+        <sc-for list="{{ activity }}" as="a" hint-placeholder-count="5">
+          <div style="display:grid;grid-template-columns:32px minmax(0,1fr) auto;gap:12px;align-items:center;padding:10px 0;background:linear-gradient(to right, transparent, color-mix(in srgb, var(--color-text) 8%, transparent) 48px, color-mix(in srgb, var(--color-text) 8%, transparent) calc(100% - 48px), transparent) no-repeat bottom / 100% 1px;opacity:{{ a.op }}">
+            <span style="width:32px;height:32px;border-radius:50%;background:color-mix(in srgb, var(--color-neutral-100) 9%, transparent);display:grid;place-items:center;color:var(--color-accent-300)"><i class="{{ a.icon }}"></i></span>
+            <div style="min-width:0"><div style="font-size:14px;overflow:hidden;text-overflow:ellipsis">{{ a.title }}</div><div class="text-muted" style="font-size:12px">{{ a.sub }}</div></div>
+            <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px"><span style="font-variant-numeric:tabular-nums;font-size:14px">{{ a.amount }}</span><span class="{{ a.cls }}">{{ a.label }}</span></div>
+          </div>
+        </sc-for>
+      </section>
+
+      <section class="card" style="background:linear-gradient(155deg, rgba(255,255,255,.78), rgba(255,255,255,.46));backdrop-filter:blur(28px) saturate(170%);-webkit-backdrop-filter:blur(28px) saturate(170%);box-shadow:inset 0 1px 0 rgba(255,255,255,.95), inset 0 0 0 1px rgba(20,20,20,.07), 0 12px 32px rgba(90,20,24,.10);border-radius:22px;grid-area:{{ g.gaPayout }};display:{{ g.dPayout }};padding:20px;gap:12px;min-width:0">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:8px">
+          <h4 style="margin:0">Data pencairan</h4>
+          <sc-if value="{{ payout.has }}" hint-placeholder-val="{{ false }}"><button class="btn btn-ghost" style="border-radius:999px;font-size:13px" sc-camel-on-click="{{ openPayoutEdit }}">Ubah</button></sc-if>
+        </div>
+        <sc-if value="{{ payout.none }}" hint-placeholder-val="{{ true }}">
+          <div class="text-muted" style="font-size:14px">Data KTP dan rekening diminta saat klaim pertama. Disimpan terenkripsi.</div>
+        </sc-if>
+        <sc-if value="{{ payout.has }}" hint-placeholder-val="{{ false }}">
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px 20px;font-size:14px">
+            <sc-for list="{{ payout.rows }}" as="p" hint-placeholder-count="6">
+              <div><div class="text-muted" style="font-size:12px">{{ p.k }}</div><div>{{ p.v }}</div></div>
+            </sc-for>
+          </div>
+        </sc-if>
+      </section>
+
+      <section style="grid-area:help;display:flex;flex-wrap:wrap;gap:8px 20px;align-items:center;font-size:13px;padding:4px 2px;min-width:0" class="text-muted">
+        <sc-if value="{{ t.hasTermsUrl }}" hint-placeholder-val="{{ false }}"><a href="{{ t.termsUrl }}" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:6px"><i class="ph ph-file-text"></i>S&amp;K Affiliate</a></sc-if>
+        <span>{{ termsLine }}</span>
+        <a href="/#gabung" style="display:flex;align-items:center;gap:6px"><i class="ph ph-question"></i>Cara kerja &amp; FAQ</a>
+        <sc-if value="{{ links.hasSupport }}" hint-placeholder-val="{{ false }}"><a href="{{ links.support }}" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:6px"><i class="ph ph-chat-circle"></i>Hubungi tim affiliate</a></sc-if>
+      </section>
+    </div>
+  </sc-if>
+</main>
+
+<sc-if value="{{ dlg.open }}" hint-placeholder-val="{{ false }}">
+  <div class="dialog-backdrop" style="background:rgba(20,20,20,.22);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);z-index:50" sc-camel-on-click="{{ backdrop }}">
+    <div class="dialog" style="background:linear-gradient(155deg, rgba(255,255,255,.9), rgba(255,255,255,.7));backdrop-filter:blur(28px) saturate(170%);-webkit-backdrop-filter:blur(28px) saturate(170%);box-shadow:inset 0 1px 0 rgba(255,255,255,.95), inset 0 0 0 1px rgba(20,20,20,.07), 0 12px 32px rgba(90,20,24,.10);border-radius:28px;width:min(480px,100%);max-height:calc(100vh - 32px);overflow:auto">
+
+      <sc-if value="{{ dlg.consent }}" hint-placeholder-val="{{ false }}">
+        <div class="dialog-title">{{ t.consentTitle }}</div>
+        <div class="dialog-body" style="display:flex;flex-direction:column;gap:10px">
+          <div>Ringkasan:</div>
+          <ul style="margin:0;padding-left:18px;display:flex;flex-direction:column;gap:6px;color:var(--color-neutral-300)">
+            <sc-for list="{{ t.consentList }}" as="item" hint-placeholder-count="5"><li>{{ item.text }}</li></sc-for>
+          </ul>
+          <sc-if value="{{ t.hasTermsUrl }}" hint-placeholder-val="{{ false }}"><a href="{{ t.termsUrl }}" target="_blank" rel="noopener">Baca S&amp;K lengkap</a></sc-if>
+          <label style="display:flex;gap:10px;align-items:flex-start;cursor:pointer;padding-top:4px"><input type="checkbox" checked="{{ consentChecked }}" sc-camel-on-change="{{ toggleConsent }}" style="accent-color:var(--color-accent);margin-top:3px">{{ t.consentLabel }}</label>
+        </div>
+        <div class="dialog-actions"><button style-hover="background:color-mix(in srgb, var(--color-neutral-100) 15%, transparent)" style="border-radius:999px;border-color:transparent;background:rgba(255,255,255,.58);box-shadow:inset 0 1px 0 rgba(255,255,255,.95), inset 0 0 0 1px rgba(20,20,20,.07);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);" class="btn btn-secondary" sc-camel-on-click="{{ closeDialog }}">Nanti saja</button><button style-hover="background:var(--color-accent-400);color:#ffffff" style="border-radius:999px;border-color:var(--color-accent-500);color:var(--color-text);background:var(--color-accent);color:#ffffff;box-shadow:inset 0 1px 0 rgba(255,255,255,.35), 0 0 18px color-mix(in srgb, var(--color-accent) 28%, transparent);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);" class="btn btn-primary" disabled="{{ consentDisabled }}" sc-camel-on-click="{{ acceptTerms }}">{{ consentCta }}</button></div>
+      </sc-if>
+
+      <sc-if value="{{ dlg.payout }}" hint-placeholder-val="{{ false }}">
+        <div><div class="dialog-title">Data pencairan</div><div class="text-muted" style="font-size:13px;margin-top:4px">Cukup sekali, untuk transfer komisi dan pemotongan pajak. Disimpan terenkripsi.</div></div>
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <div class="field"><label>Nama lengkap (sesuai KTP)</label><input style="border-radius:14px;border-color:color-mix(in srgb, var(--color-neutral-100) 14%, transparent);background:color-mix(in srgb, var(--color-neutral-100) 6%, transparent);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);" class="input" value="{{ form.name }}" sc-camel-on-change="{{ onF.name }}"><div style="font-size:12px;color:var(--color-accent-300);margin-top:4px">{{ err.name }}</div></div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px">
+            <div class="field"><label>NIK</label><input style="border-radius:14px;border-color:color-mix(in srgb, var(--color-neutral-100) 14%, transparent);background:color-mix(in srgb, var(--color-neutral-100) 6%, transparent);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);" class="input" inputmode="numeric" maxlength="16" placeholder="16 digit" value="{{ form.nik }}" sc-camel-on-change="{{ onF.nik }}"><div style="font-size:12px;color:var(--color-accent-300);margin-top:4px">{{ err.nik }}</div></div>
+            <div class="field"><label>NPWP (opsional)</label><input style="border-radius:14px;border-color:color-mix(in srgb, var(--color-neutral-100) 14%, transparent);background:color-mix(in srgb, var(--color-neutral-100) 6%, transparent);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);" class="input" inputmode="numeric" maxlength="16" placeholder="15 atau 16 digit" value="{{ form.npwp }}" sc-camel-on-change="{{ onF.npwp }}"><div style="font-size:12px;color:var(--color-accent-300);margin-top:4px">{{ err.npwp }}</div></div>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px">
+            <div class="field"><label>Bank</label>
+              <sc-raw-select style="border-radius:14px;border-color:color-mix(in srgb, var(--color-neutral-100) 14%, transparent);background:color-mix(in srgb, var(--color-neutral-100) 6%, transparent);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);" class="input" value="{{ form.bank }}" sc-camel-on-change="{{ onF.bank }}">
+                <option value="">Pilih bank</option><option>BCA</option><option>Mandiri</option><option>BNI</option><option>BRI</option><option>CIMB Niaga</option><option>Permata</option><option>BSI</option><option>Bank Jago</option>
+              </sc-raw-select>
+              <div style="font-size:12px;color:var(--color-accent-300);margin-top:4px">{{ err.bank }}</div></div>
+            <div class="field"><label>Nomor rekening</label><input style="border-radius:14px;border-color:color-mix(in srgb, var(--color-neutral-100) 14%, transparent);background:color-mix(in srgb, var(--color-neutral-100) 6%, transparent);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);" class="input" inputmode="numeric" value="{{ form.acct }}" sc-camel-on-change="{{ onF.acct }}"><div style="font-size:12px;color:var(--color-accent-300);margin-top:4px">{{ err.acct }}</div></div>
+          </div>
+          <div class="field"><label>Nama pemilik rekening</label><input style="border-radius:14px;border-color:color-mix(in srgb, var(--color-neutral-100) 14%, transparent);background:color-mix(in srgb, var(--color-neutral-100) 6%, transparent);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);" class="input" value="{{ form.holder }}" sc-camel-on-change="{{ onF.holder }}"><div style="font-size:12px;color:var(--color-accent-300);margin-top:4px">{{ err.holder }}</div></div>
+          <div class="text-muted" style="font-size:12px">{{ taxHint }}</div>
+        </div>
+        <div class="dialog-actions"><button style-hover="background:color-mix(in srgb, var(--color-neutral-100) 15%, transparent)" style="border-radius:999px;border-color:transparent;background:rgba(255,255,255,.58);box-shadow:inset 0 1px 0 rgba(255,255,255,.95), inset 0 0 0 1px rgba(20,20,20,.07);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);" class="btn btn-secondary" sc-camel-on-click="{{ closeDialog }}">Batal</button><button style-hover="background:var(--color-accent-400);color:#ffffff" style="border-radius:999px;border-color:var(--color-accent-500);color:var(--color-text);background:var(--color-accent);color:#ffffff;box-shadow:inset 0 1px 0 rgba(255,255,255,.35), 0 0 18px color-mix(in srgb, var(--color-accent) 28%, transparent);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);" class="btn btn-primary" disabled="{{ busy }}" sc-camel-on-click="{{ savePayout }}">{{ payoutCta }}</button></div>
+      </sc-if>
+
+      <sc-if value="{{ dlg.summary }}" hint-placeholder-val="{{ false }}">
+        <div class="dialog-title">Klaim komisi</div>
+        <div style="display:flex;flex-direction:column;gap:10px;font-size:14px">
+          <div style="display:flex;justify-content:space-between;gap:12px"><span class="text-muted">Komisi Tersedia</span><span style="font-variant-numeric:tabular-nums">{{ sum.gross }}</span></div>
+          <div style="display:flex;justify-content:space-between;gap:12px"><span class="text-muted">{{ sum.taxLabel }}</span><span style="font-variant-numeric:tabular-nums">{{ sum.tax }}</span></div>
+          <sc-if value="{{ sum.hasAdjustment }}" hint-placeholder-val="{{ false }}"><div style="display:flex;justify-content:space-between;gap:12px"><span class="text-muted">Penyesuaian (refund setelah pencairan)</span><span style="font-variant-numeric:tabular-nums">{{ sum.adjustment }}</span></div></sc-if>
+          <div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding-top:10px;background:linear-gradient(to right, transparent, var(--color-divider) 48px, var(--color-divider) calc(100% - 48px), transparent) no-repeat top / 100% 1px"><span>Yang kamu terima</span><span style="font-size:24px;font-weight:500;font-variant-numeric:tabular-nums">{{ sum.net }}</span></div>
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px;border-radius:16px;background:rgba(255,255,255,.58);box-shadow:inset 0 1px 0 rgba(255,255,255,.95), inset 0 0 0 1px rgba(20,20,20,.07);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);">
+            <div><div class="text-muted" style="font-size:12px">Transfer ke</div><div>{{ sum.account }}</div><div class="text-muted" style="font-size:12px">{{ sum.holder }}</div></div>
+            <button class="btn btn-ghost" style="border-radius:999px;font-size:13px" sc-camel-on-click="{{ editFromSummary }}">Ubah</button>
+          </div>
+          <div class="text-muted" style="font-size:12px">Seluruh saldo Tersedia masuk ke klaim ini. Potongan pajak bisa disesuaikan setelah dicek tim finance 20FIT.</div>
+        </div>
+        <div class="dialog-actions"><button style-hover="background:color-mix(in srgb, var(--color-neutral-100) 15%, transparent)" style="border-radius:999px;border-color:transparent;background:rgba(255,255,255,.58);box-shadow:inset 0 1px 0 rgba(255,255,255,.95), inset 0 0 0 1px rgba(20,20,20,.07);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);" class="btn btn-secondary" sc-camel-on-click="{{ closeDialog }}">Batal</button><button style-hover="background:var(--color-accent-400);color:#ffffff" style="border-radius:999px;border-color:var(--color-accent-500);color:var(--color-text);background:var(--color-accent);color:#ffffff;box-shadow:inset 0 1px 0 rgba(255,255,255,.35), 0 0 18px color-mix(in srgb, var(--color-accent) 28%, transparent);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);" class="btn btn-primary" disabled="{{ busy }}" sc-camel-on-click="{{ submitClaim }}">Ajukan klaim</button></div>
+      </sc-if>
+
+      <sc-if value="{{ dlg.done }}" hint-placeholder-val="{{ false }}">
+        <span style="width:44px;height:44px;border-radius:50%;display:grid;place-items:center;box-shadow:inset 0 0 0 1px var(--color-accent);color:var(--color-accent);font-size:22px"><i class="ph ph-check"></i></span>
+        <div class="dialog-title">Klaim diajukan</div>
+        <div class="dialog-body">{{ doneText }}</div>
+        <div class="dialog-actions"><button style-hover="background:var(--color-accent-400);color:#ffffff" style="border-radius:999px;border-color:var(--color-accent-500);color:var(--color-text);background:var(--color-accent);color:#ffffff;box-shadow:inset 0 1px 0 rgba(255,255,255,.35), 0 0 18px color-mix(in srgb, var(--color-accent) 28%, transparent);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);" class="btn btn-primary" sc-camel-on-click="{{ closeDialog }}">Selesai</button></div>
+      </sc-if>
+    </div>
+  </div>
+</sc-if>
+
+<sc-if value="{{ hasToast }}" hint-placeholder-val="{{ false }}">
+  <div class="card elev-md" style="background:linear-gradient(155deg, rgba(255,255,255,.78), rgba(255,255,255,.46));backdrop-filter:blur(28px) saturate(170%);-webkit-backdrop-filter:blur(28px) saturate(170%);box-shadow:inset 0 1px 0 rgba(255,255,255,.95), inset 0 0 0 1px rgba(20,20,20,.07), 0 12px 32px rgba(90,20,24,.10);border-radius:22px;position:fixed;left:20px;bottom:20px;z-index:60;flex-direction:row;align-items:center;gap:8px;padding:10px 14px;font-size:14px"><i class="ph ph-check-circle" style="color:var(--color-accent)"></i>{{ toast }}</div>
+</sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script="">
+// Affiliate dashboard (/dashboard). The server puts the signed-in
+// affiliate's data in window.__AF_DATA__ before the page paints; every
+// action after that goes through /api/affiliate/*, which calls Supabase
+// with the session cookie. Nothing here holds a token. All numbers and
+// rules (rate, minimum claim, hold days, tax, terms) come from the data.
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.rootRef = React.createRef();
+    const D = window.__AF_DATA__ || {};
+    this.D = { user: D.user || { name: '', email: '' }, settings: D.settings || {}, links: D.links || {}, qrSrc: D.qrSrc || '' };
+    this.state = Object.assign(this.fromState(D.state || { error: 'Data dashboard tidak bisa dimuat.' }), {
+      narrow: false, toast: '', dialog: null, claimFlow: false, form: this.emptyForm(null), errors: {}, busy: false,
+      agreed: false, consentChecked: false, rejectDismissed: false, editingCode: false, codeDraft: '', codeError: '',
+      period: '30', share: { slug: '', url: '', product: '', loading: false }, detail: null, txFilter: null, filtered: null, preview: null, doneText: ''
+    });
+  }
+  componentDidMount() {
+    const el = this.rootRef.current;
+    if (el && window.ResizeObserver) {
+      this.ro = new ResizeObserver(([e]) => { const n = e.contentRect.width < 900; if (n !== this.state.narrow) this.setState({ narrow: n }); });
+      this.ro.observe(el);
+    }
+  }
+  componentWillUnmount() { this.ro && this.ro.disconnect(); clearTimeout(this.tt); }
+
+  fromState(st) {
+    return {
+      error: st.error || '', joined: !!st.joined, products: st.products || [], aff: st.affiliate || null, summary: st.summary || null,
+      links: st.links || [], commissions: st.commissions || [], claims: st.claims || [], adjustments: st.adjustments || [], profile: st.payoutProfile || null
+    };
+  }
+
+  // ── formatting (Indonesian, Asia/Jakarta) ──
+  fmt(n) { return 'Rp' + Math.floor(Number(n) || 0).toLocaleString('id-ID'); }
+  pct(r) { return (Math.round(Number(r) * 10000) / 100).toLocaleString('id-ID', { maximumFractionDigits: 2 }) + '%'; }
+  fd(iso) {
+    if (!iso) return '';
+    const d = new Date(/^\d{4}-\d{2}-\d{2}$/.test(iso) ? iso + 'T00:00:00+07:00' : iso);
+    return isNaN(d) ? '' : d.toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric', timeZone: 'Asia/Jakarta' });
+  }
+  claimNo(c) { return c && c.no ? 'CLM-' + String(c.no).padStart(4, '0') : 'Klaim'; }
+  emptyForm(p) { return { name: (p && p.ktp_name) || this.D.user.name || '', nik: '', npwp: '', bank: (p && p.bank_name) || '', acct: '', holder: (p && p.account_holder) || '' }; }
+  flash(msg) { clearTimeout(this.tt); this.setState({ toast: msg }); this.tt = setTimeout(() => this.setState({ toast: '' }), 2600); }
+  copy(text, msg) { try { navigator.clipboard && navigator.clipboard.writeText(text).catch(() => {}); } catch (e) {} this.flash(msg); }
+
+  // ── server calls ──
+  async api(method, path, body) {
+    const res = await fetch('/api/affiliate/' + path, {
+      method, credentials: 'same-origin', headers: body ? { 'Content-Type': 'application/json' } : {}, body: body ? JSON.stringify(body) : undefined
+    });
+    const data = await res.json().catch(() => ({}));
+    if (res.status === 401 && data.login) { location.assign(data.login); throw new Error(data.error || 'Sesi habis'); }
+    if (!res.ok) throw new Error(data.error || 'Terjadi kesalahan. Coba lagi.');
+    return data;
+  }
+  async run(fn) {
+    if (this.state.busy) return;
+    this.setState({ busy: true });
+    try { await fn(); } catch (e) { this.flash(e.message); } finally { this.setState({ busy: false }); }
+  }
+  async refresh() {
+    const st = await this.api('GET', 'state');
+    this.setState(this.fromState(st));
+    if (this.state.period !== '30') await this.loadLinks(this.state.period);
+  }
+  async loadLinks(p) {
+    const r = await this.api('GET', 'links?days=' + (p === 'all' ? 'all' : p));
+    this.setState({ links: r.links, period: p });
+  }
+  async openDetail(l) {
+    this.setState({ detail: { id: l.id, product: l.product, rows: null } });
+    try {
+      const p = this.state.period;
+      const r = await this.api('GET', 'links/' + l.id + '/daily?days=' + (p === 'all' ? 'all' : p));
+      if (this.state.detail && this.state.detail.id === l.id) this.setState({ detail: { id: l.id, product: l.product, rows: r.rows } });
+    } catch (e) { this.flash(e.message); this.setState({ detail: null }); }
+  }
+  async showPurchases(id, product) {
+    try {
+      const r = await this.api('GET', 'commissions?link=' + encodeURIComponent(id));
+      this.setState({ txFilter: { id, product }, filtered: r.rows });
+    } catch (e) { this.flash(e.message); }
+  }
+  pickProduct(slug) {
+    const p = this.state.products.find(x => x.slug === slug);
+    this.setState({ share: { slug, url: '', product: p ? p.name : '', loading: true } });
+    this.api('POST', 'link', { slug })
+      .then(r => {
+        this.setState({ share: { slug, url: r.url, product: r.product, loading: false } });
+        if (!this.state.links.some(l => l.id === r.id)) this.loadLinks(this.state.period).catch(() => {});
+      })
+      .catch(e => { this.setState({ share: { slug: '', url: '', product: '', loading: false } }); this.flash(e.message); });
+  }
+  loadQr() {
+    if (window.qrcode) return Promise.resolve(window.qrcode);
+    return new Promise((ok, fail) => {
+      const s = document.createElement('script'); s.src = this.D.qrSrc;
+      s.onload = () => ok(window.qrcode); s.onerror = () => fail(new Error('QR tidak bisa dibuat. Coba lagi.'));
+      document.head.appendChild(s);
+    });
+  }
+  async downloadQr() {
+    const { url, slug } = this.state.share;
+    if (!url) return;
+    try {
+      const qrcode = await this.loadQr();
+      const qr = qrcode(0, 'M'); qr.addData(url); qr.make();
+      const n = qr.getModuleCount(), cell = 10, pad = 4 * cell, size = n * cell + pad * 2;
+      const c = document.createElement('canvas'); c.width = c.height = size;
+      const g = c.getContext('2d'); g.fillStyle = '#ffffff'; g.fillRect(0, 0, size, size); g.fillStyle = '#141414';
+      for (let r = 0; r < n; r++) for (let k = 0; k < n; k++) if (qr.isDark(r, k)) g.fillRect(pad + k * cell, pad + r * cell, cell, cell);
+      const a = document.createElement('a'); a.href = c.toDataURL('image/png'); a.download = 'qr-20fit-' + (this.state.aff ? this.state.aff.code : '') + '-' + slug + '.png';
+      document.body.appendChild(a); a.click(); a.remove();
+      this.flash('QR code diunduh');
+    } catch (e) { this.flash(e.message); }
+  }
+
+  // ── claim flow ──
+  termsOutdated() { const s = this.state; return !!(s.aff && this.D.settings.termsVersion && s.aff.termsVersion !== this.D.settings.termsVersion); }
+  nextClaimStep() { return !this.state.profile ? 'payout' : 'summary'; }
+  async openSummary() {
+    const preview = await this.api('GET', 'claim-preview');
+    this.setState({ preview, dialog: 'summary' });
+  }
+  validate(f) {
+    const e = {};
+    if (!f.name.trim()) e.name = 'Isi nama sesuai KTP.';
+    if (!/^\d{16}$/.test(f.nik)) e.nik = 'NIK harus 16 digit.';
+    if (f.npwp && !/^\d{15,16}$/.test(f.npwp)) e.npwp = 'NPWP harus 15 atau 16 digit.';
+    if (!f.bank) e.bank = 'Pilih bank.';
+    if (!/^\d{6,20}$/.test(f.acct)) e.acct = 'Isi nomor rekening yang valid.';
+    if (!f.holder.trim()) e.holder = 'Isi nama pemilik rekening.';
+    else if (f.name.trim() && f.holder.trim().toLowerCase() !== f.name.trim().toLowerCase()) e.holder = 'Harus sama persis dengan nama di KTP, atau transfer akan ditolak.';
+    return e;
+  }
+
+  grid() {
+    return { max: '760px', cols: 'minmax(0,1fr)', rows: 'auto', areas: '"wallet" "perf" "tx" "claims" "payout" "help"', gaTx: 'tx', gaClaims: 'claims', gaPayout: 'payout',
+      dTabs: 'none', dActivity: 'none', dTx: 'flex', dClaims: 'flex', dPayout: 'flex', walletDir: 'column', walletPos: 'static' };
+  }
+
+  renderVals() {
+    const s = this.state, S = this.D.settings, L = this.D.links, f = n => this.fmt(n), fd = d => this.fd(d);
+    const sm = s.summary || {};
+    const rate = this.pct(S.commissionRate || 0);
+    const MIN = Number(sm.min_claim != null ? sm.min_claim : S.minWithdrawal) || 0;
+    const days = Number(sm.pending_days != null ? sm.pending_days : S.pendingDays) || 0;
+    const paused = S.programStatus === 'paused';
+    const suspended = !!(s.aff && s.aff.status !== 'active');
+    const avail = Number(sm.available) || 0, held = Number(sm.held) || 0, paid = Number(sm.paid) || 0;
+    const active = s.claims.find(c => c.status === 'submitted' || c.status === 'processing');
+    const latest = s.claims[0];
+    const needTerms = this.termsOutdated();
+    const taxNpwp = Number(sm.tax_rate_npwp), taxNo = Number(sm.tax_rate_no_npwp);
+
+    const termsList = [
+      'Hanya pembelian di app 20FIT yang dihitung, bukan web, kasir Cafe, atau Clinic.',
+      'Akun pembeli baru maupun lama sama-sama dihitung. Pembelian lewat link sendiri tidak dihitung.',
+      `Komisi ditahan ${days} hari setelah pembayaran lunas. Refund di masa itu membatalkan komisinya.`,
+      `Klaim mulai ${f(MIN)} saldo Tersedia, dibayar lewat transfer bank.`,
+      '20FIT bisa mengubah rate untuk transaksi berikutnya atau menghentikan program.'
+    ];
+    const summaryLines = String(S.termsSummary || '').split(/\n+/).map(x => x.replace(/^[-•*]\s*/, '').trim()).filter(Boolean);
+    const t = {
+      heroTitle: `Dapat ${rate} dari setiap pembelian di app lewat link-mu.`,
+      stepEarn: `${rate} dari yang dibayar pembeli, untuk setiap transaksi di app lewat link-mu.`,
+      joinedSub: `${rate} dari setiap transaksi di app 20FIT lewat link produkmu.`,
+      termsList: termsList.map(text => ({ text })), consentList: (summaryLines.length ? summaryLines : termsList).map(text => ({ text })),
+      termsVersion: S.termsVersion || '', termsUrl: S.termsUrl || '#', hasTermsUrl: !!S.termsUrl,
+      agreeLabel: `Saya sudah membaca dan setuju dengan S&K Affiliate ${S.termsVersion || ''}.`,
+      consentLabel: `Saya setuju dengan S&K Affiliate ${S.termsVersion || ''}`,
+      consentTitle: `S&K Affiliate ${S.termsVersion || ''}`,
+      readTermsLabel: `Baca S&K Affiliate lengkap (${S.termsVersion || ''})`,
+      updatedLabel: `S&K Affiliate diperbarui (${S.termsVersion || ''})`
+    };
+
+    // notices at the top of the page
+    let note = { show: false, title: '', body: '', reload: false, hasSupport: false };
+    if (s.error) note = { show: true, title: 'Data belum bisa dimuat', body: s.error, reload: true, hasSupport: false };
+    else if (suspended) note = { show: true, title: 'Akun affiliate kamu sedang dinonaktifkan', body: 'Data tetap bisa dilihat, tapi klaim dan link baru tidak tersedia untuk sementara.' + (L.support ? '' : ' Hubungi tim affiliate 20FIT untuk info lebih lanjut.'), reload: false, hasSupport: !!L.support };
+    else if (paused) note = { show: true, title: s.joined ? 'Program affiliate sedang dijeda' : 'Pendaftaran affiliate sedang ditutup', body: s.joined ? 'Link baru belum bisa dibuat. Komisi yang sudah tercatat tetap aman dan bisa diklaim.' : 'Kamu belum bisa bergabung sekarang. Coba lagi nanti.', reload: false, hasSupport: false };
+
+    // balance
+    let bnote;
+    if (suspended) bnote = 'Klaim tidak tersedia selama akun dinonaktifkan.';
+    else if (active) bnote = 'Satu klaim dalam satu waktu. Kamu bisa klaim lagi setelah klaim ini dibayar.';
+    else if (sm.claim_blocker === 'adjustments_exceed_balance') bnote = 'Saldo masih habis untuk potongan refund setelah pencairan.';
+    else if (avail >= MIN) bnote = 'Dibayar lewat transfer bank ke rekening atas namamu.';
+    else if (avail > 0) bnote = `Klaim bisa diajukan setelah saldo Tersedia mencapai ${f(MIN)}.`;
+    else bnote = `Komisi jadi Tersedia ${days} hari setelah pembelian lunas, kalau tidak direfund.`;
+    const TX = { held: ['Tertahan', 'tag tag-neutral'], available: ['Tersedia', 'tag tag-accent'], claimed: ['Diklaim', 'tag tag-outline'], paid: ['Dibayar', 'tag tag-neutral'], cancelled: ['Batal', 'tag tag-neutral'] };
+    const CL = { submitted: ['Diajukan', 'tag tag-outline'], processing: ['Diproses', 'tag tag-outline'], paid: ['Dibayar', 'tag tag-accent'], rejected: ['Ditolak', 'tag tag-neutral'] };
+    const REASON = { refund: 'Direfund', refunded: 'Direfund', self_purchase: 'Pembelian lewat link sendiri', product_mismatch: 'Produk berbeda dari link', product_inactive: 'Produk tidak aktif', affiliate_inactive: 'Akun affiliate tidak aktif', link_inactive: 'Link dinonaktifkan', program_paused: 'Program sedang dijeda' };
+    const reason = r => REASON[r] || (r ? 'Dibatalkan' : '');
+    const acct = c => c.bank ? `${c.bank} ${c.account}` : '';
+    const claimDetail = c => c.status === 'paid' ? `Ref ${c.transferRef || '–'} · dibayar ${fd(c.paidAt)}`
+      : c.status === 'rejected' ? (c.rejectReason || 'Ditolak')
+      : c.status === 'processing' ? (c.estimatedTransfer ? `Perkiraan transfer ${fd(c.estimatedTransfer)}` : 'Sedang diproses tim finance 20FIT')
+      : 'Menunggu dicek tim finance 20FIT';
+
+    // purchases (all, or one link)
+    const txSource = s.txFilter ? (s.filtered || []) : s.commissions;
+    const txRows = txSource.map(x => ({ who: x.buyer || '–', product: x.product, date: fd(x.at), amount: f(x.amount), label: (TX[x.status] || [x.status, 'tag tag-neutral'])[0], cls: (TX[x.status] || ['', 'tag tag-neutral'])[1],
+      note: x.status === 'cancelled' ? reason(x.cancelReason) : x.status === 'held' ? `Tersedia ${fd(x.availableAt)}` : '', op: x.status === 'cancelled' ? 0.6 : 1, deco: x.status === 'cancelled' ? 'line-through' : 'none' }));
+    const totalOpens = s.links.reduce((a, l) => a + l.opens, 0);
+    let txEmpty;
+    if (s.txFilter) txEmpty = 'Belum ada pembelian lewat link ini.';
+    else if (!s.links.length) txEmpty = 'Belum ada link. Pilih produk di Link saya, lalu bagikan ke temanmu.';
+    else if (!totalOpens) txEmpty = 'Link-mu belum pernah dibuka di app. Pembelian lewat link-mu akan muncul di sini.';
+    else txEmpty = 'Link-mu sudah dibuka, tapi belum ada pembelian. Pembelian di app lewat link-mu akan muncul di sini.';
+
+    const claimRows = s.claims.map(c => ({ id: this.claimNo(c), date: fd(c.submittedAt), amount: f(c.gross), net: 'Diterima ' + f(c.net), label: (CL[c.status] || [c.status])[0], cls: (CL[c.status] || ['', 'tag tag-neutral'])[1],
+      detail: claimDetail(c), hasProof: c.status === 'paid' && c.hasProof, proofHref: '/api/affiliate/claims/' + c.id + '/proof' }));
+    const activity = [
+      ...s.commissions.map(x => ({ d: x.at, icon: x.status === 'cancelled' ? 'ph ph-arrow-u-up-left' : 'ph ph-arrow-down-left', title: `${x.buyer} · ${x.product}`, sub: `${fd(x.at)} · ${x.status === 'cancelled' ? reason(x.cancelReason) : 'Komisi'}`, amount: (x.status === 'cancelled' ? '' : '+') + f(x.amount), label: (TX[x.status] || [''])[0], cls: (TX[x.status] || ['', ''])[1], op: x.status === 'cancelled' ? 0.6 : 1 })),
+      ...s.claims.map(c => ({ d: c.submittedAt, icon: 'ph ph-bank', title: `${this.claimNo(c)} · diterima ${f(c.net)}`, sub: `${fd(c.submittedAt)} · ${claimDetail(c)}`, amount: f(c.gross), label: (CL[c.status] || [''])[0], cls: (CL[c.status] || ['', ''])[1], op: 1 })),
+      ...s.adjustments.map(a => ({ d: a.at, icon: 'ph ph-arrows-left-right', title: 'Penyesuaian · ' + (a.reason || 'refund setelah pencairan'), sub: fd(a.at), amount: f(a.amount), label: a.applied ? 'Dipotong' : 'Menunggu klaim', cls: 'tag tag-neutral', op: 1 }))
+    ].sort((a, b) => String(b.d).localeCompare(String(a.d)));
+
+    // performance
+    const P = { '7': '7 hari terakhir', '30': '30 hari terakhir', all: 'sepanjang waktu' };
+    const tot = k => s.links.reduce((a, l) => a + (Number(l[k]) || 0), 0);
+    const opens = tot('opens'), buyers = tot('buyers'), txs = tot('transactions'), comm = tot('commission');
+    const rel = (a, b) => b ? (Math.round(a / b * 1000) / 10).toLocaleString('id-ID') + '%' : '–';
+    const w = v => opens ? Math.max(2, Math.round(Math.sqrt(v / opens) * 100)) + '%' : '2%';
+    const perfRows = [
+      { label: 'Dibuka di app', value: opens.toLocaleString('id-ID'), sub: '', w: '100%' },
+      { label: 'Pembeli', value: buyers.toLocaleString('id-ID'), sub: rel(buyers, opens), w: w(buyers) },
+      { label: 'Transaksi', value: txs.toLocaleString('id-ID'), sub: '', w: w(txs) }
+    ];
+    const perfLinks = [...s.links].sort((a, b) => b.commission - a.commission || b.opens - a.opens).map(l => ({
+      product: l.product, opens: l.opens.toLocaleString('id-ID'), buyers: l.buyers.toLocaleString('id-ID'), transactions: l.transactions.toLocaleString('id-ID'), commission: f(l.commission), open: () => this.openDetail(l) }));
+    let perfEmpty = null;
+    if (!s.links.length) perfEmpty = ['Belum ada link.', 'Pilih produk di Link saya, lalu bagikan. Link yang dibuka, pembeli, dan transaksi akan muncul di sini.'];
+    else if (!opens && !txs) perfEmpty = ['Belum ada yang membuka link-mu ' + (s.period === 'all' ? 'sejauh ini.' : 'di periode ini.'), 'Bagikan link-mu lewat WhatsApp atau media sosial. Data muncul setelah link dibuka di app 20FIT.'];
+
+    let detail = { show: false };
+    if (s.detail) {
+      const rows = s.detail.rows || [];
+      const maxO = Math.max(1, ...rows.map(r => r.opens)), maxT = Math.max(1, ...rows.map(r => r.transactions));
+      const sumO = rows.reduce((a, r) => a + r.opens, 0), sumT = rows.reduce((a, r) => a + r.transactions, 0), sumC = rows.reduce((a, r) => a + r.commission, 0);
+      detail = { show: true, product: s.detail.product, loading: !s.detail.rows, ready: !!s.detail.rows,
+        sub: s.detail.rows ? `${sumO} dibuka · ${sumT} transaksi · ${f(sumC)} komisi · ${P[s.period === 'all' ? 'all' : s.period].replace('sepanjang waktu', '90 hari terakhir')}` : '',
+        aria: `Grafik harian: ${sumO} kali dibuka, ${sumT} transaksi`,
+        range: rows.length ? `${fd(rows[0].day)} – ${fd(rows[rows.length - 1].day)}` : '',
+        days: rows.map(r => ({ tip: `${fd(r.day)}: ${r.opens} dibuka, ${r.transactions} transaksi, ${f(r.commission)}`,
+          hOpen: Math.round(r.opens / maxO * 60) + '%', minOpen: r.opens ? '3px' : '0', hTx: Math.round(r.transactions / maxT * 35) + '%', minTx: r.transactions ? '3px' : '0' })),
+        showPurchases: () => this.showPurchases(s.detail.id, s.detail.product) };
+    }
+
+    // link sharing
+    const canShare = s.joined && !paused && !suspended;
+    const share = {
+      rateLabel: `${rate} per transaksi`,
+      hint: canShare ? 'Pilih produk, lalu bagikan link-nya. Komisi dihitung dari pembelian produk itu di app lewat link-mu.' : 'Link baru belum bisa dibuat saat ini.',
+      products: s.products.map(p => {
+        const on = s.share.slug === p.slug;
+        return { label: p.name, pressed: on ? 'true' : 'false', disabled: !canShare || s.share.loading,
+          bg: on ? 'var(--color-accent)' : 'rgba(255,255,255,.58)', color: on ? '#ffffff' : 'var(--color-text)',
+          shadow: on ? '0 0 14px color-mix(in srgb, var(--color-accent) 40%, transparent)' : 'inset 0 1px 0 rgba(255,255,255,.95), inset 0 0 0 1px rgba(20,20,20,.07)',
+          pick: () => this.pickProduct(p.slug) };
+      }),
+      loading: s.share.loading, hasLink: !!s.share.url && !s.share.loading, url: s.share.url, product: s.share.product,
+      wa: 'https://wa.me/?text=' + encodeURIComponent(`Cek ${s.share.product} di app 20FIT lewat link ini: ${s.share.url}`),
+      canEdit: !!(s.aff && s.aff.codeChangeable) && !s.editingCode && !suspended, editing: s.editingCode,
+      note: s.aff && !s.aff.codeChangeable ? 'Kode sudah pernah diganti dan tidak bisa diganti lagi. Link lama dengan kode sebelumnya tidak berlaku lagi.' : 'Kode ada di setiap link-mu dan bisa diganti sekali. Setelah diganti, link dengan kode lama tidak berlaku lagi.'
+    };
+
+    const pf = s.profile;
+    const preview = s.preview || {};
+    const taxRate = Number(preview.tax_rate);
+    const setP = p => () => { if (p !== s.period) this.run(async () => { await this.loadLinks(p); if (this.state.detail) await this.openDetail({ id: this.state.detail.id, product: this.state.detail.product }); }); };
+    const onF = {};
+    ['name', 'nik', 'npwp', 'bank', 'acct', 'holder'].forEach(k => {
+      onF[k] = e => { let v = e.target.value; if (['nik', 'npwp', 'acct'].includes(k)) v = v.replace(/\D/g, ''); this.setState(st => ({ form: { ...st.form, [k]: v }, errors: { ...st.errors, [k]: '' } })); };
+    });
+    const latestRejected = latest && latest.status === 'rejected';
+    const claimDisabled = this.state.busy || suspended || !!active || !sm.can_claim;
+
+    return {
+      rootRef: this.rootRef, g: s.joined ? this.grid() : { ...this.grid(), max: '760px' }, t, note, links: { support: L.support || '#', hasSupport: !!L.support },
+      reload: () => location.reload(),
+      notJoined: !s.joined && !s.error, joined: s.joined, agreed: s.agreed, joinDisabled: !s.agreed || paused || s.busy,
+      joinLabel: paused ? 'Pendaftaran sedang ditutup' : 'Gabung jadi affiliate',
+      toggleAgree: () => this.setState(st => ({ agreed: !st.agreed })),
+      join: () => this.run(async () => { await this.api('POST', 'join', { agree: true }); await this.refresh(); this.flash('Selamat bergabung! Pilih produk dan bagikan link pertamamu.'); }),
+      showTermsBanner: s.joined && needTerms,
+      openConsent: () => this.setState({ dialog: 'consent', claimFlow: false, consentChecked: false }),
+      showRejected: latestRejected && !s.rejectDismissed,
+      rejected: latestRejected ? { title: `${this.claimNo(latest)} sebesar ${f(latest.gross)} ditolak.`, reason: latest.rejectReason || '' } : { title: '', reason: '' },
+      dismissRejected: () => this.setState({ rejectDismissed: true }),
+      openPayoutEdit: () => this.setState({ dialog: 'payout', claimFlow: false, form: this.emptyForm(pf), errors: {} }),
+      bal: { available: f(avail), held: f(held), paid: f(paid), minLabel: 'Minimum ' + f(MIN), heldNote: `Jadi Tersedia ${days} hari setelah lunas`,
+        showProgress: !active && avail < MIN, pct: Math.min(100, MIN ? avail / MIN * 100 : 100) + '%', toGo: `${f(Math.max(MIN - avail, 0))} lagi untuk bisa klaim`,
+        claimDisabled, claimLabel: !claimDisabled ? `Klaim ${f(avail)}` : 'Klaim', note: bnote },
+      ac: active ? { show: true, id: this.claimNo(active), label: CL[active.status][0], net: f(active.net), detail: claimDetail(active) + (acct(active) ? ` · ke ${acct(active)}` : '') } : { show: false },
+      startClaim: () => this.run(async () => {
+        if (needTerms) return this.setState({ dialog: 'consent', claimFlow: true, consentChecked: false });
+        if (!this.state.profile) return this.setState({ dialog: 'payout', claimFlow: true, form: this.emptyForm(null), errors: {} });
+        await this.openSummary();
+      }),
+      code: s.aff ? s.aff.code : '', codeDraft: s.codeDraft, codeError: s.codeError, share, busy: s.busy,
+      startEditCode: () => this.setState({ editingCode: true, codeDraft: s.aff ? s.aff.code : '', codeError: '' }),
+      onCodeDraft: e => this.setState({ codeDraft: e.target.value.toUpperCase().replace(/[^A-Z0-9]/g, ''), codeError: '' }),
+      cancelCode: () => this.setState({ editingCode: false }),
+      saveCode: () => {
+        const c = this.state.codeDraft;
+        if (!/^[A-Z0-9]{4,12}$/.test(c)) return this.setState({ codeError: 'Pakai 4–12 huruf atau angka.' });
+        if (s.aff && c === s.aff.code) return this.setState({ editingCode: false });
+        this.setState({ busy: true });
+        this.api('POST', 'code', { code: c })
+          .then(() => { this.setState({ editingCode: false, share: { slug: '', url: '', product: '', loading: false } }); this.flash('Kode diganti. Buat ulang link yang mau kamu bagikan.'); return this.refresh(); })
+          .catch(e => this.setState({ codeError: e.message }))
+          .finally(() => this.setState({ busy: false }));
+      },
+      copyLink: () => s.share.url && this.copy(s.share.url, 'Link disalin'),
+      downloadQr: () => this.downloadQr(),
+      p7: s.period === '7', p30: s.period === '30', pAll: s.period === 'all', setP7: setP('7'), setP30: setP('30'), setPAll: setP('all'),
+      perf: { empty: !!perfEmpty, has: !perfEmpty, emptyTitle: perfEmpty ? perfEmpty[0] : '', emptyBody: perfEmpty ? perfEmpty[1] : '',
+        rows: perfRows, comm: f(comm), periodLabel: P[s.period], links: perfLinks },
+      detail, closeDetail: () => this.setState({ detail: null }),
+      tx: { filtered: !!s.txFilter, filterLabel: s.txFilter ? 'Link: ' + s.txFilter.product : '', empty: txEmpty },
+      clearFilter: () => this.setState({ txFilter: null, filtered: null }),
+      tabs: [],
+      txEmpty: !txRows.length, txHas: txRows.length > 0, txRows,
+      claimsEmpty: !s.claims.length, claimsHas: s.claims.length > 0, claimRows,
+      claimsEmptyText: `Belum ada klaim. Kamu bisa klaim setelah saldo Tersedia mencapai ${f(MIN)}.`,
+      activity, actEmpty: !activity.length,
+      payout: { has: !!pf, none: !pf, rows: pf ? [{ k: 'Nama (KTP)', v: pf.ktp_name }, { k: 'NIK', v: pf.nik }, { k: 'NPWP', v: pf.has_npwp ? 'Terdaftar' : 'Tidak ada' }, { k: 'Bank', v: pf.bank_name }, { k: 'Nomor rekening', v: pf.account_no }, { k: 'Pemilik rekening', v: pf.account_holder }] : [] },
+      termsLine: s.aff ? `S&K ${s.aff.termsVersion || '–'}${s.aff.termsAcceptedAt ? ' · disetujui ' + fd(s.aff.termsAcceptedAt) : ''}` : '',
+      dlg: { open: !!s.dialog, consent: s.dialog === 'consent', payout: s.dialog === 'payout', summary: s.dialog === 'summary', done: s.dialog === 'done' },
+      backdrop: e => { if (e.target === e.currentTarget) this.setState({ dialog: null }); },
+      closeDialog: () => this.setState({ dialog: null }),
+      consentChecked: s.consentChecked, consentDisabled: !s.consentChecked || s.busy, toggleConsent: () => this.setState(st => ({ consentChecked: !st.consentChecked })),
+      consentCta: s.claimFlow ? 'Setujui dan lanjut' : 'Setujui',
+      acceptTerms: () => this.run(async () => {
+        await this.api('POST', 'accept-terms', {});
+        await this.refresh();
+        if (!this.state.claimFlow) { this.setState({ dialog: null }); return this.flash('S&K disetujui'); }
+        if (!this.state.profile) return this.setState({ dialog: 'payout', form: this.emptyForm(null), errors: {} });
+        await this.openSummary();
+      }),
+      form: s.form, err: s.errors, onF,
+      taxHint: (taxNpwp || taxNo) ? (s.form.npwp ? `Dengan NPWP, PPh 21 dipotong sekitar ${this.pct(taxNpwp)}.` : `Tanpa NPWP, PPh 21 dipotong lebih tinggi, sekitar ${this.pct(taxNo)}.`) : 'PPh 21 dipotong saat klaim sesuai ketentuan.',
+      payoutCta: s.claimFlow ? 'Simpan dan lanjut' : 'Simpan',
+      savePayout: () => {
+        const e = this.validate(this.state.form);
+        if (Object.keys(e).length) return this.setState({ errors: e });
+        const fm = this.state.form;
+        this.run(async () => {
+          const r = await this.api('POST', 'payout-profile', { name: fm.name, nik: fm.nik, npwp: fm.npwp, bank: fm.bank, account: fm.acct, holder: fm.holder });
+          this.setState({ profile: r.profile, rejectDismissed: true, form: this.emptyForm(r.profile) });
+          if (this.state.claimFlow) { await this.refresh(); await this.openSummary(); }
+          else { this.setState({ dialog: null }); this.flash('Data pencairan tersimpan'); }
+        });
+      },
+      sum: { gross: f(preview.gross), tax: '−' + f(preview.tax), net: f(preview.net),
+        taxLabel: `Potongan PPh 21 (${taxRate ? this.pct(taxRate) : '–'}${preview.payout_profile ? (preview.payout_profile.has_npwp ? ', dengan NPWP' : ', tanpa NPWP') : ''})`,
+        hasAdjustment: Number(preview.adjustments) !== 0 && preview.adjustments != null, adjustment: f(preview.adjustments),
+        account: preview.payout_profile ? `${preview.payout_profile.bank_name} ${preview.payout_profile.account_no}` : '', holder: preview.payout_profile ? preview.payout_profile.account_holder : '' },
+      editFromSummary: () => this.setState({ dialog: 'payout', claimFlow: true, form: this.emptyForm(pf), errors: {} }),
+      submitClaim: () => this.run(async () => {
+        const r = await this.api('POST', 'claim', {});
+        const c = r.claim;
+        this.setState({ dialog: 'done', rejectDismissed: true, doneText: `${f(c.net)} akan ditransfer ke ${c.bank ? c.bank + ' ' + c.account : 'rekeningmu'}. Status klaim ${this.claimNo(c)} bisa kamu pantau di Riwayat klaim.` });
+        await this.refresh();
+      }),
+      doneText: s.doneText,
+      hasToast: !!s.toast, toast: s.toast
+    };
+  }
+}
+</script>
+
+
+</body></html>
