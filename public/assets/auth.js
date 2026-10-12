@@ -7,7 +7,7 @@
 (function () {
   'use strict';
 
-  var GENERIC = 'Email atau password salah. Kalau kamu daftar pakai Google di aplikasi, buat password dulu lewat Lupa password.';
+  var GENERIC = 'Email atau password salah. Kalau kamu daftar pakai Google, pilih Lanjut dengan Google.';
   var OFFLINE = 'Tidak bisa menghubungi server 20FIT. Periksa koneksi lalu coba lagi.';
 
   function postJson(url, body, timeoutMs) {

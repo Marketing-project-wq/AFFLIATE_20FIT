@@ -135,6 +135,24 @@ function safeNext(next) {
   return typeof next === 'string' && /^\/(?![\/\\])/.test(next) ? next : DASHBOARD_PATH;
 }
 
+// ── Google login (Supabase OAuth, PKCE done server-side) ──────────────────
+// The code_verifier lives in an HttpOnly cookie on THIS origin and the code is
+// exchanged here, so the whole flow stays on the domain it started on.
+const PKCE_COOKIE = 'af_pkce';
+
+// Absolute origin of the current request (honours Railway's x-forwarded-proto),
+// so the OAuth redirect comes back to the exact host login started on.
+function originOf(req) {
+  const proto = req.headers['x-forwarded-proto'] || (isSecure(req) ? 'https' : 'http');
+  return `${proto}://${req.headers.host}`;
+}
+function pkceVerifier() {
+  return crypto.randomBytes(32).toString('base64url'); // 43 chars, within the RFC 7636 range
+}
+function pkceChallenge(verifier) {
+  return crypto.createHash('sha256').update(verifier).digest('base64url');
+}
+
 function send(res, status, body, headers = {}) {
   res.writeHead(status, {
     'Content-Type': 'text/html; charset=utf-8',
@@ -334,7 +352,7 @@ async function renderLogin(opts) {
   return loginPage({ ...opts, links: siteLinks(settings), accountsUrl: ACCOUNTS_URL, scriptHref: authScript });
 }
 
-const LOGIN_FAILED = 'Email atau password salah. Kalau kamu daftar pakai Google di aplikasi, buat password dulu lewat Lupa password.';
+const LOGIN_FAILED = 'Email atau password salah. Kalau kamu daftar pakai Google, pilih Lanjut dengan Google.';
 const TOO_MANY = 'Terlalu banyak percobaan. Tunggu beberapa menit lalu coba lagi.';
 
 function forbiddenPage(email) {
@@ -429,6 +447,11 @@ async function handle(req, res) {
     switch (p) {
       case '/':
       case '/index.html':
+        // Safety net: an OAuth redirect that lands on "/" carrying ?code=/?error=
+        // (e.g. GoTrue fell back to Site URL) is forwarded to /auth/callback intact.
+        if (url.searchParams.has('code') || url.searchParams.has('error')) {
+          return redirect(res, '/auth/callback' + url.search);
+        }
         return send(res, 200, renderLanding(await affiliateData.get(), landingAssets), { 'Cache-Control': 'public, max-age=60' });
       case DASHBOARD_PATH:
       case `${DASHBOARD_PATH}/sales`:
@@ -458,6 +481,39 @@ async function handle(req, res) {
         const email = (url.searchParams.get('email') || '').slice(0, 200);
         return send(res, 200, forgotPage({ email, links: siteLinks(settings), accountsUrl: ACCOUNTS_URL, scriptHref: authScript }),
           { 'Cache-Control': 'no-store' });
+      }
+      case '/auth/google': {
+        // Start Google OAuth: mint a PKCE verifier, keep it in an HttpOnly cookie
+        // on this origin, and send the user to Supabase. The code comes back to
+        // /auth/callback on this SAME origin, where we hold the verifier.
+        const next = safeNext(url.searchParams.get('next'));
+        const verifier = pkceVerifier();
+        const challenge = pkceChallenge(verifier);
+        const callback = `${originOf(req)}/auth/callback?next=${encodeURIComponent(next)}`;
+        const authorize = `${SUPABASE_URL}/auth/v1/authorize?provider=google` +
+          `&redirect_to=${encodeURIComponent(callback)}` +
+          `&code_challenge=${encodeURIComponent(challenge)}&code_challenge_method=s256`;
+        return redirect(res, authorize, [cookie(req, PKCE_COOKIE, verifier, 600)]);
+      }
+      case '/auth/callback': {
+        const next = safeNext(url.searchParams.get('next'));
+        const providerErr = url.searchParams.get('error_description') || url.searchParams.get('error');
+        const code = url.searchParams.get('code');
+        const verifier = parseCookies(req)[PKCE_COOKIE];
+        const clearPkce = cookie(req, PKCE_COOKIE, '', 0);
+        if (providerErr) {
+          return send(res, 401, await renderLogin({ next, error: 'Masuk dengan Google dibatalkan atau gagal. Coba lagi, atau masuk dengan email dan password.' }), { 'Cache-Control': 'no-store', 'Set-Cookie': clearPkce });
+        }
+        if (!code || !verifier) {
+          // No verifier = sign-in was started elsewhere (other device/tab) or the
+          // cookie expired. Don't hang — ask them to retry from this page.
+          return send(res, 400, await renderLogin({ next, error: 'Masuk dengan Google belum selesai. Coba lagi dari halaman ini.' }), { 'Cache-Control': 'no-store', 'Set-Cookie': clearPkce });
+        }
+        const session = await supabaseToken('pkce', { auth_code: code, code_verifier: verifier });
+        if (!session) {
+          return send(res, 401, await renderLogin({ next, error: 'Masuk dengan Google tidak berhasil. Coba lagi, atau masuk dengan email dan password.' }), { 'Cache-Control': 'no-store', 'Set-Cookie': clearPkce });
+        }
+        return redirect(res, next, [...sessionCookies(req, session), clearPkce]);
       }
       case '/logout':
         return redirect(res, '/login', clearCookies(req));
