@@ -272,12 +272,6 @@ function displayName(user) {
   return templateSafe(name).trim().slice(0, 80) || 'Affiliate';
 }
 
-function initials(name) {
-  const letters = name.split(/\s+/).map((w) => (w.match(/[\p{L}\p{N}]/u) || [])[0]).filter(Boolean);
-  if (!letters.length) return '?';
-  return (letters[0] + (letters.length > 1 ? letters[letters.length - 1] : '')).toUpperCase();
-}
-
 // The settings the dashboard shows (rate, minimum, hold, terms, program
 // status), never anything admin-only.
 function publicSettings(settings) {
@@ -295,30 +289,44 @@ function scriptJson(value) {
 }
 
 // The page is the dc design (src/dashboard.dc.html, built by
-// tools/unbundle.py); the server fills in the affiliate's own data first so
-// it never paints empty, and later actions go through /api/affiliate/*.
-async function renderDashboard(user, token) {
+// tools/unbundle.py) and serves Home, Sales and Profile; the server fills
+// in the affiliate's own data first so it never paints empty, and later
+// actions go through /api/affiliate/*.
+const DASHBOARD_PAGES = { [DASHBOARD_PATH]: 'home', [`${DASHBOARD_PATH}/sales`]: 'sales', [`${DASHBOARD_PATH}/profile`]: 'profile' };
+const PAGE_TITLES = { home: 'Home', sales: 'Sales', profile: 'Profile' };
+
+async function renderDashboard(user, token, page) {
   const { settings } = await affiliateData.get();
-  let state;
-  try {
-    state = await dashboardApi.state(token);
-  } catch (err) {
-    console.error('dashboard state:', err.message);
-    state = { error: friendly(err) };
+  const [state, account] = await Promise.all([
+    dashboardApi.state(token).catch((err) => {
+      console.error('dashboard state:', err.message);
+      return { error: friendly(err) };
+    }),
+    // Name for the header; a failure here only hides it.
+    dashboardApi.account(token).catch((err) => {
+      console.error('dashboard account:', err.message);
+      return null;
+    }),
+  ]);
+  let sales = null;
+  if (page === 'sales' && state.joined) {
+    sales = await dashboardApi.sales(token).catch((err) => {
+      console.error('dashboard sales:', err.message);
+      return null; // the page loads it again from /api/affiliate/sales
+    });
   }
-  const name = displayName(user);
   const data = {
-    user: { name, email: user.email || '' },
+    page,
+    user: { name: (account && account.found && account.name) || displayName(user), email: user.email || '' },
     settings: publicSettings(settings),
     links: siteLinks(settings),
     state,
+    account,
+    sales,
     qrSrc: qrScript,
   };
-  const boot = `<script>window.__AF_DATA__ = ${scriptJson(data)};</script>`;
-  return pages.dashboard
-    .replace('<head>', `<head>${boot}`)
-    .split('__AF_USER_INITIALS__').join(escapeHtml(initials(name)))
-    .split('__AF_USER_EMAIL__').join(escapeHtml(templateSafe(user.email || '')));
+  const head = `<title>${PAGE_TITLES[page]} · 20FIT Affiliate</title><script>window.__AF_DATA__ = ${scriptJson(data)};</script>`;
+  return pages.dashboard.replace('<head>', `<head>${head}`).split('__AF_LOGO_SRC__').join(escapeHtml(landingAssets.logoHref));
 }
 
 async function renderLogin(opts) {
@@ -423,7 +431,9 @@ async function handle(req, res) {
       case '/index.html':
         return send(res, 200, renderLanding(await affiliateData.get(), landingAssets), { 'Cache-Control': 'public, max-age=60' });
       case DASHBOARD_PATH:
-        return serveProtected(req, res, url, async (user, token) => ({ body: await renderDashboard(user, token) }));
+      case `${DASHBOARD_PATH}/sales`:
+      case `${DASHBOARD_PATH}/profile`:
+        return serveProtected(req, res, url, async (user, token) => ({ body: await renderDashboard(user, token, DASHBOARD_PAGES[p]) }));
       case '/admin.html':
         return redirect(res, '/admin');
       case '/admin':
@@ -551,6 +561,8 @@ async function handleApi(req, res, url, route, method) {
       if (daily) return ok({ days: daysParam, rows: await dashboardApi.daily(token, daily[1], days === null ? 90 : days) });
       if (route === 'commissions') return ok({ rows: await dashboardApi.commissions(token, url.searchParams.get('link') || null) });
       if (route === 'claim-preview') return ok(await dashboardApi.claimPreview(token));
+      if (route === 'sales') return ok({ sales: await dashboardApi.sales(token) });
+      if (route === 'account') return ok({ account: await dashboardApi.account(token) });
       if (proof) {
         const target = await dashboardApi.proofUrl(token, proof[1]);
         return redirect(res, target, auth.cookies);
@@ -567,6 +579,7 @@ async function handleApi(req, res, url, route, method) {
       if (route === 'link') return ok(await dashboardApi.link(token, String(body.slug || '')));
       if (route === 'payout-profile') return ok({ profile: await dashboardApi.savePayout(token, body) });
       if (route === 'claim') return ok({ claim: await dashboardApi.submitClaim(token) });
+      if (route === 'account') return ok({ account: await dashboardApi.saveAccount(token, auth.user && auth.user.id, body) });
     }
     return sendJson(res, 404, { error: 'Not found' }, headers);
   } catch (err) {
