@@ -5269,6 +5269,21 @@ button, input, select, textarea { font-family: inherit; }
 }
 @media (max-width:359px){.af-tab span{display:none}}
 
+.af-recap{display:grid;grid-template-columns:repeat(3,minmax(0,1fr))}
+.af-stat{min-width:0;display:flex;flex-direction:column;gap:4px;padding:0 16px}
+.af-stat:first-child{padding-left:0}
+.af-stat:last-child{padding-right:0}
+.af-stat + .af-stat{border-left:1px solid var(--color-divider)}
+.af-stat-k{display:flex;align-items:center;gap:6px;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--color-accent)}
+.af-stat-k i{font-size:15px;color:var(--color-accent-300)}
+.af-stat-n{display:flex;flex-wrap:wrap;align-items:baseline;column-gap:6px;line-height:1.05}
+.af-stat-n .af-num{font-size:36px;font-weight:500;letter-spacing:-.02em}
+.af-stat-n small{font-size:12px;color:color-mix(in srgb, var(--color-text) 55%, transparent)}
+.af-stat-c{display:flex;flex-wrap:wrap;align-items:baseline;column-gap:5px;font-size:14px}
+.af-stat-c .af-num{white-space:nowrap}
+.af-stat-c small{font-size:12px;color:color-mix(in srgb, var(--color-text) 55%, transparent)}
+@media (max-width:560px){.af-stat{padding:0 10px}.af-stat-k{font-size:10px;letter-spacing:.06em}.af-stat-k i{display:none}.af-stat-n .af-num{font-size:28px}.af-stat-c{font-size:13px}.af-stat-c small{font-size:11px}}
+
 /* Sales charts */
 .af-chart{display:flex;align-items:stretch;gap:4px;height:190px}
 .af-barbtn{flex:1;min-width:0;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:4px;padding:0;margin:0;border:0;background:none;color:inherit;font:inherit;cursor:pointer;border-radius:8px}
@@ -5566,17 +5581,20 @@ button, input, select, textarea { font-family: inherit; }
       <div class="af-panel" style="display:flex;flex-wrap:wrap;gap:12px;align-items:center;padding:14px 16px;border-radius:16px;font-size:14px"><span style="flex:1;min-width:200px">{{ sales.error }}</span><button class="btn af-btn2" sc-camel-on-click="{{ loadSales }}">{{ tr.tryAgain }}</button></div>
     </sc-if>
     <sc-if value="{{ sales.ready }}" hint-placeholder-val="{{ false }}">
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px">
-        <sc-for list="{{ sales.cards }}" as="c" hint-placeholder-count="3">
-          <section class="card af-glass" style="padding:18px;gap:6px;min-width:0">
-            <div style="display:flex;justify-content:space-between;align-items:center;gap:8px"><span class="card-kicker">{{ c.label }}</span><i class="{{ c.icon }}" style="font-size:18px;color:var(--color-accent-300)"></i></div>
-            <div class="af-num" style="font-size:36px;font-weight:500;letter-spacing:-.02em;line-height:1.05">{{ c.count }}</div>
-            <div class="af-num" style="font-size:14px">{{ c.comm }}</div>
-            <div class="text-muted" style="font-size:12px">{{ c.note }}</div>
-          </section>
-        </sc-for>
-      </div>
-      <sc-if value="{{ sales.hasCancelled }}" hint-placeholder-val="{{ false }}"><div class="text-muted" style="font-size:13px;margin-top:-8px">{{ sales.cancelledLine }}</div></sc-if>
+      <section class="card af-glass" style="padding:18px 20px;gap:14px">
+        <div class="af-recap">
+          <sc-for list="{{ sales.cards }}" as="c" hint-placeholder-count="3">
+            <div class="af-stat">
+              <div class="af-stat-k"><i class="{{ c.icon }}"></i><span>{{ c.label }}</span></div>
+              <div class="af-stat-n"><span class="af-num">{{ c.count }}</span><small>{{ c.unit }}</small></div>
+              <div class="af-stat-c"><span class="af-num">{{ c.comm }}</span><small>{{ tr.commissionWord }}</small></div>
+            </div>
+          </sc-for>
+        </div>
+        <div class="af-rule-top text-muted" style="display:flex;flex-wrap:wrap;gap:4px 14px;padding-top:12px;font-size:12px">
+          <sc-for list="{{ sales.notes }}" as="n" hint-placeholder-count="3"><span>{{ n.text }}</span></sc-for>
+        </div>
+      </section>
 
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,400px),1fr));gap:16px">
         <section class="card af-glass" style="padding:20px;gap:14px;min-width:0">
@@ -6030,7 +6048,7 @@ class Component extends DCLogic {
       doneText: (net, acc, id) => `${net} will be transferred to ${acc || 'your account'}. You can follow claim ${id} in Claim history.`, linkCopied: 'Link copied', codeChanged: 'Code changed. Create the links you want to share again.',
       payoutRows: ['Name (KTP)', 'NIK', 'NPWP', 'Bank', 'Account number', 'Account holder'], npwpYes: 'Registered', npwpNo: 'None', payoutEdit: 'Change', payoutAdd: 'Add details',
       affRows: { status: 'Status', joined: 'Joined', terms: 'T&C', links: 'Active links' }, statusActive: 'Active', statusInactive: 'Deactivated', accepted: d => 'accepted ' + d,
-      cards: { total: 'Total', valid: 'Valid', pending: 'Pending' }, cardNotes: { total: 'Valid + Pending', valid: 'Available, claimed, or paid', pending: d => `Still in the ${d}-day hold` },
+      cards: { total: 'Total', valid: 'Valid', pending: 'Pending' }, commissionWord: 'commission', recapNotes: d => ['Total = Valid + Pending', 'Valid: available, claimed, or paid', `Pending: still in the ${d}-day hold`], txUnit: n => n === 1 ? 'transaction' : 'transactions',
       commissionAmt: a => a + ' commission', cancelledLine: n => `${n} cancelled ${n === 1 ? 'purchase is' : 'purchases are'} not counted.`, weekly: 'Per week', monthly: 'Per month',
       lastN: (n, unit) => `Last ${n} ${unit}`, weeksUnit: 'weeks', monthsUnit: 'months', txCount: n => `${n} transaction${n === 1 ? '' : 's'}`,
       barAria: (p, t, c) => `${p}: ${t}, ${c}`, accountMissing: 'Your 20FIT profile isn’t set up yet. Complete it in the 20FIT app first.', profileSaved: 'Profile saved', unsaved: 'Unsaved changes'
@@ -6093,7 +6111,7 @@ class Component extends DCLogic {
       doneText: (net, acc, id) => `${net} akan ditransfer ke ${acc || 'rekeningmu'}. Status klaim ${id} bisa kamu pantau di Riwayat klaim.`, linkCopied: 'Link disalin', codeChanged: 'Kode diganti. Buat ulang link yang mau kamu bagikan.',
       payoutRows: ['Nama (KTP)', 'NIK', 'NPWP', 'Bank', 'Nomor rekening', 'Pemilik rekening'], npwpYes: 'Terdaftar', npwpNo: 'Tidak ada', payoutEdit: 'Ubah', payoutAdd: 'Isi data',
       affRows: { status: 'Status', joined: 'Bergabung', terms: 'S&K', links: 'Link aktif' }, statusActive: 'Aktif', statusInactive: 'Dinonaktifkan', accepted: d => 'disetujui ' + d,
-      cards: { total: 'Total', valid: 'Valid', pending: 'Pending' }, cardNotes: { total: 'Valid + Pending', valid: 'Tersedia, diklaim, atau sudah dibayar', pending: d => `Masih dalam masa tahan ${d} hari` },
+      cards: { total: 'Total', valid: 'Valid', pending: 'Pending' }, commissionWord: 'komisi', recapNotes: d => ['Total = Valid + Pending', 'Valid: tersedia, diklaim, atau sudah dibayar', `Pending: masih dalam masa tahan ${d} hari`], txUnit: () => 'transaksi',
       commissionAmt: a => a + ' komisi', cancelledLine: n => `${n} transaksi batal tidak dihitung.`, weekly: 'Per minggu', monthly: 'Per bulan',
       lastN: (n, unit) => `${n} ${unit} terakhir`, weeksUnit: 'minggu', monthsUnit: 'bulan', txCount: n => `${n} transaksi`,
       barAria: (p, t, c) => `${p}: ${t}, ${c}`, accountMissing: 'Profil 20FIT kamu belum ada. Lengkapi dulu di aplikasi 20FIT.', profileSaved: 'Profile tersimpan', unsaved: 'Belum disimpan'
@@ -6243,11 +6261,11 @@ class Component extends DCLogic {
       const maxP = Math.max(1, ...prods.map(p => Number(p.transactions) || 0));
       sales = { loading: false, failed: false, error: '', ready: true,
         cards: [
-          { label: W.cards.total, icon: 'ph ph-shopping-bag', count: this.num(sum.total), comm: W.commissionAmt(f(sum.commission_total)), note: W.cardNotes.total },
-          { label: W.cards.valid, icon: 'ph ph-check-circle', count: this.num(sum.valid), comm: W.commissionAmt(f(sum.commission_valid)), note: W.cardNotes.valid },
-          { label: W.cards.pending, icon: 'ph ph-hourglass-medium', count: this.num(sum.pending), comm: W.commissionAmt(f(sum.commission_pending)), note: W.cardNotes.pending(days) }
+          { label: W.cards.total, icon: 'ph ph-shopping-bag', count: this.num(sum.total), unit: W.txUnit(Number(sum.total)), comm: f(sum.commission_total) },
+          { label: W.cards.valid, icon: 'ph ph-check-circle', count: this.num(sum.valid), unit: W.txUnit(Number(sum.valid)), comm: f(sum.commission_valid) },
+          { label: W.cards.pending, icon: 'ph ph-hourglass-medium', count: this.num(sum.pending), unit: W.txUnit(Number(sum.pending)), comm: f(sum.commission_pending) }
         ],
-        hasCancelled: Number(sum.cancelled) > 0, cancelledLine: W.cancelledLine(Number(sum.cancelled) || 0),
+        notes: W.recapNotes(days).concat(Number(sum.cancelled) > 0 ? [W.cancelledLine(Number(sum.cancelled))] : []).map(text => ({ text })),
         week: Object.assign(this.chart(sd.weekly, s.selWeek, k => this.setState({ selWeek: k }), 'week', W), { title: W.weekly }),
         month: Object.assign(this.chart(sd.monthly, s.selMonth, k => this.setState({ selMonth: k }), 'month', W), { title: W.monthly }),
         noProducts: !prods.length,
