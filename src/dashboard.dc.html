@@ -5198,7 +5198,7 @@ textarea.input { min-height: 90px; resize: vertical; }
   --af-tab-on:linear-gradient(155deg, rgba(255,255,255,.96), rgba(255,255,255,.62));
   --af-tab-on-shadow:inset 0 1px 0 #ffffff, inset 0 0 0 1px rgba(20,20,20,.08), 0 6px 16px rgba(90,20,24,.14);
   --af-glow-1:color-mix(in srgb, var(--color-accent-700) 70%, transparent);--af-glow-2:rgba(255,255,255,.95);--af-glow-3:color-mix(in srgb, var(--color-accent-800) 80%, transparent);
-  --af-scrim:rgba(20,20,20,.22);--af-logo-filter:none;--af-menu:rgba(255,255,255,.97);--af-head:linear-gradient(155deg, rgba(255,255,255,.88), rgba(255,255,255,.68));
+  --af-scrim:rgba(20,20,20,.22);--af-logo-filter:none;--af-head:linear-gradient(155deg, rgba(255,255,255,.88), rgba(255,255,255,.68));
   min-height:100vh;color-scheme:light;
   background:radial-gradient(680px 520px at 6% 0%, var(--af-glow-1), transparent 70%), radial-gradient(560px 560px at 96% 16%, var(--af-glow-2), transparent 70%), radial-gradient(900px 600px at 50% 115%, var(--af-glow-3), transparent 70%), var(--color-bg);
   background-attachment:fixed;color:var(--color-text);font-family:var(--font-body)}
@@ -5211,7 +5211,7 @@ textarea.input { min-height: 90px; resize: vertical; }
   --af-tab-on:linear-gradient(155deg, rgba(255,255,255,.17), rgba(255,255,255,.07));
   --af-tab-on-shadow:inset 0 1px 0 rgba(255,255,255,.16), inset 0 0 0 1px rgba(255,255,255,.1), 0 6px 16px rgba(0,0,0,.35);
   --af-glow-1:rgba(229,38,47,.22);--af-glow-2:rgba(255,255,255,.035);--af-glow-3:rgba(229,38,47,.13);
-  --af-scrim:rgba(0,0,0,.5);--af-logo-filter:invert(1) hue-rotate(180deg);--af-menu:rgba(34,29,31,.98);--af-head:linear-gradient(155deg, rgba(40,34,36,.9), rgba(26,22,24,.84));color-scheme:dark}
+  --af-scrim:rgba(0,0,0,.5);--af-logo-filter:invert(1) hue-rotate(180deg);--af-head:linear-gradient(155deg, rgba(40,34,36,.9), rgba(26,22,24,.84));color-scheme:dark}
 .af-glass{background:var(--af-glass);backdrop-filter:blur(28px) saturate(170%);-webkit-backdrop-filter:blur(28px) saturate(170%);box-shadow:var(--af-glass-shadow);border-radius:22px}
 .af-panel{background:var(--af-panel);box-shadow:var(--af-panel-shadow);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
 .af-accent-panel{background:linear-gradient(155deg, color-mix(in srgb, var(--color-accent-500) 26%, transparent), color-mix(in srgb, var(--color-accent-700) 14%, transparent));box-shadow:inset 0 1px 0 color-mix(in srgb, #ffffff 60%, transparent), inset 0 0 0 1px color-mix(in srgb, var(--color-accent-300) 22%, transparent), 0 10px 30px color-mix(in srgb, var(--color-accent-700) 30%, transparent);backdrop-filter:blur(24px) saturate(160%);-webkit-backdrop-filter:blur(24px) saturate(160%)}
@@ -5236,32 +5236,29 @@ textarea.input { min-height: 90px; resize: vertical; }
 .af-err{font-size:12px;color:var(--color-accent-300);margin-top:4px}
 .af-err:empty{display:none}
 
-/* header: the landing page's logo, Home · Sales · Profile, account menu */
+/* header: the landing page's logo, Home · Sales, and the profile photo (opens Profile) */
 .af-head{position:sticky;top:10px;z-index:40;display:flex;align-items:center;gap:8px;width:calc(100% - 32px);max-width:1160px;margin:14px auto 4px;padding:6px 6px 6px 18px;border-radius:999px}
 .af-head.af-glass{background:var(--af-head)}
 .af-logo{display:flex;align-items:center;flex:none}
 .af-logo img{height:26px;width:auto;display:block;filter:var(--af-logo-filter)}
-.af-tabs{display:flex;gap:2px;margin:0 auto}
+.af-tabs{display:flex;gap:2px;margin-left:auto;margin-right:6px}
 .af-tab{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:999px;font-size:14px;font-weight:500;line-height:1.2;color:var(--color-neutral-300);text-decoration:none;transition:background .18s, box-shadow .18s, color .18s, transform .12s}
 .af-tab i{font-size:17px}
 .af-tab:hover{color:var(--color-text);background:var(--af-panel)}
 .af-tab[aria-current=page],.af-tab:active{color:var(--color-text);background:var(--af-tab-on);box-shadow:var(--af-tab-on-shadow);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
 .af-tab[aria-current=page] i{color:var(--color-accent)}
 .af-tab:active{transform:scale(.96)}
-.af-me{position:relative;flex:none}
-.af-avatar{width:34px;height:34px;border-radius:50%;border:0;cursor:pointer;display:grid;place-items:center;font:600 12px/1 var(--font-body);color:var(--color-text);background:var(--af-panel);box-shadow:var(--af-panel-shadow)}
-.af-avatar[aria-expanded=true],.af-avatar:active{background:var(--af-tab-on);box-shadow:var(--af-tab-on-shadow)}
-.af-menu{position:absolute;right:0;top:calc(100% + 8px);width:min(280px, calc(100vw - 40px));padding:8px;display:flex;flex-direction:column;gap:2px;border-radius:18px;z-index:42;background:var(--af-menu)}
-.af-menu-email{padding:8px 10px 10px;font-size:12px;color:var(--color-neutral-300);word-break:break-all}
-.af-menu a{display:flex;align-items:center;gap:8px;padding:9px 10px;border-radius:12px;font-size:14px;color:var(--color-text);text-decoration:none}
-.af-menu a:hover{background:var(--af-panel);color:var(--color-text)}
-.af-scrim{position:fixed;inset:0;z-index:39}
+.af-avatar{position:relative;flex:none;width:36px;height:36px;border-radius:50%;display:grid;place-items:center;overflow:hidden;text-decoration:none;font:600 12px/1 var(--font-body);color:var(--color-text);background:var(--af-panel);box-shadow:var(--af-panel-shadow);transition:box-shadow .18s, transform .12s}
+.af-avatar:hover{color:var(--color-text);box-shadow:var(--af-tab-on-shadow)}
+.af-avatar[aria-current=page]{box-shadow:0 0 0 2px var(--color-accent), 0 6px 16px color-mix(in srgb, var(--color-accent) 30%, transparent)}
+.af-avatar:active{transform:scale(.94)}
+.af-photo{position:absolute;inset:0;border-radius:50%}
 @media (max-width:560px){
   .af-head{padding:5px 5px 5px 12px;gap:4px;width:calc(100% - 20px);margin-top:10px}
   .af-logo img{height:20px}
   .af-tab{padding:7px 10px;font-size:13px;gap:4px}
   .af-tab i{font-size:15px}
-  .af-avatar{width:32px;height:32px}
+  .af-avatar{width:34px;height:34px}
 }
 @media (max-width:359px){.af-tab span{display:none}}
 
@@ -5294,7 +5291,6 @@ textarea.input { min-height: 90px; resize: vertical; }
 </helmet>
 <div ref="{{ rootRef }}" class="af-root" data-theme="{{ themeAttr }}" lang="{{ lang }}">
 
-<sc-if value="{{ head.menuOpen }}" hint-placeholder-val="{{ false }}"><div class="af-scrim" sc-camel-on-click="{{ closeMenu }}"></div></sc-if>
 <header class="af-head af-glass">
   <a href="/" class="af-logo" aria-label="{{ tr.logoLabel }}"><img src="__AF_LOGO_SRC__" alt="20FIT" width="102" height="26"></a>
   <nav class="af-tabs" aria-label="{{ tr.navLabel }}">
@@ -5302,17 +5298,7 @@ textarea.input { min-height: 90px; resize: vertical; }
       <a class="af-tab" href="{{ tb.href }}" aria-current="{{ tb.current }}"><i class="{{ tb.icon }}"></i><span>{{ tb.label }}</span></a>
     </sc-for>
   </nav>
-  <div class="af-me">
-    <button class="af-avatar" aria-haspopup="true" aria-expanded="{{ head.menuExpanded }}" aria-label="{{ tr.accountMenu }}" sc-camel-on-click="{{ toggleMenu }}">{{ head.initials }}</button>
-    <sc-if value="{{ head.menuOpen }}" hint-placeholder-val="{{ false }}">
-      <div class="af-menu" style="box-shadow:var(--af-glass-shadow)">
-        <div class="af-menu-email">{{ head.signedIn }}</div>
-        <a href="/dashboard/profile"><i class="ph ph-user"></i><span>{{ tr.menuProfile }}</span></a>
-        <a href="/"><i class="ph ph-info"></i><span>{{ tr.menuProgram }}</span></a>
-        <a href="/logout"><i class="ph ph-sign-out"></i><span>{{ tr.signOut }}</span></a>
-      </div>
-    </sc-if>
-  </div>
+  <a class="af-avatar" href="/dashboard/profile" aria-current="{{ head.profileCurrent }}" aria-label="{{ head.avatarLabel }}" title="{{ head.avatarLabel }}"><span>{{ head.initials }}</span><span class="af-photo" style="background:{{ head.photo }}"></span></a>
 </header>
 
 <main style="max-width:{{ pg.max }};margin:0 auto;padding:12px 20px 72px;display:flex;flex-direction:column;gap:20px">
@@ -5810,7 +5796,7 @@ class Component extends DCLogic {
     const acct = D.account && D.account.found ? D.account : null;
     this.state = Object.assign(this.fromState(D.state || { error: this.words(lang).loadFailed }), {
       lang, theme: this.pref('af_theme', ['light', 'dark', 'system'], 'system'), sysDark: !!(this.mq && this.mq.matches),
-      narrow: false, menu: false, toast: '', dialog: null, claimFlow: false, form: null, errors: {}, busy: false,
+      narrow: false, toast: '', dialog: null, claimFlow: false, form: null, errors: {}, busy: false,
       agreed: false, consentChecked: false, rejectDismissed: false, editingCode: false, codeDraft: '', codeError: '',
       period: '30', share: { slug: '', url: '', product: '', loading: false }, detail: null, txFilter: null, filtered: null, preview: null, doneText: '',
       sales: D.sales || null, salesError: '', salesLoading: false, selWeek: -1, selMonth: -1,
@@ -5826,7 +5812,7 @@ class Component extends DCLogic {
     }
     this.onScheme = e => this.setState({ sysDark: e.matches });
     if (this.mq) (this.mq.addEventListener ? this.mq.addEventListener('change', this.onScheme) : this.mq.addListener(this.onScheme));
-    this.onKey = e => { if (e.key === 'Escape' && (this.state.menu || this.state.dialog)) this.setState({ menu: false, dialog: null }); };
+    this.onKey = e => { if (e.key === 'Escape' && this.state.dialog) this.setState({ dialog: null }); };
     document.addEventListener('keydown', this.onKey);
     this.applyDocument();
     if (this.D.page === 'sales' && this.state.joined && !this.state.sales) this.loadSales();
@@ -5987,8 +5973,7 @@ class Component extends DCLogic {
   // ── words: Bahasa Indonesia (default) and English ──
   words(lang) {
     if (lang === 'en') return {
-      siteName: '20FIT Affiliate', logoLabel: '20FIT Affiliate program', navLabel: 'Dashboard', accountMenu: 'Account menu', menuProfile: 'Profile', menuProgram: 'Affiliate program', signOut: 'Sign out',
-      signedInAs: e => 'Signed in as ' + e, reload: 'Reload', contactTeam: 'Contact the affiliate team', programKicker: '20FIT affiliate program',
+      siteName: '20FIT Affiliate', logoLabel: '20FIT Affiliate program', navLabel: 'Dashboard', signOut: 'Sign out', avatarLabel: e => 'Profile · ' + e, reload: 'Reload', contactTeam: 'Contact the affiliate team', programKicker: '20FIT affiliate program',
       heroBody: 'Share 20FIT product links with friends. Each time they buy that product in the 20FIT app through your link, you earn a commission.',
       step1Title: 'Share a product link', step1Body: 'Pick a 20FIT product in this dashboard, then share its link on WhatsApp, social media, or as a QR code.',
       step2Title: 'Your friend buys in the app', step2Body: 'Your friend opens your link and buys that product in the 20FIT app. New and existing accounts both count.',
@@ -6050,8 +6035,7 @@ class Component extends DCLogic {
       barAria: (p, t, c) => `${p}: ${t}, ${c}`, accountMissing: 'Your 20FIT profile isn’t set up yet. Complete it in the 20FIT app first.', profileSaved: 'Profile saved', unsaved: 'Unsaved changes'
     };
     return {
-      siteName: '20FIT Affiliate', logoLabel: 'Program affiliate 20FIT', navLabel: 'Dashboard', accountMenu: 'Menu akun', menuProfile: 'Profile', menuProgram: 'Program affiliate', signOut: 'Keluar',
-      signedInAs: e => 'Masuk sebagai ' + e, reload: 'Muat ulang', contactTeam: 'Hubungi tim affiliate', programKicker: 'Program affiliate 20FIT',
+      siteName: '20FIT Affiliate', logoLabel: 'Program affiliate 20FIT', navLabel: 'Dashboard', signOut: 'Keluar', avatarLabel: e => 'Profile · ' + e, reload: 'Muat ulang', contactTeam: 'Hubungi tim affiliate', programKicker: 'Program affiliate 20FIT',
       heroBody: 'Bagikan link produk 20FIT ke teman. Setiap kali mereka membeli produk itu di app 20FIT lewat link-mu, kamu dapat komisi.',
       step1Title: 'Bagikan link produk', step1Body: 'Pilih produk 20FIT di dashboard ini, lalu bagikan link-nya lewat WhatsApp, media sosial, atau QR code.',
       step2Title: 'Temanmu beli di app', step2Body: 'Temanmu membuka link-mu dan membeli produk itu di app 20FIT. Akun baru maupun lama sama-sama dihitung.',
@@ -6164,8 +6148,9 @@ class Component extends DCLogic {
     const letters = name.split(/\s+/).map(w => (w.match(/[\p{L}\p{N}]/u) || [])[0]).filter(Boolean);
     const head = {
       initials: letters.length ? (letters[0] + (letters.length > 1 ? letters[letters.length - 1] : '')).toUpperCase() : '?',
-      menuOpen: s.menu, menuExpanded: s.menu ? 'true' : 'false', signedIn: W.signedInAs(this.D.user.email || ''),
-      tabs: [['home', 'Home', '/dashboard', 'ph ph-house'], ['sales', 'Sales', '/dashboard/sales', 'ph ph-chart-bar'], ['profile', 'Profile', '/dashboard/profile', 'ph ph-user-circle']]
+      profileCurrent: page === 'profile' ? 'page' : 'false', avatarLabel: W.avatarLabel(this.D.user.email || ''),
+      photo: acc && acc.photo ? `var(--color-surface) url("${acc.photo}") center / cover no-repeat` : 'none',
+      tabs: [['home', 'Home', '/dashboard', 'ph ph-house'], ['sales', 'Sales', '/dashboard/sales', 'ph ph-chart-bar']]
         .map(([k, label, href, icon]) => ({ label, href, icon, current: k === page ? 'page' : 'false' }))
     };
 
@@ -6303,7 +6288,6 @@ class Component extends DCLogic {
     return {
       rootRef: this.rootRef, themeAttr: this.dark() ? 'dark' : 'light', lang: s.lang, tr: W, t, head, note, links: { support: L.support || '#', hasSupport: !!L.support },
       pg: { max: page === 'sales' ? '1040px' : '760px', showJoin, home: page === 'home' && s.joined, sales: page === 'sales' && s.joined, profile: page === 'profile' },
-      toggleMenu: () => this.setState(st => ({ menu: !st.menu })), closeMenu: () => this.setState({ menu: false }),
       reload: () => location.reload(),
       agreed: s.agreed, joinDisabled: !s.agreed || paused || s.busy,
       joinLabel: paused ? W.joinPaused : W.joinCta,
