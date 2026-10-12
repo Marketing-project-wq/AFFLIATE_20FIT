@@ -10,6 +10,7 @@ The 20FIT affiliate site, deployed on Railway as a small Node server
 | `/admin`              | Affiliate admin console | Accounts listed in `public.affiliate_admins`  |
 | `/admin/settings`     | Program settings        | Accounts listed in `public.affiliate_admins`  |
 | `/login`, `/logout`   | Sign in / out           | Public                                        |
+| `/lupa-password`      | Reset the app password  | Public                                        |
 
 `/affiliatedashboard`, `/affiliatedashbaord` and `/dashboard.html` redirect
 (301, query string kept) to `/dashboard`.
@@ -98,8 +99,22 @@ aren't used here.
 
 ## Sign-in
 
-People sign in with the email and password of their 20FIT app account
-(Supabase Auth). The session is kept in HttpOnly cookies.
+People sign in with their 20FIT app account; there is no sign-up on the
+web. The app's passwords live in the 20FIT account service (my.20fit.id),
+so `public/assets/auth.js` sends the email and password from the browser
+straight to `ACCOUNTS_URL/api/fitco-login`, the same check the app makes.
+That service answers with a one-time email code, which `POST /login/otp`
+exchanges for a Supabase session (`/auth/v1/verify`, publishable key). The
+password never reaches this server on that path.
+
+If the account service says no or can't be reached, and when JavaScript is
+off, the form posts to `POST /login`, which checks the Supabase password
+(accounts made on the web). Both share a per-IP attempt limit, and every
+failure shows the same message. The session is kept in HttpOnly cookies.
+
+`/lupa-password` resets the app password the way the app does: a code by
+email (`/api/fitco-forgot`), then code + new password (`/api/fitco-reset`).
+It shows the same message whether or not the email has an account.
 
 ## Environment variables
 
@@ -110,6 +125,8 @@ All optional.
 | `SUPABASE_URL`             | The 20FIT ALL DATA project               |
 | `SUPABASE_PUBLISHABLE_KEY` | That project's publishable key           |
 | `PORT`                     | `3000` (Railway sets it)                 |
+| `ACCOUNTS_URL`             | `https://my.20fit.id`                    |
+| `APP_STORE_URL`, `PLAY_STORE_URL`, `SUPPORT_URL` | `landing_content.app_store_url`, `play_store_url`, `support_url`; hidden when neither is set |
 
 Run locally with `npm start`.
 

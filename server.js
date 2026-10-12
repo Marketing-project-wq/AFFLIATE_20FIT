@@ -11,6 +11,7 @@ const crypto = require('crypto');
 const { createAffiliateData } = require('./lib/affiliate-data');
 const { renderLanding } = require('./lib/landing-view');
 const { renderSettingsPage, parseForm } = require('./lib/admin-settings-view');
+const { loginPage, forgotPage } = require('./lib/auth-pages');
 const Calc = require('./public/assets/affiliate-calc.js');
 
 const PORT = Number(process.env.PORT) || 3000;
@@ -18,6 +19,10 @@ const PORT = Number(process.env.PORT) || 3000;
 // default here and can be overridden per environment.
 const SUPABASE_URL = (process.env.SUPABASE_URL || 'https://cpvzwqptzcxnwzfzgrmt.supabase.co').replace(/\/+$/, '');
 const SUPABASE_KEY = process.env.SUPABASE_PUBLISHABLE_KEY || 'sb_publishable_0t9vEOYeIo_YM1__X5iNMQ_qXofEozw';
+
+// The 20FIT account service (my.20fit.id). The app signs people in there,
+// so the browser checks passwords against it too; see public/assets/auth.js.
+const ACCOUNTS_URL = (process.env.ACCOUNTS_URL || 'https://my.20fit.id').replace(/\/+$/, '');
 
 const PUBLIC_DIR = path.join(__dirname, 'public');
 const DASHBOARD_PATH = '/dashboard';
@@ -62,9 +67,27 @@ const landingAssets = {
   jsHref: versioned('landing.js'),
 };
 
+const authScript = versioned('auth.js');
+
 const affiliateData = createAffiliateData({ supabaseUrl: SUPABASE_URL, supabaseKey: SUPABASE_KEY });
 
 // ── helpers ─────────────────────────────────────────────────────────────
+
+// App store and support links: an environment variable wins, otherwise
+// affiliate_settings.landing_content. Missing ones are simply not shown.
+function siteLinks(settings) {
+  const content = (settings && settings.landingContent) || {};
+  const pick = (env, key) => {
+    const v = String(process.env[env] || content[key] || '').trim();
+    return /^https:\/\/\S+$/.test(v) ? v : '';
+  };
+  return {
+    appStore: pick('APP_STORE_URL', 'app_store_url'),
+    playStore: pick('PLAY_STORE_URL', 'play_store_url'),
+    support: pick('SUPPORT_URL', 'support_url'),
+    terms: (settings && /^https:\/\//.test(settings.termsUrl || '') && settings.termsUrl) || '',
+  };
+}
 
 function escapeHtml(s) {
   return String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
@@ -119,6 +142,10 @@ function send(res, status, body, headers = {}) {
   res.end(body);
 }
 
+function sendJson(res, status, data, headers = {}) {
+  send(res, status, JSON.stringify(data), { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store', ...headers });
+}
+
 function redirect(res, location, cookies, status = 302) {
   const headers = { Location: location, 'Cache-Control': 'no-store' };
   if (cookies) headers['Set-Cookie'] = cookies;
@@ -151,6 +178,19 @@ async function supabaseToken(grant, payload) {
     method: 'POST',
     headers: { apikey: SUPABASE_KEY, 'Content-Type': 'application/json' },
     body: JSON.stringify(payload),
+  });
+  if (!res.ok) return null;
+  const session = await res.json();
+  return session.access_token && session.refresh_token ? session : null;
+}
+
+// Turns the one-time email code the 20FIT account service hands out after a
+// correct password into a Supabase session (same as the app's verifyOtp).
+async function verifyEmailOtp(email, token) {
+  const res = await fetch(`${SUPABASE_URL}/auth/v1/verify`, {
+    method: 'POST',
+    headers: { apikey: SUPABASE_KEY, 'Content-Type': 'application/json' },
+    body: JSON.stringify({ type: 'email', email, token }),
   });
   if (!res.ok) return null;
   const session = await res.json();
@@ -266,78 +306,22 @@ function renderDashboard(user, settings) {
   return html;
 }
 
-function loginPage({ next, email = '', error = '' }) {
-  return `<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Log in · 20FIT Affiliate</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800&family=Manrope:wght@400..700&display=swap">
-<style>
-  :root { --bg: #f6f4f4; --text: #141414; --muted: #5c5c5c; --accent: #e5262f; --accent-dark: #b0161f; --line: rgba(20,20,20,.12); }
-  * { box-sizing: border-box; }
-  body {
-    margin: 0; min-height: 100vh; display: grid; place-items: center; padding: 24px 16px;
-    font: 15px/1.55 Manrope, system-ui, sans-serif; color: var(--text);
-    background: radial-gradient(680px 520px at 6% 0%, rgba(255,154,159,.55), transparent 70%),
-                radial-gradient(900px 600px at 50% 115%, rgba(255,217,219,.8), transparent 70%), var(--bg);
-  }
-  .card {
-    width: 100%; max-width: 400px; padding: 32px 28px; border-radius: 24px;
-    background: linear-gradient(155deg, rgba(255,255,255,.85), rgba(255,255,255,.6));
-    box-shadow: inset 0 0 0 1px rgba(20,20,20,.07), 0 16px 40px rgba(90,20,24,.12);
-    backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
-  }
-  .brand { font: 800 15px/1 'Barlow Condensed', sans-serif; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
-  h1 { font: 800 34px/1.05 'Barlow Condensed', 'Arial Narrow', sans-serif; margin: 10px 0 6px; }
-  p { margin: 0 0 22px; color: var(--muted); }
-  label { display: block; font-weight: 600; font-size: 13px; margin: 14px 0 6px; }
-  input {
-    width: 100%; padding: 12px 14px; border-radius: 12px; border: 1px solid var(--line);
-    font: inherit; background: rgba(255,255,255,.9); color: var(--text);
-  }
-  input:focus { outline: 2px solid var(--accent); outline-offset: 1px; border-color: transparent; }
-  button {
-    width: 100%; margin-top: 22px; padding: 13px 16px; border: 0; border-radius: 999px; cursor: pointer;
-    font: 700 17px/1 'Barlow Condensed', sans-serif; letter-spacing: .03em; color: #fff; background: var(--accent);
-  }
-  button:hover { background: var(--accent-dark); }
-  .error { margin: 0 0 6px; padding: 10px 12px; border-radius: 12px; background: #fff0f0; color: var(--accent-dark); font-size: 14px; }
-  .foot { margin-top: 20px; font-size: 13px; color: var(--muted); text-align: center; }
-  .foot a { color: var(--accent-dark); }
-</style>
-</head>
-<body>
-<main class="card">
-  <div class="brand">20FIT Affiliate</div>
-  <h1>Log in to your dashboard</h1>
-  <p>Use the email and password of your 20FIT app account.</p>
-  ${error ? `<div class="error" role="alert">${escapeHtml(error)}</div>` : ''}
-  <form method="post" action="/login">
-    <input type="hidden" name="next" value="${escapeHtml(next)}">
-    <label for="email">Email</label>
-    <input id="email" name="email" type="email" autocomplete="email" required value="${escapeHtml(email)}" ${email ? '' : 'autofocus'}>
-    <label for="password">Password</label>
-    <input id="password" name="password" type="password" autocomplete="current-password" required ${email ? 'autofocus' : ''}>
-    <button type="submit">Log in</button>
-  </form>
-  <div class="foot">Forgot your password? Reset it in the 20FIT app.<br><a href="/">Back to the affiliate program</a></div>
-</main>
-</body>
-</html>`;
+async function renderLogin(opts) {
+  const { settings } = await affiliateData.get();
+  return loginPage({ ...opts, links: siteLinks(settings), accountsUrl: ACCOUNTS_URL, scriptHref: authScript });
 }
 
+const LOGIN_FAILED = 'Email atau password salah. Kalau kamu daftar pakai Google di aplikasi, buat password dulu lewat Lupa password.';
+const TOO_MANY = 'Terlalu banyak percobaan. Tunggu beberapa menit lalu coba lagi.';
+
 function forbiddenPage(email) {
-  return `<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>No access · 20FIT Affiliate</title>
+  return `<!DOCTYPE html><html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tidak ada akses · 20FIT Affiliate</title>
 <style>body{margin:0;min-height:100vh;display:grid;place-items:center;padding:24px 16px;font:15px/1.55 system-ui,sans-serif;background:#f6f4f4;color:#141414}
 main{max-width:420px;text-align:center}a{color:#b0161f}</style></head>
-<body><main><h1>No access to the admin console</h1>
-<p>You're signed in as ${escapeHtml(email)}, which isn't on the affiliate admin list.</p>
-<p><a href="${DASHBOARD_PATH}">Go to your affiliate dashboard</a> · <a href="/logout">Log out</a></p></main></body></html>`;
+<body><main><h1>Tidak ada akses ke admin</h1>
+<p>Kamu masuk sebagai ${escapeHtml(email)}, yang tidak terdaftar sebagai admin affiliate.</p>
+<p><a href="${DASHBOARD_PATH}">Buka dashboard affiliate</a> · <a href="/logout">Keluar</a></p></main></body></html>`;
 }
 
 // ── routes ──────────────────────────────────────────────────────────────
@@ -386,9 +370,9 @@ async function adminRole(accessToken) {
 }
 
 // Form posts must come from this site (on top of SameSite=Lax cookies).
-function sameOrigin(req) {
+function sameOrigin(req, requireOrigin = false) {
   const origin = req.headers.origin;
-  if (!origin) return true;
+  if (!origin) return !requireOrigin;
   try {
     return new URL(origin).host === req.headers.host;
   } catch {
@@ -441,7 +425,14 @@ async function handle(req, res) {
         const next = safeNext(url.searchParams.get('next'));
         const auth = await authenticate(req);
         if (auth) return redirect(res, next, auth.cookies);
-        return send(res, 200, loginPage({ next }), { 'Cache-Control': 'no-store' });
+        const email = (url.searchParams.get('email') || '').slice(0, 200);
+        return send(res, 200, await renderLogin({ next, email }), { 'Cache-Control': 'no-store' });
+      }
+      case '/lupa-password': {
+        const { settings } = await affiliateData.get();
+        const email = (url.searchParams.get('email') || '').slice(0, 200);
+        return send(res, 200, forgotPage({ email, links: siteLinks(settings), accountsUrl: ACCOUNTS_URL, scriptHref: authScript }),
+          { 'Cache-Control': 'no-store' });
       }
       case '/logout':
         return redirect(res, '/login', clearCookies(req));
@@ -456,13 +447,32 @@ async function handle(req, res) {
     const email = (form.get('email') || '').trim();
     const password = form.get('password') || '';
     if (tooManyAttempts(clientIp(req))) {
-      return send(res, 429, loginPage({ next, email, error: 'Too many attempts. Please wait a few minutes and try again.' }), { 'Cache-Control': 'no-store' });
+      return send(res, 429, await renderLogin({ next, email, error: TOO_MANY }), { 'Cache-Control': 'no-store' });
     }
     const session = email && password ? await supabaseToken('password', { email, password }) : null;
     if (!session) {
-      return send(res, 401, loginPage({ next, email, error: 'That email and password don’t match a 20FIT account.' }), { 'Cache-Control': 'no-store' });
+      return send(res, 401, await renderLogin({ next, email, error: LOGIN_FAILED }), { 'Cache-Control': 'no-store' });
     }
     return redirect(res, next, sessionCookies(req, session));
+  }
+
+  // Second half of the app-account sign-in (public/assets/auth.js): the
+  // browser got a one-time code from the 20FIT account service for a
+  // correct password and swaps it for a session here.
+  if (method === 'POST' && p === '/login/otp') {
+    if (!sameOrigin(req, true)) return sendJson(res, 403, { error: 'Forbidden' });
+    let body;
+    try {
+      body = JSON.parse(await readBody(req) || '{}');
+    } catch {
+      return sendJson(res, 400, { error: LOGIN_FAILED });
+    }
+    if (tooManyAttempts(clientIp(req))) return sendJson(res, 429, { error: TOO_MANY });
+    const email = String(body.email || '').trim().toLowerCase();
+    const otp = String(body.otp || '').trim();
+    const session = email && /^\d{6,10}$/.test(otp) ? await verifyEmailOtp(email, otp) : null;
+    if (!session) return sendJson(res, 401, { error: LOGIN_FAILED });
+    return sendJson(res, 200, { redirect: safeNext(body.next) }, { 'Set-Cookie': sessionCookies(req, session) });
   }
 
   if (method === 'POST' && p === '/admin/settings') {
