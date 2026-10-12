@@ -41,7 +41,7 @@ Semua fungsi ada di schema `public` dan dipanggil dengan token pengguna.
 
 | Kapan | Fungsi | Catatan |
 | --- | --- | --- |
-| Link dibuka | `affiliate_open_link(p_code, p_product_slug, p_source, p_platform, p_anon_device_id)` | Boleh tanpa login (anon). `p_source`: `whatsapp`, `instagram`, dll. kalau ada `?src=`. `p_platform`: `ios` / `android`. `p_anon_device_id`: ID instalasi acak buatan app, bukan IDFA. Mengembalikan `link_id` atau `null` kalau link tidak aktif. |
+| Link dibuka | `affiliate_open_link(p_code, p_product_slug, p_source, p_platform, p_anon_device_id)` | Boleh tanpa login (anon). `p_source`: cara link sampai ke app, salah satu dari `app_link` (universal/app link), `install_referrer` (Play Store referrer setelah install), `clipboard` (link disalin sebelum install), `landing` (dibuka dari halaman web `20fit.id/r/…`); nilai lain ditolak database. `p_platform`: `ios`, `android`, `web` atau `unknown`. `p_anon_device_id`: ID instalasi acak buatan app, bukan IDFA. Mengembalikan `link_id` atau `null` kalau link tidak aktif. |
 | Setelah login atau daftar | `affiliate_attach_device(p_anon_device_id)` | Memindahkan link yang dibuka sebelum login ke akun ini. |
 | Saat checkout | `affiliate_checkout_link(p_product_ref)` | Mengembalikan `link_id` terakhir yang dibuka pembeli untuk produk itu, atau `null`. Simpan di order (lihat bagian 3). |
 
