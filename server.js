@@ -107,6 +107,24 @@ function safeNext(next) {
   return typeof next === 'string' && /^\/(?![\/\\])/.test(next) ? next : DASHBOARD_PATH;
 }
 
+// ── Google login (Supabase OAuth, PKCE done server-side) ──────────────────
+// The code_verifier lives in an HttpOnly cookie on THIS origin and the code is
+// exchanged here, so the whole flow stays on the domain it started on.
+const PKCE_COOKIE = 'af_pkce';
+
+// Absolute origin of the current request (honours Railway's x-forwarded-proto),
+// so the OAuth redirect comes back to the exact host login started on.
+function originOf(req) {
+  const proto = req.headers['x-forwarded-proto'] || (isSecure(req) ? 'https' : 'http');
+  return `${proto}://${req.headers.host}`;
+}
+function pkceVerifier() {
+  return crypto.randomBytes(32).toString('base64url'); // 43 chars, within the RFC 7636 range
+}
+function pkceChallenge(verifier) {
+  return crypto.createHash('sha256').update(verifier).digest('base64url');
+}
+
 function send(res, status, body, headers = {}) {
   res.writeHead(status, {
     'Content-Type': 'text/html; charset=utf-8',
@@ -304,6 +322,15 @@ function loginPage({ next, email = '', error = '' }) {
   }
   button:hover { background: var(--accent-dark); }
   .error { margin: 0 0 6px; padding: 10px 12px; border-radius: 12px; background: #fff0f0; color: var(--accent-dark); font-size: 14px; }
+  .or { display: flex; align-items: center; gap: 12px; margin: 18px 0 14px; color: var(--muted); font-size: 13px; }
+  .or::before, .or::after { content: ''; flex: 1; height: 1px; background: var(--line); }
+  .google {
+    display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%;
+    padding: 12px 16px; border: 1px solid var(--line); border-radius: 999px; cursor: pointer;
+    font: 700 16px/1 'Barlow Condensed', sans-serif; letter-spacing: .03em; color: var(--text);
+    background: rgba(255,255,255,.9); text-decoration: none;
+  }
+  .google:hover { background: #fff; border-color: rgba(20,20,20,.18); }
   .foot { margin-top: 20px; font-size: 13px; color: var(--muted); text-align: center; }
   .foot a { color: var(--accent-dark); }
 </style>
@@ -322,7 +349,12 @@ function loginPage({ next, email = '', error = '' }) {
     <input id="password" name="password" type="password" autocomplete="current-password" required ${email ? 'autofocus' : ''}>
     <button type="submit">Log in</button>
   </form>
-  <div class="foot">Forgot your password? Reset it in the 20FIT app.<br><a href="/">Back to the affiliate program</a></div>
+  <div class="or"><span>or</span></div>
+  <a class="google" href="/auth/google?next=${encodeURIComponent(next)}">
+    <svg width="18" height="18" viewBox="0 0 48 48" aria-hidden="true"><path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9.1 3.6l6.8-6.8C35.9 2.4 30.3 0 24 0 14.6 0 6.5 5.4 2.6 13.2l7.9 6.1C12.4 13.2 17.7 9.5 24 9.5z"/><path fill="#4285F4" d="M46.1 24.6c0-1.6-.1-3.1-.4-4.6H24v9.1h12.4c-.5 2.9-2.1 5.3-4.6 7l7.1 5.5c4.2-3.8 6.6-9.5 6.6-16z"/><path fill="#FBBC05" d="M10.5 28.3c-.5-1.4-.8-3-.8-4.6s.3-3.2.8-4.6l-7.9-6.1C1 16.1 0 19.9 0 23.7s1 7.6 2.6 10.7l7.9-6.1z"/><path fill="#34A853" d="M24 48c6.3 0 11.6-2.1 15.5-5.7l-7.1-5.5c-2 1.3-4.5 2.1-8.4 2.1-6.3 0-11.6-3.7-13.5-9.8l-7.9 6.1C6.5 42.6 14.6 48 24 48z"/></svg>
+    <span>Continue with Google</span>
+  </a>
+  <div class="foot">Google and email sign-in use the same 20FIT account.<br>Forgot your password? Reset it in the 20FIT app.<br><a href="/">Back to the affiliate program</a></div>
 </main>
 </body>
 </html>`;
@@ -416,6 +448,11 @@ async function handle(req, res) {
     switch (p) {
       case '/':
       case '/index.html':
+        // Safety net: an OAuth redirect that lands on "/" carrying ?code=/?error=
+        // (e.g. GoTrue fell back to Site URL) is forwarded to /auth/callback intact.
+        if (url.searchParams.has('code') || url.searchParams.has('error')) {
+          return redirect(res, '/auth/callback' + url.search);
+        }
         return send(res, 200, renderLanding(await affiliateData.get(), landingAssets), { 'Cache-Control': 'public, max-age=60' });
       // Old links and a common misspelling.
       case '/dashboard.html':
@@ -440,6 +477,39 @@ async function handle(req, res) {
         const auth = await authenticate(req);
         if (auth) return redirect(res, next, auth.cookies);
         return send(res, 200, loginPage({ next }), { 'Cache-Control': 'no-store' });
+      }
+      case '/auth/google': {
+        // Start Google OAuth: mint a PKCE verifier, keep it in an HttpOnly cookie
+        // on this origin, and send the user to Supabase. The code comes back to
+        // /auth/callback on this SAME origin, where we hold the verifier.
+        const next = safeNext(url.searchParams.get('next'));
+        const verifier = pkceVerifier();
+        const challenge = pkceChallenge(verifier);
+        const callback = `${originOf(req)}/auth/callback?next=${encodeURIComponent(next)}`;
+        const authorize = `${SUPABASE_URL}/auth/v1/authorize?provider=google` +
+          `&redirect_to=${encodeURIComponent(callback)}` +
+          `&code_challenge=${encodeURIComponent(challenge)}&code_challenge_method=s256`;
+        return redirect(res, authorize, [cookie(req, PKCE_COOKIE, verifier, 600)]);
+      }
+      case '/auth/callback': {
+        const next = safeNext(url.searchParams.get('next'));
+        const providerErr = url.searchParams.get('error_description') || url.searchParams.get('error');
+        const code = url.searchParams.get('code');
+        const verifier = parseCookies(req)[PKCE_COOKIE];
+        const clearPkce = cookie(req, PKCE_COOKIE, '', 0);
+        if (providerErr) {
+          return send(res, 401, loginPage({ next, error: 'Google sign-in was cancelled or failed. Please try again or use email & password.' }), { 'Cache-Control': 'no-store', 'Set-Cookie': clearPkce });
+        }
+        if (!code || !verifier) {
+          // No verifier = sign-in was started elsewhere (other device/tab) or the
+          // cookie expired. Don't hang — ask them to retry from this page.
+          return send(res, 400, loginPage({ next, error: 'Google sign-in didn’t finish. Please try again from this login page.' }), { 'Cache-Control': 'no-store', 'Set-Cookie': clearPkce });
+        }
+        const session = await supabaseToken('pkce', { auth_code: code, code_verifier: verifier });
+        if (!session) {
+          return send(res, 401, loginPage({ next, error: 'Couldn’t complete Google sign-in. Please try again or use email & password.' }), { 'Cache-Control': 'no-store', 'Set-Cookie': clearPkce });
+        }
+        return redirect(res, next, [...sessionCookies(req, session), clearPkce]);
       }
       case '/logout':
         return redirect(res, '/login', clearCookies(req));
