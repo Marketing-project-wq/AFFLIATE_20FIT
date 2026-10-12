@@ -6,12 +6,16 @@ The 20FIT affiliate site, deployed on Railway as a small Node server
 | Path                  | Page                    | Access                                        |
 | --------------------- | ----------------------- | --------------------------------------------- |
 | `/`                   | Landing page            | Public                                        |
-| `/affiliatedashboard` | Affiliate dashboard     | Any signed-in 20FIT account                   |
+| `/dashboard`          | Affiliate dashboard: Home | Any signed-in 20FIT account                 |
+| `/dashboard/sales`    | Dashboard: Sales        | Any signed-in 20FIT account                   |
+| `/dashboard/profile`  | Dashboard: Profile      | Any signed-in 20FIT account                   |
 | `/admin`              | Affiliate admin console | Accounts listed in `public.affiliate_admins`  |
 | `/admin/settings`     | Program settings        | Accounts listed in `public.affiliate_admins`  |
 | `/login`, `/logout`   | Sign in / out           | Public                                        |
+| `/lupa-password`      | Reset the app password  | Public                                        |
 
-`/affiliatedashbaord` and `/dashboard.html` redirect to `/affiliatedashboard`.
+`/affiliatedashboard`, `/affiliatedashbaord` and `/dashboard.html` redirect
+(301, query string kept) to `/dashboard`.
 
 ## Program settings
 
@@ -89,16 +93,65 @@ aren't used here.
   placeholders. `public/assets/landing.js` adds the calculator's interaction;
   `public/assets/affiliate-calc.js` holds the maths both sides share. If
   Supabase is unreachable it serves the last good data, or empty states.
-- **Dashboard and admin console**: designed in a design tool and exported as
-  self-unpacking bundles in `src/bundles/`. `npm run unbundle` (`python3
-  tools/unbundle.py`) turns them into plain HTML in `public/` with assets in
-  `public/assets/`. The dashboard still shows sample numbers; the server fills
-  in the signed-in user's name and the configured scheme.
+- **Dashboard** (`/dashboard`, `/dashboard/sales`, `/dashboard/profile`):
+  one dc component, edited in `src/dashboard.dc.html` (markup and logic),
+  that shows Home, Sales or Profile depending on the `page` the server sets.
+  `npm run unbundle` builds it into `public/dashboard.html`, taking the
+  assets from `src/bundles/dashboard.html`. The server renders the page with
+  the affiliate's own data in `window.__AF_DATA__` (summary, links,
+  purchases, claims, payout details, catalog, the 20FIT account's name and
+  phone, and on Sales the `affiliate_my_sales` result), and the page's
+  actions go through `/api/affiliate/*` with the session cookie; the browser
+  never holds a token. The header uses the landing page's logo
+  (`public/assets/20fit-logo.png`). Theme (light, dark, system) and language
+  (Bahasa Indonesia, English) are kept in the browser's localStorage
+  (`af_theme`, `af_lang`). QR codes are drawn in the browser
+  (`public/assets/qrcode.js`, MIT).
+- **Admin console** (`/admin`): still the design's prototype with sample
+  data; `/admin/settings` is real.
+
+### /api/affiliate/*
+
+Signed-in only; POSTs must come from this site's origin. Each one calls an
+`affiliate_*` function with the user's token and returns only the fields the
+page shows.
+
+| Method & path | Calls |
+| --- | --- |
+| `GET state` | everything for first paint |
+| `GET links?days=7\|30\|all` | `affiliate_my_links` |
+| `GET links/:id/daily?days=` | `affiliate_my_link_daily` |
+| `GET commissions?link=` | `affiliate_my_commissions` |
+| `GET claim-preview` | `affiliate_claim_preview` |
+| `GET sales` | `affiliate_my_sales(12, 12)`: totals, 12 weeks, 12 months, products, from `affiliate_commission` |
+| `GET account` | `my20fit_profile` (own row via RLS): name, phone, email |
+| `GET claims/:id/proof` | signed URL to the proof in the private `affiliate-proofs` bucket |
+| `POST join` `{agree:true}` | `affiliate_join` (current terms version) |
+| `POST accept-terms` | `affiliate_accept_terms` |
+| `POST code` `{code}` | `affiliate_change_code` (once) |
+| `POST link` `{slug}` | `affiliate_get_link` |
+| `POST payout-profile` | `affiliate_save_payout_profile` |
+| `POST claim` | `affiliate_submit_claim` |
+| `POST account` `{name, phone}` | updates `full_name` and `phone` of the user's own `my20fit_profile` row (RLS); email can't change |
 
 ## Sign-in
 
-People sign in with the email and password of their 20FIT app account
-(Supabase Auth). The session is kept in HttpOnly cookies.
+People sign in with their 20FIT app account; there is no sign-up on the
+web. The app's passwords live in the 20FIT account service (my.20fit.id),
+so `public/assets/auth.js` sends the email and password from the browser
+straight to `ACCOUNTS_URL/api/fitco-login`, the same check the app makes.
+That service answers with a one-time email code, which `POST /login/otp`
+exchanges for a Supabase session (`/auth/v1/verify`, publishable key). The
+password never reaches this server on that path.
+
+If the account service says no or can't be reached, and when JavaScript is
+off, the form posts to `POST /login`, which checks the Supabase password
+(accounts made on the web). Both share a per-IP attempt limit, and every
+failure shows the same message. The session is kept in HttpOnly cookies.
+
+`/lupa-password` resets the app password the way the app does: a code by
+email (`/api/fitco-forgot`), then code + new password (`/api/fitco-reset`).
+It shows the same message whether or not the email has an account.
 
 ## Environment variables
 
@@ -109,6 +162,8 @@ All optional.
 | `SUPABASE_URL`             | The 20FIT ALL DATA project               |
 | `SUPABASE_PUBLISHABLE_KEY` | That project's publishable key           |
 | `PORT`                     | `3000` (Railway sets it)                 |
+| `ACCOUNTS_URL`             | `https://my.20fit.id`                    |
+| `APP_STORE_URL`, `PLAY_STORE_URL`, `SUPPORT_URL` | `landing_content.app_store_url`, `play_store_url`, `support_url`; hidden when neither is set |
 
 Run locally with `npm start`.
 

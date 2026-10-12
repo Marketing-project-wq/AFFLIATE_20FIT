@@ -7,6 +7,10 @@ the browser with blob: URLs. That needs DecompressionStream and a CSP that
 allows blob: scripts; when either is missing the page shows its raw
 {{ template }} text. Writing the assets out as ordinary files avoids both.
 
+The dashboard's markup and logic are edited in src/dashboard.dc.html (the
+bundle stores its template as an encoded JSON string, which can't be edited
+by hand); the bundle still supplies the assets.
+
 Usage: python3 tools/unbundle.py
 """
 import base64
@@ -41,21 +45,6 @@ EXT = {
 }
 
 
-TOOLBAR_MARK = ('<span style="letter-spacing:.1em;text-transform:uppercase;'
-                'color:var(--color-accent-300)">Prototype</span>')
-
-# Replaces the design tool's scenario/layout switcher. server.js fills in the
-# __AF_USER_*__ placeholders for the signed-in user.
-ACCOUNT_BAR = '''<div style="display:flex;flex-wrap:wrap;align-items:center;gap:6px 16px;padding:8px 20px;background:color-mix(in srgb, var(--color-bg) 55%, transparent);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);font-size:12px;color:var(--color-neutral-300)">
-  <span style="letter-spacing:.1em;text-transform:uppercase;color:var(--color-accent-300)">Preview</span>
-  <span>Sample data. Your real commissions will show here once the program goes live.</span>
-  <span style="margin-left:auto">Signed in as <strong>__AF_USER_EMAIL__</strong></span>
-  <a href="/logout" style="text-decoration:none;display:flex;align-items:center;gap:6px">Log out <i class="ph ph-sign-out"></i></a>
-</div>
-
-'''
-
-
 # Type scale on top of the design's --font-heading/--font-body tokens:
 # Barlow Condensed Black for page titles, ExtraBold for section titles, Bold
 # (the token default) elsewhere; form controls don't inherit fonts by default.
@@ -74,16 +63,6 @@ def replace_once(text, old, new, page):
     return text.replace(old, new)
 
 
-def patch_dashboard(template):
-    start = template.rfind('<div', 0, template.index(TOOLBAR_MARK))
-    end = template.index('<nav class="nav"', start)
-    template = template[:start] + ACCOUNT_BAR + template[end:]
-    # The sample affiliate's name and avatar become the signed-in user's.
-    template = template.replace("'Rina Kartika'", '__AF_USER_NAME_JS__')
-    template = replace_once(template, '>RK</span>', '>__AF_USER_INITIALS__</span>', 'dashboard')
-    return template
-
-
 ADMIN_PAGE_LINK = ('<a href="/affiliatedashboard" style="display:flex;align-items:center;gap:8px;'
                    'padding:8px 10px;font-size:13px;text-decoration:none;white-space:nowrap">'
                    '<i class="ph ph-arrow-square-out"></i>Affiliate page</a>')
@@ -94,10 +73,13 @@ def patch_admin(template):
     # on /admin/settings.
     settings_link = ADMIN_PAGE_LINK.replace('/affiliatedashboard', '/admin/settings').replace(
         'ph-arrow-square-out', 'ph-sliders-horizontal').replace('Affiliate page', 'Pengaturan komisi')
-    return replace_once(template, ADMIN_PAGE_LINK, settings_link + '\n  ' + ADMIN_PAGE_LINK, 'admin')
+    dashboard_link = ADMIN_PAGE_LINK.replace('/affiliatedashboard', '/dashboard')
+    template = replace_once(template, ADMIN_PAGE_LINK, settings_link + '\n  ' + dashboard_link, 'admin')
+    # The design's logo is a JPG on a grey box; use the transparent one.
+    return replace_once(template, 'https://media.20fit.id/wp-content/uploads/2026/09/20fit-email-logo.jpg', '/assets/20fit-logo.png', 'admin')
 
 
-PATCHES = {'dashboard.html': patch_dashboard, 'admin.html': patch_admin}
+PATCHES = {'admin.html': patch_admin}
 
 
 def script_block(html, kind):
@@ -109,6 +91,9 @@ def unbundle(src_path, out_path, patch=None):
     html = open(src_path, encoding='utf-8').read()
     manifest = script_block(html, 'manifest')
     template = script_block(html, 'template')
+    editable = os.path.join(ROOT, 'src', os.path.basename(src_path).replace('.html', '.dc.html'))
+    if os.path.exists(editable):
+        template = open(editable, encoding='utf-8').read()
     if patch:
         template = patch(template)
     ext_resources = script_block(html, 'ext_resources') or []

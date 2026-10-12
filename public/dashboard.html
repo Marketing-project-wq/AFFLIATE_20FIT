@@ -7,6 +7,8 @@
 <script src="/assets/8fe7df74405f3c55.js"></script>
 </head>
 <body>
+<noscript><div style="max-width:520px;margin:48px auto;padding:0 20px;font:15px/1.55 system-ui,sans-serif;color:#141414"><h1 style="font-size:24px">Dashboard butuh JavaScript</h1><p>Aktifkan JavaScript di browser kamu untuk melihat dashboard affiliate. <a href="/logout">Keluar</a></p></div></noscript>
+<style>x-dc{display:none}</style>
 <x-dc>
 <helmet>
 <style>/* Nocturne — design-system tokens and component classes. This file is the source of truth for the system's look; retune it here and see readme.md. */
@@ -5189,515 +5191,1203 @@ button, input, select, textarea { font-family: inherit; }
   content: "\e4fc";
 }
 </style>
-<style>body{margin:0;background:#f6f4f4}a{color:var(--color-accent)}a:hover{color:var(--color-accent-300)}.ph{line-height:1}</style>
+<style>body{margin:0;background:#f6f4f4}a{color:var(--color-accent)}a:hover{color:var(--color-accent-300)}.ph{line-height:1}
+/* Dashboard theme. Light is the original design; dark swaps the same tokens. */
+.af-root{--color-bg:#f6f4f4;--color-surface:#ffffff;--color-text:#141414;--color-accent:#e5262f;--color-accent-2:#e5262f;--color-divider:color-mix(in srgb, #141414 14%, transparent);--color-neutral-100:#1a1a1a;--color-neutral-200:#2b2b2b;--color-neutral-300:#474747;--color-neutral-400:#5c5c5c;--color-neutral-500:#737373;--color-neutral-600:#9a9a9a;--color-neutral-700:#c4c4c4;--color-neutral-800:#e2e2e2;--color-neutral-900:#efefef;--color-accent-100:#3a0a0e;--color-accent-200:#6b0e15;--color-accent-300:#b0161f;--color-accent-400:#d01f29;--color-accent-500:#e5262f;--color-accent-600:#ef3e47;--color-accent-700:#ff9a9f;--color-accent-800:#ffd9db;--color-accent-900:#fff0f0;--color-accent-2-800:#ffd9db;--color-accent-2-100:#3a0a0e;--color-section:#ffe3e4;--color-section-glow:#ffc9cc;--color-section-ghost:#ffeef0;
+  --af-glass:linear-gradient(155deg, rgba(255,255,255,.78), rgba(255,255,255,.46));
+  --af-glass-shadow:inset 0 1px 0 rgba(255,255,255,.95), inset 0 0 0 1px rgba(20,20,20,.07), 0 12px 32px rgba(90,20,24,.10);
+  --af-panel:rgba(255,255,255,.58);
+  --af-panel-shadow:inset 0 1px 0 rgba(255,255,255,.95), inset 0 0 0 1px rgba(20,20,20,.07);
+  --af-dialog:linear-gradient(155deg, rgba(255,255,255,.9), rgba(255,255,255,.7));
+  --af-tab-on:linear-gradient(155deg, rgba(255,255,255,.96), rgba(255,255,255,.62));
+  --af-tab-on-shadow:inset 0 1px 0 #ffffff, inset 0 0 0 1px rgba(20,20,20,.08), 0 6px 16px rgba(90,20,24,.14);
+  --af-glow-1:color-mix(in srgb, var(--color-accent-700) 70%, transparent);--af-glow-2:rgba(255,255,255,.95);--af-glow-3:color-mix(in srgb, var(--color-accent-800) 80%, transparent);
+  --af-scrim:rgba(20,20,20,.22);--af-logo-filter:none;--af-menu:rgba(255,255,255,.97);--af-head:linear-gradient(155deg, rgba(255,255,255,.88), rgba(255,255,255,.68));
+  min-height:100vh;color-scheme:light;
+  background:radial-gradient(680px 520px at 6% 0%, var(--af-glow-1), transparent 70%), radial-gradient(560px 560px at 96% 16%, var(--af-glow-2), transparent 70%), radial-gradient(900px 600px at 50% 115%, var(--af-glow-3), transparent 70%), var(--color-bg);
+  background-attachment:fixed;color:var(--color-text);font-family:var(--font-body)}
+.af-root[data-theme=dark]{--color-bg:#121011;--color-surface:#1d1a1b;--color-text:#f3eeee;--color-divider:color-mix(in srgb, #f3eeee 16%, transparent);--color-neutral-100:#f2f2f2;--color-neutral-200:#e0e0e0;--color-neutral-300:#bdbdbd;--color-neutral-400:#a3a3a3;--color-neutral-500:#8a8a8a;--color-neutral-600:#6b6b6b;--color-neutral-700:#4a4a4a;--color-neutral-800:#333333;--color-neutral-900:#242424;--color-accent-100:#ffe3e5;--color-accent-200:#ffc2c6;--color-accent-300:#ff7a81;--color-accent-400:#f0434c;--color-accent-600:#ef3e47;--color-accent-700:#7a1a20;--color-accent-800:#4d1216;--color-accent-900:#2b0b0d;--color-accent-2-800:#4d1216;--color-accent-2-100:#ffe3e5;--color-section:#2b1618;--color-section-glow:#4d1216;--color-section-ghost:#1f1415;
+  --af-glass:linear-gradient(155deg, rgba(255,255,255,.085), rgba(255,255,255,.035));
+  --af-glass-shadow:inset 0 1px 0 rgba(255,255,255,.08), inset 0 0 0 1px rgba(255,255,255,.07), 0 12px 32px rgba(0,0,0,.35);
+  --af-panel:rgba(255,255,255,.06);
+  --af-panel-shadow:inset 0 1px 0 rgba(255,255,255,.06), inset 0 0 0 1px rgba(255,255,255,.08);
+  --af-dialog:linear-gradient(155deg, rgba(42,36,38,.97), rgba(28,24,26,.95));
+  --af-tab-on:linear-gradient(155deg, rgba(255,255,255,.17), rgba(255,255,255,.07));
+  --af-tab-on-shadow:inset 0 1px 0 rgba(255,255,255,.16), inset 0 0 0 1px rgba(255,255,255,.1), 0 6px 16px rgba(0,0,0,.35);
+  --af-glow-1:rgba(229,38,47,.22);--af-glow-2:rgba(255,255,255,.035);--af-glow-3:rgba(229,38,47,.13);
+  --af-scrim:rgba(0,0,0,.5);--af-logo-filter:invert(1) hue-rotate(180deg);--af-menu:rgba(34,29,31,.98);--af-head:linear-gradient(155deg, rgba(40,34,36,.9), rgba(26,22,24,.84));color-scheme:dark}
+.af-glass{background:var(--af-glass);backdrop-filter:blur(28px) saturate(170%);-webkit-backdrop-filter:blur(28px) saturate(170%);box-shadow:var(--af-glass-shadow);border-radius:22px}
+.af-panel{background:var(--af-panel);box-shadow:var(--af-panel-shadow);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
+.af-accent-panel{background:linear-gradient(155deg, color-mix(in srgb, var(--color-accent-500) 26%, transparent), color-mix(in srgb, var(--color-accent-700) 14%, transparent));box-shadow:inset 0 1px 0 color-mix(in srgb, #ffffff 60%, transparent), inset 0 0 0 1px color-mix(in srgb, var(--color-accent-300) 22%, transparent), 0 10px 30px color-mix(in srgb, var(--color-accent-700) 30%, transparent);backdrop-filter:blur(24px) saturate(160%);-webkit-backdrop-filter:blur(24px) saturate(160%)}
+.af-root[data-theme=dark] .af-accent-panel{box-shadow:inset 0 1px 0 rgba(255,255,255,.08), inset 0 0 0 1px color-mix(in srgb, var(--color-accent-300) 22%, transparent), 0 10px 30px rgba(0,0,0,.3)}
+.btn.af-btn1{border-radius:999px;border-color:var(--color-accent-500);background:var(--color-accent);color:#ffffff;box-shadow:inset 0 1px 0 rgba(255,255,255,.35), 0 0 18px color-mix(in srgb, var(--color-accent) 28%, transparent);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
+.btn.af-btn1:hover{background:var(--color-accent-400);color:#ffffff}
+.btn.af-btn1:disabled:hover{background:var(--color-accent)}
+.btn.af-btn2{border-radius:999px;border-color:transparent;background:var(--af-panel);box-shadow:var(--af-panel-shadow);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);color:var(--color-text)}
+.btn.af-btn2:hover{background:color-mix(in srgb, var(--color-neutral-100) 15%, transparent);color:var(--color-text)}
+.btn-ghost{border-radius:999px}
+.input.af-input{border-radius:14px;border-color:color-mix(in srgb, var(--color-neutral-100) 14%, transparent);background:color-mix(in srgb, var(--color-neutral-100) 6%, transparent);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+.input.af-input:disabled{opacity:.7}
+.seg.af-seg{border-radius:999px;border-color:transparent;background:var(--af-panel);box-shadow:var(--af-panel-shadow);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);flex-wrap:wrap}
+.af-seg .seg-opt:has(input:checked){border-radius:999px}
+.btn.af-chip{border-radius:999px;font-size:13px;padding:6px 12px;border-color:transparent;background:var(--af-panel);box-shadow:var(--af-panel-shadow);color:var(--color-text)}
+.btn.af-chip[aria-pressed=true]{background:var(--color-accent);color:#ffffff;box-shadow:0 0 14px color-mix(in srgb, var(--color-accent) 40%, transparent)}
+.af-rule-top{background:linear-gradient(to right, transparent, var(--color-divider) 48px, var(--color-divider) calc(100% - 48px), transparent) no-repeat top / 100% 1px}
+.af-rule-bottom{background:linear-gradient(to right, transparent, color-mix(in srgb, var(--color-text) 8%, transparent) 48px, color-mix(in srgb, var(--color-text) 8%, transparent) calc(100% - 48px), transparent) no-repeat bottom / 100% 1px}
+.af-track{height:8px;border-radius:4px;background:color-mix(in srgb, var(--color-neutral-100) 9%, transparent);overflow:hidden}
+.af-fill{height:100%;min-width:4px;border-radius:4px;background:linear-gradient(90deg, var(--color-accent-600), var(--color-accent-400));box-shadow:0 0 14px color-mix(in srgb, var(--color-accent) 60%, transparent)}
+.af-num{font-variant-numeric:tabular-nums}
+.af-err{font-size:12px;color:var(--color-accent-300);margin-top:4px}
+.af-err:empty{display:none}
+
+/* header: the landing page's logo, Home · Sales · Profile, account menu */
+.af-head{position:sticky;top:10px;z-index:40;display:flex;align-items:center;gap:8px;width:calc(100% - 32px);max-width:1160px;margin:14px auto 4px;padding:6px 6px 6px 18px;border-radius:999px}
+.af-head.af-glass{background:var(--af-head)}
+.af-logo{display:flex;align-items:center;flex:none}
+.af-logo img{height:26px;width:auto;display:block;filter:var(--af-logo-filter)}
+.af-tabs{display:flex;gap:2px;margin:0 auto}
+.af-tab{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:999px;font-size:14px;font-weight:500;line-height:1.2;color:var(--color-neutral-300);text-decoration:none;transition:background .18s, box-shadow .18s, color .18s, transform .12s}
+.af-tab i{font-size:17px}
+.af-tab:hover{color:var(--color-text);background:var(--af-panel)}
+.af-tab[aria-current=page],.af-tab:active{color:var(--color-text);background:var(--af-tab-on);box-shadow:var(--af-tab-on-shadow);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+.af-tab[aria-current=page] i{color:var(--color-accent)}
+.af-tab:active{transform:scale(.96)}
+.af-me{position:relative;flex:none}
+.af-avatar{width:34px;height:34px;border-radius:50%;border:0;cursor:pointer;display:grid;place-items:center;font:600 12px/1 var(--font-body);color:var(--color-text);background:var(--af-panel);box-shadow:var(--af-panel-shadow)}
+.af-avatar[aria-expanded=true],.af-avatar:active{background:var(--af-tab-on);box-shadow:var(--af-tab-on-shadow)}
+.af-menu{position:absolute;right:0;top:calc(100% + 8px);width:min(280px, calc(100vw - 40px));padding:8px;display:flex;flex-direction:column;gap:2px;border-radius:18px;z-index:42;background:var(--af-menu)}
+.af-menu-email{padding:8px 10px 10px;font-size:12px;color:var(--color-neutral-300);word-break:break-all}
+.af-menu a{display:flex;align-items:center;gap:8px;padding:9px 10px;border-radius:12px;font-size:14px;color:var(--color-text);text-decoration:none}
+.af-menu a:hover{background:var(--af-panel);color:var(--color-text)}
+.af-scrim{position:fixed;inset:0;z-index:39}
+@media (max-width:560px){
+  .af-head{padding:5px 5px 5px 12px;gap:4px;width:calc(100% - 20px);margin-top:10px}
+  .af-logo img{height:20px}
+  .af-tab{padding:7px 10px;font-size:13px;gap:4px}
+  .af-tab i{font-size:15px}
+  .af-avatar{width:32px;height:32px}
+}
+@media (max-width:359px){.af-tab span{display:none}}
+
+/* Sales charts */
+.af-chart{display:flex;align-items:stretch;gap:4px;height:190px}
+.af-barbtn{flex:1;min-width:0;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:4px;padding:0;margin:0;border:0;background:none;color:inherit;font:inherit;cursor:pointer;border-radius:8px}
+.af-barbtn:focus-visible{outline:2px solid var(--color-accent);outline-offset:2px}
+.af-bar-n{font-size:11px;line-height:1;min-height:11px;color:var(--color-neutral-300);font-variant-numeric:tabular-nums}
+.af-bar-fill{width:100%;max-width:30px;border-radius:7px 7px 3px 3px;background:color-mix(in srgb, var(--color-accent-700) 75%, transparent);transition:background .15s}
+.af-barbtn:hover .af-bar-fill{background:color-mix(in srgb, var(--color-accent-500) 55%, transparent)}
+.af-barbtn[aria-pressed=true] .af-bar-fill{background:linear-gradient(180deg, var(--color-accent-600), var(--color-accent-400));box-shadow:0 0 14px color-mix(in srgb, var(--color-accent) 50%, transparent)}
+.af-barbtn[aria-pressed=true] .af-bar-n{color:var(--color-text);font-weight:600}
+.af-bar-x{font-size:10px;line-height:1;height:10px;white-space:nowrap;color:color-mix(in srgb, var(--color-text) 55%, transparent)}
+</style>
 </helmet>
-<div ref="{{ rootRef }}" style="--color-bg:#f6f4f4;--color-surface:#ffffff;--color-text:#141414;--color-accent:#e5262f;--color-accent-2:#e5262f;--color-divider:color-mix(in srgb, #141414 14%, transparent);--color-neutral-100:#1a1a1a;--color-neutral-200:#2b2b2b;--color-neutral-300:#474747;--color-neutral-400:#5c5c5c;--color-neutral-500:#737373;--color-neutral-600:#9a9a9a;--color-neutral-700:#c4c4c4;--color-neutral-800:#e2e2e2;--color-neutral-900:#efefef;--color-accent-100:#3a0a0e;--color-accent-200:#6b0e15;--color-accent-300:#b0161f;--color-accent-400:#d01f29;--color-accent-500:#e5262f;--color-accent-600:#ef3e47;--color-accent-700:#ff9a9f;--color-accent-800:#ffd9db;--color-accent-900:#fff0f0;--color-accent-2-800:#ffd9db;--color-accent-2-100:#3a0a0e;--color-section:#ffe3e4;--color-section-glow:#ffc9cc;--color-section-ghost:#ffeef0;min-height:100vh;background:radial-gradient(680px 520px at 6% 0%, color-mix(in srgb, var(--color-accent-700) 70%, transparent), transparent 70%), radial-gradient(560px 560px at 96% 16%, rgba(255,255,255,.95), transparent 70%), radial-gradient(900px 600px at 50% 115%, color-mix(in srgb, var(--color-accent-800) 80%, transparent), transparent 70%), var(--color-bg);background-attachment:fixed;color:var(--color-text);font-family:var(--font-body)">
+<div ref="{{ rootRef }}" class="af-root" data-theme="{{ themeAttr }}" lang="{{ lang }}">
 
-<div style="display:flex;flex-wrap:wrap;align-items:center;gap:6px 16px;padding:8px 20px;background:color-mix(in srgb, var(--color-bg) 55%, transparent);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);font-size:12px;color:var(--color-neutral-300)">
-  <span style="letter-spacing:.1em;text-transform:uppercase;color:var(--color-accent-300)">Preview</span>
-  <span>Sample data. Your real commissions will show here once the program goes live.</span>
-  <span style="margin-left:auto">Signed in as <strong>__AF_USER_EMAIL__</strong></span>
-  <a href="/logout" style="text-decoration:none;display:flex;align-items:center;gap:6px">Log out <i class="ph ph-sign-out"></i></a>
-</div>
+<sc-if value="{{ head.menuOpen }}" hint-placeholder-val="{{ false }}"><div class="af-scrim" sc-camel-on-click="{{ closeMenu }}"></div></sc-if>
+<header class="af-head af-glass">
+  <a href="/" class="af-logo" aria-label="{{ tr.logoLabel }}"><img src="__AF_LOGO_SRC__" alt="20FIT" width="102" height="26"></a>
+  <nav class="af-tabs" aria-label="{{ tr.navLabel }}">
+    <sc-for list="{{ head.tabs }}" as="tb" hint-placeholder-count="3">
+      <a class="af-tab" href="{{ tb.href }}" aria-current="{{ tb.current }}"><i class="{{ tb.icon }}"></i><span>{{ tb.label }}</span></a>
+    </sc-for>
+  </nav>
+  <div class="af-me">
+    <button class="af-avatar" aria-haspopup="true" aria-expanded="{{ head.menuExpanded }}" aria-label="{{ tr.accountMenu }}" sc-camel-on-click="{{ toggleMenu }}">{{ head.initials }}</button>
+    <sc-if value="{{ head.menuOpen }}" hint-placeholder-val="{{ false }}">
+      <div class="af-menu" style="box-shadow:var(--af-glass-shadow)">
+        <div class="af-menu-email">{{ head.signedIn }}</div>
+        <a href="/dashboard/profile"><i class="ph ph-user"></i><span>{{ tr.menuProfile }}</span></a>
+        <a href="/"><i class="ph ph-info"></i><span>{{ tr.menuProgram }}</span></a>
+        <a href="/logout"><i class="ph ph-sign-out"></i><span>{{ tr.signOut }}</span></a>
+      </div>
+    </sc-if>
+  </div>
+</header>
 
-<nav class="nav" style="background:linear-gradient(155deg, rgba(255,255,255,.78), rgba(255,255,255,.46));backdrop-filter:blur(28px) saturate(170%);-webkit-backdrop-filter:blur(28px) saturate(170%);box-shadow:inset 0 1px 0 rgba(255,255,255,.95), inset 0 0 0 1px rgba(20,20,20,.07), 0 12px 32px rgba(90,20,24,.10);border-radius:999px;width:calc(100% - 32px);max-width:1160px;margin:14px auto 4px;padding:8px 10px 8px 22px">
-  <span class="nav-brand" style="letter-spacing:.06em">20FIT</span>
-  <a href="#">Home</a>
-  <a href="#">Bookings</a>
-  <a href="#" aria-current="page">Profile</a>
-  <span style="width:30px;height:30px;border-radius:50%;background:var(--color-neutral-800);display:grid;place-items:center;font-size:12px;color:var(--color-neutral-200)">__AF_USER_INITIALS__</span>
-</nav>
+<main style="max-width:{{ pg.max }};margin:0 auto;padding:12px 20px 72px;display:flex;flex-direction:column;gap:20px">
 
-<main style="max-width:{{ g.max }};margin:0 auto;padding:8px 20px 72px;display:flex;flex-direction:column;gap:20px">
-  <div style="display:flex;align-items:center;gap:6px;font-size:13px" class="text-muted"><a href="#" style="color:inherit;text-decoration:none">Profile</a><i class="ph ph-caret-right" style="font-size:11px"></i><span>Affiliate</span></div>
+  <sc-if value="{{ note.show }}" hint-placeholder-val="{{ false }}">
+    <div class="af-panel" style="display:flex;flex-wrap:wrap;gap:12px 16px;align-items:center;padding:14px 16px;border-radius:16px">
+      <i class="ph ph-info" style="font-size:22px;color:var(--color-accent-300)"></i>
+      <div style="flex:1;min-width:220px;font-size:14px"><div style="font-weight:500">{{ note.title }}</div><div style="color:var(--color-neutral-300)">{{ note.body }}</div></div>
+      <sc-if value="{{ note.reload }}" hint-placeholder-val="{{ false }}"><button class="btn af-btn2" sc-camel-on-click="{{ reload }}">{{ tr.reload }}</button></sc-if>
+      <sc-if value="{{ note.hasSupport }}" hint-placeholder-val="{{ false }}"><a class="btn af-btn2" href="{{ links.support }}" target="_blank" rel="noopener">{{ tr.contactTeam }}</a></sc-if>
+    </div>
+  </sc-if>
 
-  <sc-if value="{{ notJoined }}" hint-placeholder-val="{{ false }}">
+  <!-- not joined yet: the join card (Home and Sales) -->
+  <sc-if value="{{ pg.showJoin }}" hint-placeholder-val="{{ false }}">
     <section style="display:flex;flex-direction:column;gap:28px">
       <div>
-        <div class="card-kicker">Affiliate program</div>
-        <h1 style="font-size:38px;max-width:640px;text-wrap:pretty;margin:10px 0 12px">Earn 2.5% of every app purchase your friends make. For life.</h1>
-        <p class="text-muted" style="max-width:560px;font-size:16px;text-wrap:pretty">Invite friends to the 20FIT app with your personal code. Each time they pay for something in the app, you earn commission — for as long as they use 20FIT.</p>
+        <div class="card-kicker">{{ tr.programKicker }}</div>
+        <h1 style="font-size:38px;max-width:640px;text-wrap:pretty;margin:10px 0 12px">{{ t.heroTitle }}</h1>
+        <p class="text-muted" style="max-width:560px;font-size:16px;text-wrap:pretty">{{ tr.heroBody }}</p>
       </div>
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px">
-        <div class="card" style="background:linear-gradient(155deg, rgba(255,255,255,.78), rgba(255,255,255,.46));backdrop-filter:blur(28px) saturate(170%);-webkit-backdrop-filter:blur(28px) saturate(170%);box-shadow:inset 0 1px 0 rgba(255,255,255,.95), inset 0 0 0 1px rgba(20,20,20,.07), 0 12px 32px rgba(90,20,24,.10);border-radius:22px;padding:18px;gap:8px"><span style="font-size:13px;color:var(--color-accent-300)">01</span><div class="card-title">Share your code</div><p class="card-body">Send your link or code over WhatsApp, socials or in person.</p></div>
-        <div class="card" style="background:linear-gradient(155deg, rgba(255,255,255,.78), rgba(255,255,255,.46));backdrop-filter:blur(28px) saturate(170%);-webkit-backdrop-filter:blur(28px) saturate(170%);box-shadow:inset 0 1px 0 rgba(255,255,255,.95), inset 0 0 0 1px rgba(20,20,20,.07), 0 12px 32px rgba(90,20,24,.10);border-radius:22px;padding:18px;gap:8px"><span style="font-size:13px;color:var(--color-accent-300)">02</span><div class="card-title">Your friend joins in the app</div><p class="card-body">They download the 20FIT app and sign up — your code is filled in for them.</p></div>
-        <div class="card" style="background:linear-gradient(155deg, rgba(255,255,255,.78), rgba(255,255,255,.46));backdrop-filter:blur(28px) saturate(170%);-webkit-backdrop-filter:blur(28px) saturate(170%);box-shadow:inset 0 1px 0 rgba(255,255,255,.95), inset 0 0 0 1px rgba(20,20,20,.07), 0 12px 32px rgba(90,20,24,.10);border-radius:22px;padding:18px;gap:8px"><span style="font-size:13px;color:var(--color-accent-300)">03</span><div class="card-title">You earn on every purchase</div><p class="card-body">2.5% of what they pay in the app, on every transaction, with no end date.</p></div>
+        <div class="card af-glass" style="padding:18px;gap:8px"><span style="font-size:13px;color:var(--color-accent-300)">01</span><div class="card-title">{{ tr.step1Title }}</div><p class="card-body">{{ tr.step1Body }}</p></div>
+        <div class="card af-glass" style="padding:18px;gap:8px"><span style="font-size:13px;color:var(--color-accent-300)">02</span><div class="card-title">{{ tr.step2Title }}</div><p class="card-body">{{ tr.step2Body }}</p></div>
+        <div class="card af-glass" style="padding:18px;gap:8px"><span style="font-size:13px;color:var(--color-accent-300)">03</span><div class="card-title">{{ tr.step3Title }}</div><p class="card-body">{{ t.stepEarn }}</p></div>
       </div>
-      <div class="card elev-sm" style="background:linear-gradient(155deg, rgba(255,255,255,.78), rgba(255,255,255,.46));backdrop-filter:blur(28px) saturate(170%);-webkit-backdrop-filter:blur(28px) saturate(170%);box-shadow:inset 0 1px 0 rgba(255,255,255,.95), inset 0 0 0 1px rgba(20,20,20,.07), 0 12px 32px rgba(90,20,24,.10);border-radius:22px;padding:22px;gap:14px">
-        <h5 style="margin:0">The short version of the terms</h5>
+      <div class="card af-glass" style="padding:22px;gap:14px">
+        <h5 style="margin:0">{{ tr.termsSummary }}</h5>
         <ul style="margin:0;padding-left:18px;display:flex;flex-direction:column;gap:6px;font-size:14px;color:var(--color-neutral-300)">
-          <li>Only purchases made in the 20FIT app count — not web, Cafe or Clinic cashiers.</li>
-          <li>One level: you earn from friends you invite directly, not from who they invite.</li>
-          <li>Commission is held for 14 days after payment. A refund in that window cancels it.</li>
-          <li>Claim once your available balance reaches Rp50.000. We pay by bank transfer.</li>
-          <li>20FIT may change the rate for future transactions or end the program.</li>
+          <sc-for list="{{ t.termsList }}" as="item" hint-placeholder-count="5"><li>{{ item.text }}</li></sc-for>
         </ul>
-        <a href="#" style="font-size:14px">Read the full Affiliate Terms (v1.0)</a>
-        <label style="display:flex;gap:10px;align-items:flex-start;font-size:14px;cursor:pointer"><input type="checkbox" checked="{{ agreed }}" sc-camel-on-change="{{ toggleAgree }}" style="accent-color:var(--color-accent);margin-top:3px">I have read and agree to the Affiliate Terms.</label>
-        <div><button style-hover="background:var(--color-accent-400);color:#ffffff" class="btn btn-primary" style="border-radius:999px;border-color:var(--color-accent-500);color:var(--color-text);background:var(--color-accent);color:#ffffff;box-shadow:inset 0 1px 0 rgba(255,255,255,.35), 0 0 18px color-mix(in srgb, var(--color-accent) 28%, transparent);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);padding:10px 18px" disabled="{{ joinDisabled }}" sc-camel-on-click="{{ join }}">Join as affiliate</button></div>
+        <sc-if value="{{ t.hasTermsUrl }}" hint-placeholder-val="{{ false }}"><a href="{{ t.termsUrl }}" target="_blank" rel="noopener" style="font-size:14px">{{ t.readTermsLabel }}</a></sc-if>
+        <label style="display:flex;gap:10px;align-items:flex-start;font-size:14px;cursor:pointer"><input type="checkbox" checked="{{ agreed }}" sc-camel-on-change="{{ toggleAgree }}" style="accent-color:var(--color-accent);margin-top:3px">{{ t.agreeLabel }}</label>
+        <div><button class="btn af-btn1" style="padding:10px 18px" disabled="{{ joinDisabled }}" sc-camel-on-click="{{ join }}">{{ joinLabel }}</button></div>
       </div>
     </section>
   </sc-if>
 
-  <sc-if value="{{ joined }}" hint-placeholder-val="{{ true }}">
+  <!-- ═════════ Home ═════════ -->
+  <sc-if value="{{ pg.home }}" hint-placeholder-val="{{ true }}">
     <div style="display:flex;flex-direction:column;gap:4px">
-      <h2 style="margin:0">Affiliate</h2>
-      <p class="text-muted" style="margin:0;font-size:14px">2.5% of every app purchase by friends you invite, for life.</p>
+      <h2 style="margin:0">{{ tr.homeTitle }}</h2>
+      <p class="text-muted" style="margin:0;font-size:14px">{{ t.joinedSub }}</p>
     </div>
 
     <sc-if value="{{ showTermsBanner }}" hint-placeholder-val="{{ false }}">
-      <div style="display:flex;flex-wrap:wrap;gap:12px 16px;align-items:center;padding:14px 16px;border-radius:16px;background:linear-gradient(155deg, color-mix(in srgb, var(--color-accent-500) 26%, transparent), color-mix(in srgb, var(--color-accent-700) 14%, transparent));box-shadow:inset 0 1px 0 rgba(255,255,255,.85), inset 0 0 0 1px color-mix(in srgb, var(--color-accent-300) 22%, transparent), 0 10px 30px color-mix(in srgb, var(--color-accent-700) 30%, transparent);backdrop-filter:blur(24px) saturate(160%);-webkit-backdrop-filter:blur(24px) saturate(160%)">
+      <div class="af-accent-panel" style="display:flex;flex-wrap:wrap;gap:12px 16px;align-items:center;padding:14px 16px;border-radius:16px">
         <i class="ph ph-file-text" style="font-size:22px;color:var(--color-accent)"></i>
-        <div style="flex:1;min-width:220px;font-size:14px"><div style="font-weight:500">We updated the Affiliate Terms (v2.0)</div><div style="color:var(--color-neutral-300)">Review and accept them before your next claim.</div></div>
-        <button style-hover="background:var(--color-accent-400);color:#ffffff" style="border-radius:999px;border-color:var(--color-accent-500);color:var(--color-text);background:var(--color-accent);color:#ffffff;box-shadow:inset 0 1px 0 rgba(255,255,255,.35), 0 0 18px color-mix(in srgb, var(--color-accent) 28%, transparent);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);" class="btn btn-primary" sc-camel-on-click="{{ openConsent }}">Review and accept</button>
+        <div style="flex:1;min-width:220px;font-size:14px"><div style="font-weight:500">{{ t.updatedLabel }}</div><div style="color:var(--color-neutral-300)">{{ tr.termsBannerBody }}</div></div>
+        <button class="btn af-btn1" sc-camel-on-click="{{ openConsent }}">{{ tr.readAndAccept }}</button>
       </div>
     </sc-if>
 
     <sc-if value="{{ showRejected }}" hint-placeholder-val="{{ false }}">
-      <div style="display:flex;flex-wrap:wrap;gap:12px 16px;align-items:center;padding:14px 16px;border-radius:16px;background:rgba(255,255,255,.58);box-shadow:inset 0 1px 0 rgba(255,255,255,.95), inset 0 0 0 1px rgba(20,20,20,.07);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);">
+      <div class="af-panel" style="display:flex;flex-wrap:wrap;gap:12px 16px;align-items:center;padding:14px 16px;border-radius:16px">
         <i class="ph ph-warning-circle" style="font-size:22px;color:var(--color-accent-300)"></i>
-        <div style="flex:1;min-width:220px;font-size:14px"><div style="font-weight:500">{{ rejected.title }}</div><div style="color:var(--color-neutral-300)">{{ rejected.reason }} Your commission is back in Available.</div></div>
-        <div style="display:flex;gap:8px">
-          <button style-hover="background:color-mix(in srgb, var(--color-neutral-100) 15%, transparent)" style="border-radius:999px;border-color:transparent;background:rgba(255,255,255,.58);box-shadow:inset 0 1px 0 rgba(255,255,255,.95), inset 0 0 0 1px rgba(20,20,20,.07);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);" class="btn btn-secondary" sc-camel-on-click="{{ dismissRejected }}">Dismiss</button>
-          <button style-hover="background:var(--color-accent-400);color:#ffffff" style="border-radius:999px;border-color:var(--color-accent-500);color:var(--color-text);background:var(--color-accent);color:#ffffff;box-shadow:inset 0 1px 0 rgba(255,255,255,.35), 0 0 18px color-mix(in srgb, var(--color-accent) 28%, transparent);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);" class="btn btn-primary" sc-camel-on-click="{{ openPayoutEdit }}">Update payout details</button>
+        <div style="flex:1;min-width:220px;font-size:14px"><div style="font-weight:500">{{ rejected.title }}</div><div style="color:var(--color-neutral-300)">{{ rejected.reason }}</div></div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <button class="btn af-btn2" sc-camel-on-click="{{ dismissRejected }}">{{ tr.close }}</button>
+          <button class="btn af-btn1" sc-camel-on-click="{{ openPayoutEdit }}">{{ tr.updatePayout }}</button>
         </div>
       </div>
     </sc-if>
 
-    <div style="display:grid;grid-template-columns:{{ g.cols }};grid-template-rows:{{ g.rows }};grid-template-areas:{{ g.areas }};gap:16px;align-items:start">
-
-      <div style="grid-area:wallet;display:flex;flex-direction:{{ g.walletDir }};gap:16px;align-self:start;position:{{ g.walletPos }};top:16px;min-width:0">
-        <section class="card elev-sm" style="background:linear-gradient(155deg, rgba(255,255,255,.78), rgba(255,255,255,.46));backdrop-filter:blur(28px) saturate(170%);-webkit-backdrop-filter:blur(28px) saturate(170%);box-shadow:inset 0 1px 0 rgba(255,255,255,.95), inset 0 0 0 1px rgba(20,20,20,.07), 0 12px 32px rgba(90,20,24,.10);border-radius:22px;padding:20px;gap:14px">
-          <div style="display:flex;justify-content:space-between;align-items:center;gap:8px"><span class="card-kicker">Available to claim</span><span class="text-muted" style="font-size:12px">Minimum Rp50.000</span></div>
-          <div style="font-size:40px;font-weight:500;letter-spacing:-.02em;line-height:1;font-variant-numeric:tabular-nums">{{ bal.available }}</div>
-          <sc-if value="{{ bal.showProgress }}" hint-placeholder-val="{{ false }}">
-            <div style="display:flex;flex-direction:column;gap:6px">
-              <div style="height:6px;border-radius:3px;background:color-mix(in srgb, var(--color-neutral-100) 9%, transparent);overflow:hidden"><div style="height:100%;width:{{ bal.pct }};background:linear-gradient(90deg, var(--color-accent-600), var(--color-accent-400));box-shadow:0 0 12px color-mix(in srgb, var(--color-accent) 60%, transparent);border-radius:3px"></div></div>
-              <div style="font-size:13px;color:var(--color-accent-300)">{{ bal.toGo }}</div>
-            </div>
-          </sc-if>
-          <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;padding-top:4px">
-            <div><div class="text-muted" style="font-size:12px;display:flex;align-items:center;gap:4px">Held <i class="ph ph-hourglass-medium"></i></div><div style="font-size:17px;font-variant-numeric:tabular-nums">{{ bal.held }}</div><div class="text-muted" style="font-size:11px">Released 14 days after payment</div></div>
-            <div><div class="text-muted" style="font-size:12px">Paid out</div><div style="font-size:17px;font-variant-numeric:tabular-nums">{{ bal.paid }}</div><div class="text-muted" style="font-size:11px">All time</div></div>
-          </div>
-          <sc-if value="{{ ac.show }}" hint-placeholder-val="{{ false }}">
-            <div style="padding:12px;border-radius:16px;background:linear-gradient(155deg, color-mix(in srgb, var(--color-accent-500) 26%, transparent), color-mix(in srgb, var(--color-accent-700) 14%, transparent));box-shadow:inset 0 1px 0 rgba(255,255,255,.85), inset 0 0 0 1px color-mix(in srgb, var(--color-accent-300) 22%, transparent), 0 10px 30px color-mix(in srgb, var(--color-accent-700) 30%, transparent);backdrop-filter:blur(24px) saturate(160%);-webkit-backdrop-filter:blur(24px) saturate(160%);display:flex;flex-direction:column;gap:4px">
-              <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:13px"><span>Claim {{ ac.id }}</span><span style="border-radius:999px;" class="tag tag-outline">{{ ac.label }}</span></div>
-              <div style="font-size:20px;font-variant-numeric:tabular-nums">{{ ac.net }}</div>
-              <div style="font-size:12px;color:var(--color-neutral-300)">{{ ac.detail }}</div>
-            </div>
-          </sc-if>
-          <button style-hover="background:var(--color-accent-400);color:#ffffff" class="btn btn-primary btn-block" style="border-radius:999px;border-color:var(--color-accent-500);color:var(--color-text);background:var(--color-accent);color:#ffffff;box-shadow:inset 0 1px 0 rgba(255,255,255,.35), 0 0 18px color-mix(in srgb, var(--color-accent) 28%, transparent);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);padding:10px 14px" disabled="{{ bal.claimDisabled }}" sc-camel-on-click="{{ startClaim }}">{{ bal.claimLabel }}</button>
-          <div class="text-muted" style="font-size:12px;margin-top:-6px">{{ bal.note }}</div>
-        </section>
-
-        <section class="card" style="background:linear-gradient(155deg, rgba(255,255,255,.78), rgba(255,255,255,.46));backdrop-filter:blur(28px) saturate(170%);-webkit-backdrop-filter:blur(28px) saturate(170%);box-shadow:inset 0 1px 0 rgba(255,255,255,.95), inset 0 0 0 1px rgba(20,20,20,.07), 0 12px 32px rgba(90,20,24,.10);border-radius:22px;padding:20px;gap:12px">
-          <div style="display:flex;justify-content:space-between;align-items:center;gap:8px">
-            <span class="card-kicker">Your invite code</span>
-            <sc-if value="{{ share.canEdit }}" hint-placeholder-val="{{ false }}"><button class="btn btn-ghost" style="border-radius:999px;font-size:13px" sc-camel-on-click="{{ startEditCode }}">Edit code</button></sc-if>
-          </div>
-          <sc-if value="{{ share.viewing }}" hint-placeholder-val="{{ true }}">
-            <div style="display:flex;flex-direction:column;gap:2px">
-              <div style="font-size:30px;letter-spacing:.12em;font-weight:500">{{ code }}</div>
-              <div class="text-muted" style="font-size:13px">20fit.id/r/{{ code }}</div>
-            </div>
-          </sc-if>
-          <sc-if value="{{ share.editing }}" hint-placeholder-val="{{ false }}">
-            <div class="field" style="display:flex;flex-direction:column;gap:6px">
-              <label>New code · 4–12 letters or numbers · can be changed once</label>
-              <input class="input" style="border-radius:14px;border-color:color-mix(in srgb, var(--color-neutral-100) 14%, transparent);background:color-mix(in srgb, var(--color-neutral-100) 6%, transparent);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);text-transform:uppercase;letter-spacing:.08em" maxlength="12" value="{{ codeDraft }}" sc-camel-on-change="{{ onCodeDraft }}">
-              <div style="font-size:12px;color:var(--color-accent-300)">{{ codeError }}</div>
-              <div style="display:flex;gap:8px"><button style-hover="background:var(--color-accent-400);color:#ffffff" style="border-radius:999px;border-color:var(--color-accent-500);color:var(--color-text);background:var(--color-accent);color:#ffffff;box-shadow:inset 0 1px 0 rgba(255,255,255,.35), 0 0 18px color-mix(in srgb, var(--color-accent) 28%, transparent);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);" class="btn btn-primary" sc-camel-on-click="{{ saveCode }}">Save code</button><button style-hover="background:color-mix(in srgb, var(--color-neutral-100) 15%, transparent)" style="border-radius:999px;border-color:transparent;background:rgba(255,255,255,.58);box-shadow:inset 0 1px 0 rgba(255,255,255,.95), inset 0 0 0 1px rgba(20,20,20,.07);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);" class="btn btn-secondary" sc-camel-on-click="{{ cancelCode }}">Cancel</button></div>
-            </div>
-          </sc-if>
-          <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px">
-            <button style-hover="background:color-mix(in srgb, var(--color-neutral-100) 15%, transparent)" style="border-radius:999px;border-color:transparent;background:rgba(255,255,255,.58);box-shadow:inset 0 1px 0 rgba(255,255,255,.95), inset 0 0 0 1px rgba(20,20,20,.07);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);" class="btn btn-secondary" sc-camel-on-click="{{ copyCode }}"><i class="ph ph-copy"></i>Copy code</button>
-            <button style-hover="background:color-mix(in srgb, var(--color-neutral-100) 15%, transparent)" style="border-radius:999px;border-color:transparent;background:rgba(255,255,255,.58);box-shadow:inset 0 1px 0 rgba(255,255,255,.95), inset 0 0 0 1px rgba(20,20,20,.07);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);" class="btn btn-secondary" sc-camel-on-click="{{ copyLink }}"><i class="ph ph-link"></i>Copy link</button>
-            <a style-hover="background:color-mix(in srgb, var(--color-neutral-100) 15%, transparent)" style="border-radius:999px;border-color:transparent;background:rgba(255,255,255,.58);box-shadow:inset 0 1px 0 rgba(255,255,255,.95), inset 0 0 0 1px rgba(20,20,20,.07);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);" class="btn btn-secondary" href="{{ share.wa }}" target="_blank" rel="noopener"><i class="ph ph-whatsapp-logo"></i>WhatsApp</a>
-            <button style-hover="background:color-mix(in srgb, var(--color-neutral-100) 15%, transparent)" style="border-radius:999px;border-color:transparent;background:rgba(255,255,255,.58);box-shadow:inset 0 1px 0 rgba(255,255,255,.95), inset 0 0 0 1px rgba(20,20,20,.07);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);" class="btn btn-secondary" sc-camel-on-click="{{ downloadQr }}"><i class="ph ph-qr-code"></i>QR code</button>
-          </div>
-          <div class="text-muted" style="font-size:12px">{{ share.note }}</div>
-        </section>
-      </div>
-
-      <section class="card" style="background:linear-gradient(155deg, rgba(255,255,255,.78), rgba(255,255,255,.46));backdrop-filter:blur(28px) saturate(170%);-webkit-backdrop-filter:blur(28px) saturate(170%);box-shadow:inset 0 1px 0 rgba(255,255,255,.95), inset 0 0 0 1px rgba(20,20,20,.07), 0 12px 32px rgba(90,20,24,.10);border-radius:22px;grid-area:perf;padding:20px;gap:16px;min-width:0">
-        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px">
-          <h4 style="margin:0">Performance</h4>
-          <div style="border-radius:999px;border-color:color-mix(in srgb, var(--color-neutral-100) 14%, transparent);background:rgba(255,255,255,.58);box-shadow:inset 0 1px 0 rgba(255,255,255,.95), inset 0 0 0 1px rgba(20,20,20,.07);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);" class="seg">
-            <label class="seg-opt"><input type="radio" name="period" checked="{{ p7 }}" sc-camel-on-change="{{ setP7 }}">7 days</label>
-            <label class="seg-opt"><input type="radio" name="period" checked="{{ p30 }}" sc-camel-on-change="{{ setP30 }}">30 days</label>
-            <label class="seg-opt"><input type="radio" name="period" checked="{{ pAll }}" sc-camel-on-change="{{ setPAll }}">All time</label>
-          </div>
+    <section class="card af-glass elev-sm" style="padding:20px;gap:14px">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:8px"><span class="card-kicker">{{ tr.availableKicker }}</span><span class="text-muted" style="font-size:12px">{{ bal.minLabel }}</span></div>
+      <div class="af-num" style="font-size:40px;font-weight:500;letter-spacing:-.02em;line-height:1">{{ bal.available }}</div>
+      <sc-if value="{{ bal.showProgress }}" hint-placeholder-val="{{ false }}">
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <div class="af-track" style="height:6px"><div class="af-fill" style="width:{{ bal.pct }}"></div></div>
+          <div style="font-size:13px;color:var(--color-accent-300)">{{ bal.toGo }}</div>
         </div>
-        <sc-if value="{{ perf.empty }}" hint-placeholder-val="{{ false }}">
-          <div style="display:flex;flex-direction:column;gap:10px;align-items:flex-start;padding:8px 0">
-            <div style="font-size:16px">No clicks yet. Share your code to get started.</div>
-            <div class="text-muted" style="font-size:13px;max-width:440px">Clicks on your link, sign-ups and purchases appear here as they happen.</div>
-            <button style-hover="background:var(--color-accent-400);color:#ffffff" style="border-radius:999px;border-color:var(--color-accent-500);color:var(--color-text);background:var(--color-accent);color:#ffffff;box-shadow:inset 0 1px 0 rgba(255,255,255,.35), 0 0 18px color-mix(in srgb, var(--color-accent) 28%, transparent);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);" class="btn btn-primary" sc-camel-on-click="{{ copyLink }}"><i class="ph ph-link"></i>Copy your link</button>
-          </div>
-        </sc-if>
-        <sc-if value="{{ perf.has }}" hint-placeholder-val="{{ true }}">
-          <div style="display:flex;flex-direction:column;gap:12px">
-            <sc-for list="{{ perf.rows }}" as="r" hint-placeholder-count="3">
-              <div style="display:grid;grid-template-columns:96px minmax(0,1fr) minmax(88px,auto);gap:12px;align-items:center">
-                <span class="text-muted" style="font-size:13px">{{ r.label }}</span>
-                <div style="height:8px;border-radius:4px;background:color-mix(in srgb, var(--color-neutral-100) 9%, transparent)"><div style="height:100%;width:{{ r.w }};min-width:4px;border-radius:4px;background:linear-gradient(90deg, var(--color-accent-600), var(--color-accent-400));box-shadow:0 0 14px color-mix(in srgb, var(--color-accent) 60%, transparent)"></div></div>
-                <span style="text-align:right;font-variant-numeric:tabular-nums"><span style="font-weight:500">{{ r.value }}</span> <span class="text-muted" style="font-size:12px">{{ r.sub }}</span></span>
-              </div>
-            </sc-for>
-            <div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding-top:12px;margin-top:4px;background:linear-gradient(to right, transparent, var(--color-divider) 48px, var(--color-divider) calc(100% - 48px), transparent) no-repeat top / 100% 1px">
-              <span class="text-muted" style="font-size:13px">Commission earned · {{ perf.periodLabel }}</span>
-              <span style="font-size:24px;font-weight:500;font-variant-numeric:tabular-nums">{{ perf.comm }}</span>
-            </div>
-          </div>
-        </sc-if>
-      </section>
+      </sc-if>
+      <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;padding-top:4px">
+        <div><div class="text-muted" style="font-size:12px;display:flex;align-items:center;gap:4px"><span>{{ tr.held }}</span><i class="ph ph-hourglass-medium"></i></div><div class="af-num" style="font-size:17px">{{ bal.held }}</div><div class="text-muted" style="font-size:11px">{{ bal.heldNote }}</div></div>
+        <div><div class="text-muted" style="font-size:12px">{{ tr.paidOut }}</div><div class="af-num" style="font-size:17px">{{ bal.paid }}</div><div class="text-muted" style="font-size:11px">{{ tr.allTime }}</div></div>
+      </div>
+      <sc-if value="{{ ac.show }}" hint-placeholder-val="{{ false }}">
+        <div class="af-accent-panel" style="padding:12px;border-radius:16px;display:flex;flex-direction:column;gap:4px">
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:13px"><span>{{ ac.title }}</span><span style="border-radius:999px" class="tag tag-outline">{{ ac.label }}</span></div>
+          <div class="af-num" style="font-size:20px">{{ ac.net }}</div>
+          <div style="font-size:12px;color:var(--color-neutral-300)">{{ ac.detail }}</div>
+        </div>
+      </sc-if>
+      <button class="btn af-btn1 btn-block" style="padding:10px 14px" disabled="{{ bal.claimDisabled }}" sc-camel-on-click="{{ startClaim }}">{{ bal.claimLabel }}</button>
+      <div class="text-muted" style="font-size:12px;margin-top:-6px">{{ bal.note }}</div>
+    </section>
 
-      <div role="tablist" style="grid-area:tabs;display:{{ g.dTabs }};gap:4px;min-width:0">
-        <sc-for list="{{ tabs }}" as="tb" hint-placeholder-count="3">
-          <button class="btn btn-ghost" style="border-radius:999px;padding:8px 12px;color:{{ tb.color }};box-shadow:{{ tb.shadow }};border-radius:0" sc-camel-on-click="{{ tb.on }}">{{ tb.label }}</button>
+    <section class="card af-glass" style="padding:20px;gap:12px">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:8px">
+        <span class="card-kicker">{{ tr.myLinks }}</span>
+        <span class="text-muted" style="font-size:12px">{{ share.rateLabel }}</span>
+      </div>
+      <div class="text-muted" style="font-size:13px">{{ share.hint }}</div>
+      <div role="group" aria-label="{{ tr.pickProduct }}" style="display:flex;flex-wrap:wrap;gap:6px">
+        <sc-for list="{{ share.products }}" as="o" hint-placeholder-count="6">
+          <button class="btn af-chip" aria-pressed="{{ o.pressed }}" disabled="{{ o.disabled }}" sc-camel-on-click="{{ o.pick }}">{{ o.label }}</button>
         </sc-for>
       </div>
+      <sc-if value="{{ share.loading }}" hint-placeholder-val="{{ false }}">
+        <div class="text-muted" style="font-size:13px">{{ tr.preparingLink }}</div>
+      </sc-if>
+      <sc-if value="{{ share.hasLink }}" hint-placeholder-val="{{ false }}">
+        <div class="af-panel" style="display:flex;flex-direction:column;gap:2px;padding:12px;border-radius:16px">
+          <div class="text-muted" style="font-size:12px">{{ share.product }}</div>
+          <div style="font-size:15px;font-weight:500;word-break:break-all">{{ share.url }}</div>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:8px">
+          <button class="btn af-btn2" sc-camel-on-click="{{ copyLink }}"><i class="ph ph-link"></i><span>{{ tr.copyLink }}</span></button>
+          <a class="btn af-btn2" href="{{ share.wa }}" target="_blank" rel="noopener"><i class="ph ph-whatsapp-logo"></i><span>WhatsApp</span></a>
+          <button class="btn af-btn2" sc-camel-on-click="{{ downloadQr }}"><i class="ph ph-qr-code"></i><span>{{ tr.downloadQr }}</span></button>
+        </div>
+      </sc-if>
+      <div class="af-rule-top" style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:8px;padding-top:10px">
+        <span style="font-size:13px"><span class="text-muted">{{ tr.affiliateCode }} </span><strong style="letter-spacing:.08em">{{ code }}</strong></span>
+        <sc-if value="{{ share.canEdit }}" hint-placeholder-val="{{ false }}"><a class="btn btn-ghost" style="font-size:13px" href="/dashboard/profile">{{ tr.changeCodeInProfile }}</a></sc-if>
+      </div>
+    </section>
 
-      <section class="card" style="background:linear-gradient(155deg, rgba(255,255,255,.78), rgba(255,255,255,.46));backdrop-filter:blur(28px) saturate(170%);-webkit-backdrop-filter:blur(28px) saturate(170%);box-shadow:inset 0 1px 0 rgba(255,255,255,.95), inset 0 0 0 1px rgba(20,20,20,.07), 0 12px 32px rgba(90,20,24,.10);border-radius:22px;grid-area:{{ g.gaTx }};display:{{ g.dTx }};padding:20px;gap:12px;min-width:0">
-        <div><h4 style="margin:0 0 4px">Referral transactions</h4><div class="text-muted" style="font-size:13px">Only your commission is shown — never what your friend paid.</div></div>
-        <sc-if value="{{ txEmpty }}" hint-placeholder-val="{{ false }}">
-          <div class="text-muted" style="font-size:14px;padding:12px 0">No transactions yet. When a friend signs up with your code and pays for something in the app, it shows up here.</div>
-        </sc-if>
-        <sc-if value="{{ txHas }}" hint-placeholder-val="{{ true }}">
-          <div style="overflow-x:auto">
-            <sc-raw-table class="table" style="min-width:560px">
-              <sc-raw-thead><sc-raw-tr><sc-raw-th>Friend</sc-raw-th><sc-raw-th>Product</sc-raw-th><sc-raw-th>Date</sc-raw-th><sc-raw-th style="text-align:right">Commission</sc-raw-th><sc-raw-th>Status</sc-raw-th></sc-raw-tr></sc-raw-thead>
-              <sc-raw-tbody>
-                <sc-for list="{{ txRows }}" as="r" hint-placeholder-count="5">
-                  <sc-raw-tr style="opacity:{{ r.op }}">
-                    <sc-raw-td>{{ r.who }}</sc-raw-td>
-                    <sc-raw-td style="color:var(--color-neutral-300)">{{ r.product }}</sc-raw-td>
-                    <sc-raw-td style="white-space:nowrap;color:var(--color-neutral-300)">{{ r.date }}</sc-raw-td>
-                    <sc-raw-td style="text-align:right;font-variant-numeric:tabular-nums;text-decoration:{{ r.deco }}">{{ r.amount }}</sc-raw-td>
-                    <sc-raw-td><span class="{{ r.cls }}" title="{{ r.note }}">{{ r.label }}</span></sc-raw-td>
-                  </sc-raw-tr>
-                </sc-for>
-              </sc-raw-tbody>
-            </sc-raw-table>
+    <section class="card af-glass" style="padding:20px;gap:16px;min-width:0">
+      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px">
+        <h4 style="margin:0">{{ tr.linkPerformance }}</h4>
+        <div class="seg af-seg">
+          <label class="seg-opt"><input type="radio" name="period" checked="{{ p7 }}" sc-camel-on-change="{{ setP7 }}">{{ tr.days7 }}</label>
+          <label class="seg-opt"><input type="radio" name="period" checked="{{ p30 }}" sc-camel-on-change="{{ setP30 }}">{{ tr.days30 }}</label>
+          <label class="seg-opt"><input type="radio" name="period" checked="{{ pAll }}" sc-camel-on-change="{{ setPAll }}">{{ tr.allPeriod }}</label>
+        </div>
+      </div>
+      <sc-if value="{{ perf.empty }}" hint-placeholder-val="{{ false }}">
+        <div style="display:flex;flex-direction:column;gap:10px;align-items:flex-start;padding:8px 0">
+          <div style="font-size:16px">{{ perf.emptyTitle }}</div>
+          <div class="text-muted" style="font-size:13px;max-width:440px">{{ perf.emptyBody }}</div>
+        </div>
+      </sc-if>
+      <sc-if value="{{ perf.has }}" hint-placeholder-val="{{ true }}">
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <sc-for list="{{ perf.rows }}" as="r" hint-placeholder-count="3">
+            <div style="display:grid;grid-template-columns:96px minmax(0,1fr) minmax(88px,auto);gap:12px;align-items:center">
+              <span class="text-muted" style="font-size:13px">{{ r.label }}</span>
+              <div class="af-track"><div class="af-fill" style="width:{{ r.w }}"></div></div>
+              <span class="af-num" style="text-align:right"><span style="font-weight:500">{{ r.value }}</span> <span class="text-muted" style="font-size:12px">{{ r.sub }}</span></span>
+            </div>
+          </sc-for>
+          <div class="af-rule-top" style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding-top:12px;margin-top:4px">
+            <span class="text-muted" style="font-size:13px">{{ perf.commLabel }}</span>
+            <span class="af-num" style="font-size:24px;font-weight:500">{{ perf.comm }}</span>
           </div>
-        </sc-if>
-      </section>
-
-      <section class="card" style="background:linear-gradient(155deg, rgba(255,255,255,.78), rgba(255,255,255,.46));backdrop-filter:blur(28px) saturate(170%);-webkit-backdrop-filter:blur(28px) saturate(170%);box-shadow:inset 0 1px 0 rgba(255,255,255,.95), inset 0 0 0 1px rgba(20,20,20,.07), 0 12px 32px rgba(90,20,24,.10);border-radius:22px;grid-area:{{ g.gaClaims }};display:{{ g.dClaims }};padding:20px;gap:12px;min-width:0">
-        <h4 style="margin:0">Claim history</h4>
-        <sc-if value="{{ claimsEmpty }}" hint-placeholder-val="{{ false }}">
-          <div class="text-muted" style="font-size:14px;padding:12px 0">No claims yet. You can claim once your available balance reaches Rp50.000.</div>
-        </sc-if>
-        <sc-if value="{{ claimsHas }}" hint-placeholder-val="{{ true }}">
-          <div style="overflow-x:auto">
-            <sc-raw-table class="table" style="min-width:560px">
-              <sc-raw-thead><sc-raw-tr><sc-raw-th>Claim</sc-raw-th><sc-raw-th>Submitted</sc-raw-th><sc-raw-th style="text-align:right">Amount</sc-raw-th><sc-raw-th>Status</sc-raw-th><sc-raw-th>Details</sc-raw-th></sc-raw-tr></sc-raw-thead>
+          <div style="overflow-x:auto;margin-top:4px">
+            <sc-raw-table class="table" style="min-width:520px">
+              <sc-raw-thead><sc-raw-tr><sc-raw-th>{{ tr.colProduct }}</sc-raw-th><sc-raw-th style="text-align:right">{{ tr.colOpened }}</sc-raw-th><sc-raw-th style="text-align:right">{{ tr.colBuyers }}</sc-raw-th><sc-raw-th style="text-align:right">{{ tr.colTransactions }}</sc-raw-th><sc-raw-th style="text-align:right">{{ tr.colCommission }}</sc-raw-th><sc-raw-th></sc-raw-th></sc-raw-tr></sc-raw-thead>
               <sc-raw-tbody>
-                <sc-for list="{{ claimRows }}" as="c" hint-placeholder-count="2">
+                <sc-for list="{{ perf.links }}" as="l" hint-placeholder-count="3">
                   <sc-raw-tr>
-                    <sc-raw-td style="white-space:nowrap">{{ c.id }}</sc-raw-td>
-                    <sc-raw-td style="white-space:nowrap;color:var(--color-neutral-300)">{{ c.date }}</sc-raw-td>
-                    <sc-raw-td style="text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap">{{ c.amount }}<div class="text-muted" style="font-size:11px">{{ c.net }}</div></sc-raw-td>
-                    <sc-raw-td><span class="{{ c.cls }}">{{ c.label }}</span></sc-raw-td>
-                    <sc-raw-td style="font-size:13px;color:var(--color-neutral-300);max-width:260px">{{ c.detail }}<sc-if value="{{ c.hasProof }}" hint-placeholder-val="{{ false }}"> · <a href="#" sc-camel-on-click="{{ c.onProof }}">Transfer proof</a></sc-if></sc-raw-td>
+                    <sc-raw-td>{{ l.product }}</sc-raw-td>
+                    <sc-raw-td class="af-num" style="text-align:right">{{ l.opens }}</sc-raw-td>
+                    <sc-raw-td class="af-num" style="text-align:right">{{ l.buyers }}</sc-raw-td>
+                    <sc-raw-td class="af-num" style="text-align:right">{{ l.transactions }}</sc-raw-td>
+                    <sc-raw-td class="af-num" style="text-align:right">{{ l.commission }}</sc-raw-td>
+                    <sc-raw-td style="text-align:right"><button class="btn btn-ghost" style="font-size:13px;padding:4px 10px" sc-camel-on-click="{{ l.open }}">{{ tr.detail }}</button></sc-raw-td>
                   </sc-raw-tr>
                 </sc-for>
               </sc-raw-tbody>
             </sc-raw-table>
           </div>
-        </sc-if>
-      </section>
+          <sc-if value="{{ detail.show }}" hint-placeholder-val="{{ false }}">
+            <div class="af-panel" style="display:flex;flex-direction:column;gap:12px;padding:14px;border-radius:16px">
+              <div style="display:flex;justify-content:space-between;align-items:center;gap:8px">
+                <div><div style="font-weight:500">{{ detail.product }}</div><div class="text-muted" style="font-size:12px">{{ detail.sub }}</div></div>
+                <button class="btn btn-ghost" style="font-size:13px" aria-label="{{ tr.closeDetail }}" sc-camel-on-click="{{ closeDetail }}"><i class="ph ph-x"></i></button>
+              </div>
+              <sc-if value="{{ detail.loading }}" hint-placeholder-val="{{ false }}"><div class="text-muted" style="font-size:13px">{{ tr.loading }}</div></sc-if>
+              <sc-if value="{{ detail.ready }}" hint-placeholder-val="{{ true }}">
+                <div role="img" aria-label="{{ detail.aria }}" style="display:flex;align-items:flex-end;gap:2px;height:120px;padding-top:8px">
+                  <sc-for list="{{ detail.days }}" as="d" hint-placeholder-count="30">
+                    <div title="{{ d.tip }}" style="flex:1;min-width:2px;height:100%;display:flex;flex-direction:column;justify-content:flex-end;gap:2px">
+                      <div style="height:{{ d.hOpen }};min-height:{{ d.minOpen }};border-radius:3px 3px 0 0;background:color-mix(in srgb, var(--color-accent-700) 70%, transparent)"></div>
+                      <div style="height:{{ d.hTx }};min-height:{{ d.minTx }};border-radius:3px;background:var(--color-accent)"></div>
+                    </div>
+                  </sc-for>
+                </div>
+                <div style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;font-size:12px" class="text-muted">
+                  <span style="display:flex;align-items:center;gap:4px"><span style="display:inline-block;width:10px;height:10px;border-radius:3px;background:color-mix(in srgb, var(--color-accent-700) 70%, transparent)"></span><span>{{ tr.colOpened }}</span><span style="display:inline-block;width:10px;height:10px;border-radius:3px;background:var(--color-accent);margin-left:8px"></span><span>{{ tr.colTransactions }}</span></span>
+                  <span>{{ detail.range }}</span>
+                </div>
+              </sc-if>
+              <div><button class="btn af-btn2" sc-camel-on-click="{{ detail.showPurchases }}"><i class="ph ph-list"></i><span>{{ tr.seePurchases }}</span></button></div>
+            </div>
+          </sc-if>
+        </div>
+      </sc-if>
+    </section>
 
-      <section class="card" style="background:linear-gradient(155deg, rgba(255,255,255,.78), rgba(255,255,255,.46));backdrop-filter:blur(28px) saturate(170%);-webkit-backdrop-filter:blur(28px) saturate(170%);box-shadow:inset 0 1px 0 rgba(255,255,255,.95), inset 0 0 0 1px rgba(20,20,20,.07), 0 12px 32px rgba(90,20,24,.10);border-radius:22px;grid-area:activity;display:{{ g.dActivity }};padding:20px;gap:8px;min-width:0">
-        <h4 style="margin:0 0 6px">Activity</h4>
-        <sc-if value="{{ actEmpty }}" hint-placeholder-val="{{ false }}">
-          <div class="text-muted" style="font-size:14px;padding:12px 0">Nothing here yet. Commission from your friends' app purchases and your claims will appear in one timeline.</div>
-        </sc-if>
-        <sc-for list="{{ activity }}" as="a" hint-placeholder-count="5">
-          <div style="display:grid;grid-template-columns:32px minmax(0,1fr) auto;gap:12px;align-items:center;padding:10px 0;background:linear-gradient(to right, transparent, color-mix(in srgb, var(--color-text) 8%, transparent) 48px, color-mix(in srgb, var(--color-text) 8%, transparent) calc(100% - 48px), transparent) no-repeat bottom / 100% 1px;opacity:{{ a.op }}">
-            <span style="width:32px;height:32px;border-radius:50%;background:color-mix(in srgb, var(--color-neutral-100) 9%, transparent);display:grid;place-items:center;color:var(--color-accent-300)"><i class="{{ a.icon }}"></i></span>
-            <div style="min-width:0"><div style="font-size:14px;overflow:hidden;text-overflow:ellipsis">{{ a.title }}</div><div class="text-muted" style="font-size:12px">{{ a.sub }}</div></div>
-            <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px"><span style="font-variant-numeric:tabular-nums;font-size:14px">{{ a.amount }}</span><span class="{{ a.cls }}">{{ a.label }}</span></div>
+    <section class="card af-glass" style="padding:20px;gap:12px;min-width:0">
+      <div><h4 style="margin:0 0 4px">{{ tr.purchasesTitle }}</h4><div class="text-muted" style="font-size:13px">{{ tr.purchasesHint }}</div></div>
+      <sc-if value="{{ txs.filtered }}" hint-placeholder-val="{{ false }}">
+        <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px;font-size:13px"><span class="tag tag-outline" style="border-radius:999px">{{ txs.filterLabel }}</span><button class="btn btn-ghost" style="font-size:13px" sc-camel-on-click="{{ clearFilter }}">{{ tr.showAll }}</button></div>
+      </sc-if>
+      <sc-if value="{{ txEmpty }}" hint-placeholder-val="{{ false }}">
+        <div class="text-muted" style="font-size:14px;padding:12px 0">{{ txs.empty }}</div>
+      </sc-if>
+      <sc-if value="{{ txHas }}" hint-placeholder-val="{{ true }}">
+        <div style="overflow-x:auto">
+          <sc-raw-table class="table" style="min-width:560px">
+            <sc-raw-thead><sc-raw-tr><sc-raw-th>{{ tr.colBuyer }}</sc-raw-th><sc-raw-th>{{ tr.colProduct }}</sc-raw-th><sc-raw-th>{{ tr.colDate }}</sc-raw-th><sc-raw-th style="text-align:right">{{ tr.colCommission }}</sc-raw-th><sc-raw-th>{{ tr.colStatus }}</sc-raw-th></sc-raw-tr></sc-raw-thead>
+            <sc-raw-tbody>
+              <sc-for list="{{ txRows }}" as="r" hint-placeholder-count="5">
+                <sc-raw-tr style="opacity:{{ r.op }}">
+                  <sc-raw-td>{{ r.who }}</sc-raw-td>
+                  <sc-raw-td style="color:var(--color-neutral-300)">{{ r.product }}</sc-raw-td>
+                  <sc-raw-td style="white-space:nowrap;color:var(--color-neutral-300)">{{ r.date }}</sc-raw-td>
+                  <sc-raw-td class="af-num" style="text-align:right;text-decoration:{{ r.deco }}">{{ r.amount }}</sc-raw-td>
+                  <sc-raw-td><span class="{{ r.cls }}" title="{{ r.note }}">{{ r.label }}</span></sc-raw-td>
+                </sc-raw-tr>
+              </sc-for>
+            </sc-raw-tbody>
+          </sc-raw-table>
+        </div>
+      </sc-if>
+    </section>
+
+    <section class="card af-glass" style="padding:20px;gap:12px;min-width:0">
+      <h4 style="margin:0">{{ tr.claimHistory }}</h4>
+      <sc-if value="{{ claimsEmpty }}" hint-placeholder-val="{{ false }}">
+        <div class="text-muted" style="font-size:14px;padding:12px 0">{{ claimsEmptyText }}</div>
+      </sc-if>
+      <sc-if value="{{ claimsHas }}" hint-placeholder-val="{{ true }}">
+        <div style="overflow-x:auto">
+          <sc-raw-table class="table" style="min-width:560px">
+            <sc-raw-thead><sc-raw-tr><sc-raw-th>{{ tr.colClaim }}</sc-raw-th><sc-raw-th>{{ tr.colSubmitted }}</sc-raw-th><sc-raw-th style="text-align:right">{{ tr.colAmount }}</sc-raw-th><sc-raw-th>{{ tr.colStatus }}</sc-raw-th><sc-raw-th>{{ tr.colNote }}</sc-raw-th></sc-raw-tr></sc-raw-thead>
+            <sc-raw-tbody>
+              <sc-for list="{{ claimRows }}" as="c" hint-placeholder-count="2">
+                <sc-raw-tr>
+                  <sc-raw-td style="white-space:nowrap">{{ c.id }}</sc-raw-td>
+                  <sc-raw-td style="white-space:nowrap;color:var(--color-neutral-300)">{{ c.date }}</sc-raw-td>
+                  <sc-raw-td class="af-num" style="text-align:right;white-space:nowrap">{{ c.amount }}<div class="text-muted" style="font-size:11px">{{ c.net }}</div></sc-raw-td>
+                  <sc-raw-td><span class="{{ c.cls }}">{{ c.label }}</span></sc-raw-td>
+                  <sc-raw-td style="font-size:13px;color:var(--color-neutral-300);max-width:260px">{{ c.detail }}<sc-if value="{{ c.hasProof }}" hint-placeholder-val="{{ false }}"> · <a href="{{ c.proofHref }}" target="_blank" rel="noopener">{{ tr.proof }}</a></sc-if></sc-raw-td>
+                </sc-raw-tr>
+              </sc-for>
+            </sc-raw-tbody>
+          </sc-raw-table>
+        </div>
+      </sc-if>
+    </section>
+
+    <section class="text-muted" style="display:flex;flex-wrap:wrap;gap:8px 20px;align-items:center;font-size:13px;padding:4px 2px;min-width:0">
+      <sc-if value="{{ t.hasTermsUrl }}" hint-placeholder-val="{{ false }}"><a href="{{ t.termsUrl }}" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:6px"><i class="ph ph-file-text"></i><span>{{ tr.termsShort }}</span></a></sc-if>
+      <span>{{ termsLine }}</span>
+      <a href="/#gabung" style="display:flex;align-items:center;gap:6px"><i class="ph ph-question"></i><span>{{ tr.howItWorks }}</span></a>
+      <sc-if value="{{ links.hasSupport }}" hint-placeholder-val="{{ false }}"><a href="{{ links.support }}" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:6px"><i class="ph ph-chat-circle"></i><span>{{ tr.contactTeam }}</span></a></sc-if>
+    </section>
+  </sc-if>
+
+  <!-- ═════════ Sales ═════════ -->
+  <sc-if value="{{ pg.sales }}" hint-placeholder-val="{{ false }}">
+    <div style="display:flex;flex-direction:column;gap:4px">
+      <h2 style="margin:0">Sales</h2>
+      <p class="text-muted" style="margin:0;font-size:14px">{{ tr.salesSub }}</p>
+    </div>
+    <sc-if value="{{ sales.loading }}" hint-placeholder-val="{{ false }}"><div class="text-muted" style="font-size:14px">{{ tr.loading }}</div></sc-if>
+    <sc-if value="{{ sales.failed }}" hint-placeholder-val="{{ false }}">
+      <div class="af-panel" style="display:flex;flex-wrap:wrap;gap:12px;align-items:center;padding:14px 16px;border-radius:16px;font-size:14px"><span style="flex:1;min-width:200px">{{ sales.error }}</span><button class="btn af-btn2" sc-camel-on-click="{{ loadSales }}">{{ tr.tryAgain }}</button></div>
+    </sc-if>
+    <sc-if value="{{ sales.ready }}" hint-placeholder-val="{{ false }}">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px">
+        <sc-for list="{{ sales.cards }}" as="c" hint-placeholder-count="3">
+          <section class="card af-glass" style="padding:18px;gap:6px;min-width:0">
+            <div style="display:flex;justify-content:space-between;align-items:center;gap:8px"><span class="card-kicker">{{ c.label }}</span><i class="{{ c.icon }}" style="font-size:18px;color:var(--color-accent-300)"></i></div>
+            <div class="af-num" style="font-size:36px;font-weight:500;letter-spacing:-.02em;line-height:1.05">{{ c.count }}</div>
+            <div class="af-num" style="font-size:14px">{{ c.comm }}</div>
+            <div class="text-muted" style="font-size:12px">{{ c.note }}</div>
+          </section>
+        </sc-for>
+      </div>
+      <sc-if value="{{ sales.hasCancelled }}" hint-placeholder-val="{{ false }}"><div class="text-muted" style="font-size:13px;margin-top:-8px">{{ sales.cancelledLine }}</div></sc-if>
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,400px),1fr));gap:16px">
+        <section class="card af-glass" style="padding:20px;gap:14px;min-width:0">
+          <div style="display:flex;justify-content:space-between;align-items:baseline;gap:8px;flex-wrap:wrap"><h4 style="margin:0">{{ sales.week.title }}</h4><span class="text-muted" style="font-size:12px">{{ sales.week.range }}</span></div>
+          <div class="af-chart" role="group" aria-label="{{ sales.week.title }}">
+            <sc-for list="{{ sales.week.bars }}" as="b" hint-placeholder-count="12">
+              <button class="af-barbtn" aria-pressed="{{ b.on }}" aria-label="{{ b.aria }}" title="{{ b.aria }}" sc-camel-on-click="{{ b.pick }}"><span class="af-bar-n">{{ b.n }}</span><span class="af-bar-fill" style="height:{{ b.h }};min-height:{{ b.min }};opacity:{{ b.op }}"></span><span class="af-bar-x">{{ b.x }}</span></button>
+            </sc-for>
+          </div>
+          <div class="af-panel" style="display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr) minmax(0,1fr);gap:10px;padding:12px 14px;border-radius:16px">
+            <div style="min-width:0"><div class="text-muted" style="font-size:11px">{{ tr.period }}</div><div style="font-size:14px;font-weight:500">{{ sales.week.sel.period }}</div></div>
+            <div><div class="text-muted" style="font-size:11px">{{ tr.colTransactions }}</div><div class="af-num" style="font-size:14px;font-weight:500">{{ sales.week.sel.tx }}</div></div>
+            <div><div class="text-muted" style="font-size:11px">{{ tr.colCommission }}</div><div class="af-num" style="font-size:14px;font-weight:500">{{ sales.week.sel.comm }}</div></div>
+          </div>
+          <div class="text-muted" style="font-size:12px">{{ tr.chartLegend }}</div>
+        </section>
+        <section class="card af-glass" style="padding:20px;gap:14px;min-width:0">
+          <div style="display:flex;justify-content:space-between;align-items:baseline;gap:8px;flex-wrap:wrap"><h4 style="margin:0">{{ sales.month.title }}</h4><span class="text-muted" style="font-size:12px">{{ sales.month.range }}</span></div>
+          <div class="af-chart" role="group" aria-label="{{ sales.month.title }}">
+            <sc-for list="{{ sales.month.bars }}" as="b" hint-placeholder-count="12">
+              <button class="af-barbtn" aria-pressed="{{ b.on }}" aria-label="{{ b.aria }}" title="{{ b.aria }}" sc-camel-on-click="{{ b.pick }}"><span class="af-bar-n">{{ b.n }}</span><span class="af-bar-fill" style="height:{{ b.h }};min-height:{{ b.min }};opacity:{{ b.op }}"></span><span class="af-bar-x">{{ b.x }}</span></button>
+            </sc-for>
+          </div>
+          <div class="af-panel" style="display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr) minmax(0,1fr);gap:10px;padding:12px 14px;border-radius:16px">
+            <div style="min-width:0"><div class="text-muted" style="font-size:11px">{{ tr.period }}</div><div style="font-size:14px;font-weight:500">{{ sales.month.sel.period }}</div></div>
+            <div><div class="text-muted" style="font-size:11px">{{ tr.colTransactions }}</div><div class="af-num" style="font-size:14px;font-weight:500">{{ sales.month.sel.tx }}</div></div>
+            <div><div class="text-muted" style="font-size:11px">{{ tr.colCommission }}</div><div class="af-num" style="font-size:14px;font-weight:500">{{ sales.month.sel.comm }}</div></div>
+          </div>
+          <div class="text-muted" style="font-size:12px">{{ tr.chartLegend }}</div>
+        </section>
+      </div>
+
+      <section class="card af-glass" style="padding:20px;gap:6px;min-width:0">
+        <div style="display:flex;justify-content:space-between;align-items:baseline;gap:8px;flex-wrap:wrap"><h4 style="margin:0">Most Bought Products</h4><span class="text-muted" style="font-size:12px">{{ tr.productsHint }}</span></div>
+        <sc-if value="{{ sales.noProducts }}" hint-placeholder-val="{{ false }}"><div class="text-muted" style="font-size:14px;padding:12px 0">{{ tr.noSalesYet }}</div></sc-if>
+        <sc-for list="{{ sales.products }}" as="p" hint-placeholder-count="4">
+          <div class="af-rule-bottom" style="display:grid;grid-template-columns:28px minmax(0,1fr) auto;gap:12px;align-items:center;padding:12px 0">
+            <span class="af-num" style="width:28px;height:28px;border-radius:50%;display:grid;place-items:center;font-size:13px;background:{{ p.badgeBg }};color:{{ p.badgeColor }}">{{ p.rank }}</span>
+            <div style="min-width:0;display:flex;flex-direction:column;gap:6px"><div style="font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ p.name }}</div><div class="af-track" style="height:6px"><div class="af-fill" style="width:{{ p.w }}"></div></div></div>
+            <div class="af-num" style="text-align:right"><div style="font-size:14px;font-weight:500">{{ p.tx }}</div><div class="text-muted" style="font-size:12px">{{ p.comm }}</div></div>
           </div>
         </sc-for>
       </section>
+    </sc-if>
+  </sc-if>
 
-      <section class="card" style="background:linear-gradient(155deg, rgba(255,255,255,.78), rgba(255,255,255,.46));backdrop-filter:blur(28px) saturate(170%);-webkit-backdrop-filter:blur(28px) saturate(170%);box-shadow:inset 0 1px 0 rgba(255,255,255,.95), inset 0 0 0 1px rgba(20,20,20,.07), 0 12px 32px rgba(90,20,24,.10);border-radius:22px;grid-area:{{ g.gaPayout }};display:{{ g.dPayout }};padding:20px;gap:12px;min-width:0">
-        <div style="display:flex;justify-content:space-between;align-items:center;gap:8px">
-          <h4 style="margin:0">Payout details</h4>
-          <sc-if value="{{ payout.has }}" hint-placeholder-val="{{ false }}"><button class="btn btn-ghost" style="border-radius:999px;font-size:13px" sc-camel-on-click="{{ openPayoutEdit }}">Edit</button></sc-if>
+  <!-- ═════════ Profile ═════════ -->
+  <sc-if value="{{ pg.profile }}" hint-placeholder-val="{{ false }}">
+    <div style="display:flex;flex-direction:column;gap:4px">
+      <h2 style="margin:0">Profile</h2>
+      <p class="text-muted" style="margin:0;font-size:14px">{{ tr.profileSub }}</p>
+    </div>
+
+    <section class="card af-glass" style="padding:20px;gap:14px">
+      <div><h4 style="margin:0 0 4px">{{ tr.editProfile }}</h4><div class="text-muted" style="font-size:13px">{{ tr.editProfileHint }}</div></div>
+      <sc-if value="{{ acct.missing }}" hint-placeholder-val="{{ false }}"><div class="text-muted" style="font-size:14px">{{ acct.missingText }}</div></sc-if>
+      <sc-if value="{{ acct.ready }}" hint-placeholder-val="{{ true }}">
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <div class="field"><label>{{ tr.fullName }}</label><input class="input af-input" autocomplete="name" maxlength="80" value="{{ acct.name }}" sc-camel-on-change="{{ onAcct.name }}"><div class="af-err">{{ acct.errName }}</div></div>
+          <div class="field"><label>{{ tr.phone }}</label><input class="input af-input" type="tel" inputmode="tel" autocomplete="tel" maxlength="20" placeholder="08xxxxxxxxxx" value="{{ acct.phone }}" sc-camel-on-change="{{ onAcct.phone }}"><div class="af-err">{{ acct.errPhone }}</div></div>
+          <div class="field"><label>{{ tr.email }}</label><input class="input af-input" value="{{ acct.email }}" disabled="{{ true }}"><div class="text-muted" style="font-size:12px;margin-top:4px">{{ tr.emailLocked }}</div></div>
+          <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center"><button class="btn af-btn1" disabled="{{ acct.saveDisabled }}" sc-camel-on-click="{{ saveAccount }}">{{ tr.saveProfile }}</button><span class="text-muted" style="font-size:12px">{{ acct.status }}</span></div>
+          <div class="af-panel" style="padding:12px;border-radius:14px;font-size:12px;color:var(--color-neutral-300);display:flex;gap:8px;align-items:flex-start"><i class="ph ph-info" style="font-size:16px;color:var(--color-accent-300)"></i><span>{{ tr.profileDownstream }}</span></div>
+        </div>
+      </sc-if>
+    </section>
+
+    <section class="card af-glass" style="padding:20px;gap:14px">
+      <h4 style="margin:0">{{ tr.affiliateData }}</h4>
+      <sc-if value="{{ affd.none }}" hint-placeholder-val="{{ false }}">
+        <div style="display:flex;flex-wrap:wrap;gap:12px;align-items:center;font-size:14px"><span class="text-muted" style="flex:1;min-width:200px">{{ tr.notJoinedYet }}</span><a class="btn af-btn1" href="/dashboard">{{ tr.joinNow }}</a></div>
+      </sc-if>
+      <sc-if value="{{ affd.has }}" hint-placeholder-val="{{ true }}">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:14px 20px;font-size:14px">
+          <div><div class="text-muted" style="font-size:12px">{{ tr.affiliateCode }}</div><div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap"><strong style="letter-spacing:.08em">{{ code }}</strong><sc-if value="{{ share.canEdit }}" hint-placeholder-val="{{ false }}"><button class="btn btn-ghost" style="font-size:13px;padding:2px 8px" sc-camel-on-click="{{ startEditCode }}">{{ tr.changeCode }}</button></sc-if></div></div>
+          <sc-for list="{{ affd.rows }}" as="r" hint-placeholder-count="4">
+            <div><div class="text-muted" style="font-size:12px">{{ r.k }}</div><div>{{ r.v }}</div></div>
+          </sc-for>
+        </div>
+        <sc-if value="{{ share.editing }}" hint-placeholder-val="{{ false }}">
+          <div class="field af-panel" style="display:flex;flex-direction:column;gap:6px;padding:14px;border-radius:16px">
+            <label>{{ tr.newCodeLabel }}</label>
+            <input class="input af-input" style="text-transform:uppercase;letter-spacing:.08em" maxlength="12" value="{{ codeDraft }}" sc-camel-on-change="{{ onCodeDraft }}">
+            <div class="af-err">{{ codeError }}</div>
+            <div style="display:flex;gap:8px"><button class="btn af-btn1" disabled="{{ busy }}" sc-camel-on-click="{{ saveCode }}">{{ tr.saveCode }}</button><button class="btn af-btn2" sc-camel-on-click="{{ cancelCode }}">{{ tr.cancel }}</button></div>
+          </div>
+        </sc-if>
+        <div class="text-muted" style="font-size:12px">{{ share.note }}</div>
+        <div class="af-rule-top" style="display:flex;justify-content:space-between;align-items:center;gap:8px;padding-top:14px">
+          <h5 style="margin:0">{{ tr.payoutData }}</h5>
+          <button class="btn btn-ghost" style="font-size:13px" sc-camel-on-click="{{ openPayoutEdit }}">{{ payout.cta }}</button>
         </div>
         <sc-if value="{{ payout.none }}" hint-placeholder-val="{{ true }}">
-          <div class="text-muted" style="font-size:14px">We'll ask for your KTP and bank details at your first claim.</div>
+          <div class="text-muted" style="font-size:14px">{{ tr.payoutNone }}</div>
         </sc-if>
         <sc-if value="{{ payout.has }}" hint-placeholder-val="{{ false }}">
-          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px 20px;font-size:14px">
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px 20px;font-size:14px">
             <sc-for list="{{ payout.rows }}" as="p" hint-placeholder-count="6">
               <div><div class="text-muted" style="font-size:12px">{{ p.k }}</div><div>{{ p.v }}</div></div>
             </sc-for>
           </div>
         </sc-if>
-      </section>
+      </sc-if>
+    </section>
 
-      <section style="grid-area:help;display:flex;flex-wrap:wrap;gap:8px 20px;align-items:center;font-size:13px;padding:4px 2px;min-width:0" class="text-muted">
-        <a href="#" style="display:flex;align-items:center;gap:6px"><i class="ph ph-file-text"></i>Affiliate Terms</a>
-        <span>{{ termsLine }}</span>
-        <a href="#" style="display:flex;align-items:center;gap:6px"><i class="ph ph-chat-circle"></i>Contact affiliate support</a>
-      </section>
-    </div>
+    <section class="card af-glass" style="padding:20px;gap:16px">
+      <div><h4 style="margin:0 0 4px">{{ tr.appearance }}</h4><div class="text-muted" style="font-size:13px">{{ tr.appearanceHint }}</div></div>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <div style="font-size:13px;font-weight:500">{{ tr.theme }}</div>
+        <div class="seg af-seg" style="align-self:flex-start">
+          <label class="seg-opt"><input type="radio" name="theme" checked="{{ pref.light }}" sc-camel-on-change="{{ setLight }}"><i class="ph ph-sun"></i><span>{{ tr.themeLight }}</span></label>
+          <label class="seg-opt"><input type="radio" name="theme" checked="{{ pref.dark }}" sc-camel-on-change="{{ setDark }}"><i class="ph ph-moon"></i><span>{{ tr.themeDark }}</span></label>
+          <label class="seg-opt"><input type="radio" name="theme" checked="{{ pref.system }}" sc-camel-on-change="{{ setSystem }}"><i class="ph ph-desktop"></i><span>{{ tr.themeSystem }}</span></label>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <div style="font-size:13px;font-weight:500">{{ tr.language }}</div>
+        <div class="seg af-seg" style="align-self:flex-start">
+          <label class="seg-opt"><input type="radio" name="lang" checked="{{ pref.id }}" sc-camel-on-change="{{ setId }}"><span>Bahasa Indonesia</span></label>
+          <label class="seg-opt"><input type="radio" name="lang" checked="{{ pref.en }}" sc-camel-on-change="{{ setEn }}"><span>English</span></label>
+        </div>
+      </div>
+    </section>
+
+    <div style="display:flex;justify-content:flex-end"><a class="btn af-btn2" href="/logout"><i class="ph ph-sign-out"></i><span>{{ tr.signOut }}</span></a></div>
   </sc-if>
 </main>
 
 <sc-if value="{{ dlg.open }}" hint-placeholder-val="{{ false }}">
-  <div class="dialog-backdrop" style="background:rgba(20,20,20,.22);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);z-index:50" sc-camel-on-click="{{ backdrop }}">
-    <div class="dialog" style="background:linear-gradient(155deg, rgba(255,255,255,.9), rgba(255,255,255,.7));backdrop-filter:blur(28px) saturate(170%);-webkit-backdrop-filter:blur(28px) saturate(170%);box-shadow:inset 0 1px 0 rgba(255,255,255,.95), inset 0 0 0 1px rgba(20,20,20,.07), 0 12px 32px rgba(90,20,24,.10);border-radius:28px;width:min(480px,100%);max-height:calc(100vh - 32px);overflow:auto">
+  <div class="dialog-backdrop" style="background:var(--af-scrim);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);z-index:50" sc-camel-on-click="{{ backdrop }}">
+    <div class="dialog" style="background:var(--af-dialog);backdrop-filter:blur(28px) saturate(170%);-webkit-backdrop-filter:blur(28px) saturate(170%);box-shadow:var(--af-glass-shadow);border-radius:28px;width:min(480px,100%);max-height:calc(100vh - 32px);overflow:auto">
 
       <sc-if value="{{ dlg.consent }}" hint-placeholder-val="{{ false }}">
-        <div class="dialog-title">Affiliate Terms v2.0</div>
+        <div class="dialog-title">{{ t.consentTitle }}</div>
         <div class="dialog-body" style="display:flex;flex-direction:column;gap:10px">
-          <div>What changed:</div>
+          <div>{{ tr.summaryColon }}</div>
           <ul style="margin:0;padding-left:18px;display:flex;flex-direction:column;gap:6px;color:var(--color-neutral-300)">
-            <li>Refunds after a payout are deducted from your next claim, shown as an adjustment in your history.</li>
-            <li>Clearer rules on spam and misleading promotion.</li>
-            <li>What happens to your commission if the program is paused.</li>
+            <sc-for list="{{ t.consentList }}" as="item" hint-placeholder-count="5"><li>{{ item.text }}</li></sc-for>
           </ul>
-          <a href="#">Read the full terms</a>
-          <label style="display:flex;gap:10px;align-items:flex-start;cursor:pointer;padding-top:4px"><input type="checkbox" checked="{{ consentChecked }}" sc-camel-on-change="{{ toggleConsent }}" style="accent-color:var(--color-accent);margin-top:3px">I agree to the Affiliate Terms v2.0</label>
+          <sc-if value="{{ t.hasTermsUrl }}" hint-placeholder-val="{{ false }}"><a href="{{ t.termsUrl }}" target="_blank" rel="noopener">{{ tr.readFullTerms }}</a></sc-if>
+          <label style="display:flex;gap:10px;align-items:flex-start;cursor:pointer;padding-top:4px"><input type="checkbox" checked="{{ consentChecked }}" sc-camel-on-change="{{ toggleConsent }}" style="accent-color:var(--color-accent);margin-top:3px">{{ t.consentLabel }}</label>
         </div>
-        <div class="dialog-actions"><button style-hover="background:color-mix(in srgb, var(--color-neutral-100) 15%, transparent)" style="border-radius:999px;border-color:transparent;background:rgba(255,255,255,.58);box-shadow:inset 0 1px 0 rgba(255,255,255,.95), inset 0 0 0 1px rgba(20,20,20,.07);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);" class="btn btn-secondary" sc-camel-on-click="{{ closeDialog }}">Not now</button><button style-hover="background:var(--color-accent-400);color:#ffffff" style="border-radius:999px;border-color:var(--color-accent-500);color:var(--color-text);background:var(--color-accent);color:#ffffff;box-shadow:inset 0 1px 0 rgba(255,255,255,.35), 0 0 18px color-mix(in srgb, var(--color-accent) 28%, transparent);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);" class="btn btn-primary" disabled="{{ consentDisabled }}" sc-camel-on-click="{{ acceptTerms }}">{{ consentCta }}</button></div>
+        <div class="dialog-actions"><button class="btn af-btn2" sc-camel-on-click="{{ closeDialog }}">{{ tr.later }}</button><button class="btn af-btn1" disabled="{{ consentDisabled }}" sc-camel-on-click="{{ acceptTerms }}">{{ consentCta }}</button></div>
       </sc-if>
 
       <sc-if value="{{ dlg.payout }}" hint-placeholder-val="{{ false }}">
-        <div><div class="dialog-title">Payout details</div><div class="text-muted" style="font-size:13px;margin-top:4px">Needed once, to transfer your commission and withhold tax. Stored encrypted.</div></div>
+        <div><div class="dialog-title">{{ tr.payoutData }}</div><div class="text-muted" style="font-size:13px;margin-top:4px">{{ tr.payoutDialogHint }}</div></div>
         <div style="display:flex;flex-direction:column;gap:12px">
-          <div class="field"><label>Full name (as on KTP)</label><input style="border-radius:14px;border-color:color-mix(in srgb, var(--color-neutral-100) 14%, transparent);background:color-mix(in srgb, var(--color-neutral-100) 6%, transparent);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);" class="input" value="{{ form.name }}" sc-camel-on-change="{{ onF.name }}"><div style="font-size:12px;color:var(--color-accent-300);margin-top:4px">{{ err.name }}</div></div>
+          <div class="field"><label>{{ tr.ktpName }}</label><input class="input af-input" value="{{ form.name }}" sc-camel-on-change="{{ onF.name }}"><div class="af-err">{{ err.name }}</div></div>
           <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px">
-            <div class="field"><label>NIK</label><input style="border-radius:14px;border-color:color-mix(in srgb, var(--color-neutral-100) 14%, transparent);background:color-mix(in srgb, var(--color-neutral-100) 6%, transparent);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);" class="input" inputmode="numeric" maxlength="16" placeholder="16 digits" value="{{ form.nik }}" sc-camel-on-change="{{ onF.nik }}"><div style="font-size:12px;color:var(--color-accent-300);margin-top:4px">{{ err.nik }}</div></div>
-            <div class="field"><label>NPWP (optional)</label><input style="border-radius:14px;border-color:color-mix(in srgb, var(--color-neutral-100) 14%, transparent);background:color-mix(in srgb, var(--color-neutral-100) 6%, transparent);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);" class="input" inputmode="numeric" maxlength="16" placeholder="15 or 16 digits" value="{{ form.npwp }}" sc-camel-on-change="{{ onF.npwp }}"><div style="font-size:12px;color:var(--color-accent-300);margin-top:4px">{{ err.npwp }}</div></div>
+            <div class="field"><label>NIK</label><input class="input af-input" inputmode="numeric" maxlength="16" placeholder="{{ tr.nikPlaceholder }}" value="{{ form.nik }}" sc-camel-on-change="{{ onF.nik }}"><div class="af-err">{{ err.nik }}</div></div>
+            <div class="field"><label>{{ tr.npwpOptional }}</label><input class="input af-input" inputmode="numeric" maxlength="16" placeholder="{{ tr.npwpPlaceholder }}" value="{{ form.npwp }}" sc-camel-on-change="{{ onF.npwp }}"><div class="af-err">{{ err.npwp }}</div></div>
           </div>
           <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px">
             <div class="field"><label>Bank</label>
-              <sc-raw-select style="border-radius:14px;border-color:color-mix(in srgb, var(--color-neutral-100) 14%, transparent);background:color-mix(in srgb, var(--color-neutral-100) 6%, transparent);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);" class="input" value="{{ form.bank }}" sc-camel-on-change="{{ onF.bank }}">
-                <option value="">Choose bank</option><option>BCA</option><option>Mandiri</option><option>BNI</option><option>BRI</option><option>CIMB Niaga</option><option>Permata</option><option>BSI</option><option>Bank Jago</option>
+              <sc-raw-select class="input af-input" value="{{ form.bank }}" sc-camel-on-change="{{ onF.bank }}">
+                <option value="">{{ tr.pickBank }}</option><option>BCA</option><option>Mandiri</option><option>BNI</option><option>BRI</option><option>CIMB Niaga</option><option>Permata</option><option>BSI</option><option>Bank Jago</option>
               </sc-raw-select>
-              <div style="font-size:12px;color:var(--color-accent-300);margin-top:4px">{{ err.bank }}</div></div>
-            <div class="field"><label>Account number</label><input style="border-radius:14px;border-color:color-mix(in srgb, var(--color-neutral-100) 14%, transparent);background:color-mix(in srgb, var(--color-neutral-100) 6%, transparent);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);" class="input" inputmode="numeric" value="{{ form.acct }}" sc-camel-on-change="{{ onF.acct }}"><div style="font-size:12px;color:var(--color-accent-300);margin-top:4px">{{ err.acct }}</div></div>
+              <div class="af-err">{{ err.bank }}</div></div>
+            <div class="field"><label>{{ tr.accountNo }}</label><input class="input af-input" inputmode="numeric" value="{{ form.acct }}" sc-camel-on-change="{{ onF.acct }}"><div class="af-err">{{ err.acct }}</div></div>
           </div>
-          <div class="field"><label>Account holder name</label><input style="border-radius:14px;border-color:color-mix(in srgb, var(--color-neutral-100) 14%, transparent);background:color-mix(in srgb, var(--color-neutral-100) 6%, transparent);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);" class="input" value="{{ form.holder }}" sc-camel-on-change="{{ onF.holder }}"><div style="font-size:12px;color:var(--color-accent-300);margin-top:4px">{{ err.holder }}</div></div>
+          <div class="field"><label>{{ tr.accountHolder }}</label><input class="input af-input" value="{{ form.holder }}" sc-camel-on-change="{{ onF.holder }}"><div class="af-err">{{ err.holder }}</div></div>
           <div class="text-muted" style="font-size:12px">{{ taxHint }}</div>
         </div>
-        <div class="dialog-actions"><button style-hover="background:color-mix(in srgb, var(--color-neutral-100) 15%, transparent)" style="border-radius:999px;border-color:transparent;background:rgba(255,255,255,.58);box-shadow:inset 0 1px 0 rgba(255,255,255,.95), inset 0 0 0 1px rgba(20,20,20,.07);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);" class="btn btn-secondary" sc-camel-on-click="{{ closeDialog }}">Cancel</button><button style-hover="background:var(--color-accent-400);color:#ffffff" style="border-radius:999px;border-color:var(--color-accent-500);color:var(--color-text);background:var(--color-accent);color:#ffffff;box-shadow:inset 0 1px 0 rgba(255,255,255,.35), 0 0 18px color-mix(in srgb, var(--color-accent) 28%, transparent);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);" class="btn btn-primary" sc-camel-on-click="{{ savePayout }}">{{ payoutCta }}</button></div>
+        <div class="dialog-actions"><button class="btn af-btn2" sc-camel-on-click="{{ closeDialog }}">{{ tr.cancel }}</button><button class="btn af-btn1" disabled="{{ busy }}" sc-camel-on-click="{{ savePayout }}">{{ payoutCta }}</button></div>
       </sc-if>
 
       <sc-if value="{{ dlg.summary }}" hint-placeholder-val="{{ false }}">
-        <div class="dialog-title">Claim your commission</div>
+        <div class="dialog-title">{{ tr.claimCommission }}</div>
         <div style="display:flex;flex-direction:column;gap:10px;font-size:14px">
-          <div style="display:flex;justify-content:space-between;gap:12px"><span class="text-muted">Available commission</span><span style="font-variant-numeric:tabular-nums">{{ sum.gross }}</span></div>
-          <div style="display:flex;justify-content:space-between;gap:12px"><span class="text-muted">{{ sum.taxLabel }}</span><span style="font-variant-numeric:tabular-nums">{{ sum.tax }}</span></div>
-          <div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding-top:10px;background:linear-gradient(to right, transparent, var(--color-divider) 48px, var(--color-divider) calc(100% - 48px), transparent) no-repeat top / 100% 1px"><span>You'll receive</span><span style="font-size:24px;font-weight:500;font-variant-numeric:tabular-nums">{{ sum.net }}</span></div>
-          <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px;border-radius:16px;background:rgba(255,255,255,.58);box-shadow:inset 0 1px 0 rgba(255,255,255,.95), inset 0 0 0 1px rgba(20,20,20,.07);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);">
-            <div><div class="text-muted" style="font-size:12px">Transfer to</div><div>{{ sum.account }}</div><div class="text-muted" style="font-size:12px">{{ sum.holder }}</div></div>
-            <button class="btn btn-ghost" style="border-radius:999px;font-size:13px" sc-camel-on-click="{{ editFromSummary }}">Change</button>
+          <div style="display:flex;justify-content:space-between;gap:12px"><span class="text-muted">{{ tr.availableCommission }}</span><span class="af-num">{{ sum.gross }}</span></div>
+          <div style="display:flex;justify-content:space-between;gap:12px"><span class="text-muted">{{ sum.taxLabel }}</span><span class="af-num">{{ sum.tax }}</span></div>
+          <sc-if value="{{ sum.hasAdjustment }}" hint-placeholder-val="{{ false }}"><div style="display:flex;justify-content:space-between;gap:12px"><span class="text-muted">{{ tr.adjustment }}</span><span class="af-num">{{ sum.adjustment }}</span></div></sc-if>
+          <div class="af-rule-top" style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding-top:10px"><span>{{ tr.youReceive }}</span><span class="af-num" style="font-size:24px;font-weight:500">{{ sum.net }}</span></div>
+          <div class="af-panel" style="display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px;border-radius:16px">
+            <div><div class="text-muted" style="font-size:12px">{{ tr.transferTo }}</div><div>{{ sum.account }}</div><div class="text-muted" style="font-size:12px">{{ sum.holder }}</div></div>
+            <button class="btn btn-ghost" style="font-size:13px" sc-camel-on-click="{{ editFromSummary }}">{{ tr.change }}</button>
           </div>
-          <div class="text-muted" style="font-size:12px">All available commission is locked to this claim. Tax is an estimate until confirmed by 20FIT finance.</div>
+          <div class="text-muted" style="font-size:12px">{{ tr.claimSummaryNote }}</div>
         </div>
-        <div class="dialog-actions"><button style-hover="background:color-mix(in srgb, var(--color-neutral-100) 15%, transparent)" style="border-radius:999px;border-color:transparent;background:rgba(255,255,255,.58);box-shadow:inset 0 1px 0 rgba(255,255,255,.95), inset 0 0 0 1px rgba(20,20,20,.07);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);" class="btn btn-secondary" sc-camel-on-click="{{ closeDialog }}">Cancel</button><button style-hover="background:var(--color-accent-400);color:#ffffff" style="border-radius:999px;border-color:var(--color-accent-500);color:var(--color-text);background:var(--color-accent);color:#ffffff;box-shadow:inset 0 1px 0 rgba(255,255,255,.35), 0 0 18px color-mix(in srgb, var(--color-accent) 28%, transparent);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);" class="btn btn-primary" sc-camel-on-click="{{ submitClaim }}">Submit claim</button></div>
+        <div class="dialog-actions"><button class="btn af-btn2" sc-camel-on-click="{{ closeDialog }}">{{ tr.cancel }}</button><button class="btn af-btn1" disabled="{{ busy }}" sc-camel-on-click="{{ submitClaim }}">{{ tr.submitClaim }}</button></div>
       </sc-if>
 
       <sc-if value="{{ dlg.done }}" hint-placeholder-val="{{ false }}">
         <span style="width:44px;height:44px;border-radius:50%;display:grid;place-items:center;box-shadow:inset 0 0 0 1px var(--color-accent);color:var(--color-accent);font-size:22px"><i class="ph ph-check"></i></span>
-        <div class="dialog-title">Claim submitted</div>
+        <div class="dialog-title">{{ tr.claimSubmitted }}</div>
         <div class="dialog-body">{{ doneText }}</div>
-        <div class="dialog-actions"><button style-hover="background:var(--color-accent-400);color:#ffffff" style="border-radius:999px;border-color:var(--color-accent-500);color:var(--color-text);background:var(--color-accent);color:#ffffff;box-shadow:inset 0 1px 0 rgba(255,255,255,.35), 0 0 18px color-mix(in srgb, var(--color-accent) 28%, transparent);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);" class="btn btn-primary" sc-camel-on-click="{{ closeDialog }}">Done</button></div>
+        <div class="dialog-actions"><button class="btn af-btn1" sc-camel-on-click="{{ closeDialog }}">{{ tr.done }}</button></div>
       </sc-if>
     </div>
   </div>
 </sc-if>
 
 <sc-if value="{{ hasToast }}" hint-placeholder-val="{{ false }}">
-  <div class="card elev-md" style="background:linear-gradient(155deg, rgba(255,255,255,.78), rgba(255,255,255,.46));backdrop-filter:blur(28px) saturate(170%);-webkit-backdrop-filter:blur(28px) saturate(170%);box-shadow:inset 0 1px 0 rgba(255,255,255,.95), inset 0 0 0 1px rgba(20,20,20,.07), 0 12px 32px rgba(90,20,24,.10);border-radius:22px;position:fixed;left:20px;bottom:20px;z-index:60;flex-direction:row;align-items:center;gap:8px;padding:10px 14px;font-size:14px"><i class="ph ph-check-circle" style="color:var(--color-accent)"></i>{{ toast }}</div>
+  <div class="card af-glass elev-md" style="position:fixed;left:20px;bottom:20px;z-index:60;flex-direction:row;align-items:center;gap:8px;padding:10px 14px;font-size:14px;max-width:calc(100vw - 40px)"><i class="ph ph-check-circle" style="color:var(--color-accent)"></i><span>{{ toast }}</span></div>
 </sc-if>
 </div>
 </x-dc>
-<script type="text/x-dc" data-dc-script="" data-props="{&quot;scenario&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;not_joined&quot;,&quot;below_min&quot;,&quot;ready&quot;,&quot;in_progress&quot;,&quot;rejected&quot;],&quot;default&quot;:&quot;ready&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;layout&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;A&quot;,&quot;B&quot;,&quot;C&quot;],&quot;default&quot;:&quot;A&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;termsBanner&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;}}">
+<script type="text/x-dc" data-dc-script="">
+// Affiliate dashboard: Home (/dashboard), Sales (/dashboard/sales) and
+// Profile (/dashboard/profile), one page with a `page` set by the server.
+// The server puts the signed-in affiliate's data in window.__AF_DATA__
+// before the page paints; every action after that goes through
+// /api/affiliate/*, which calls Supabase with the session cookie. Nothing
+// here holds a token. All numbers and rules (rate, minimum claim, hold
+// days, tax, terms) come from the data. Theme and language are this
+// browser's choice, kept in localStorage.
 class Component extends DCLogic {
   constructor(props) {
     super(props);
     this.rootRef = React.createRef();
-    this.state = Object.assign(this.initState(props.scenario ?? 'ready'), {
-      layout: props.layout ?? 'A', termsBanner: props.termsBanner ?? false, narrow: false, toast: ''
+    const D = window.__AF_DATA__ || {};
+    this.D = { user: D.user || { name: '', email: '' }, settings: D.settings || {}, links: D.links || {}, qrSrc: D.qrSrc || '',
+      page: ['home', 'sales', 'profile'].includes(D.page) ? D.page : 'home' };
+    const lang = this.pref('af_lang', ['id', 'en'], 'id');
+    this.mq = window.matchMedia ? window.matchMedia('(prefers-color-scheme: dark)') : null;
+    const acct = D.account && D.account.found ? D.account : null;
+    this.state = Object.assign(this.fromState(D.state || { error: this.words(lang).loadFailed }), {
+      lang, theme: this.pref('af_theme', ['light', 'dark', 'system'], 'system'), sysDark: !!(this.mq && this.mq.matches),
+      narrow: false, menu: false, toast: '', dialog: null, claimFlow: false, form: null, errors: {}, busy: false,
+      agreed: false, consentChecked: false, rejectDismissed: false, editingCode: false, codeDraft: '', codeError: '',
+      period: '30', share: { slug: '', url: '', product: '', loading: false }, detail: null, txFilter: null, filtered: null, preview: null, doneText: '',
+      sales: D.sales || null, salesError: '', salesLoading: false, selWeek: -1, selMonth: -1,
+      account: acct, accountMissing: !!(D.account && !D.account.found), acctForm: { name: acct ? acct.name : '', phone: acct ? acct.phone : '' }, acctErr: {}, acctStatus: ''
     });
+    this.state.form = this.emptyForm(null);
   }
   componentDidMount() {
     const el = this.rootRef.current;
     if (el && window.ResizeObserver) {
-      this.ro = new ResizeObserver(([e]) => { const n = e.contentRect.width < 900; if (n !== this.state.narrow) this.setState({ narrow: n }); });
+      this.ro = new ResizeObserver(([e]) => { const n = e.contentRect.width < 640; if (n !== this.state.narrow) this.setState({ narrow: n }); });
       this.ro.observe(el);
     }
+    this.onScheme = e => this.setState({ sysDark: e.matches });
+    if (this.mq) (this.mq.addEventListener ? this.mq.addEventListener('change', this.onScheme) : this.mq.addListener(this.onScheme));
+    this.onKey = e => { if (e.key === 'Escape' && (this.state.menu || this.state.dialog)) this.setState({ menu: false, dialog: null }); };
+    document.addEventListener('keydown', this.onKey);
+    this.applyDocument();
+    if (this.D.page === 'sales' && this.state.joined && !this.state.sales) this.loadSales();
+    if (this.D.page === 'profile' && !this.state.account && !this.state.accountMissing) this.loadAccount();
   }
-  componentWillUnmount() { this.ro && this.ro.disconnect(); clearTimeout(this.tt); }
-  componentDidUpdate(p) {
-    if (p.scenario !== this.props.scenario && this.props.scenario) this.setState(this.initState(this.props.scenario));
-    if (p.layout !== this.props.layout && this.props.layout) this.setState({ layout: this.props.layout });
-    if (p.termsBanner !== this.props.termsBanner) this.setState({ termsBanner: !!this.props.termsBanner, termsAccepted: false });
+  componentDidUpdate() { this.applyDocument(); }
+  componentWillUnmount() {
+    this.ro && this.ro.disconnect(); clearTimeout(this.tt);
+    if (this.mq) (this.mq.removeEventListener ? this.mq.removeEventListener('change', this.onScheme) : this.mq.removeListener(this.onScheme));
+    document.removeEventListener('keydown', this.onKey);
   }
-  fmt(n) { return 'Rp' + Math.floor(n).toLocaleString('id-ID'); }
-  fd(s) { const M = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']; const [y, m, d] = s.split('-'); return `${+d} ${M[+m - 1]} ${y}`; }
-  emptyForm(p) { return p ? { ...p } : { name: __AF_USER_NAME_JS__, nik: '', npwp: '', bank: '', acct: '', holder: '' }; }
-  buildScenario(s) {
-    const t = (id, who, product, d, amount, status, note) => ({ id, who, product, d, amount, status, note: note || '' });
-    const held = [t('h1','D****i','Gym · Monthly membership','2026-10-06',10000,'held'), t('h2','R****a','Arena · Court package','2026-10-04',22500,'held'), t('h3','A****n','Visbody scan','2026-09-29',3750,'held')];
-    const batch = st => [t('b1','R****a','Arena · Court package','2026-09-20',22500,st), t('b2','S****o','PT · 8-session package','2026-09-18',45000,st), t('b3','D****i','Gym · Monthly membership','2026-09-06',10000,st), t('b4','M****a','Coach · Tennis package','2026-09-02',30000,st), t('b5','A****n','Youngstar · Swim term','2026-08-28',18750,st)];
-    const cancel = [t('x1','F****h','Open Arena · Monthly pass','2026-08-24',7500,'cancelled','Refunded within the 14-day hold')];
-    const paid = [t('p1','R****a','Arena · Court package','2026-07-20',22500,'paid'), t('p2','S****o','PT · 8-session package','2026-07-14',45000,'paid'), t('p3','D****i','Gym · Monthly membership','2026-07-06',10000,'paid'), t('p4','M****a','Coach · Tennis package','2026-07-02',30000,'paid')];
-    const paidClaim = { id: 'CLM-0412', d: '2026-08-04', amount: 107500, tax: 3225, net: 104275, status: 'paid', ref: 'BCA 0804-88213', paidD: '2026-08-06' };
-    const P = { name: __AF_USER_NAME_JS__, nik: '3174015208940012', npwp: '', bank: 'BCA', acct: '5271034821', holder: __AF_USER_NAME_JS__ };
-    let tx = [], claims = [], profile = null;
-    if (s === 'ready') { tx = [...held, ...batch('available'), ...cancel]; }
-    else if (s === 'below_min') { const b = batch('available'); tx = [...held, b[2], b[4], ...paid]; claims = [paidClaim]; profile = P; }
-    else if (s === 'in_progress') { tx = [...held, ...batch('claimed'), ...cancel, ...paid]; claims = [{ id: 'CLM-0438', d: '2026-10-05', amount: 126250, tax: 3787, net: 122463, status: 'processing', est: '2026-10-09' }, paidClaim]; profile = P; }
-    else if (s === 'rejected') { tx = [...held, ...batch('available'), ...cancel, ...paid]; claims = [{ id: 'CLM-0431', d: '2026-10-01', amount: 126250, tax: 3787, net: 122463, status: 'rejected', reason: "The account holder name doesn't match the name on your KTP." }, paidClaim]; profile = { ...P, holder: 'Rina K' }; }
-    return { tx, claims, profile };
+
+  // ── theme and language (this browser only) ──
+  pref(key, allowed, fallback) { try { const v = localStorage.getItem(key); return allowed.includes(v) ? v : fallback; } catch (e) { return fallback; } }
+  savePref(key, value) { try { localStorage.setItem(key, value); } catch (e) {} }
+  dark() { return this.state.theme === 'dark' || (this.state.theme === 'system' && this.state.sysDark); }
+  applyDocument() {
+    const dark = this.dark(), W = this.words(this.state.lang), de = document.documentElement;
+    de.lang = this.state.lang;
+    de.style.colorScheme = dark ? 'dark' : 'light';
+    document.body.style.background = dark ? '#121011' : '#f6f4f4';
+    document.title = ({ home: 'Home', sales: 'Sales', profile: 'Profile' })[this.D.page] + ' · ' + W.siteName;
   }
-  initState(s) {
-    const d = this.buildScenario(s);
-    return { scenario: s, joined: s !== 'not_joined', agreed: false, code: 'RINA25', codeEdited: false, editingCode: false, codeDraft: '', codeError: '',
-      period: '30d', tab: 'tx', tx: d.tx, claims: d.claims, profile: d.profile, dialog: null, claimFlow: false, form: this.emptyForm(d.profile), errors: {},
-      termsAccepted: false, consentChecked: false, rejectDismissed: false };
+
+  fromState(st) {
+    return {
+      error: st.error || '', joined: !!st.joined, products: st.products || [], aff: st.affiliate || null, summary: st.summary || null,
+      links: st.links || [], commissions: st.commissions || [], claims: st.claims || [], adjustments: st.adjustments || [], profile: st.payoutProfile || null
+    };
   }
-  flash(msg) { clearTimeout(this.tt); this.setState({ toast: msg }); this.tt = setTimeout(() => this.setState({ toast: '' }), 2200); }
+
+  // ── formatting (Asia/Jakarta; money stays in rupiah) ──
+  loc() { return this.state.lang === 'en' ? 'en-GB' : 'id-ID'; }
+  fmt(n) { return 'Rp' + Math.floor(Number(n) || 0).toLocaleString('id-ID'); }
+  num(n) { return (Number(n) || 0).toLocaleString(this.loc()); }
+  pct(r) { return (Math.round(Number(r) * 10000) / 100).toLocaleString(this.loc(), { maximumFractionDigits: 2 }) + '%'; }
+  date(iso) { const d = new Date(/^\d{4}-\d{2}-\d{2}$/.test(iso || '') ? iso + 'T00:00:00+07:00' : iso); return isNaN(d) ? null : d; }
+  fd(iso, opts) {
+    const d = iso && this.date(iso);
+    return d ? d.toLocaleDateString(this.loc(), Object.assign({ day: 'numeric', month: 'short', year: 'numeric' }, opts || {}, { timeZone: 'Asia/Jakarta' })) : '';
+  }
+  claimNo(c) { return c && c.no ? 'CLM-' + String(c.no).padStart(4, '0') : this.words(this.state ? this.state.lang : 'id').claim; }
+  emptyForm(p) { const a = this.state && this.state.account; return { name: (p && p.ktp_name) || (a && a.name) || this.D.user.name || '', nik: '', npwp: '', bank: (p && p.bank_name) || '', acct: '', holder: (p && p.account_holder) || '' }; }
+  flash(msg) { clearTimeout(this.tt); this.setState({ toast: msg }); this.tt = setTimeout(() => this.setState({ toast: '' }), 2600); }
   copy(text, msg) { try { navigator.clipboard && navigator.clipboard.writeText(text).catch(() => {}); } catch (e) {} this.flash(msg); }
-  grid() {
-    const { layout: L, narrow: n, tab } = this.state;
-    if (L === 'B') {
-      const base = { gaTx: 'panel', gaClaims: 'panel', gaPayout: 'panel', dTabs: 'flex', dActivity: 'none', dTx: tab === 'tx' ? 'flex' : 'none', dClaims: tab === 'claims' ? 'flex' : 'none', dPayout: tab === 'payout' ? 'flex' : 'none', walletDir: 'column' };
-      return n ? { ...base, max: '760px', cols: 'minmax(0,1fr)', rows: 'auto', areas: '"wallet" "perf" "tabs" "panel" "help"', walletPos: 'static' }
-               : { ...base, max: '1160px', cols: 'minmax(0,360px) minmax(0,1fr)', rows: 'auto auto auto auto 1fr', areas: '"wallet perf" "wallet tabs" "wallet panel" "wallet help" "wallet ."', walletPos: 'sticky' };
-    }
-    if (L === 'C') {
-      const base = { gaTx: 'tx', gaClaims: 'claims', gaPayout: 'payout', dTabs: 'none', dActivity: 'flex', dTx: 'none', dClaims: 'none', dPayout: 'flex', walletDir: 'column-reverse', walletPos: 'static' };
-      return n ? { ...base, max: '760px', cols: 'minmax(0,1fr)', rows: 'auto', areas: '"wallet" "perf" "activity" "payout" "help"' }
-               : { ...base, max: '1160px', cols: 'minmax(0,1fr) minmax(0,1fr)', rows: 'auto', areas: '"wallet perf" "activity activity" "payout payout" "help help"' };
-    }
-    return { max: '760px', cols: 'minmax(0,1fr)', rows: 'auto', areas: '"wallet" "perf" "tx" "claims" "payout" "help"', gaTx: 'tx', gaClaims: 'claims', gaPayout: 'payout',
-      dTabs: 'none', dActivity: 'none', dTx: 'flex', dClaims: 'flex', dPayout: 'flex', walletDir: 'column', walletPos: 'static' };
+
+  // ── server calls ──
+  async api(method, path, body) {
+    const W = this.words(this.state.lang);
+    const res = await fetch('/api/affiliate/' + path, {
+      method, credentials: 'same-origin', headers: body ? { 'Content-Type': 'application/json' } : {}, body: body ? JSON.stringify(body) : undefined
+    });
+    const data = await res.json().catch(() => ({}));
+    if (res.status === 401 && data.login) { location.assign(data.login); throw new Error(data.error || W.sessionEnded); }
+    if (!res.ok) throw new Error(data.error || W.genericError);
+    return data;
   }
-  validate(f) {
+  async run(fn) {
+    if (this.state.busy) return;
+    this.setState({ busy: true });
+    try { await fn(); } catch (e) { this.flash(e.message); } finally { this.setState({ busy: false }); }
+  }
+  async refresh() {
+    const st = await this.api('GET', 'state');
+    this.setState(this.fromState(st));
+    if (this.state.period !== '30') await this.loadLinks(this.state.period);
+  }
+  async loadLinks(p) {
+    const r = await this.api('GET', 'links?days=' + (p === 'all' ? 'all' : p));
+    this.setState({ links: r.links, period: p });
+  }
+  async loadSales() {
+    this.setState({ salesLoading: true, salesError: '' });
+    try { const r = await this.api('GET', 'sales'); this.setState({ sales: r.sales, salesLoading: false, selWeek: -1, selMonth: -1 }); }
+    catch (e) { this.setState({ salesLoading: false, salesError: e.message }); }
+  }
+  async loadAccount() {
+    try {
+      const r = await this.api('GET', 'account');
+      if (!r.account || !r.account.found) return this.setState({ accountMissing: true });
+      this.setState({ account: r.account, acctForm: { name: r.account.name, phone: r.account.phone } });
+    } catch (e) { this.flash(e.message); }
+  }
+  async openDetail(l) {
+    this.setState({ detail: { id: l.id, product: l.product, rows: null } });
+    try {
+      const p = this.state.period;
+      const r = await this.api('GET', 'links/' + l.id + '/daily?days=' + (p === 'all' ? 'all' : p));
+      if (this.state.detail && this.state.detail.id === l.id) this.setState({ detail: { id: l.id, product: l.product, rows: r.rows } });
+    } catch (e) { this.flash(e.message); this.setState({ detail: null }); }
+  }
+  async showPurchases(id, product) {
+    try {
+      const r = await this.api('GET', 'commissions?link=' + encodeURIComponent(id));
+      this.setState({ txFilter: { id, product }, filtered: r.rows });
+    } catch (e) { this.flash(e.message); }
+  }
+  pickProduct(slug) {
+    const p = this.state.products.find(x => x.slug === slug);
+    this.setState({ share: { slug, url: '', product: p ? p.name : '', loading: true } });
+    this.api('POST', 'link', { slug })
+      .then(r => {
+        this.setState({ share: { slug, url: r.url, product: r.product, loading: false } });
+        if (!this.state.links.some(l => l.id === r.id)) this.loadLinks(this.state.period).catch(() => {});
+      })
+      .catch(e => { this.setState({ share: { slug: '', url: '', product: '', loading: false } }); this.flash(e.message); });
+  }
+  loadQr() {
+    if (window.qrcode) return Promise.resolve(window.qrcode);
+    return new Promise((ok, fail) => {
+      const s = document.createElement('script'); s.src = this.D.qrSrc;
+      s.onload = () => ok(window.qrcode); s.onerror = () => fail(new Error(this.words(this.state.lang).qrFailed));
+      document.head.appendChild(s);
+    });
+  }
+  async downloadQr() {
+    const { url, slug } = this.state.share;
+    if (!url) return;
+    try {
+      const qrcode = await this.loadQr();
+      const qr = qrcode(0, 'M'); qr.addData(url); qr.make();
+      const n = qr.getModuleCount(), cell = 10, pad = 4 * cell, size = n * cell + pad * 2;
+      const c = document.createElement('canvas'); c.width = c.height = size;
+      const g = c.getContext('2d'); g.fillStyle = '#ffffff'; g.fillRect(0, 0, size, size); g.fillStyle = '#141414';
+      for (let r = 0; r < n; r++) for (let k = 0; k < n; k++) if (qr.isDark(r, k)) g.fillRect(pad + k * cell, pad + r * cell, cell, cell);
+      const a = document.createElement('a'); a.href = c.toDataURL('image/png'); a.download = 'qr-20fit-' + (this.state.aff ? this.state.aff.code : '') + '-' + slug + '.png';
+      document.body.appendChild(a); a.click(); a.remove();
+      this.flash(this.words(this.state.lang).qrDownloaded);
+    } catch (e) { this.flash(e.message); }
+  }
+
+  // ── claim flow ──
+  termsOutdated() { const s = this.state; return !!(s.aff && this.D.settings.termsVersion && s.aff.termsVersion !== this.D.settings.termsVersion); }
+  async openSummary() {
+    const preview = await this.api('GET', 'claim-preview');
+    this.setState({ preview, dialog: 'summary' });
+  }
+  validate(f, W) {
     const e = {};
-    if (!f.name.trim()) e.name = 'Enter your name as it appears on your KTP.';
-    if (!/^\d{16}$/.test(f.nik)) e.nik = 'NIK must be 16 digits.';
-    if (f.npwp && !/^\d{15,16}$/.test(f.npwp)) e.npwp = 'NPWP must be 15 or 16 digits.';
-    if (!f.bank) e.bank = 'Choose your bank.';
-    if (!/^\d{6,20}$/.test(f.acct)) e.acct = 'Enter a valid account number.';
-    if (!f.holder.trim()) e.holder = 'Enter the account holder name.';
-    else if (f.name.trim() && f.holder.trim().toLowerCase() !== f.name.trim().toLowerCase()) e.holder = 'Must match your KTP name exactly, or the transfer will be rejected.';
+    if (!f.name.trim()) e.name = W.errKtpName;
+    if (!/^\d{16}$/.test(f.nik)) e.nik = W.errNik;
+    if (f.npwp && !/^\d{15,16}$/.test(f.npwp)) e.npwp = W.errNpwp;
+    if (!f.bank) e.bank = W.errBank;
+    if (!/^\d{6,20}$/.test(f.acct)) e.acct = W.errAccount;
+    if (!f.holder.trim()) e.holder = W.errHolder;
+    else if (f.name.trim() && f.holder.trim().toLowerCase() !== f.name.trim().toLowerCase()) e.holder = W.errHolderMatch;
     return e;
   }
+  validateAccount(f, W) {
+    const e = {};
+    const name = f.name.trim();
+    if (name.length < 2 || name.length > 80) e.name = W.errName;
+    const phone = f.phone.replace(/[\s().-]/g, '');
+    if (phone && !/^\+?\d{8,15}$/.test(phone)) e.phone = W.errPhone;
+    return e;
+  }
+
+  // ── words: Bahasa Indonesia (default) and English ──
+  words(lang) {
+    if (lang === 'en') return {
+      siteName: '20FIT Affiliate', logoLabel: '20FIT Affiliate program', navLabel: 'Dashboard', accountMenu: 'Account menu', menuProfile: 'Profile', menuProgram: 'Affiliate program', signOut: 'Sign out',
+      signedInAs: e => 'Signed in as ' + e, reload: 'Reload', contactTeam: 'Contact the affiliate team', programKicker: '20FIT affiliate program',
+      heroBody: 'Share 20FIT product links with friends. Each time they buy that product in the 20FIT app through your link, you earn a commission.',
+      step1Title: 'Share a product link', step1Body: 'Pick a 20FIT product in this dashboard, then share its link on WhatsApp, social media, or as a QR code.',
+      step2Title: 'Your friend buys in the app', step2Body: 'Your friend opens your link and buys that product in the 20FIT app. New and existing accounts both count.',
+      step3Title: 'You earn a commission', termsSummary: 'Terms summary', homeTitle: 'Affiliate dashboard', termsBannerBody: 'Read and accept them before your next claim.', readAndAccept: 'Read and accept',
+      close: 'Close', updatePayout: 'Update payout details', availableKicker: 'Available to claim', held: 'On hold', paidOut: 'Paid out', allTime: 'All time',
+      myLinks: 'My links', pickProduct: 'Pick a product', preparingLink: 'Preparing your link…', copyLink: 'Copy link', downloadQr: 'Download QR', affiliateCode: 'Affiliate code', changeCodeInProfile: 'Change in Profile',
+      linkPerformance: 'Link performance', days7: '7 days', days30: '30 days', allPeriod: 'All', colProduct: 'Product', colOpened: 'Opened', colBuyers: 'Buyers', colTransactions: 'Transactions', colCommission: 'Commission',
+      detail: 'Details', closeDetail: 'Close details', loading: 'Loading…', seePurchases: 'See purchases through this link', purchasesTitle: 'Purchases through your links',
+      purchasesHint: 'Only your commission is shown. Buyer names are masked and what they paid is not shown.', showAll: 'Show all', colBuyer: 'Buyer', colDate: 'Date', colStatus: 'Status',
+      claimHistory: 'Claim history', colClaim: 'Claim', colSubmitted: 'Submitted', colAmount: 'Amount', colNote: 'Notes', proof: 'Proof of transfer', termsShort: 'Affiliate T&C', howItWorks: 'How it works & FAQ',
+      salesSub: 'Purchases in the 20FIT app through your links, and the commission you earn from them.', tryAgain: 'Try again', productsHint: 'Excluding cancelled purchases', noSalesYet: 'No purchases through your links yet.',
+      period: 'Period', chartLegend: 'Bar height = your commission · number = transactions. Tap a bar for its totals.',
+      profileSub: 'Your account, affiliate details, and how this dashboard looks.', editProfile: 'Edit profile', editProfileHint: 'Your 20FIT account name and phone number.',
+      fullName: 'Full name', phone: 'Phone number', email: 'Email', emailLocked: 'Your email is your 20FIT sign-in and can’t be changed here.', saveProfile: 'Save profile',
+      profileDownstream: 'This is your 20FIT account: the same name and number appear in the 20FIT app and on my.20fit.id. Your FITCO account is not updated. When you buy through someone else’s link, they see your name masked.',
+      affiliateData: 'Affiliate details', notJoinedYet: 'You haven’t joined the affiliate program yet.', joinNow: 'Join now', changeCode: 'Change code', newCodeLabel: 'New code · 4–12 letters or digits · can be changed only once',
+      saveCode: 'Save code', cancel: 'Cancel', payoutData: 'Payout details', payoutNone: 'Your ID card and bank details are asked for at your first claim. Stored encrypted.',
+      appearance: 'Appearance', appearanceHint: 'Saved in this browser only.', theme: 'Theme', themeLight: 'Light', themeDark: 'Dark', themeSystem: 'System', language: 'Language',
+      summaryColon: 'Summary:', readFullTerms: 'Read the full T&C', later: 'Not now', payoutDialogHint: 'Just once, for transferring your commission and withholding tax. Stored encrypted.',
+      ktpName: 'Full name (as on your KTP)', nikPlaceholder: '16 digits', npwpOptional: 'NPWP (optional)', npwpPlaceholder: '15 or 16 digits', pickBank: 'Choose a bank', accountNo: 'Account number', accountHolder: 'Account holder name',
+      claimCommission: 'Claim commission', availableCommission: 'Available commission', adjustment: 'Adjustment (refund after payout)', youReceive: 'You receive', transferTo: 'Transfer to', change: 'Change',
+      claimSummaryNote: 'Your whole Available balance goes into this claim. The tax withheld may be adjusted after the 20FIT finance team checks it.', submitClaim: 'Submit claim', claimSubmitted: 'Claim submitted', done: 'Done',
+      claim: 'Claim', loadFailed: 'The dashboard data could not be loaded.', sessionEnded: 'Session ended', genericError: 'Something went wrong. Please try again.', qrFailed: 'Couldn’t make the QR code. Please try again.', qrDownloaded: 'QR code downloaded',
+      errKtpName: 'Enter your name as on your KTP.', errNik: 'NIK must be 16 digits.', errNpwp: 'NPWP must be 15 or 16 digits.', errBank: 'Choose a bank.', errAccount: 'Enter a valid account number.', errHolder: 'Enter the account holder’s name.',
+      errHolderMatch: 'Must match the name on your KTP exactly, or the transfer will be rejected.', errName: 'Enter a name of 2–80 characters.', errPhone: 'Use 8–15 digits, optionally starting with +.', errCode: 'Use 4–12 letters or digits.',
+      heroTitle: r => `Earn ${r} of every in-app purchase made through your link.`, stepEarn: r => `${r} of what the buyer pays, for every in-app purchase through your link.`, joinedSub: r => `${r} of every 20FIT app purchase through your product links.`,
+      terms: (days, min) => ['Only purchases in the 20FIT app count — not the website, Cafe or Clinic counters.', 'New and existing buyer accounts both count. Purchases through your own link don’t.',
+        `Commission is held for ${days} days after payment. A refund in that time cancels it.`, `Claim from ${min} Available balance, paid by bank transfer.`, '20FIT may change the rate for future purchases or end the program.'],
+      agreeLabel: v => `I have read and agree to the Affiliate T&C ${v}.`, consentLabel: v => `I agree to the Affiliate T&C ${v}`, consentTitle: v => `Affiliate T&C ${v}`, readTermsLabel: v => `Read the full Affiliate T&C (${v})`, updatedLabel: v => `Affiliate T&C updated (${v})`,
+      noteError: 'The data couldn’t be loaded', noteSuspended: 'Your affiliate account is deactivated', noteSuspendedBody: s => 'You can still see your data, but claims and new links are unavailable for now.' + (s ? '' : ' Contact the 20FIT affiliate team for details.'),
+      notePaused: j => j ? 'The affiliate program is paused' : 'Affiliate sign-ups are closed', notePausedBody: j => j ? 'New links can’t be created. Commission already recorded is safe and can be claimed.' : 'You can’t join right now. Please try again later.',
+      balSuspended: 'Claims are unavailable while your account is deactivated.', balActive: 'One claim at a time. You can claim again once this one is paid.', balAdjust: 'Your balance is still used up by deductions for refunds after payout.',
+      balReady: 'Paid by bank transfer to an account in your name.', balBelow: m => `You can claim once your Available balance reaches ${m}.`, balNone: d => `Commission becomes Available ${d} days after the purchase is paid, if it isn’t refunded.`,
+      tx: { held: 'On hold', available: 'Available', claimed: 'Claimed', paid: 'Paid', cancelled: 'Cancelled' }, cl: { submitted: 'Submitted', processing: 'Processing', paid: 'Paid', rejected: 'Rejected' },
+      reasons: { refund: 'Refunded', refunded: 'Refunded', self_purchase: 'Bought through own link', product_mismatch: 'Different product from the link', product_inactive: 'Product inactive', affiliate_inactive: 'Affiliate account inactive', link_inactive: 'Link disabled', program_paused: 'Program paused' }, cancelledGeneric: 'Cancelled',
+      paidDetail: (ref, d) => `Ref ${ref} · paid ${d}`, rejectedDefault: 'Rejected', estTransfer: d => `Estimated transfer ${d}`, processingDetail: 'Being processed by the 20FIT finance team', waitingDetail: 'Waiting for the 20FIT finance team',
+      availableOn: d => `Available ${d}`, txEmptyLink: 'No purchases through this link yet.', txEmptyNoLinks: 'No links yet. Pick a product in My links, then share it with friends.',
+      txEmptyNoOpens: 'Your links haven’t been opened in the app yet. Purchases through your links will show here.', txEmptyOpens: 'Your links have been opened, but no purchases yet. In-app purchases through your links will show here.',
+      received: v => 'Received ' + v, periods: { '7': 'last 7 days', '30': 'last 30 days', all: 'all time' }, last90: 'last 90 days', commissionPeriod: p => 'Commission · ' + p,
+      openedInApp: 'Opened in app', buyers: 'Buyers', transactions: 'Transactions', perfNoLinks: ['No links yet.', 'Pick a product in My links and share it. Opens, buyers, and transactions will show here.'],
+      perfNoOpens: all => ['Nobody has opened your links ' + (all ? 'yet.' : 'in this period.'), 'Share your link on WhatsApp or social media. Data shows once a link is opened in the 20FIT app.'],
+      detailSub: (o, t, c, p) => `${o} opened · ${t} transactions · ${c} commission · ${p}`, detailAria: (o, t) => `Daily chart: opened ${o} times, ${t} transactions`, dayTip: (d, o, t, c) => `${d}: ${o} opened, ${t} transactions, ${c}`,
+      perTransaction: r => `${r} per transaction`, shareHint: 'Pick a product, then share its link. Commission comes from purchases of that product in the app through your link.', shareOff: 'New links can’t be created right now.',
+      waText: (p, u) => `Check out ${p} in the 20FIT app with this link: ${u}`, codeLocked: 'Your code has already been changed and can’t be changed again. Links with the old code no longer work.',
+      codeHint: 'Your code is in every link and can be changed once. After that, links with the old code stop working.', filterLink: p => 'Link: ' + p,
+      claimsEmpty: m => `No claims yet. You can claim once your Available balance reaches ${m}.`, activeClaim: id => 'Claim ' + id, toAccount: a => ' · to ' + a,
+      rejectedTitle: (id, amt) => `${id} for ${amt} was rejected.`, rejectedTail: 'Your commission is back in your Available balance.',
+      minimum: m => 'Minimum ' + m, heldNote: d => `Becomes Available ${d} days after payment`, toGo: m => `${m} more to claim`, claimBtn: a => a ? 'Claim ' + a : 'Claim',
+      joinPaused: 'Sign-ups are closed', joinCta: 'Join as an affiliate', joined: 'Welcome aboard! Pick a product and share your first link.',
+      termsLine: (v, d) => `T&C ${v}` + (d ? ' · accepted ' + d : ''), termsAccepted: 'T&C accepted', acceptContinue: 'Accept and continue', accept: 'Accept',
+      taxNpwp: p => `With an NPWP, about ${p} PPh 21 is withheld.`, taxNoNpwp: p => `Without an NPWP, more PPh 21 is withheld, about ${p}.`, taxGeneric: 'PPh 21 is withheld at claim time as required.',
+      saveContinue: 'Save and continue', save: 'Save', payoutSaved: 'Payout details saved', taxLabel: (r, n) => `PPh 21 withheld (${r}${n === true ? ', with NPWP' : n === false ? ', without NPWP' : ''})`,
+      doneText: (net, acc, id) => `${net} will be transferred to ${acc || 'your account'}. You can follow claim ${id} in Claim history.`, linkCopied: 'Link copied', codeChanged: 'Code changed. Create the links you want to share again.',
+      payoutRows: ['Name (KTP)', 'NIK', 'NPWP', 'Bank', 'Account number', 'Account holder'], npwpYes: 'Registered', npwpNo: 'None', payoutEdit: 'Change', payoutAdd: 'Add details',
+      affRows: { status: 'Status', joined: 'Joined', terms: 'T&C', links: 'Active links' }, statusActive: 'Active', statusInactive: 'Deactivated', accepted: d => 'accepted ' + d,
+      cards: { total: 'Total', valid: 'Valid', pending: 'Pending' }, cardNotes: { total: 'Valid + Pending', valid: 'Available, claimed, or paid', pending: d => `Still in the ${d}-day hold` },
+      commissionAmt: a => a + ' commission', cancelledLine: n => `${n} cancelled ${n === 1 ? 'purchase is' : 'purchases are'} not counted.`, weekly: 'Per week', monthly: 'Per month',
+      lastN: (n, unit) => `Last ${n} ${unit}`, weeksUnit: 'weeks', monthsUnit: 'months', txCount: n => `${n} transaction${n === 1 ? '' : 's'}`,
+      barAria: (p, t, c) => `${p}: ${t}, ${c}`, accountMissing: 'Your 20FIT profile isn’t set up yet. Complete it in the 20FIT app first.', profileSaved: 'Profile saved', unsaved: 'Unsaved changes'
+    };
+    return {
+      siteName: '20FIT Affiliate', logoLabel: 'Program affiliate 20FIT', navLabel: 'Dashboard', accountMenu: 'Menu akun', menuProfile: 'Profile', menuProgram: 'Program affiliate', signOut: 'Keluar',
+      signedInAs: e => 'Masuk sebagai ' + e, reload: 'Muat ulang', contactTeam: 'Hubungi tim affiliate', programKicker: 'Program affiliate 20FIT',
+      heroBody: 'Bagikan link produk 20FIT ke teman. Setiap kali mereka membeli produk itu di app 20FIT lewat link-mu, kamu dapat komisi.',
+      step1Title: 'Bagikan link produk', step1Body: 'Pilih produk 20FIT di dashboard ini, lalu bagikan link-nya lewat WhatsApp, media sosial, atau QR code.',
+      step2Title: 'Temanmu beli di app', step2Body: 'Temanmu membuka link-mu dan membeli produk itu di app 20FIT. Akun baru maupun lama sama-sama dihitung.',
+      step3Title: 'Kamu dapat komisi', termsSummary: 'Ringkasan S&K', homeTitle: 'Dashboard affiliate', termsBannerBody: 'Baca dan setujui dulu sebelum klaim berikutnya.', readAndAccept: 'Baca dan setujui',
+      close: 'Tutup', updatePayout: 'Perbarui data pencairan', availableKicker: 'Tersedia untuk klaim', held: 'Tertahan', paidOut: 'Sudah dibayar', allTime: 'Sepanjang waktu',
+      myLinks: 'Link saya', pickProduct: 'Pilih produk', preparingLink: 'Menyiapkan link…', copyLink: 'Salin link', downloadQr: 'Unduh QR', affiliateCode: 'Kode affiliate', changeCodeInProfile: 'Ubah di Profile',
+      linkPerformance: 'Performa link', days7: '7 hari', days30: '30 hari', allPeriod: 'Semua', colProduct: 'Produk', colOpened: 'Dibuka', colBuyers: 'Pembeli', colTransactions: 'Transaksi', colCommission: 'Komisi',
+      detail: 'Detail', closeDetail: 'Tutup detail', loading: 'Memuat…', seePurchases: 'Lihat pembelian lewat link ini', purchasesTitle: 'Pembelian lewat link-mu',
+      purchasesHint: 'Yang tampil hanya komisimu. Nama pembeli disamarkan dan nominal yang mereka bayar tidak ditampilkan.', showAll: 'Tampilkan semua', colBuyer: 'Pembeli', colDate: 'Tanggal', colStatus: 'Status',
+      claimHistory: 'Riwayat klaim', colClaim: 'Klaim', colSubmitted: 'Diajukan', colAmount: 'Jumlah', colNote: 'Keterangan', proof: 'Bukti transfer', termsShort: 'S&K Affiliate', howItWorks: 'Cara kerja & FAQ',
+      salesSub: 'Pembelian di app 20FIT lewat link-mu, dan komisi yang kamu dapat dari situ.', tryAgain: 'Coba lagi', productsHint: 'Tanpa pembelian yang batal', noSalesYet: 'Belum ada pembelian lewat link-mu.',
+      period: 'Periode', chartLegend: 'Tinggi batang = komisimu · angka = jumlah transaksi. Ketuk batang untuk melihat totalnya.',
+      profileSub: 'Akunmu, data affiliate, dan tampilan dashboard ini.', editProfile: 'Atur profile', editProfileHint: 'Nama dan nomor HP akun 20FIT kamu.',
+      fullName: 'Nama lengkap', phone: 'Nomor HP', email: 'Email', emailLocked: 'Email dipakai untuk masuk ke 20FIT dan tidak bisa diganti di sini.', saveProfile: 'Simpan profile',
+      profileDownstream: 'Ini akun 20FIT kamu: nama dan nomor yang sama tampil di aplikasi 20FIT dan my.20fit.id. Akun FITCO tidak ikut berubah. Kalau kamu beli lewat link orang lain, mereka melihat namamu dalam bentuk disamarkan.',
+      affiliateData: 'Data affiliate', notJoinedYet: 'Kamu belum bergabung di program affiliate.', joinNow: 'Gabung sekarang', changeCode: 'Ubah kode', newCodeLabel: 'Kode baru · 4–12 huruf atau angka · hanya bisa diganti sekali',
+      saveCode: 'Simpan kode', cancel: 'Batal', payoutData: 'Data pencairan', payoutNone: 'Data KTP dan rekening diminta saat klaim pertama. Disimpan terenkripsi.',
+      appearance: 'Tampilan', appearanceHint: 'Disimpan di browser ini saja.', theme: 'Tema', themeLight: 'Terang', themeDark: 'Gelap', themeSystem: 'Ikut sistem', language: 'Bahasa',
+      summaryColon: 'Ringkasan:', readFullTerms: 'Baca S&K lengkap', later: 'Nanti saja', payoutDialogHint: 'Cukup sekali, untuk transfer komisi dan pemotongan pajak. Disimpan terenkripsi.',
+      ktpName: 'Nama lengkap (sesuai KTP)', nikPlaceholder: '16 digit', npwpOptional: 'NPWP (opsional)', npwpPlaceholder: '15 atau 16 digit', pickBank: 'Pilih bank', accountNo: 'Nomor rekening', accountHolder: 'Nama pemilik rekening',
+      claimCommission: 'Klaim komisi', availableCommission: 'Komisi Tersedia', adjustment: 'Penyesuaian (refund setelah pencairan)', youReceive: 'Yang kamu terima', transferTo: 'Transfer ke', change: 'Ubah',
+      claimSummaryNote: 'Seluruh saldo Tersedia masuk ke klaim ini. Potongan pajak bisa disesuaikan setelah dicek tim finance 20FIT.', submitClaim: 'Ajukan klaim', claimSubmitted: 'Klaim diajukan', done: 'Selesai',
+      claim: 'Klaim', loadFailed: 'Data dashboard tidak bisa dimuat.', sessionEnded: 'Sesi habis', genericError: 'Terjadi kesalahan. Coba lagi.', qrFailed: 'QR tidak bisa dibuat. Coba lagi.', qrDownloaded: 'QR code diunduh',
+      errKtpName: 'Isi nama sesuai KTP.', errNik: 'NIK harus 16 digit.', errNpwp: 'NPWP harus 15 atau 16 digit.', errBank: 'Pilih bank.', errAccount: 'Isi nomor rekening yang valid.', errHolder: 'Isi nama pemilik rekening.',
+      errHolderMatch: 'Harus sama persis dengan nama di KTP, atau transfer akan ditolak.', errName: 'Isi nama 2–80 karakter.', errPhone: 'Pakai 8–15 angka, boleh diawali +.', errCode: 'Pakai 4–12 huruf atau angka.',
+      heroTitle: r => `Dapat ${r} dari setiap pembelian di app lewat link-mu.`, stepEarn: r => `${r} dari yang dibayar pembeli, untuk setiap transaksi di app lewat link-mu.`, joinedSub: r => `${r} dari setiap transaksi di app 20FIT lewat link produkmu.`,
+      terms: (days, min) => ['Hanya pembelian di app 20FIT yang dihitung, bukan web, kasir Cafe, atau Clinic.', 'Akun pembeli baru maupun lama sama-sama dihitung. Pembelian lewat link sendiri tidak dihitung.',
+        `Komisi ditahan ${days} hari setelah pembayaran lunas. Refund di masa itu membatalkan komisinya.`, `Klaim mulai ${min} saldo Tersedia, dibayar lewat transfer bank.`, '20FIT bisa mengubah rate untuk transaksi berikutnya atau menghentikan program.'],
+      agreeLabel: v => `Saya sudah membaca dan setuju dengan S&K Affiliate ${v}.`, consentLabel: v => `Saya setuju dengan S&K Affiliate ${v}`, consentTitle: v => `S&K Affiliate ${v}`, readTermsLabel: v => `Baca S&K Affiliate lengkap (${v})`, updatedLabel: v => `S&K Affiliate diperbarui (${v})`,
+      noteError: 'Data belum bisa dimuat', noteSuspended: 'Akun affiliate kamu sedang dinonaktifkan', noteSuspendedBody: s => 'Data tetap bisa dilihat, tapi klaim dan link baru tidak tersedia untuk sementara.' + (s ? '' : ' Hubungi tim affiliate 20FIT untuk info lebih lanjut.'),
+      notePaused: j => j ? 'Program affiliate sedang dijeda' : 'Pendaftaran affiliate sedang ditutup', notePausedBody: j => j ? 'Link baru belum bisa dibuat. Komisi yang sudah tercatat tetap aman dan bisa diklaim.' : 'Kamu belum bisa bergabung sekarang. Coba lagi nanti.',
+      balSuspended: 'Klaim tidak tersedia selama akun dinonaktifkan.', balActive: 'Satu klaim dalam satu waktu. Kamu bisa klaim lagi setelah klaim ini dibayar.', balAdjust: 'Saldo masih habis untuk potongan refund setelah pencairan.',
+      balReady: 'Dibayar lewat transfer bank ke rekening atas namamu.', balBelow: m => `Klaim bisa diajukan setelah saldo Tersedia mencapai ${m}.`, balNone: d => `Komisi jadi Tersedia ${d} hari setelah pembelian lunas, kalau tidak direfund.`,
+      tx: { held: 'Tertahan', available: 'Tersedia', claimed: 'Diklaim', paid: 'Dibayar', cancelled: 'Batal' }, cl: { submitted: 'Diajukan', processing: 'Diproses', paid: 'Dibayar', rejected: 'Ditolak' },
+      reasons: { refund: 'Direfund', refunded: 'Direfund', self_purchase: 'Pembelian lewat link sendiri', product_mismatch: 'Produk berbeda dari link', product_inactive: 'Produk tidak aktif', affiliate_inactive: 'Akun affiliate tidak aktif', link_inactive: 'Link dinonaktifkan', program_paused: 'Program sedang dijeda' }, cancelledGeneric: 'Dibatalkan',
+      paidDetail: (ref, d) => `Ref ${ref} · dibayar ${d}`, rejectedDefault: 'Ditolak', estTransfer: d => `Perkiraan transfer ${d}`, processingDetail: 'Sedang diproses tim finance 20FIT', waitingDetail: 'Menunggu dicek tim finance 20FIT',
+      availableOn: d => `Tersedia ${d}`, txEmptyLink: 'Belum ada pembelian lewat link ini.', txEmptyNoLinks: 'Belum ada link. Pilih produk di Link saya, lalu bagikan ke temanmu.',
+      txEmptyNoOpens: 'Link-mu belum pernah dibuka di app. Pembelian lewat link-mu akan muncul di sini.', txEmptyOpens: 'Link-mu sudah dibuka, tapi belum ada pembelian. Pembelian di app lewat link-mu akan muncul di sini.',
+      received: v => 'Diterima ' + v, periods: { '7': '7 hari terakhir', '30': '30 hari terakhir', all: 'sepanjang waktu' }, last90: '90 hari terakhir', commissionPeriod: p => 'Komisi · ' + p,
+      openedInApp: 'Dibuka di app', buyers: 'Pembeli', transactions: 'Transaksi', perfNoLinks: ['Belum ada link.', 'Pilih produk di Link saya, lalu bagikan. Link yang dibuka, pembeli, dan transaksi akan muncul di sini.'],
+      perfNoOpens: all => ['Belum ada yang membuka link-mu ' + (all ? 'sejauh ini.' : 'di periode ini.'), 'Bagikan link-mu lewat WhatsApp atau media sosial. Data muncul setelah link dibuka di app 20FIT.'],
+      detailSub: (o, t, c, p) => `${o} dibuka · ${t} transaksi · ${c} komisi · ${p}`, detailAria: (o, t) => `Grafik harian: ${o} kali dibuka, ${t} transaksi`, dayTip: (d, o, t, c) => `${d}: ${o} dibuka, ${t} transaksi, ${c}`,
+      perTransaction: r => `${r} per transaksi`, shareHint: 'Pilih produk, lalu bagikan link-nya. Komisi dihitung dari pembelian produk itu di app lewat link-mu.', shareOff: 'Link baru belum bisa dibuat saat ini.',
+      waText: (p, u) => `Cek ${p} di app 20FIT lewat link ini: ${u}`, codeLocked: 'Kode sudah pernah diganti dan tidak bisa diganti lagi. Link lama dengan kode sebelumnya tidak berlaku lagi.',
+      codeHint: 'Kode ada di setiap link-mu dan bisa diganti sekali. Setelah diganti, link dengan kode lama tidak berlaku lagi.', filterLink: p => 'Link: ' + p,
+      claimsEmpty: m => `Belum ada klaim. Kamu bisa klaim setelah saldo Tersedia mencapai ${m}.`, activeClaim: id => 'Klaim ' + id, toAccount: a => ' · ke ' + a,
+      rejectedTitle: (id, amt) => `${id} sebesar ${amt} ditolak.`, rejectedTail: 'Komisimu sudah kembali ke saldo Tersedia.',
+      minimum: m => 'Minimum ' + m, heldNote: d => `Jadi Tersedia ${d} hari setelah lunas`, toGo: m => `${m} lagi untuk bisa klaim`, claimBtn: a => a ? 'Klaim ' + a : 'Klaim',
+      joinPaused: 'Pendaftaran sedang ditutup', joinCta: 'Gabung jadi affiliate', joined: 'Selamat bergabung! Pilih produk dan bagikan link pertamamu.',
+      termsLine: (v, d) => `S&K ${v}` + (d ? ' · disetujui ' + d : ''), termsAccepted: 'S&K disetujui', acceptContinue: 'Setujui dan lanjut', accept: 'Setujui',
+      taxNpwp: p => `Dengan NPWP, PPh 21 dipotong sekitar ${p}.`, taxNoNpwp: p => `Tanpa NPWP, PPh 21 dipotong lebih tinggi, sekitar ${p}.`, taxGeneric: 'PPh 21 dipotong saat klaim sesuai ketentuan.',
+      saveContinue: 'Simpan dan lanjut', save: 'Simpan', payoutSaved: 'Data pencairan tersimpan', taxLabel: (r, n) => `Potongan PPh 21 (${r}${n === true ? ', dengan NPWP' : n === false ? ', tanpa NPWP' : ''})`,
+      doneText: (net, acc, id) => `${net} akan ditransfer ke ${acc || 'rekeningmu'}. Status klaim ${id} bisa kamu pantau di Riwayat klaim.`, linkCopied: 'Link disalin', codeChanged: 'Kode diganti. Buat ulang link yang mau kamu bagikan.',
+      payoutRows: ['Nama (KTP)', 'NIK', 'NPWP', 'Bank', 'Nomor rekening', 'Pemilik rekening'], npwpYes: 'Terdaftar', npwpNo: 'Tidak ada', payoutEdit: 'Ubah', payoutAdd: 'Isi data',
+      affRows: { status: 'Status', joined: 'Bergabung', terms: 'S&K', links: 'Link aktif' }, statusActive: 'Aktif', statusInactive: 'Dinonaktifkan', accepted: d => 'disetujui ' + d,
+      cards: { total: 'Total', valid: 'Valid', pending: 'Pending' }, cardNotes: { total: 'Valid + Pending', valid: 'Tersedia, diklaim, atau sudah dibayar', pending: d => `Masih dalam masa tahan ${d} hari` },
+      commissionAmt: a => a + ' komisi', cancelledLine: n => `${n} transaksi batal tidak dihitung.`, weekly: 'Per minggu', monthly: 'Per bulan',
+      lastN: (n, unit) => `${n} ${unit} terakhir`, weeksUnit: 'minggu', monthsUnit: 'bulan', txCount: n => `${n} transaksi`,
+      barAria: (p, t, c) => `${p}: ${t}, ${c}`, accountMissing: 'Profil 20FIT kamu belum ada. Lengkapi dulu di aplikasi 20FIT.', profileSaved: 'Profile tersimpan', unsaved: 'Belum disimpan'
+    };
+  }
+
+  // One chart (weekly or monthly): bar height = commission, number = transactions.
+  chart(rows, sel, onPick, kind, W) {
+    rows = rows || [];
+    const max = Math.max(0, ...rows.map(r => Number(r.commission) || 0));
+    const i = sel >= 0 && sel < rows.length ? sel : rows.length - 1;
+    const short = r => kind === 'week' ? this.fd(r.start, { year: undefined }) : this.fd(r.start, { day: undefined, year: undefined });
+    const long = r => kind === 'week' ? `${this.fd(r.start, { year: undefined })} – ${this.fd(r.end)}` : this.fd(r.start, { day: undefined, month: 'long' });
+    const last = rows.length - 1;
+    const bars = rows.map((r, k) => {
+      const c = Number(r.commission) || 0, t = Number(r.transactions) || 0;
+      return { on: k === i ? 'true' : 'false', n: t ? this.num(t) : '', x: this.state.narrow && (last - k) % 2 ? '' : short(r),
+        h: max && c ? Math.max(3, Math.round(c / max * 78)) + '%' : '0', min: c ? '4px' : '2px', op: c ? 1 : 0.35,
+        aria: W.barAria(long(r), W.txCount(t), W.commissionAmt(this.fmt(c))), pick: () => onPick(k) };
+    });
+    const s = rows[i];
+    return { bars, range: W.lastN(rows.length, kind === 'week' ? W.weeksUnit : W.monthsUnit),
+      sel: s ? { period: long(s), tx: this.num(s.transactions), comm: this.fmt(s.commission) } : { period: '–', tx: '–', comm: '–' } };
+  }
+
   renderVals() {
-    const s = this.state, f = n => this.fmt(n), fd = d => this.fd(d), MIN = 50000;
-    const sum = st => s.tx.filter(x => x.status === st).reduce((a, x) => a + x.amount, 0);
-    const held = sum('held'), avail = sum('available'), paid = sum('paid');
+    const s = this.state, S = this.D.settings, L = this.D.links, W = this.words(s.lang), f = n => this.fmt(n), fd = d => this.fd(d), page = this.D.page;
+    const sm = s.summary || {};
+    const rate = this.pct(S.commissionRate || 0);
+    const MIN = Number(sm.min_claim != null ? sm.min_claim : S.minWithdrawal) || 0;
+    const days = Number(sm.pending_days != null ? sm.pending_days : S.pendingDays) || 0;
+    const paused = S.programStatus === 'paused';
+    const suspended = !!(s.aff && s.aff.status !== 'active');
+    const avail = Number(sm.available) || 0, held = Number(sm.held) || 0, paid = Number(sm.paid) || 0;
     const active = s.claims.find(c => c.status === 'submitted' || c.status === 'processing');
     const latest = s.claims[0];
-    const needTerms = s.termsBanner && !s.termsAccepted;
-    let note;
-    if (active) note = 'One claim at a time. You can claim again once this one is paid.';
-    else if (avail >= MIN) note = 'Paid by bank transfer to your account.';
-    else if (avail > 0) note = 'Claim opens once Available reaches Rp50.000.';
-    else note = "Commission becomes available 14 days after your friend's payment, if it isn't refunded.";
-    const TX = { held: ['Held', 'tag tag-neutral'], available: ['Available', 'tag tag-accent'], claimed: ['In claim', 'tag tag-outline'], paid: ['Paid', 'tag tag-neutral'], cancelled: ['Cancelled', 'tag tag-neutral'] };
-    const CL = { submitted: ['Submitted', 'tag tag-outline'], processing: ['Processing', 'tag tag-outline'], paid: ['Paid', 'tag tag-accent'], rejected: ['Rejected', 'tag tag-neutral'] };
-    const claimDetail = c => c.status === 'paid' ? `Ref ${c.ref} · paid ${fd(c.paidD)}` : c.status === 'rejected' ? c.reason : c.status === 'processing' ? `Estimated transfer ${fd(c.est)}` : 'Waiting for 20FIT finance to review';
-    const txSorted = [...s.tx].sort((a, b) => b.d.localeCompare(a.d));
-    const txRows = txSorted.map(x => ({ who: x.who, product: x.product, date: fd(x.d), amount: f(x.amount), label: TX[x.status][0], cls: TX[x.status][1], note: x.note, op: x.status === 'cancelled' ? 0.6 : 1, deco: x.status === 'cancelled' ? 'line-through' : 'none' }));
-    const claimRows = s.claims.map(c => ({ id: c.id, date: fd(c.d), amount: f(c.amount), net: 'Net ' + f(c.net), label: CL[c.status][0], cls: CL[c.status][1], detail: claimDetail(c), hasProof: c.status === 'paid', onProof: e => { e.preventDefault(); this.flash('Opening transfer proof'); } }));
-    const activity = [
-      ...s.tx.map(x => ({ d: x.d, icon: x.status === 'cancelled' ? 'ph ph-arrow-u-up-left' : 'ph ph-arrow-down-left', title: `${x.who} · ${x.product}`, sub: `${fd(x.d)} · ${x.status === 'cancelled' ? x.note : 'Commission'}`, amount: (x.status === 'cancelled' ? '' : '+') + f(x.amount), label: TX[x.status][0], cls: TX[x.status][1], op: x.status === 'cancelled' ? 0.6 : 1 })),
-      ...s.claims.map(c => ({ d: c.d + 'z', icon: 'ph ph-bank', title: `Claim ${c.id} · net ${f(c.net)}`, sub: `${fd(c.d)} · ${claimDetail(c)}`, amount: f(c.amount), label: CL[c.status][0], cls: CL[c.status][1], op: 1 }))
-    ].sort((a, b) => b.d.localeCompare(a.d));
+    const needTerms = this.termsOutdated();
+    const taxNpwp = Number(sm.tax_rate_npwp), taxNo = Number(sm.tax_rate_no_npwp);
+    const tv = S.termsVersion || '';
+
+    const termsList = W.terms(days, f(MIN));
+    // The admin's own summary (affiliate_settings.terms_summary) is shown as written.
+    const summaryLines = String(S.termsSummary || '').split(/\n+/).map(x => x.replace(/^[-•*]\s*/, '').trim()).filter(Boolean);
+    const t = {
+      heroTitle: W.heroTitle(rate), stepEarn: W.stepEarn(rate), joinedSub: W.joinedSub(rate),
+      termsList: termsList.map(text => ({ text })), consentList: (summaryLines.length ? summaryLines : termsList).map(text => ({ text })),
+      termsUrl: S.termsUrl || '#', hasTermsUrl: !!S.termsUrl,
+      agreeLabel: W.agreeLabel(tv), consentLabel: W.consentLabel(tv), consentTitle: W.consentTitle(tv), readTermsLabel: W.readTermsLabel(tv), updatedLabel: W.updatedLabel(tv)
+    };
+
+    // header
+    const acc = s.account;
+    const name = (acc && acc.name) || this.D.user.name || '';
+    const letters = name.split(/\s+/).map(w => (w.match(/[\p{L}\p{N}]/u) || [])[0]).filter(Boolean);
+    const head = {
+      initials: letters.length ? (letters[0] + (letters.length > 1 ? letters[letters.length - 1] : '')).toUpperCase() : '?',
+      menuOpen: s.menu, menuExpanded: s.menu ? 'true' : 'false', signedIn: W.signedInAs(this.D.user.email || ''),
+      tabs: [['home', 'Home', '/dashboard', 'ph ph-house'], ['sales', 'Sales', '/dashboard/sales', 'ph ph-chart-bar'], ['profile', 'Profile', '/dashboard/profile', 'ph ph-user-circle']]
+        .map(([k, label, href, icon]) => ({ label, href, icon, current: k === page ? 'page' : 'false' }))
+    };
+
+    // notices at the top of the page
+    let note = { show: false, title: '', body: '', reload: false, hasSupport: false };
+    if (s.error) note = { show: true, title: W.noteError, body: s.error, reload: true, hasSupport: false };
+    else if (suspended) note = { show: true, title: W.noteSuspended, body: W.noteSuspendedBody(!!L.support), reload: false, hasSupport: !!L.support };
+    else if (paused && page !== 'profile') note = { show: true, title: W.notePaused(s.joined), body: W.notePausedBody(s.joined), reload: false, hasSupport: false };
+
+    // balance
+    let bnote;
+    if (suspended) bnote = W.balSuspended;
+    else if (active) bnote = W.balActive;
+    else if (sm.claim_blocker === 'adjustments_exceed_balance') bnote = W.balAdjust;
+    else if (avail >= MIN) bnote = W.balReady;
+    else if (avail > 0) bnote = W.balBelow(f(MIN));
+    else bnote = W.balNone(days);
+    const TXC = { held: 'tag tag-neutral', available: 'tag tag-accent', claimed: 'tag tag-outline', paid: 'tag tag-neutral', cancelled: 'tag tag-neutral' };
+    const CLC = { submitted: 'tag tag-outline', processing: 'tag tag-outline', paid: 'tag tag-accent', rejected: 'tag tag-neutral' };
+    const reason = r => W.reasons[r] || (r ? W.cancelledGeneric : '');
+    const acct = c => c.bank ? `${c.bank} ${c.account}` : '';
+    const claimDetail = c => c.status === 'paid' ? W.paidDetail(c.transferRef || '–', fd(c.paidAt))
+      : c.status === 'rejected' ? (c.rejectReason || W.rejectedDefault)
+      : c.status === 'processing' ? (c.estimatedTransfer ? W.estTransfer(fd(c.estimatedTransfer)) : W.processingDetail)
+      : W.waitingDetail;
+
+    // purchases (all, or one link)
+    const txSource = s.txFilter ? (s.filtered || []) : s.commissions;
+    const txRows = txSource.map(x => ({ who: x.buyer || '–', product: x.product, date: fd(x.at), amount: f(x.amount), label: W.tx[x.status] || x.status, cls: TXC[x.status] || 'tag tag-neutral',
+      note: x.status === 'cancelled' ? reason(x.cancelReason) : x.status === 'held' ? W.availableOn(fd(x.availableAt)) : '', op: x.status === 'cancelled' ? 0.6 : 1, deco: x.status === 'cancelled' ? 'line-through' : 'none' }));
+    const totalOpens = s.links.reduce((a, l) => a + l.opens, 0);
+    let txEmpty;
+    if (s.txFilter) txEmpty = W.txEmptyLink;
+    else if (!s.links.length) txEmpty = W.txEmptyNoLinks;
+    else if (!totalOpens) txEmpty = W.txEmptyNoOpens;
+    else txEmpty = W.txEmptyOpens;
+
+    const claimRows = s.claims.map(c => ({ id: this.claimNo(c), date: fd(c.submittedAt), amount: f(c.gross), net: W.received(f(c.net)), label: W.cl[c.status] || c.status, cls: CLC[c.status] || 'tag tag-neutral',
+      detail: claimDetail(c), hasProof: c.status === 'paid' && c.hasProof, proofHref: '/api/affiliate/claims/' + c.id + '/proof' }));
+
     // performance
-    const P = { '7d': [38, 2, 2, '2026-10-01', 'last 7 days'], '30d': [164, 7, 5, '2026-09-08', 'last 30 days'], all: [486, 14, 9, '0000', 'all time'] }[s.period];
-    const hasData = s.tx.length > 0;
-    const comm = s.tx.filter(x => x.status !== 'cancelled' && x.d >= P[3]).reduce((a, x) => a + x.amount, 0);
-    const pct = (a, b) => b ? Math.round(a / b * 1000) / 10 + '%' : '–';
-    const w = v => Math.max(2, Math.round(Math.sqrt(v / P[0]) * 100)) + '%';
+    const P = W.periods;
+    const tot = k => s.links.reduce((a, l) => a + (Number(l[k]) || 0), 0);
+    const opens = tot('opens'), buyers = tot('buyers'), txs = tot('transactions'), comm = tot('commission');
+    const rel = (a, b) => b ? (Math.round(a / b * 1000) / 10).toLocaleString(this.loc()) + '%' : '–';
+    const w = v => opens ? Math.max(2, Math.round(Math.sqrt(v / opens) * 100)) + '%' : '2%';
     const perfRows = [
-      { label: 'Link clicks', value: P[0], sub: '', w: '100%' },
-      { label: 'Sign-ups', value: P[1], sub: pct(P[1], P[0]), w: w(P[1]) },
-      { label: 'Transacting', value: P[2], sub: pct(P[2], P[1]), w: w(P[2]) }
+      { label: W.openedInApp, value: this.num(opens), sub: '', w: '100%' },
+      { label: W.buyers, value: this.num(buyers), sub: rel(buyers, opens), w: w(buyers) },
+      { label: W.transactions, value: this.num(txs), sub: '', w: w(txs) }
     ];
-    const pf = s.profile, rate = pf && pf.npwp ? 0.025 : 0.03, tax = Math.floor(avail * rate);
-    const g = s.joined ? this.grid() : { ...this.grid(), max: '760px' };
-    const setP = p => () => this.setState({ period: p });
-    const setL = l => () => this.setState({ layout: l });
+    const perfLinks = [...s.links].sort((a, b) => b.commission - a.commission || b.opens - a.opens).map(l => ({
+      product: l.product, opens: this.num(l.opens), buyers: this.num(l.buyers), transactions: this.num(l.transactions), commission: f(l.commission), open: () => this.openDetail(l) }));
+    let perfEmpty = null;
+    if (!s.links.length) perfEmpty = W.perfNoLinks;
+    else if (!opens && !txs) perfEmpty = W.perfNoOpens(s.period === 'all');
+
+    let detail = { show: false };
+    if (s.detail) {
+      const rows = s.detail.rows || [];
+      const maxO = Math.max(1, ...rows.map(r => r.opens)), maxT = Math.max(1, ...rows.map(r => r.transactions));
+      const sumO = rows.reduce((a, r) => a + r.opens, 0), sumT = rows.reduce((a, r) => a + r.transactions, 0), sumC = rows.reduce((a, r) => a + r.commission, 0);
+      detail = { show: true, product: s.detail.product, loading: !s.detail.rows, ready: !!s.detail.rows,
+        sub: s.detail.rows ? W.detailSub(this.num(sumO), this.num(sumT), f(sumC), s.period === 'all' ? W.last90 : P[s.period]) : '',
+        aria: W.detailAria(sumO, sumT),
+        range: rows.length ? `${fd(rows[0].day)} – ${fd(rows[rows.length - 1].day)}` : '',
+        days: rows.map(r => ({ tip: W.dayTip(fd(r.day), r.opens, r.transactions, f(r.commission)),
+          hOpen: Math.round(r.opens / maxO * 60) + '%', minOpen: r.opens ? '3px' : '0', hTx: Math.round(r.transactions / maxT * 35) + '%', minTx: r.transactions ? '3px' : '0' })),
+        showPurchases: () => this.showPurchases(s.detail.id, s.detail.product) };
+    }
+
+    // link sharing
+    const canShare = s.joined && !paused && !suspended;
+    const share = {
+      rateLabel: W.perTransaction(rate), hint: canShare ? W.shareHint : W.shareOff,
+      products: s.products.map(p => ({ label: p.name, pressed: s.share.slug === p.slug ? 'true' : 'false', disabled: !canShare || s.share.loading, pick: () => this.pickProduct(p.slug) })),
+      loading: s.share.loading, hasLink: !!s.share.url && !s.share.loading, url: s.share.url, product: s.share.product,
+      wa: 'https://wa.me/?text=' + encodeURIComponent(W.waText(s.share.product, s.share.url)),
+      canEdit: !!(s.aff && s.aff.codeChangeable) && !s.editingCode && !suspended, editing: s.editingCode,
+      note: s.aff && !s.aff.codeChangeable ? W.codeLocked : W.codeHint
+    };
+
+    // Sales (affiliate_my_sales)
+    const sd = s.sales;
+    let sales = { loading: page === 'sales' && s.joined && !sd && !s.salesError, failed: !!s.salesError && !sd, error: s.salesError, ready: false };
+    if (sd) {
+      const sum = sd.summary || {};
+      const prods = sd.products || [];
+      const maxP = Math.max(1, ...prods.map(p => Number(p.transactions) || 0));
+      sales = { loading: false, failed: false, error: '', ready: true,
+        cards: [
+          { label: W.cards.total, icon: 'ph ph-shopping-bag', count: this.num(sum.total), comm: W.commissionAmt(f(sum.commission_total)), note: W.cardNotes.total },
+          { label: W.cards.valid, icon: 'ph ph-check-circle', count: this.num(sum.valid), comm: W.commissionAmt(f(sum.commission_valid)), note: W.cardNotes.valid },
+          { label: W.cards.pending, icon: 'ph ph-hourglass-medium', count: this.num(sum.pending), comm: W.commissionAmt(f(sum.commission_pending)), note: W.cardNotes.pending(days) }
+        ],
+        hasCancelled: Number(sum.cancelled) > 0, cancelledLine: W.cancelledLine(Number(sum.cancelled) || 0),
+        week: Object.assign(this.chart(sd.weekly, s.selWeek, k => this.setState({ selWeek: k }), 'week', W), { title: W.weekly }),
+        month: Object.assign(this.chart(sd.monthly, s.selMonth, k => this.setState({ selMonth: k }), 'month', W), { title: W.monthly }),
+        noProducts: !prods.length,
+        products: prods.map((p, k) => ({ rank: k + 1, name: p.product, tx: W.txCount(Number(p.transactions) || 0), comm: W.commissionAmt(f(p.commission)),
+          w: Math.max(3, Math.round((Number(p.transactions) || 0) / maxP * 100)) + '%',
+          badgeBg: k < 3 ? 'var(--color-accent)' : 'var(--af-panel)', badgeColor: k < 3 ? '#ffffff' : 'var(--color-text)' })) };
+    }
+
+    // Profile: account (my20fit_profile), affiliate details, appearance
+    const af = s.acctForm;
+    const changed = !!acc && (af.name.trim() !== (acc.name || '') || af.phone.replace(/[\s().-]/g, '') !== (acc.phone || ''));
+    const acctView = { ready: !!acc, missing: !acc && s.accountMissing, missingText: W.accountMissing, name: af.name, phone: af.phone, email: (acc && acc.email) || this.D.user.email || '',
+      errName: s.acctErr.name || '', errPhone: s.acctErr.phone || '', saveDisabled: s.busy || !changed, status: changed ? W.unsaved : s.acctStatus };
+    const onAcct = {};
+    ['name', 'phone'].forEach(k => { onAcct[k] = e => { const v = e.target.value; this.setState(st => ({ acctForm: { ...st.acctForm, [k]: v }, acctErr: { ...st.acctErr, [k]: '' }, acctStatus: '' })); }; });
+    const linksActive = s.links.filter(l => l.status === 'active').length;
+    const affd = { has: !!s.aff, none: !s.aff && !s.error,
+      rows: s.aff ? [
+        { k: W.affRows.status, v: s.aff.status === 'active' ? W.statusActive : W.statusInactive },
+        { k: W.affRows.joined, v: fd(s.aff.joinedAt) || '–' },
+        { k: W.affRows.terms, v: (s.aff.termsVersion || '–') + (s.aff.termsAcceptedAt ? ' · ' + W.accepted(fd(s.aff.termsAcceptedAt)) : '') },
+        { k: W.affRows.links, v: this.num(linksActive) }
+      ] : [] };
+    const setTheme = v => () => { this.savePref('af_theme', v); this.setState({ theme: v }); };
+    const setLang = v => () => { this.savePref('af_lang', v); this.setState({ lang: v }); };
+
+    const pf = s.profile;
+    const preview = s.preview || {};
+    const taxRate = Number(preview.tax_rate);
+    const setP = p => () => { if (p !== s.period) this.run(async () => { await this.loadLinks(p); if (this.state.detail) await this.openDetail({ id: this.state.detail.id, product: this.state.detail.product }); }); };
     const onF = {};
     ['name', 'nik', 'npwp', 'bank', 'acct', 'holder'].forEach(k => {
       onF[k] = e => { let v = e.target.value; if (['nik', 'npwp', 'acct'].includes(k)) v = v.replace(/\D/g, ''); this.setState(st => ({ form: { ...st.form, [k]: v }, errors: { ...st.errors, [k]: '' } })); };
     });
-    const nextAfterTerms = () => !this.state.profile ? 'payout' : 'summary';
-    const wa = 'https://wa.me/?text=' + encodeURIComponent(`Join me on 20FIT! Download the app and sign up with my code ${s.code}: https://20fit.id/r/${s.code}`);
+    const latestRejected = latest && latest.status === 'rejected';
+    const claimDisabled = this.state.busy || suspended || !!active || !sm.can_claim;
+    const showJoin = !s.joined && !s.error && page !== 'profile';
+
     return {
-      rootRef: this.rootRef, g, scenario: s.scenario,
-      onScenario: e => this.setState(this.initState(e.target.value)),
-      layA: s.layout === 'A', layB: s.layout === 'B', layC: s.layout === 'C', setLayA: setL('A'), setLayB: setL('B'), setLayC: setL('C'),
-      termsBanner: s.termsBanner, toggleBanner: () => this.setState(st => ({ termsBanner: !st.termsBanner, termsAccepted: false })),
-      notJoined: !s.joined, joined: s.joined, agreed: s.agreed, joinDisabled: !s.agreed,
+      rootRef: this.rootRef, themeAttr: this.dark() ? 'dark' : 'light', lang: s.lang, tr: W, t, head, note, links: { support: L.support || '#', hasSupport: !!L.support },
+      pg: { max: page === 'sales' ? '1040px' : '760px', showJoin, home: page === 'home' && s.joined, sales: page === 'sales' && s.joined, profile: page === 'profile' },
+      toggleMenu: () => this.setState(st => ({ menu: !st.menu })), closeMenu: () => this.setState({ menu: false }),
+      reload: () => location.reload(),
+      agreed: s.agreed, joinDisabled: !s.agreed || paused || s.busy,
+      joinLabel: paused ? W.joinPaused : W.joinCta,
       toggleAgree: () => this.setState(st => ({ agreed: !st.agreed })),
-      join: () => { this.setState({ joined: true, tx: [], claims: [], profile: null, form: this.emptyForm(null), scenario: s.scenario }); this.flash(`You're in. Your code is ${s.code}.`); },
-      showTermsBanner: needTerms, openConsent: () => this.setState({ dialog: 'consent', claimFlow: false, consentChecked: false }),
-      showRejected: latest && latest.status === 'rejected' && !s.rejectDismissed,
-      rejected: latest && latest.status === 'rejected' ? { title: `Claim ${latest.id} of ${f(latest.amount)} was rejected`, reason: latest.reason } : { title: '', reason: '' },
+      join: () => this.run(async () => { await this.api('POST', 'join', { agree: true }); await this.refresh(); this.flash(W.joined); if (this.D.page === 'sales') this.loadSales(); }),
+      showTermsBanner: s.joined && needTerms,
+      openConsent: () => this.setState({ dialog: 'consent', claimFlow: false, consentChecked: false }),
+      showRejected: latestRejected && !s.rejectDismissed,
+      rejected: latestRejected ? { title: W.rejectedTitle(this.claimNo(latest), f(latest.gross)), reason: ((latest.rejectReason || '') + ' ' + W.rejectedTail).trim() } : { title: '', reason: '' },
       dismissRejected: () => this.setState({ rejectDismissed: true }),
-      openPayoutEdit: () => this.setState({ dialog: 'payout', claimFlow: false, form: this.emptyForm(this.state.profile), errors: {} }),
-      bal: { available: f(avail), held: f(held), paid: f(paid), showProgress: !active && avail < MIN, pct: Math.min(100, avail / MIN * 100) + '%', toGo: avail > 0 ? `${f(MIN - avail)} more to claim` : 'Rp50.000 to go', claimDisabled: active || avail < MIN, claimLabel: avail >= MIN && !active ? `Claim ${f(avail)}` : 'Claim', note },
-      ac: active ? { show: true, id: active.id, label: CL[active.status][0], net: f(active.net), detail: claimDetail(active) + ` · to ${pf ? pf.bank + ' ••••' + pf.acct.slice(-4) : ''}` } : { show: false },
-      startClaim: () => this.setState({ dialog: needTerms ? 'consent' : nextAfterTerms(), claimFlow: true, consentChecked: false, form: this.emptyForm(this.state.profile), errors: {} }),
-      code: s.code, codeDraft: s.codeDraft, codeError: s.codeError,
-      share: { canEdit: !s.codeEdited && !s.editingCode, viewing: !s.editingCode, editing: s.editingCode, wa, note: s.codeEdited ? "You've changed your code once. It can't be changed again." : 'You can change your code once.' },
-      startEditCode: () => this.setState({ editingCode: true, codeDraft: s.code, codeError: '' }),
+      openPayoutEdit: () => this.setState({ dialog: 'payout', claimFlow: false, form: this.emptyForm(pf), errors: {} }),
+      bal: { available: f(avail), held: f(held), paid: f(paid), minLabel: W.minimum(f(MIN)), heldNote: W.heldNote(days),
+        showProgress: !active && avail < MIN, pct: Math.min(100, MIN ? avail / MIN * 100 : 100) + '%', toGo: W.toGo(f(Math.max(MIN - avail, 0))),
+        claimDisabled, claimLabel: W.claimBtn(!claimDisabled ? f(avail) : ''), note: bnote },
+      ac: active ? { show: true, title: W.activeClaim(this.claimNo(active)), label: W.cl[active.status], net: f(active.net), detail: claimDetail(active) + (acct(active) ? W.toAccount(acct(active)) : '') } : { show: false },
+      startClaim: () => this.run(async () => {
+        if (needTerms) return this.setState({ dialog: 'consent', claimFlow: true, consentChecked: false });
+        if (!this.state.profile) return this.setState({ dialog: 'payout', claimFlow: true, form: this.emptyForm(null), errors: {} });
+        await this.openSummary();
+      }),
+      code: s.aff ? s.aff.code : '', codeDraft: s.codeDraft, codeError: s.codeError, share, busy: s.busy,
+      startEditCode: () => this.setState({ editingCode: true, codeDraft: s.aff ? s.aff.code : '', codeError: '' }),
       onCodeDraft: e => this.setState({ codeDraft: e.target.value.toUpperCase().replace(/[^A-Z0-9]/g, ''), codeError: '' }),
       cancelCode: () => this.setState({ editingCode: false }),
       saveCode: () => {
         const c = this.state.codeDraft;
-        if (!/^[A-Z0-9]{4,12}$/.test(c)) return this.setState({ codeError: 'Use 4–12 letters or numbers.' });
-        if (['20FIT', 'ARENA', 'GYMFIT', 'PROMO'].includes(c)) return this.setState({ codeError: 'That code is taken. Try another.' });
-        if (c === this.state.code) return this.setState({ editingCode: false });
-        this.setState({ code: c, codeEdited: true, editingCode: false }); this.flash('Code updated');
+        if (!/^[A-Z0-9]{4,12}$/.test(c)) return this.setState({ codeError: W.errCode });
+        if (s.aff && c === s.aff.code) return this.setState({ editingCode: false });
+        this.setState({ busy: true });
+        this.api('POST', 'code', { code: c })
+          .then(() => { this.setState({ editingCode: false, share: { slug: '', url: '', product: '', loading: false } }); this.flash(W.codeChanged); return this.refresh(); })
+          .catch(e => this.setState({ codeError: e.message }))
+          .finally(() => this.setState({ busy: false }));
       },
-      copyCode: () => this.copy(s.code, 'Code copied'), copyLink: () => this.copy('https://20fit.id/r/' + s.code, 'Link copied'), downloadQr: () => this.flash('QR code downloaded'),
-      p7: s.period === '7d', p30: s.period === '30d', pAll: s.period === 'all', setP7: setP('7d'), setP30: setP('30d'), setPAll: setP('all'),
-      perf: { empty: !hasData, has: hasData, rows: perfRows, comm: f(comm), periodLabel: P[4] },
-      tabs: [['tx', 'Transactions'], ['claims', 'Claims'], ['payout', 'Payout details']].map(([k, l]) => ({ label: l, color: s.tab === k ? 'var(--color-text)' : 'var(--color-neutral-400)', shadow: s.tab === k ? 'inset 0 -2px 0 var(--color-accent)' : 'none', on: () => this.setState({ tab: k }) })),
-      txEmpty: !s.tx.length, txHas: s.tx.length > 0, txRows,
-      claimsEmpty: !s.claims.length, claimsHas: s.claims.length > 0, claimRows,
-      activity, actEmpty: !activity.length,
-      payout: { has: !!pf, none: !pf, rows: pf ? [{ k: 'Name (KTP)', v: pf.name }, { k: 'NIK', v: pf.nik.slice(0, 4) + ' •••• •••• ' + pf.nik.slice(-4) }, { k: 'NPWP', v: pf.npwp ? '••••••••••' + pf.npwp.slice(-4) : 'Not provided' }, { k: 'Bank', v: pf.bank }, { k: 'Account number', v: '•••• ' + pf.acct.slice(-4) }, { k: 'Account holder', v: pf.holder }] : [] },
-      termsLine: s.termsAccepted ? 'v2.0 · accepted 8 Oct 2026' : 'v1.0 · accepted 12 Jun 2026',
+      copyLink: () => s.share.url && this.copy(s.share.url, W.linkCopied),
+      downloadQr: () => this.downloadQr(),
+      p7: s.period === '7', p30: s.period === '30', pAll: s.period === 'all', setP7: setP('7'), setP30: setP('30'), setPAll: setP('all'),
+      perf: { empty: !!perfEmpty, has: !perfEmpty, emptyTitle: perfEmpty ? perfEmpty[0] : '', emptyBody: perfEmpty ? perfEmpty[1] : '',
+        rows: perfRows, comm: f(comm), commLabel: W.commissionPeriod(P[s.period]), links: perfLinks },
+      detail, closeDetail: () => this.setState({ detail: null }),
+      txs: { filtered: !!s.txFilter, filterLabel: s.txFilter ? W.filterLink(s.txFilter.product) : '', empty: txEmpty },
+      clearFilter: () => this.setState({ txFilter: null, filtered: null }),
+      txEmpty: !txRows.length, txHas: txRows.length > 0, txRows,
+      claimsEmpty: !s.claims.length, claimsHas: s.claims.length > 0, claimRows, claimsEmptyText: W.claimsEmpty(f(MIN)),
+      termsLine: s.aff ? W.termsLine(s.aff.termsVersion || '–', s.aff.termsAcceptedAt ? fd(s.aff.termsAcceptedAt) : '') : '',
+      sales, loadSales: () => this.loadSales(),
+      acct: acctView, onAcct, affd,
+      saveAccount: () => {
+        const fm = this.state.acctForm, e = this.validateAccount(fm, W);
+        if (Object.keys(e).length) return this.setState({ acctErr: e });
+        this.run(async () => {
+          const r = await this.api('POST', 'account', { name: fm.name.trim(), phone: fm.phone.replace(/[\s().-]/g, '') });
+          this.setState({ account: r.account, acctForm: { name: r.account.name, phone: r.account.phone }, acctStatus: W.profileSaved });
+          this.flash(W.profileSaved);
+        });
+      },
+      payout: { has: !!pf, none: !pf, cta: pf ? W.payoutEdit : W.payoutAdd,
+        rows: pf ? [pf.ktp_name, pf.nik, pf.has_npwp ? W.npwpYes : W.npwpNo, pf.bank_name, pf.account_no, pf.account_holder].map((v, k) => ({ k: W.payoutRows[k], v })) : [] },
+      pref: { light: s.theme === 'light', dark: s.theme === 'dark', system: s.theme === 'system', id: s.lang === 'id', en: s.lang === 'en' },
+      setLight: setTheme('light'), setDark: setTheme('dark'), setSystem: setTheme('system'), setId: setLang('id'), setEn: setLang('en'),
       dlg: { open: !!s.dialog, consent: s.dialog === 'consent', payout: s.dialog === 'payout', summary: s.dialog === 'summary', done: s.dialog === 'done' },
       backdrop: e => { if (e.target === e.currentTarget) this.setState({ dialog: null }); },
       closeDialog: () => this.setState({ dialog: null }),
-      consentChecked: s.consentChecked, consentDisabled: !s.consentChecked, toggleConsent: () => this.setState(st => ({ consentChecked: !st.consentChecked })),
-      consentCta: s.claimFlow ? 'Accept and continue' : 'Accept',
-      acceptTerms: () => { const flow = this.state.claimFlow; this.setState({ termsAccepted: true, dialog: flow ? nextAfterTerms() : null }); if (!flow) this.flash('Terms v2.0 accepted'); },
+      consentChecked: s.consentChecked, consentDisabled: !s.consentChecked || s.busy, toggleConsent: () => this.setState(st => ({ consentChecked: !st.consentChecked })),
+      consentCta: s.claimFlow ? W.acceptContinue : W.accept,
+      acceptTerms: () => this.run(async () => {
+        await this.api('POST', 'accept-terms', {});
+        await this.refresh();
+        if (!this.state.claimFlow) { this.setState({ dialog: null }); return this.flash(W.termsAccepted); }
+        if (!this.state.profile) return this.setState({ dialog: 'payout', form: this.emptyForm(null), errors: {} });
+        await this.openSummary();
+      }),
       form: s.form, err: s.errors, onF,
-      taxHint: s.form.npwp ? 'With NPWP, PPh 21 is withheld at an estimated 2.5%.' : 'Without NPWP, PPh 21 is withheld at a higher estimated rate (3%).',
-      payoutCta: s.claimFlow ? 'Save and continue' : 'Save',
+      taxHint: (taxNpwp || taxNo) ? (s.form.npwp ? W.taxNpwp(this.pct(taxNpwp)) : W.taxNoNpwp(this.pct(taxNo))) : W.taxGeneric,
+      payoutCta: s.claimFlow ? W.saveContinue : W.save,
       savePayout: () => {
-        const e = this.validate(this.state.form);
+        const e = this.validate(this.state.form, W);
         if (Object.keys(e).length) return this.setState({ errors: e });
-        const flow = this.state.claimFlow;
-        this.setState({ profile: { ...this.state.form }, dialog: flow ? 'summary' : null, rejectDismissed: true });
-        if (!flow) this.flash('Payout details saved');
+        const fm = this.state.form;
+        this.run(async () => {
+          const r = await this.api('POST', 'payout-profile', { name: fm.name, nik: fm.nik, npwp: fm.npwp, bank: fm.bank, account: fm.acct, holder: fm.holder });
+          this.setState({ profile: r.profile, rejectDismissed: true, form: this.emptyForm(r.profile) });
+          if (this.state.claimFlow) { await this.refresh(); await this.openSummary(); }
+          else { this.setState({ dialog: null }); this.flash(W.payoutSaved); }
+        });
       },
-      sum: { gross: f(avail), tax: '−' + f(tax), net: f(avail - tax), taxLabel: `PPh 21 withholding (${pf && pf.npwp ? '2.5%, with NPWP' : '3%, no NPWP'})`, account: pf ? `${pf.bank} •••• ${pf.acct.slice(-4)}` : '', holder: pf ? pf.holder : '' },
-      editFromSummary: () => this.setState({ dialog: 'payout', claimFlow: true, form: this.emptyForm(this.state.profile), errors: {} }),
-      submitClaim: () => this.setState(st => ({
-        dialog: 'done', rejectDismissed: true,
-        tx: st.tx.map(x => x.status === 'available' ? { ...x, status: 'claimed' } : x),
-        claims: [{ id: 'CLM-0447', d: '2026-10-08', amount: avail, tax, net: avail - tax, status: 'submitted' }, ...st.claims]
-      })),
-      doneText: `${f(avail - tax)} will be transferred to ${pf ? pf.bank + ' •••• ' + pf.acct.slice(-4) : 'your account'}. We'll notify you when it's paid.`,
+      sum: { gross: f(preview.gross), tax: '−' + f(preview.tax), net: f(preview.net),
+        taxLabel: W.taxLabel(taxRate ? this.pct(taxRate) : '–', preview.payout_profile ? !!preview.payout_profile.has_npwp : null),
+        hasAdjustment: Number(preview.adjustments) !== 0 && preview.adjustments != null, adjustment: f(preview.adjustments),
+        account: preview.payout_profile ? `${preview.payout_profile.bank_name} ${preview.payout_profile.account_no}` : '', holder: preview.payout_profile ? preview.payout_profile.account_holder : '' },
+      editFromSummary: () => this.setState({ dialog: 'payout', claimFlow: true, form: this.emptyForm(pf), errors: {} }),
+      submitClaim: () => this.run(async () => {
+        const r = await this.api('POST', 'claim', {});
+        const c = r.claim;
+        this.setState({ dialog: 'done', rejectDismissed: true, doneText: W.doneText(f(c.net), c.bank ? c.bank + ' ' + c.account : '', this.claimNo(c)) });
+        await this.refresh();
+      }),
+      doneText: s.doneText,
       hasToast: !!s.toast, toast: s.toast
     };
   }

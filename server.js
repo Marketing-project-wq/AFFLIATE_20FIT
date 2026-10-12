@@ -11,7 +11,8 @@ const crypto = require('crypto');
 const { createAffiliateData } = require('./lib/affiliate-data');
 const { renderLanding } = require('./lib/landing-view');
 const { renderSettingsPage, parseForm } = require('./lib/admin-settings-view');
-const Calc = require('./public/assets/affiliate-calc.js');
+const { loginPage, forgotPage } = require('./lib/auth-pages');
+const { createDashboardApi, friendly } = require('./lib/dashboard-api');
 
 const PORT = Number(process.env.PORT) || 3000;
 // Public values (the publishable key ships in every Supabase client), so they
@@ -19,8 +20,14 @@ const PORT = Number(process.env.PORT) || 3000;
 const SUPABASE_URL = (process.env.SUPABASE_URL || 'https://cpvzwqptzcxnwzfzgrmt.supabase.co').replace(/\/+$/, '');
 const SUPABASE_KEY = process.env.SUPABASE_PUBLISHABLE_KEY || 'sb_publishable_0t9vEOYeIo_YM1__X5iNMQ_qXofEozw';
 
+// The 20FIT account service (my.20fit.id). The app signs people in there,
+// so the browser checks passwords against it too; see public/assets/auth.js.
+const ACCOUNTS_URL = (process.env.ACCOUNTS_URL || 'https://my.20fit.id').replace(/\/+$/, '');
+
 const PUBLIC_DIR = path.join(__dirname, 'public');
-const DASHBOARD_PATH = '/affiliatedashboard';
+const DASHBOARD_PATH = '/dashboard';
+// Earlier addresses of the dashboard (and a common misspelling).
+const OLD_DASHBOARD_PATHS = ['/affiliatedashboard', '/affiliatedashbaord', '/dashboard.html'];
 const ACCESS_COOKIE = 'af_at';
 const REFRESH_COOKIE = 'af_rt';
 const REFRESH_MAX_AGE = 60 * 60 * 24 * 30;
@@ -58,11 +65,32 @@ const landingAssets = {
   cssHref: versioned('landing.css'),
   calcHref: versioned('affiliate-calc.js'),
   jsHref: versioned('landing.js'),
+  logoHref: versioned('20fit-logo.png'),
 };
 
+const authScript = versioned('auth.js');
+
 const affiliateData = createAffiliateData({ supabaseUrl: SUPABASE_URL, supabaseKey: SUPABASE_KEY });
+const dashboardApi = createDashboardApi({ supabaseUrl: SUPABASE_URL, supabaseKey: SUPABASE_KEY });
+const qrScript = versioned('qrcode.js');
 
 // ── helpers ─────────────────────────────────────────────────────────────
+
+// App store and support links: an environment variable wins, otherwise
+// affiliate_settings.landing_content. Missing ones are simply not shown.
+function siteLinks(settings) {
+  const content = (settings && settings.landingContent) || {};
+  const pick = (env, key) => {
+    const v = String(process.env[env] || content[key] || '').trim();
+    return /^https:\/\/\S+$/.test(v) ? v : '';
+  };
+  return {
+    appStore: pick('APP_STORE_URL', 'app_store_url'),
+    playStore: pick('PLAY_STORE_URL', 'play_store_url'),
+    support: pick('SUPPORT_URL', 'support_url'),
+    terms: (settings && /^https:\/\//.test(settings.termsUrl || '') && settings.termsUrl) || '',
+  };
+}
 
 function escapeHtml(s) {
   return String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
@@ -135,10 +163,14 @@ function send(res, status, body, headers = {}) {
   res.end(body);
 }
 
-function redirect(res, location, cookies) {
+function sendJson(res, status, data, headers = {}) {
+  send(res, status, JSON.stringify(data), { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store', ...headers });
+}
+
+function redirect(res, location, cookies, status = 302) {
   const headers = { Location: location, 'Cache-Control': 'no-store' };
   if (cookies) headers['Set-Cookie'] = cookies;
-  send(res, 302, '', headers);
+  send(res, status, '', headers);
 }
 
 function readBody(req, limit = 10 * 1024) {
@@ -167,6 +199,19 @@ async function supabaseToken(grant, payload) {
     method: 'POST',
     headers: { apikey: SUPABASE_KEY, 'Content-Type': 'application/json' },
     body: JSON.stringify(payload),
+  });
+  if (!res.ok) return null;
+  const session = await res.json();
+  return session.access_token && session.refresh_token ? session : null;
+}
+
+// Turns the one-time email code the 20FIT account service hands out after a
+// correct password into a Supabase session (same as the app's verifyOtp).
+async function verifyEmailOtp(email, token) {
+  const res = await fetch(`${SUPABASE_URL}/auth/v1/verify`, {
+    method: 'POST',
+    headers: { apikey: SUPABASE_KEY, 'Content-Type': 'application/json' },
+    body: JSON.stringify({ type: 'email', email, token }),
   });
   if (!res.ok) return null;
   const session = await res.json();
@@ -245,129 +290,79 @@ function displayName(user) {
   return templateSafe(name).trim().slice(0, 80) || 'Affiliate';
 }
 
-function initials(name) {
-  const letters = name.split(/\s+/).map((w) => (w.match(/[\p{L}\p{N}]/u) || [])[0]).filter(Boolean);
-  if (!letters.length) return '?';
-  return (letters[0] + (letters.length > 1 ? letters[letters.length - 1] : '')).toUpperCase();
+// The settings the dashboard shows (rate, minimum, hold, terms, program
+// status), never anything admin-only.
+function publicSettings(settings) {
+  if (!settings) return null;
+  return {
+    commissionRate: settings.commissionRate, minWithdrawal: settings.minWithdrawal, pendingDays: settings.pendingDays,
+    programStatus: settings.programStatus, termsVersion: settings.termsVersion,
+    termsUrl: /^https:\/\//.test(settings.termsUrl || '') ? settings.termsUrl : '', termsSummary: settings.termsSummary || '',
+  };
 }
 
-// The dashboard design hard-codes the commission scheme in its copy; these
-// swap in the configured values. (Its "2.5%" for PPh 21 is a tax rate and
-// stays.)
-function schemeCopy(settings) {
-  const days = settings.pendingDays;
-  const rate = Calc.percent(settings.commissionRate).replace(',', '.');
-  return [
-    ['Commission is held for 14 days after payment.', `Commission is held for ${days} days after payment.`],
-    ['Released 14 days after payment', `Released ${days} days after payment`],
-    ['Refunded within the 14-day hold', `Refunded within the ${days}-day hold`],
-    ["Commission becomes available 14 days after your friend's payment", `Commission becomes available ${days} days after your friend's payment`],
-    ['Earn 2.5% of every app purchase', `Earn ${rate} of every app purchase`],
-    ['2.5% of what they pay in the app', `${rate} of what they pay in the app`],
-    ['2.5% of every app purchase by friends', `${rate} of every app purchase by friends`],
-    ['MIN = 50000', `MIN = ${settings.minWithdrawal}`],
-    ["'Rp50.000 to go'", `'${Calc.rupiah(settings.minWithdrawal)} to go'`],
-  ];
+// JSON inside a <script>: no way to close the tag or break the line.
+function scriptJson(value) {
+  return JSON.stringify(value).replace(/</g, '\\u003c').replace(/\u2028/g, '\\u2028').replace(/\u2029/g, '\\u2029');
 }
 
-function renderDashboard(user, settings) {
-  const name = displayName(user);
-  let html = pages.dashboard
-    .split('__AF_USER_NAME_JS__').join(JSON.stringify(name).replace(/</g, '\\u003c'))
-    .split('__AF_USER_INITIALS__').join(escapeHtml(initials(name)))
-    .split('__AF_USER_EMAIL__').join(escapeHtml(templateSafe(user.email || '')));
-  if (settings) {
-    for (const [from, to] of schemeCopy(settings)) html = html.split(from).join(to);
+// The page is the dc design (src/dashboard.dc.html, built by
+// tools/unbundle.py) and serves Home, Sales and Profile; the server fills
+// in the affiliate's own data first so it never paints empty, and later
+// actions go through /api/affiliate/*.
+const DASHBOARD_PAGES = { [DASHBOARD_PATH]: 'home', [`${DASHBOARD_PATH}/sales`]: 'sales', [`${DASHBOARD_PATH}/profile`]: 'profile' };
+const PAGE_TITLES = { home: 'Home', sales: 'Sales', profile: 'Profile' };
+
+async function renderDashboard(user, token, page) {
+  const { settings } = await affiliateData.get();
+  const [state, account] = await Promise.all([
+    dashboardApi.state(token).catch((err) => {
+      console.error('dashboard state:', err.message);
+      return { error: friendly(err) };
+    }),
+    // Name for the header; a failure here only hides it.
+    dashboardApi.account(token).catch((err) => {
+      console.error('dashboard account:', err.message);
+      return null;
+    }),
+  ]);
+  let sales = null;
+  if (page === 'sales' && state.joined) {
+    sales = await dashboardApi.sales(token).catch((err) => {
+      console.error('dashboard sales:', err.message);
+      return null; // the page loads it again from /api/affiliate/sales
+    });
   }
-  return html;
+  const data = {
+    page,
+    user: { name: (account && account.found && account.name) || displayName(user), email: user.email || '' },
+    settings: publicSettings(settings),
+    links: siteLinks(settings),
+    state,
+    account,
+    sales,
+    qrSrc: qrScript,
+  };
+  const head = `<title>${PAGE_TITLES[page]} · 20FIT Affiliate</title><script>window.__AF_DATA__ = ${scriptJson(data)};</script>`;
+  return pages.dashboard.replace('<head>', `<head>${head}`).split('__AF_LOGO_SRC__').join(escapeHtml(landingAssets.logoHref));
 }
 
-function loginPage({ next, email = '', error = '' }) {
-  return `<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Log in · 20FIT Affiliate</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800&family=Manrope:wght@400..700&display=swap">
-<style>
-  :root { --bg: #f6f4f4; --text: #141414; --muted: #5c5c5c; --accent: #e5262f; --accent-dark: #b0161f; --line: rgba(20,20,20,.12); }
-  * { box-sizing: border-box; }
-  body {
-    margin: 0; min-height: 100vh; display: grid; place-items: center; padding: 24px 16px;
-    font: 15px/1.55 Manrope, system-ui, sans-serif; color: var(--text);
-    background: radial-gradient(680px 520px at 6% 0%, rgba(255,154,159,.55), transparent 70%),
-                radial-gradient(900px 600px at 50% 115%, rgba(255,217,219,.8), transparent 70%), var(--bg);
-  }
-  .card {
-    width: 100%; max-width: 400px; padding: 32px 28px; border-radius: 24px;
-    background: linear-gradient(155deg, rgba(255,255,255,.85), rgba(255,255,255,.6));
-    box-shadow: inset 0 0 0 1px rgba(20,20,20,.07), 0 16px 40px rgba(90,20,24,.12);
-    backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
-  }
-  .brand { font: 800 15px/1 'Barlow Condensed', sans-serif; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
-  h1 { font: 800 34px/1.05 'Barlow Condensed', 'Arial Narrow', sans-serif; margin: 10px 0 6px; }
-  p { margin: 0 0 22px; color: var(--muted); }
-  label { display: block; font-weight: 600; font-size: 13px; margin: 14px 0 6px; }
-  input {
-    width: 100%; padding: 12px 14px; border-radius: 12px; border: 1px solid var(--line);
-    font: inherit; background: rgba(255,255,255,.9); color: var(--text);
-  }
-  input:focus { outline: 2px solid var(--accent); outline-offset: 1px; border-color: transparent; }
-  button {
-    width: 100%; margin-top: 22px; padding: 13px 16px; border: 0; border-radius: 999px; cursor: pointer;
-    font: 700 17px/1 'Barlow Condensed', sans-serif; letter-spacing: .03em; color: #fff; background: var(--accent);
-  }
-  button:hover { background: var(--accent-dark); }
-  .error { margin: 0 0 6px; padding: 10px 12px; border-radius: 12px; background: #fff0f0; color: var(--accent-dark); font-size: 14px; }
-  .or { display: flex; align-items: center; gap: 12px; margin: 18px 0 14px; color: var(--muted); font-size: 13px; }
-  .or::before, .or::after { content: ''; flex: 1; height: 1px; background: var(--line); }
-  .google {
-    display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%;
-    padding: 12px 16px; border: 1px solid var(--line); border-radius: 999px; cursor: pointer;
-    font: 700 16px/1 'Barlow Condensed', sans-serif; letter-spacing: .03em; color: var(--text);
-    background: rgba(255,255,255,.9); text-decoration: none;
-  }
-  .google:hover { background: #fff; border-color: rgba(20,20,20,.18); }
-  .foot { margin-top: 20px; font-size: 13px; color: var(--muted); text-align: center; }
-  .foot a { color: var(--accent-dark); }
-</style>
-</head>
-<body>
-<main class="card">
-  <div class="brand">20FIT Affiliate</div>
-  <h1>Log in to your dashboard</h1>
-  <p>Use the email and password of your 20FIT app account.</p>
-  ${error ? `<div class="error" role="alert">${escapeHtml(error)}</div>` : ''}
-  <form method="post" action="/login">
-    <input type="hidden" name="next" value="${escapeHtml(next)}">
-    <label for="email">Email</label>
-    <input id="email" name="email" type="email" autocomplete="email" required value="${escapeHtml(email)}" ${email ? '' : 'autofocus'}>
-    <label for="password">Password</label>
-    <input id="password" name="password" type="password" autocomplete="current-password" required ${email ? 'autofocus' : ''}>
-    <button type="submit">Log in</button>
-  </form>
-  <div class="or"><span>or</span></div>
-  <a class="google" href="/auth/google?next=${encodeURIComponent(next)}">
-    <svg width="18" height="18" viewBox="0 0 48 48" aria-hidden="true"><path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9.1 3.6l6.8-6.8C35.9 2.4 30.3 0 24 0 14.6 0 6.5 5.4 2.6 13.2l7.9 6.1C12.4 13.2 17.7 9.5 24 9.5z"/><path fill="#4285F4" d="M46.1 24.6c0-1.6-.1-3.1-.4-4.6H24v9.1h12.4c-.5 2.9-2.1 5.3-4.6 7l7.1 5.5c4.2-3.8 6.6-9.5 6.6-16z"/><path fill="#FBBC05" d="M10.5 28.3c-.5-1.4-.8-3-.8-4.6s.3-3.2.8-4.6l-7.9-6.1C1 16.1 0 19.9 0 23.7s1 7.6 2.6 10.7l7.9-6.1z"/><path fill="#34A853" d="M24 48c6.3 0 11.6-2.1 15.5-5.7l-7.1-5.5c-2 1.3-4.5 2.1-8.4 2.1-6.3 0-11.6-3.7-13.5-9.8l-7.9 6.1C6.5 42.6 14.6 48 24 48z"/></svg>
-    <span>Continue with Google</span>
-  </a>
-  <div class="foot">Google and email sign-in use the same 20FIT account.<br>Forgot your password? Reset it in the 20FIT app.<br><a href="/">Back to the affiliate program</a></div>
-</main>
-</body>
-</html>`;
+async function renderLogin(opts) {
+  const { settings } = await affiliateData.get();
+  return loginPage({ ...opts, links: siteLinks(settings), accountsUrl: ACCOUNTS_URL, scriptHref: authScript });
 }
+
+const LOGIN_FAILED = 'Email atau password salah. Kalau kamu daftar pakai Google, pilih Lanjut dengan Google.';
+const TOO_MANY = 'Terlalu banyak percobaan. Tunggu beberapa menit lalu coba lagi.';
 
 function forbiddenPage(email) {
-  return `<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>No access · 20FIT Affiliate</title>
+  return `<!DOCTYPE html><html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tidak ada akses · 20FIT Affiliate</title>
 <style>body{margin:0;min-height:100vh;display:grid;place-items:center;padding:24px 16px;font:15px/1.55 system-ui,sans-serif;background:#f6f4f4;color:#141414}
 main{max-width:420px;text-align:center}a{color:#b0161f}</style></head>
-<body><main><h1>No access to the admin console</h1>
-<p>You're signed in as ${escapeHtml(email)}, which isn't on the affiliate admin list.</p>
-<p><a href="${DASHBOARD_PATH}">Go to your affiliate dashboard</a> · <a href="/logout">Log out</a></p></main></body></html>`;
+<body><main><h1>Tidak ada akses ke admin</h1>
+<p>Kamu masuk sebagai ${escapeHtml(email)}, yang tidak terdaftar sebagai admin affiliate.</p>
+<p><a href="${DASHBOARD_PATH}">Buka dashboard affiliate</a> · <a href="/logout">Keluar</a></p></main></body></html>`;
 }
 
 // ── routes ──────────────────────────────────────────────────────────────
@@ -375,7 +370,7 @@ main{max-width:420px;text-align:center}a{color:#b0161f}</style></head>
 async function serveProtected(req, res, url, render) {
   const auth = await authenticate(req);
   if (!auth) {
-    return redirect(res, `/login?next=${encodeURIComponent(url.pathname)}`, clearCookies(req));
+    return redirect(res, `/login?next=${encodeURIComponent(url.pathname + url.search).replace(/%2F/g, '/')}`, clearCookies(req));
   }
   const headers = { 'Cache-Control': 'private, no-store' };
   if (auth.cookies) headers['Set-Cookie'] = auth.cookies;
@@ -416,9 +411,9 @@ async function adminRole(accessToken) {
 }
 
 // Form posts must come from this site (on top of SameSite=Lax cookies).
-function sameOrigin(req) {
+function sameOrigin(req, requireOrigin = false) {
   const origin = req.headers.origin;
-  if (!origin) return true;
+  if (!origin) return !requireOrigin;
   try {
     return new URL(origin).host === req.headers.host;
   } catch {
@@ -444,6 +439,10 @@ async function handle(req, res) {
 
   if (p.startsWith('/assets/') && (method === 'GET' || method === 'HEAD')) return serveAsset(req, res, p);
 
+  if ((method === 'GET' || method === 'HEAD') && OLD_DASHBOARD_PATHS.includes(p)) {
+    return send(res, 301, '', { Location: DASHBOARD_PATH + url.search, 'Cache-Control': 'public, max-age=3600' });
+  }
+
   if (method === 'GET' || method === 'HEAD') {
     switch (p) {
       case '/':
@@ -454,12 +453,10 @@ async function handle(req, res) {
           return redirect(res, '/auth/callback' + url.search);
         }
         return send(res, 200, renderLanding(await affiliateData.get(), landingAssets), { 'Cache-Control': 'public, max-age=60' });
-      // Old links and a common misspelling.
-      case '/dashboard.html':
-      case '/affiliatedashbaord':
-        return redirect(res, DASHBOARD_PATH);
       case DASHBOARD_PATH:
-        return serveProtected(req, res, url, async (user) => ({ body: renderDashboard(user, (await affiliateData.get()).settings) }));
+      case `${DASHBOARD_PATH}/sales`:
+      case `${DASHBOARD_PATH}/profile`:
+        return serveProtected(req, res, url, async (user, token) => ({ body: await renderDashboard(user, token, DASHBOARD_PAGES[p]) }));
       case '/admin.html':
         return redirect(res, '/admin');
       case '/admin':
@@ -476,7 +473,14 @@ async function handle(req, res) {
         const next = safeNext(url.searchParams.get('next'));
         const auth = await authenticate(req);
         if (auth) return redirect(res, next, auth.cookies);
-        return send(res, 200, loginPage({ next }), { 'Cache-Control': 'no-store' });
+        const email = (url.searchParams.get('email') || '').slice(0, 200);
+        return send(res, 200, await renderLogin({ next, email }), { 'Cache-Control': 'no-store' });
+      }
+      case '/lupa-password': {
+        const { settings } = await affiliateData.get();
+        const email = (url.searchParams.get('email') || '').slice(0, 200);
+        return send(res, 200, forgotPage({ email, links: siteLinks(settings), accountsUrl: ACCOUNTS_URL, scriptHref: authScript }),
+          { 'Cache-Control': 'no-store' });
       }
       case '/auth/google': {
         // Start Google OAuth: mint a PKCE verifier, keep it in an HttpOnly cookie
@@ -498,16 +502,16 @@ async function handle(req, res) {
         const verifier = parseCookies(req)[PKCE_COOKIE];
         const clearPkce = cookie(req, PKCE_COOKIE, '', 0);
         if (providerErr) {
-          return send(res, 401, loginPage({ next, error: 'Google sign-in was cancelled or failed. Please try again or use email & password.' }), { 'Cache-Control': 'no-store', 'Set-Cookie': clearPkce });
+          return send(res, 401, await renderLogin({ next, error: 'Masuk dengan Google dibatalkan atau gagal. Coba lagi, atau masuk dengan email dan password.' }), { 'Cache-Control': 'no-store', 'Set-Cookie': clearPkce });
         }
         if (!code || !verifier) {
           // No verifier = sign-in was started elsewhere (other device/tab) or the
           // cookie expired. Don't hang — ask them to retry from this page.
-          return send(res, 400, loginPage({ next, error: 'Google sign-in didn’t finish. Please try again from this login page.' }), { 'Cache-Control': 'no-store', 'Set-Cookie': clearPkce });
+          return send(res, 400, await renderLogin({ next, error: 'Masuk dengan Google belum selesai. Coba lagi dari halaman ini.' }), { 'Cache-Control': 'no-store', 'Set-Cookie': clearPkce });
         }
         const session = await supabaseToken('pkce', { auth_code: code, code_verifier: verifier });
         if (!session) {
-          return send(res, 401, loginPage({ next, error: 'Couldn’t complete Google sign-in. Please try again or use email & password.' }), { 'Cache-Control': 'no-store', 'Set-Cookie': clearPkce });
+          return send(res, 401, await renderLogin({ next, error: 'Masuk dengan Google tidak berhasil. Coba lagi, atau masuk dengan email dan password.' }), { 'Cache-Control': 'no-store', 'Set-Cookie': clearPkce });
         }
         return redirect(res, next, [...sessionCookies(req, session), clearPkce]);
       }
@@ -524,13 +528,32 @@ async function handle(req, res) {
     const email = (form.get('email') || '').trim();
     const password = form.get('password') || '';
     if (tooManyAttempts(clientIp(req))) {
-      return send(res, 429, loginPage({ next, email, error: 'Too many attempts. Please wait a few minutes and try again.' }), { 'Cache-Control': 'no-store' });
+      return send(res, 429, await renderLogin({ next, email, error: TOO_MANY }), { 'Cache-Control': 'no-store' });
     }
     const session = email && password ? await supabaseToken('password', { email, password }) : null;
     if (!session) {
-      return send(res, 401, loginPage({ next, email, error: 'That email and password don’t match a 20FIT account.' }), { 'Cache-Control': 'no-store' });
+      return send(res, 401, await renderLogin({ next, email, error: LOGIN_FAILED }), { 'Cache-Control': 'no-store' });
     }
     return redirect(res, next, sessionCookies(req, session));
+  }
+
+  // Second half of the app-account sign-in (public/assets/auth.js): the
+  // browser got a one-time code from the 20FIT account service for a
+  // correct password and swaps it for a session here.
+  if (method === 'POST' && p === '/login/otp') {
+    if (!sameOrigin(req, true)) return sendJson(res, 403, { error: 'Forbidden' });
+    let body;
+    try {
+      body = JSON.parse(await readBody(req) || '{}');
+    } catch {
+      return sendJson(res, 400, { error: LOGIN_FAILED });
+    }
+    if (tooManyAttempts(clientIp(req))) return sendJson(res, 429, { error: TOO_MANY });
+    const email = String(body.email || '').trim().toLowerCase();
+    const otp = String(body.otp || '').trim();
+    const session = email && /^\d{6,10}$/.test(otp) ? await verifyEmailOtp(email, otp) : null;
+    if (!session) return sendJson(res, 401, { error: LOGIN_FAILED });
+    return sendJson(res, 200, { redirect: safeNext(body.next) }, { 'Set-Cookie': sessionCookies(req, session) });
   }
 
   if (method === 'POST' && p === '/admin/settings') {
@@ -557,7 +580,71 @@ async function handle(req, res) {
     });
   }
 
+  if (p.startsWith('/api/affiliate/')) return handleApi(req, res, url, p.slice('/api/affiliate/'.length), method);
+
   send(res, 404, 'Not found');
+}
+
+// ── /api/affiliate/* ────────────────────────────────────────────────────
+// Thin layer over the affiliate_* functions for the dashboard's actions.
+// The token stays in the HttpOnly cookie; the browser never holds it.
+
+const DAYS = { 7: 7, 30: 30, all: null };
+
+async function handleApi(req, res, url, route, method) {
+  if (method === 'POST' && !sameOrigin(req, true)) return sendJson(res, 403, { error: 'Forbidden' });
+  const auth = await authenticate(req);
+  if (!auth) return sendJson(res, 401, { error: 'Sesi kamu sudah habis. Masuk lagi.', login: `/login?next=${DASHBOARD_PATH}` }, { 'Set-Cookie': clearCookies(req) });
+  const headers = auth.cookies ? { 'Set-Cookie': auth.cookies } : {};
+  const token = auth.accessToken;
+  const ok = (data) => sendJson(res, 200, data, headers);
+
+  try {
+    let body = {};
+    if (method === 'POST') {
+      const raw = await readBody(req, 4 * 1024);
+      body = raw ? JSON.parse(raw) : {};
+      if (!body || typeof body !== 'object') body = {};
+    }
+    const daysParam = url.searchParams.get('days') || '30';
+    const days = Object.prototype.hasOwnProperty.call(DAYS, daysParam) ? DAYS[daysParam] : 30;
+    const proof = /^claims\/([^/]+)\/proof$/.exec(route);
+    const daily = /^links\/([^/]+)\/daily$/.exec(route);
+
+    if (method === 'GET') {
+      if (route === 'state') return ok(await dashboardApi.state(token));
+      if (route === 'links') return ok({ days: daysParam, links: await dashboardApi.links(token, days) });
+      if (daily) return ok({ days: daysParam, rows: await dashboardApi.daily(token, daily[1], days === null ? 90 : days) });
+      if (route === 'commissions') return ok({ rows: await dashboardApi.commissions(token, url.searchParams.get('link') || null) });
+      if (route === 'claim-preview') return ok(await dashboardApi.claimPreview(token));
+      if (route === 'sales') return ok({ sales: await dashboardApi.sales(token) });
+      if (route === 'account') return ok({ account: await dashboardApi.account(token) });
+      if (proof) {
+        const target = await dashboardApi.proofUrl(token, proof[1]);
+        return redirect(res, target, auth.cookies);
+      }
+    }
+    if (method === 'POST') {
+      const { settings } = await affiliateData.get();
+      if (route === 'join') {
+        if (body.agree !== true) return sendJson(res, 400, { error: 'Centang persetujuan S&K dulu.' }, headers);
+        return ok({ affiliate: await dashboardApi.join(token, settings.termsVersion) });
+      }
+      if (route === 'accept-terms') return ok({ affiliate: await dashboardApi.acceptTerms(token, settings.termsVersion) });
+      if (route === 'code') return ok({ affiliate: await dashboardApi.changeCode(token, body.code) });
+      if (route === 'link') return ok(await dashboardApi.link(token, String(body.slug || '')));
+      if (route === 'payout-profile') return ok({ profile: await dashboardApi.savePayout(token, body) });
+      if (route === 'claim') return ok({ claim: await dashboardApi.submitClaim(token) });
+      if (route === 'account') return ok({ account: await dashboardApi.saveAccount(token, auth.user && auth.user.id, body) });
+    }
+    return sendJson(res, 404, { error: 'Not found' }, headers);
+  } catch (err) {
+    if (err instanceof SyntaxError) return sendJson(res, 400, { error: 'Permintaan tidak valid.' }, headers);
+    if (err.status === 401) return sendJson(res, 401, { error: 'Sesi kamu sudah habis. Masuk lagi.', login: `/login?next=${DASHBOARD_PATH}` });
+    if (err.status === 404) return sendJson(res, 404, { error: 'Tidak ditemukan.' }, headers);
+    console.error(`api ${route}:`, err.message);
+    return sendJson(res, 400, { error: friendly(err) }, headers);
+  }
 }
 
 http.createServer((req, res) => {
