@@ -326,13 +326,6 @@ async function renderDashboard(user, token, page) {
       return null;
     }),
   ]);
-  let sales = null;
-  if (page === 'sales' && state.joined) {
-    sales = await dashboardApi.sales(token).catch((err) => {
-      console.error('dashboard sales:', err.message);
-      return null; // the page loads it again from /api/affiliate/sales
-    });
-  }
   const data = {
     page,
     user: { name: (account && account.found && account.name) || displayName(user), email: user.email || '' },
@@ -340,7 +333,6 @@ async function renderDashboard(user, token, page) {
     links: siteLinks(settings),
     state,
     account,
-    sales,
     qrSrc: qrScript,
   };
   const head = `<title>${PAGE_TITLES[page]} · 20FIT Affiliate</title><script>window.__AF_DATA__ = ${scriptJson(data)};</script>`;
@@ -586,10 +578,9 @@ async function handle(req, res) {
 }
 
 // ── /api/affiliate/* ────────────────────────────────────────────────────
-// Thin layer over the affiliate_* functions for the dashboard's actions.
+// Thin layer over the 20FIT app's `affiliate` function (lib/dashboard-api.js)
+// for the dashboard's actions.
 // The token stays in the HttpOnly cookie; the browser never holds it.
-
-const DAYS = { 7: 7, 30: 30, all: null };
 
 async function handleApi(req, res, url, route, method) {
   if (method === 'POST' && !sameOrigin(req, true)) return sendJson(res, 403, { error: 'Forbidden' });
@@ -606,35 +597,20 @@ async function handleApi(req, res, url, route, method) {
       body = raw ? JSON.parse(raw) : {};
       if (!body || typeof body !== 'object') body = {};
     }
-    const daysParam = url.searchParams.get('days') || '30';
-    const days = Object.prototype.hasOwnProperty.call(DAYS, daysParam) ? DAYS[daysParam] : 30;
-    const proof = /^claims\/([^/]+)\/proof$/.exec(route);
-    const daily = /^links\/([^/]+)\/daily$/.exec(route);
 
     if (method === 'GET') {
       if (route === 'state') return ok(await dashboardApi.state(token));
-      if (route === 'links') return ok({ days: daysParam, links: await dashboardApi.links(token, days) });
-      if (daily) return ok({ days: daysParam, rows: await dashboardApi.daily(token, daily[1], days === null ? 90 : days) });
-      if (route === 'commissions') return ok({ rows: await dashboardApi.commissions(token, url.searchParams.get('link') || null) });
-      if (route === 'claim-preview') return ok(await dashboardApi.claimPreview(token));
-      if (route === 'sales') return ok({ sales: await dashboardApi.sales(token) });
       if (route === 'account') return ok({ account: await dashboardApi.account(token) });
-      if (proof) {
-        const target = await dashboardApi.proofUrl(token, proof[1]);
-        return redirect(res, target, auth.cookies);
-      }
     }
     if (method === 'POST') {
-      const { settings } = await affiliateData.get();
       if (route === 'join') {
         if (body.agree !== true) return sendJson(res, 400, { error: 'Centang persetujuan S&K dulu.' }, headers);
-        return ok({ affiliate: await dashboardApi.join(token, settings.termsVersion) });
+        const { settings } = await affiliateData.get();
+        if (settings && settings.programStatus === 'paused') return sendJson(res, 400, { error: 'Pendaftaran affiliate sedang ditutup sementara.' }, headers);
+        return ok({ affiliate: await dashboardApi.join(token, body) });
       }
-      if (route === 'accept-terms') return ok({ affiliate: await dashboardApi.acceptTerms(token, settings.termsVersion) });
-      if (route === 'code') return ok({ affiliate: await dashboardApi.changeCode(token, body.code) });
-      if (route === 'link') return ok(await dashboardApi.link(token, String(body.slug || '')));
-      if (route === 'payout-profile') return ok({ profile: await dashboardApi.savePayout(token, body) });
-      if (route === 'claim') return ok({ claim: await dashboardApi.submitClaim(token) });
+      if (route === 'bank') return ok({ affiliate: await dashboardApi.updateBank(token, body) });
+      if (route === 'payout') return ok({ payout: await dashboardApi.requestPayout(token, body.amount) });
       if (route === 'account') return ok({ account: await dashboardApi.saveAccount(token, auth.user && auth.user.id, body) });
     }
     return sendJson(res, 404, { error: 'Not found' }, headers);

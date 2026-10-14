@@ -27,7 +27,7 @@ The program's settings live in Supabase (project "20FIT ALL DATA"), table
 | `commission_rate`         | Rate for every product, e.g. `0.025` for 2,5%                  |
 | `min_withdrawal`          | Minimum Tersedia balance to submit a claim, in rupiah          |
 | `pending_days`            | Hold period: days a commission stays Tertahan after payment    |
-| `tax_rate_npwp`, `tax_rate_no_npwp` | PPh 21 withheld from a claim, with and without NPWP  |
+| `tax_rate_npwp`, `tax_rate_no_npwp` | PPh 21 rates, with and without NPWP (not applied: the app program pays gross for now) |
 | `program_status`          | `active` or `paused` (no new affiliates, links or commissions) |
 | `one_purchase_per_open`   | One opened link attributes one purchase                        |
 | `terms_version`, `terms_url`, `terms_summary` | The affiliate terms; a new version asks everyone to accept again |
@@ -97,41 +97,43 @@ aren't used here.
   one dc component, edited in `src/dashboard.dc.html` (markup and logic),
   that shows Home, Sales or Profile depending on the `page` the server sets.
   `npm run unbundle` builds it into `public/dashboard.html`, taking the
-  assets from `src/bundles/dashboard.html`. The server renders the page with
-  the affiliate's own data in `window.__AF_DATA__` (summary, links,
-  purchases, claims, payout details, catalog, the 20FIT account's name and
-  phone, and on Sales the `affiliate_my_sales` result), and the page's
-  actions go through `/api/affiliate/*` with the session cookie; the browser
-  never holds a token. The header uses the landing page's logo
-  (`public/assets/20fit-logo.png`). Theme (light, dark, system) and language
-  (Bahasa Indonesia, English) are kept in the browser's localStorage
-  (`af_theme`, `af_lang`). QR codes are drawn in the browser
-  (`public/assets/qrcode.js`, MIT).
+  assets from `src/bundles/dashboard.html`. The affiliate program shown is
+  the 20FIT app's: the Supabase Edge Function `affiliate`
+  (`/functions/v1/affiliate`) and its tables `my20fit_affiliates`,
+  `my20fit_affiliate_commissions`, `my20fit_affiliate_payouts` and
+  `my20fit_affiliate_clicks`. The server renders the page with the
+  affiliate's own data in `window.__AF_DATA__` (the function's `me`: code,
+  referral link, live balances, friends who bought, bank details; plus their
+  own commission, payout and click rows, read with their token under RLS;
+  and the 20FIT account's name and phone), and the page's actions go through
+  `/api/affiliate/*` with the session cookie; the browser never holds a
+  token. Rate, minimum withdrawal and hold days come from
+  `affiliate_settings`; the next payout date comes from the function. The
+  header uses the landing page's logo (`public/assets/20fit-logo.png`).
+  Theme (light, dark, system) and language (Bahasa Indonesia, English) are
+  kept in the browser's localStorage (`af_theme`, `af_lang`). QR codes are
+  drawn in the browser (`public/assets/qrcode.js`, MIT).
 - **Admin console** (`/admin`): still the design's prototype with sample
   data; `/admin/settings` is real.
 
+The earlier web-only program (`affiliate`, `affiliate_link`,
+`affiliate_commission`, `affiliate_claim`, the `affiliate_my_*` functions)
+is no longer used by the dashboard. Its tables and functions are left in
+place (deprecated), not dropped.
+
 ### /api/affiliate/*
 
-Signed-in only; POSTs must come from this site's origin. Each one calls an
-`affiliate_*` function with the user's token and returns only the fields the
-page shows.
+Signed-in only; POSTs must come from this site's origin. Each call goes out
+with the user's own token and the publishable key, and returns only the
+fields the page shows (bank account numbers masked).
 
 | Method & path | Calls |
 | --- | --- |
-| `GET state` | everything for first paint |
-| `GET links?days=7\|30\|all` | `affiliate_my_links` |
-| `GET links/:id/daily?days=` | `affiliate_my_link_daily` |
-| `GET commissions?link=` | `affiliate_my_commissions` |
-| `GET claim-preview` | `affiliate_claim_preview` |
-| `GET sales` | `affiliate_my_sales(12, 12)`: totals, 12 weeks, 12 months, products, from `affiliate_commission` |
-| `GET account` | `my20fit_profile` (own row via RLS): name, phone, email |
-| `GET claims/:id/proof` | signed URL to the proof in the private `affiliate-proofs` bucket |
-| `POST join` `{agree:true}` | `affiliate_join` (current terms version) |
-| `POST accept-terms` | `affiliate_accept_terms` |
-| `POST code` `{code}` | `affiliate_change_code` (once) |
-| `POST link` `{slug}` | `affiliate_get_link` |
-| `POST payout-profile` | `affiliate_save_payout_profile` |
-| `POST claim` | `affiliate_submit_claim` |
+| `GET state` | `affiliate` `me` + own rows of `my20fit_affiliate_commissions`, `…_payouts`, `…_clicks` |
+| `GET account` | `my20fit_profile` (own row via RLS): name, phone, email, photo |
+| `POST join` `{agree:true, bank, account, holder, code?}` | `affiliate` `join` (bank details required) |
+| `POST bank` `{bank, account, holder, code?}` | `affiliate` `update_bank` |
+| `POST payout` `{amount}` | `affiliate` `request_payout` (minimum and balance checked by the function) |
 | `POST account` `{name, phone}` | updates `full_name` and `phone` of the user's own `my20fit_profile` row (RLS); email can't change |
 
 ## Sign-in
