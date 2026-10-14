@@ -9,7 +9,8 @@ The 20FIT affiliate site, deployed on Railway as a small Node server
 | `/dashboard`          | Affiliate dashboard: Home | Any signed-in 20FIT account                 |
 | `/dashboard/sales`    | Dashboard: Sales        | Any signed-in 20FIT account                   |
 | `/dashboard/profile`  | Dashboard: Profile      | Any signed-in 20FIT account                   |
-| `/admin`              | Affiliate admin console | Accounts listed in `public.affiliate_admins`  |
+| `/gabung`             | Affiliate sign-up (KTP details, domisili, payout account, T&C) | Any signed-in 20FIT account |
+| `/admin`              | Redirects to `/admin/settings` | Accounts listed in `public.affiliate_admins`  |
 | `/admin/settings`     | Program settings        | Accounts listed in `public.affiliate_admins`  |
 | `/login`, `/logout`   | Sign in / out           | Public                                        |
 | `/lupa-password`      | Reset the app password  | Public                                        |
@@ -113,8 +114,17 @@ aren't used here.
   Theme (light, dark, system) and language (Bahasa Indonesia, English) are
   kept in the browser's localStorage (`af_theme`, `af_lang`). QR codes are
   drawn in the browser (`public/assets/qrcode.js`, MIT).
-- **Admin console** (`/admin`): still the design's prototype with sample
-  data; `/admin/settings` is real.
+- **Admin console**: the design's prototype (`public/admin.html`) still runs
+  on sample data, so `/admin` redirects to `/admin/settings`, which is real,
+  until the console reads the app's affiliate data.
+
+People who haven't joined are sent from `/dashboard` and `/dashboard/sales`
+to `/gabung`: KTP details (everything on the KTP except blood type), then
+domisili, then payout account (in the KTP name) and T&C. The KTP details go
+to `my20fit_affiliate_identity` through its functions, saved once with the
+NIK encrypted; afterwards only the domisili and the payout account can
+change. Affiliates who joined in the app fill in the KTP part once (a banner
+on Home links to `/gabung`); withdrawals need it.
 
 The earlier web-only program (`affiliate`, `affiliate_link`,
 `affiliate_commission`, `affiliate_claim`, the `affiliate_my_*` functions)
@@ -131,9 +141,11 @@ fields the page shows (bank account numbers masked).
 | --- | --- |
 | `GET state` | `affiliate` `me` + own rows of `my20fit_affiliate_commissions`, `…_payouts`, `…_clicks` |
 | `GET account` | `my20fit_profile` (own row via RLS): name, phone, email, photo |
-| `POST join` `{agree:true, bank, account, holder, code?}` | `affiliate` `join` (bank details required) |
-| `POST bank` `{bank, account, holder, code?}` | `affiliate` `update_bank` |
-| `POST payout` `{amount}` | `affiliate` `request_payout` (minimum and balance checked by the function) |
+| `POST join` `{agree:true, identity, bank, account, holder, code?}` | `affiliate_identity_save` (if not saved yet), then `affiliate` `join` |
+| `POST identity` `{nik, full_name, …, domicile_*}` | `affiliate_identity_save` (once) |
+| `POST domicile` `{domicile_*}` | `affiliate_identity_update_domicile` |
+| `POST bank` `{bank, account, holder, code?}` | `affiliate` `update_bank` (holder must match the KTP name) |
+| `POST payout` `{amount}` | `affiliate` `request_payout` (needs KTP details; minimum and balance checked by the function) |
 | `POST account` `{name, phone}` | updates `full_name` and `phone` of the user's own `my20fit_profile` row (RLS); email can't change |
 
 ## Sign-in

@@ -5281,6 +5281,13 @@ button, input, select, textarea { font-family: inherit; }
 .af-stat-c small{font-size:12px;color:color-mix(in srgb, var(--color-text) 55%, transparent)}
 @media (max-width:560px){.af-stat{padding:0 10px}.af-stat-k{font-size:10px;letter-spacing:.06em}.af-stat-k i{display:none}.af-stat-n .af-num{font-size:28px}.af-stat-c{font-size:13px}.af-stat-c small{font-size:11px}}
 
+/* /gabung stepper */
+.af-steps{list-style:none;margin:0;padding:0;display:flex;gap:8px;flex-wrap:wrap}
+.af-step{display:inline-flex;align-items:center;gap:8px;padding:6px 14px 6px 6px;border-radius:999px;font-size:13px;color:var(--color-neutral-300);background:var(--af-panel);box-shadow:var(--af-panel-shadow)}
+.af-step-n{width:24px;height:24px;border-radius:50%;display:grid;place-items:center;font-size:12px;font-weight:600;background:color-mix(in srgb, var(--color-neutral-100) 10%, transparent);color:var(--color-text)}
+.af-step[aria-current=step]{color:var(--color-text);background:var(--af-tab-on);box-shadow:var(--af-tab-on-shadow)}
+.af-step[aria-current=step] .af-step-n,.af-step[data-done=true] .af-step-n{background:var(--color-accent);color:#ffffff}
+
 /* Most Bought Products: the affiliate's own link per product */
 .af-plink{grid-column:2 / -1;display:flex;align-items:center;gap:8px;min-width:0;margin-top:-2px}
 .af-plink-url{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:12.5px;color:var(--color-neutral-300)}
@@ -5322,27 +5329,85 @@ button, input, select, textarea { font-family: inherit; }
     </div>
   </sc-if>
 
-  <!-- not joined yet: the join card (Home and Sales) -->
-  <sc-if value="{{ pg.showJoin }}" hint-placeholder-val="{{ false }}">
-    <section style="display:flex;flex-direction:column;gap:28px">
+  <!-- ═════════ Join (/gabung): KTP details → domisili → payout account & T&C ═════════ -->
+  <sc-if value="{{ pg.join }}" hint-placeholder-val="{{ false }}">
+    <section style="display:flex;flex-direction:column;gap:20px">
       <div>
         <div class="card-kicker">{{ tr.programKicker }}</div>
-        <h1 style="font-size:38px;max-width:640px;text-wrap:pretty;margin:10px 0 12px">{{ t.heroTitle }}</h1>
-        <p class="text-muted" style="max-width:560px;font-size:16px;text-wrap:pretty">{{ tr.heroBody }}</p>
+        <h1 style="font-size:36px;max-width:680px;text-wrap:pretty;margin:10px 0 10px">{{ jn.title }}</h1>
+        <p class="text-muted" style="max-width:600px;font-size:15px;text-wrap:pretty;margin:0">{{ jn.body }}</p>
       </div>
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px">
-        <div class="card af-glass" style="padding:18px;gap:8px"><span style="font-size:13px;color:var(--color-accent-300)">01</span><div class="card-title">{{ tr.step1Title }}</div><p class="card-body">{{ tr.step1Body }}</p></div>
-        <div class="card af-glass" style="padding:18px;gap:8px"><span style="font-size:13px;color:var(--color-accent-300)">02</span><div class="card-title">{{ tr.step2Title }}</div><p class="card-body">{{ tr.step2Body }}</p></div>
-        <div class="card af-glass" style="padding:18px;gap:8px"><span style="font-size:13px;color:var(--color-accent-300)">03</span><div class="card-title">{{ tr.step3Title }}</div><p class="card-body">{{ t.stepEarn }}</p></div>
-      </div>
-      <div class="card af-glass" style="padding:22px;gap:14px">
-        <h5 style="margin:0">{{ tr.termsSummary }}</h5>
-        <ul style="margin:0;padding-left:18px;display:flex;flex-direction:column;gap:6px;font-size:14px;color:var(--color-neutral-300)">
-          <sc-for list="{{ t.termsList }}" as="item" hint-placeholder-count="5"><li>{{ item.text }}</li></sc-for>
-        </ul>
-        <sc-if value="{{ t.hasTermsUrl }}" hint-placeholder-val="{{ false }}"><a href="{{ t.termsUrl }}" target="_blank" rel="noopener" style="font-size:14px">{{ t.readTermsLabel }}</a></sc-if>
-        <div class="af-rule-top" style="display:flex;flex-direction:column;gap:12px;padding-top:14px">
-          <div><div style="font-size:14px;font-weight:500">{{ tr.bankTitle }}</div><div class="text-muted" style="font-size:13px">{{ tr.bankHint }}</div></div>
+      <sc-if value="{{ jn.showHow }}" hint-placeholder-val="{{ false }}">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px">
+          <div class="card af-glass" style="padding:16px;gap:6px"><span style="font-size:13px;color:var(--color-accent-300)">01</span><div class="card-title">{{ tr.step1Title }}</div><p class="card-body">{{ tr.step1Body }}</p></div>
+          <div class="card af-glass" style="padding:16px;gap:6px"><span style="font-size:13px;color:var(--color-accent-300)">02</span><div class="card-title">{{ tr.step2Title }}</div><p class="card-body">{{ tr.step2Body }}</p></div>
+          <div class="card af-glass" style="padding:16px;gap:6px"><span style="font-size:13px;color:var(--color-accent-300)">03</span><div class="card-title">{{ tr.step3Title }}</div><p class="card-body">{{ t.stepEarn }}</p></div>
+        </div>
+      </sc-if>
+      <ol class="af-steps" aria-label="{{ tr.stepsLabel }}">
+        <sc-for list="{{ jn.steps }}" as="st" hint-placeholder-count="3">
+          <li class="af-step" aria-current="{{ st.current }}" data-done="{{ st.done }}"><span class="af-step-n">{{ st.n }}</span><span>{{ st.label }}</span></li>
+        </sc-for>
+      </ol>
+
+      <sc-if value="{{ jn.s1 }}" hint-placeholder-val="{{ true }}">
+        <section class="card af-glass" style="padding:22px;gap:14px">
+          <div><h4 style="margin:0 0 4px">{{ tr.ktpTitle }}</h4><div class="text-muted" style="font-size:13px">{{ tr.ktpHint }}</div></div>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px">
+<div class="field"><label>{{ tr.k_nik }}</label><input class="input af-input" value="{{ kyc.nik }}" sc-camel-on-change="{{ onK.nik }}" inputmode="numeric" maxlength="16" autocomplete="off"><div class="af-err">{{ kerr.nik }}</div></div>
+<div class="field"><label>{{ tr.k_full_name }}</label><input class="input af-input" value="{{ kyc.full_name }}" sc-camel-on-change="{{ onK.full_name }}" maxlength="100" autocomplete="name"><div class="af-err">{{ kerr.full_name }}</div></div>
+</div>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px">
+<div class="field"><label>{{ tr.k_birth_place }}</label><input class="input af-input" value="{{ kyc.birth_place }}" sc-camel-on-change="{{ onK.birth_place }}" maxlength="80"><div class="af-err">{{ kerr.birth_place }}</div></div>
+<div class="field"><label>{{ tr.k_birth_date }}</label><input class="input af-input" value="{{ kyc.birth_date }}" sc-camel-on-change="{{ onK.birth_date }}" type="date"><div class="af-err">{{ kerr.birth_date }}</div></div>
+<div class="field"><label>{{ tr.k_gender }}</label><sc-raw-select class="input af-input" value="{{ kyc.gender }}" sc-camel-on-change="{{ onK.gender }}"><option value="">{{ tr.pickOne }}</option><option value="L">{{ tr.genderL }}</option><option value="P">{{ tr.genderP }}</option></sc-raw-select><div class="af-err">{{ kerr.gender }}</div></div>
+</div>
+<div class="field"><label>{{ tr.k_address }}</label><input class="input af-input" value="{{ kyc.address }}" sc-camel-on-change="{{ onK.address }}" maxlength="200"><div class="af-err">{{ kerr.address }}</div></div>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px">
+<div class="field"><label>{{ tr.k_rt_rw }}</label><input class="input af-input" value="{{ kyc.rt_rw }}" sc-camel-on-change="{{ onK.rt_rw }}" maxlength="12" placeholder="001/002"><div class="af-err">{{ kerr.rt_rw }}</div></div>
+<div class="field"><label>{{ tr.k_kelurahan }}</label><input class="input af-input" value="{{ kyc.kelurahan }}" sc-camel-on-change="{{ onK.kelurahan }}" maxlength="80"><div class="af-err">{{ kerr.kelurahan }}</div></div>
+<div class="field"><label>{{ tr.k_kecamatan }}</label><input class="input af-input" value="{{ kyc.kecamatan }}" sc-camel-on-change="{{ onK.kecamatan }}" maxlength="80"><div class="af-err">{{ kerr.kecamatan }}</div></div>
+</div>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px">
+<div class="field"><label>{{ tr.k_kabupaten }}</label><input class="input af-input" value="{{ kyc.kabupaten }}" sc-camel-on-change="{{ onK.kabupaten }}" maxlength="80"><div class="af-err">{{ kerr.kabupaten }}</div></div>
+<div class="field"><label>{{ tr.k_provinsi }}</label><input class="input af-input" value="{{ kyc.provinsi }}" sc-camel-on-change="{{ onK.provinsi }}" maxlength="80"><div class="af-err">{{ kerr.provinsi }}</div></div>
+</div>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px">
+<div class="field"><label>{{ tr.k_religion }}</label><sc-raw-select class="input af-input" value="{{ kyc.religion }}" sc-camel-on-change="{{ onK.religion }}"><option value="">{{ tr.pickOne }}</option><option value="Islam">{{ tr.relIslam }}</option><option value="Kristen">{{ tr.relKristen }}</option><option value="Katolik">{{ tr.relKatolik }}</option><option value="Hindu">{{ tr.relHindu }}</option><option value="Buddha">{{ tr.relBuddha }}</option><option value="Konghucu">{{ tr.relKonghucu }}</option><option value="Kepercayaan terhadap Tuhan YME">{{ tr.relKepercayaan }}</option></sc-raw-select><div class="af-err">{{ kerr.religion }}</div></div>
+<div class="field"><label>{{ tr.k_marital_status }}</label><sc-raw-select class="input af-input" value="{{ kyc.marital_status }}" sc-camel-on-change="{{ onK.marital_status }}"><option value="">{{ tr.pickOne }}</option><option value="Belum kawin">{{ tr.marBelum }}</option><option value="Kawin">{{ tr.marKawin }}</option><option value="Cerai hidup">{{ tr.marCeraiHidup }}</option><option value="Cerai mati">{{ tr.marCeraiMati }}</option></sc-raw-select><div class="af-err">{{ kerr.marital_status }}</div></div>
+</div>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px">
+<div class="field"><label>{{ tr.k_occupation }}</label><input class="input af-input" value="{{ kyc.occupation }}" sc-camel-on-change="{{ onK.occupation }}" maxlength="80"><div class="af-err">{{ kerr.occupation }}</div></div>
+<div class="field"><label>{{ tr.k_citizenship }}</label><sc-raw-select class="input af-input" value="{{ kyc.citizenship }}" sc-camel-on-change="{{ onK.citizenship }}"><option value="">{{ tr.pickOne }}</option><option value="WNI">{{ tr.citWNI }}</option><option value="WNA">{{ tr.citWNA }}</option></sc-raw-select><div class="af-err">{{ kerr.citizenship }}</div></div>
+<div class="field"><label>{{ tr.k_valid_until }}</label><input class="input af-input" value="{{ kyc.valid_until }}" sc-camel-on-change="{{ onK.valid_until }}" maxlength="40"><div class="af-err">{{ kerr.valid_until }}</div></div>
+</div>
+          <div class="af-panel" style="padding:12px;border-radius:14px;font-size:12px;color:var(--color-neutral-300);display:flex;gap:8px;align-items:flex-start"><i class="ph ph-lock-simple" style="font-size:16px;color:var(--color-accent-300)"></i><span>{{ tr.ktpLockNote }}</span></div>
+          <div style="display:flex;justify-content:flex-end;gap:8px"><button class="btn af-btn1" sc-camel-on-click="{{ next1 }}">{{ tr.next }}</button></div>
+        </section>
+      </sc-if>
+
+      <sc-if value="{{ jn.s2 }}" hint-placeholder-val="{{ false }}">
+        <section class="card af-glass" style="padding:22px;gap:14px">
+          <div><h4 style="margin:0 0 4px">{{ tr.domTitle }}</h4><div class="text-muted" style="font-size:13px">{{ tr.domHint }}</div></div>
+          <label style="display:flex;gap:10px;align-items:center;font-size:14px;cursor:pointer"><input type="checkbox" checked="{{ sameAsKtp }}" sc-camel-on-change="{{ toggleSame }}" style="accent-color:var(--color-accent)"><span>{{ tr.sameAsKtp }}</span></label>
+<div class="field"><label>{{ tr.k_domicile_address }}</label><input class="input af-input" value="{{ kyc.domicile_address }}" sc-camel-on-change="{{ onK.domicile_address }}" maxlength="200"><div class="af-err">{{ kerr.domicile_address }}</div></div>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px">
+<div class="field"><label>{{ tr.k_domicile_city }}</label><input class="input af-input" value="{{ kyc.domicile_city }}" sc-camel-on-change="{{ onK.domicile_city }}" maxlength="80"><div class="af-err">{{ kerr.domicile_city }}</div></div>
+<div class="field"><label>{{ tr.k_domicile_province }}</label><input class="input af-input" value="{{ kyc.domicile_province }}" sc-camel-on-change="{{ onK.domicile_province }}" maxlength="80"><div class="af-err">{{ kerr.domicile_province }}</div></div>
+<div class="field"><label>{{ tr.k_domicile_postal_code }}</label><input class="input af-input" value="{{ kyc.domicile_postal_code }}" sc-camel-on-change="{{ onK.domicile_postal_code }}" inputmode="numeric" maxlength="5"><div class="af-err">{{ kerr.domicile_postal_code }}</div></div>
+</div>
+          <div style="display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap"><button class="btn af-btn2" sc-camel-on-click="{{ back }}">{{ tr.back }}</button><button class="btn af-btn1" disabled="{{ busy }}" sc-camel-on-click="{{ next2 }}">{{ jn.next2Label }}</button></div>
+        </section>
+      </sc-if>
+
+      <sc-if value="{{ jn.s3 }}" hint-placeholder-val="{{ false }}">
+        <section class="card af-glass" style="padding:22px;gap:16px">
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:8px"><h4 style="margin:0">{{ tr.reviewTitle }}</h4><sc-if value="{{ jn.canEditKtp }}" hint-placeholder-val="{{ false }}"><button class="btn btn-ghost" style="font-size:13px" sc-camel-on-click="{{ toStep1 }}">{{ tr.change }}</button></sc-if></div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px 20px;font-size:14px">
+            <sc-for list="{{ jn.review }}" as="r" hint-placeholder-count="4"><div style="min-width:0"><div class="text-muted" style="font-size:12px">{{ r.k }}</div><div style="word-break:break-word">{{ r.v }}</div></div></sc-for>
+          </div>
+          <div class="af-rule-top" style="display:flex;flex-direction:column;gap:12px;padding-top:14px">
+            <div><div style="font-size:14px;font-weight:500">{{ tr.bankTitle }}</div><div class="text-muted" style="font-size:13px">{{ tr.bankHint }}</div></div>
           <div class="field"><label>Bank</label>
             <sc-raw-select class="input af-input" value="{{ form.bank }}" sc-camel-on-change="{{ onF.bank }}">
               <option value="">{{ tr.pickBank }}</option><option>BCA</option><option>Mandiri</option><option>BNI</option><option>BRI</option><option>CIMB Niaga</option><option>Permata</option><option>BSI</option><option>Bank Jago</option>
@@ -5350,12 +5415,21 @@ button, input, select, textarea { font-family: inherit; }
             <div class="af-err">{{ err.bank }}</div></div>
           <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px">
             <div class="field"><label>{{ tr.accountNo }}</label><input class="input af-input" inputmode="numeric" autocomplete="off" value="{{ form.acct }}" sc-camel-on-change="{{ onF.acct }}"><div class="af-err">{{ err.acct }}</div></div>
-            <div class="field"><label>{{ tr.accountHolder }}</label><input class="input af-input" value="{{ form.holder }}" sc-camel-on-change="{{ onF.holder }}"><div class="af-err">{{ err.holder }}</div></div>
+            <div class="field"><label>{{ tr.accountHolder }}</label><input class="input af-input" value="{{ form.holder }}" disabled="{{ holderLocked }}" sc-camel-on-change="{{ onF.holder }}"><div class="af-err">{{ err.holder }}</div></div>
           </div>
-        </div>
-        <label style="display:flex;gap:10px;align-items:flex-start;font-size:14px;cursor:pointer"><input type="checkbox" checked="{{ agreed }}" sc-camel-on-change="{{ toggleAgree }}" style="accent-color:var(--color-accent);margin-top:3px">{{ t.agreeLabel }}</label>
-        <div><button class="btn af-btn1" style="padding:10px 18px" disabled="{{ joinDisabled }}" sc-camel-on-click="{{ join }}">{{ joinLabel }}</button></div>
-      </div>
+          <div class="text-muted" style="font-size:12px;margin-top:-4px">{{ holderNote }}</div>
+          </div>
+          <div class="af-rule-top" style="display:flex;flex-direction:column;gap:10px;padding-top:14px">
+            <h5 style="margin:0">{{ tr.termsSummary }}</h5>
+            <ul style="margin:0;padding-left:18px;display:flex;flex-direction:column;gap:6px;font-size:14px;color:var(--color-neutral-300)">
+              <sc-for list="{{ t.termsList }}" as="item" hint-placeholder-count="5"><li>{{ item.text }}</li></sc-for>
+            </ul>
+            <sc-if value="{{ t.hasTermsUrl }}" hint-placeholder-val="{{ false }}"><a href="{{ t.termsUrl }}" target="_blank" rel="noopener" style="font-size:14px">{{ t.readTermsLabel }}</a></sc-if>
+            <label style="display:flex;gap:10px;align-items:flex-start;font-size:14px;cursor:pointer"><input type="checkbox" checked="{{ agreed }}" sc-camel-on-change="{{ toggleAgree }}" style="accent-color:var(--color-accent);margin-top:3px">{{ t.agreeLabel }}</label>
+          </div>
+          <div style="display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap"><sc-if value="{{ jn.canEditKtp }}" hint-placeholder-val="{{ false }}"><button class="btn af-btn2" sc-camel-on-click="{{ back }}">{{ tr.back }}</button></sc-if><span></span><button class="btn af-btn1" style="padding:10px 18px" disabled="{{ joinDisabled }}" sc-camel-on-click="{{ join }}">{{ joinLabel }}</button></div>
+        </section>
+      </sc-if>
     </section>
   </sc-if>
 
@@ -5365,6 +5439,14 @@ button, input, select, textarea { font-family: inherit; }
       <h2 style="margin:0">{{ tr.homeTitle }}</h2>
       <p class="text-muted" style="margin:0;font-size:14px">{{ t.joinedSub }}</p>
     </div>
+
+    <sc-if value="{{ ktpBanner }}" hint-placeholder-val="{{ false }}">
+      <div class="af-accent-panel" style="display:flex;flex-wrap:wrap;gap:12px 16px;align-items:center;padding:14px 16px;border-radius:16px">
+        <i class="ph ph-identification-card" style="font-size:22px;color:var(--color-accent)"></i>
+        <div style="flex:1;min-width:220px;font-size:14px"><div style="font-weight:500">{{ tr.ktpBannerTitle }}</div><div style="color:var(--color-neutral-300)">{{ tr.ktpBannerBody }}</div></div>
+        <a class="btn af-btn1" href="/gabung">{{ tr.completeKtp }}</a>
+      </div>
+    </sc-if>
 
     <section class="card af-glass elev-sm" style="padding:20px;gap:14px">
       <div style="display:flex;justify-content:space-between;align-items:center;gap:8px"><span class="card-kicker">{{ tr.availableKicker }}</span><span class="text-muted" style="font-size:12px">{{ bal.minLabel }}</span></div>
@@ -5593,6 +5675,24 @@ button, input, select, textarea { font-family: inherit; }
       </sc-if>
     </section>
 
+    <section class="card af-glass" style="padding:20px;gap:14px">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:8px"><h4 style="margin:0">{{ tr.ktpTitle }}</h4><sc-if value="{{ ktp.has }}" hint-placeholder-val="{{ false }}"><span class="text-muted" style="font-size:12px;display:flex;align-items:center;gap:4px"><i class="ph ph-lock-simple"></i><span>{{ tr.locked }}</span></span></sc-if></div>
+      <sc-if value="{{ ktp.none }}" hint-placeholder-val="{{ false }}">
+        <div style="display:flex;flex-wrap:wrap;gap:12px;align-items:center;font-size:14px"><span class="text-muted" style="flex:1;min-width:200px">{{ tr.ktpNone }}</span><a class="btn af-btn1" href="/gabung">{{ ktp.cta }}</a></div>
+      </sc-if>
+      <sc-if value="{{ ktp.has }}" hint-placeholder-val="{{ true }}">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px 20px;font-size:14px">
+          <sc-for list="{{ ktp.rows }}" as="r" hint-placeholder-count="8"><div style="min-width:0"><div class="text-muted" style="font-size:12px">{{ r.k }}</div><div style="word-break:break-word">{{ r.v }}</div></div></sc-for>
+        </div>
+        <div class="text-muted" style="font-size:12px">{{ tr.ktpLockedNote }}</div>
+        <div class="af-rule-top" style="display:flex;justify-content:space-between;align-items:center;gap:8px;padding-top:14px">
+          <h5 style="margin:0">{{ tr.domTitle }}</h5>
+          <button class="btn btn-ghost" style="font-size:13px" sc-camel-on-click="{{ openDomEdit }}">{{ tr.change }}</button>
+        </div>
+        <div style="font-size:14px">{{ ktp.domicile }}</div>
+      </sc-if>
+    </section>
+
     <section class="card af-glass" style="padding:20px;gap:16px">
       <div><h4 style="margin:0 0 4px">{{ tr.appearance }}</h4><div class="text-muted" style="font-size:13px">{{ tr.appearanceHint }}</div></div>
       <div style="display:flex;flex-direction:column;gap:8px">
@@ -5630,10 +5730,24 @@ button, input, select, textarea { font-family: inherit; }
             <div class="af-err">{{ err.bank }}</div></div>
           <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px">
             <div class="field"><label>{{ tr.accountNo }}</label><input class="input af-input" inputmode="numeric" autocomplete="off" value="{{ form.acct }}" sc-camel-on-change="{{ onF.acct }}"><div class="af-err">{{ err.acct }}</div></div>
-            <div class="field"><label>{{ tr.accountHolder }}</label><input class="input af-input" value="{{ form.holder }}" sc-camel-on-change="{{ onF.holder }}"><div class="af-err">{{ err.holder }}</div></div>
+            <div class="field"><label>{{ tr.accountHolder }}</label><input class="input af-input" value="{{ form.holder }}" disabled="{{ holderLocked }}" sc-camel-on-change="{{ onF.holder }}"><div class="af-err">{{ err.holder }}</div></div>
           </div>
+          <div class="text-muted" style="font-size:12px;margin-top:-4px">{{ holderNote }}</div>
         </div>
         <div class="dialog-actions"><button class="btn af-btn2" sc-camel-on-click="{{ closeDialog }}">{{ tr.cancel }}</button><button class="btn af-btn1" disabled="{{ busy }}" sc-camel-on-click="{{ saveBank }}">{{ bankCta }}</button></div>
+      </sc-if>
+
+      <sc-if value="{{ dlg.dom }}" hint-placeholder-val="{{ false }}">
+        <div><div class="dialog-title">{{ tr.domTitle }}</div><div class="text-muted" style="font-size:13px;margin-top:4px">{{ tr.domHint }}</div></div>
+        <div style="display:flex;flex-direction:column;gap:12px">
+<div class="field"><label>{{ tr.k_domicile_address }}</label><input class="input af-input" value="{{ kyc.domicile_address }}" sc-camel-on-change="{{ onK.domicile_address }}" maxlength="200"><div class="af-err">{{ kerr.domicile_address }}</div></div>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px">
+<div class="field"><label>{{ tr.k_domicile_city }}</label><input class="input af-input" value="{{ kyc.domicile_city }}" sc-camel-on-change="{{ onK.domicile_city }}" maxlength="80"><div class="af-err">{{ kerr.domicile_city }}</div></div>
+<div class="field"><label>{{ tr.k_domicile_province }}</label><input class="input af-input" value="{{ kyc.domicile_province }}" sc-camel-on-change="{{ onK.domicile_province }}" maxlength="80"><div class="af-err">{{ kerr.domicile_province }}</div></div>
+<div class="field"><label>{{ tr.k_domicile_postal_code }}</label><input class="input af-input" value="{{ kyc.domicile_postal_code }}" sc-camel-on-change="{{ onK.domicile_postal_code }}" inputmode="numeric" maxlength="5"><div class="af-err">{{ kerr.domicile_postal_code }}</div></div>
+</div>
+        </div>
+        <div class="dialog-actions"><button class="btn af-btn2" sc-camel-on-click="{{ closeDialog }}">{{ tr.cancel }}</button><button class="btn af-btn1" disabled="{{ busy }}" sc-camel-on-click="{{ saveDom }}">{{ tr.save }}</button></div>
       </sc-if>
 
       <sc-if value="{{ dlg.payout }}" hint-placeholder-val="{{ false }}">
@@ -5681,7 +5795,7 @@ class Component extends DCLogic {
     this.rootRef = React.createRef();
     const D = window.__AF_DATA__ || {};
     this.D = { user: D.user || { name: '', email: '' }, settings: D.settings || {}, links: D.links || {}, qrSrc: D.qrSrc || '',
-      page: ['home', 'sales', 'profile'].includes(D.page) ? D.page : 'home' };
+      page: ['home', 'sales', 'profile', 'join'].includes(D.page) ? D.page : 'home' };
     const lang = this.pref('af_lang', ['id', 'en'], 'id');
     this.mq = window.matchMedia ? window.matchMedia('(prefers-color-scheme: dark)') : null;
     const acct = D.account && D.account.found ? D.account : null;
@@ -5689,9 +5803,11 @@ class Component extends DCLogic {
       lang, theme: this.pref('af_theme', ['light', 'dark', 'system'], 'system'), sysDark: !!(this.mq && this.mq.matches),
       narrow: false, toast: '', dialog: null, payoutFlow: false, form: { bank: '', acct: '', holder: '' }, errors: {}, busy: false,
       agreed: false, payAmount: '', payErr: '', doneText: '', selWeek: -1, selMonth: -1,
+      kyc: this.emptyKyc(acct), kerr: {}, sameAsKtp: false, step: (D.state && D.state.identity) ? 3 : 1,
       account: acct, accountMissing: !!(D.account && !D.account.found), acctForm: { name: acct ? acct.name : '', phone: acct ? acct.phone : '' }, acctErr: {}, acctStatus: ''
     });
-    if (acct && !this.state.joined) this.state.form.holder = acct.name;
+    const id0 = this.state.identity;
+    this.state.form.holder = id0 ? id0.full_name : (acct ? acct.name : '');
   }
   componentDidMount() {
     const el = this.rootRef.current;
@@ -5722,13 +5838,13 @@ class Component extends DCLogic {
     de.lang = this.state.lang;
     de.style.colorScheme = dark ? 'dark' : 'light';
     document.body.style.background = dark ? '#121011' : '#f6f4f4';
-    document.title = ({ home: 'Home', sales: 'Sales', profile: 'Profile' })[this.D.page] + ' · ' + W.siteName;
+    document.title = ({ home: 'Home', sales: 'Sales', profile: 'Profile', join: W.stepTitle })[this.D.page] + ' · ' + W.siteName;
   }
 
   fromState(st) {
     return {
       error: st.error || '', joined: !!st.joined, aff: st.affiliate || null, stats: st.stats || {}, referrals: st.referrals || [],
-      commissions: st.commissions || [], payouts: st.payouts || [], clicks: st.clicks || []
+      commissions: st.commissions || [], payouts: st.payouts || [], clicks: st.clicks || [], identity: st.identity || null
     };
   }
 
@@ -5800,7 +5916,34 @@ class Component extends DCLogic {
   // Bank codes the app's backend stores (Xendit channel codes); banks
   // without a known code are sent by name only.
   bankCode(name) { return ({ BCA: 'BCA', Mandiri: 'MANDIRI', BNI: 'BNI', BRI: 'BRI', 'CIMB Niaga': 'CIMB', Permata: 'PERMATA' })[name] || ''; }
-  bankForm() { const b = this.state.aff && this.state.aff.bank; const a = this.state.account; return { bank: '', acct: '', holder: (b && b.holder) || (a && a.name) || '' }; }
+  bankForm() {
+    const b = this.state.aff && this.state.aff.bank, a = this.state.account, id = this.state.identity;
+    return { bank: '', acct: '', holder: (id && id.full_name) || (b && b.holder) || (a && a.name) || '' };
+  }
+  // KTP details: everything on the KTP except blood type, plus domisili.
+  emptyKyc(acct) {
+    return { nik: '', full_name: (acct && acct.name) || '', birth_place: '', birth_date: '', gender: '', address: '', rt_rw: '', kelurahan: '', kecamatan: '',
+      kabupaten: '', provinsi: '', religion: '', marital_status: '', occupation: '', citizenship: 'WNI', valid_until: 'SEUMUR HIDUP',
+      domicile_address: '', domicile_city: '', domicile_province: '', domicile_postal_code: '' };
+  }
+  validateKtp(k, W) {
+    const e = {};
+    ['full_name', 'birth_place', 'birth_date', 'gender', 'address', 'rt_rw', 'kelurahan', 'kecamatan', 'kabupaten', 'provinsi', 'religion',
+      'marital_status', 'occupation', 'citizenship', 'valid_until'].forEach(f => { if (!String(k[f] || '').trim()) e[f] = W.errRequired; });
+    if (!/^\d{16}$/.test(k.nik)) e.nik = W.errNik;
+    const bd = Date.parse(k.birth_date);
+    if (k.birth_date && (isNaN(bd) || bd > Date.now() || k.birth_date < '1900-01-01')) e.birth_date = W.errBirth;
+    return e;
+  }
+  ktpAsDomicile(k) {
+    return { domicile_address: [k.address, k.rt_rw && 'RT/RW ' + k.rt_rw, k.kelurahan, k.kecamatan].filter(Boolean).join(', '), domicile_city: k.kabupaten, domicile_province: k.provinsi };
+  }
+  validateDom(k, W) {
+    const e = {};
+    ['domicile_address', 'domicile_city', 'domicile_province'].forEach(f => { if (!String(k[f] || '').trim()) e[f] = W.errRequired; });
+    if (k.domicile_postal_code && !/^\d{5}$/.test(k.domicile_postal_code)) e.domicile_postal_code = W.errPostal;
+    return e;
+  }
   validateBank(f, W) {
     const e = {};
     if (!f.bank) e.bank = W.errBank;
@@ -5886,6 +6029,20 @@ class Component extends DCLogic {
       clicksEmpty: 'Nobody has opened your link in the app yet. A click is counted when your link is opened in the 20FIT app.',
       clicksNote: (c, f) => `${c} ${c === 1 ? 'click' : 'clicks'} in total so far; ${f} ${f === 1 ? 'friend has' : 'friends have'} bought through your link.`,
       friendsCount: n => `${n} ${n === 1 ? 'person' : 'people'}`, friendSince: d => 'since ' + d,
+      stepTitle: 'Join', stepsLabel: 'Sign-up steps', stepKtp: 'KTP details', stepDom: 'Domisili', stepBank: 'Payout account', next: 'Continue', back: 'Back', saveKtp: 'Save KTP details',
+      ktpTitle: 'KTP details', ktpHint: 'Fill these in exactly as on your KTP. Blood type isn’t needed.', ktpLockNote: 'Check them carefully: KTP details can’t be changed after you join. Only your domisili and payout account can.',
+      domTitle: 'Domisili', domHint: 'Where you live now, if it’s different from your KTP address.', sameAsKtp: 'Same as my KTP address',
+      reviewTitle: 'Check your details', completeTitle: 'Complete your KTP details', completeBody: 'Affiliates who joined in the 20FIT app fill this in once. Withdrawals open after it’s saved.',
+      ktpBannerTitle: 'Complete your KTP details', ktpBannerBody: 'You can withdraw once your KTP details are saved. It takes a minute.', completeKtp: 'Complete KTP details',
+      ktpNone: 'No KTP details yet.', locked: 'Locked', ktpLockedNote: 'KTP details can’t be changed. If something is wrong, contact the 20FIT affiliate team.', domSaved: 'Domisili saved',
+      ttl: 'Place, date of birth', ktpAddress: 'Address (KTP)', pickOne: 'Choose', holderLockedNote: 'Must be the name on your KTP.',
+      errRequired: 'Required.', errNik: 'NIK must be 16 digits.', errBirth: 'Enter a valid date of birth.', errPostal: 'Postal code is 5 digits.',
+      balNoKtp: 'Complete your KTP details before withdrawing.',
+      k_nik: 'NIK', k_full_name: 'Full name', k_birth_place: 'Place of birth', k_birth_date: 'Date of birth', k_gender: 'Sex', k_address: 'Address', k_rt_rw: 'RT/RW',
+      k_kelurahan: 'Kelurahan/Desa', k_kecamatan: 'Kecamatan', k_kabupaten: 'Kabupaten/Kota', k_provinsi: 'Province', k_religion: 'Religion', k_marital_status: 'Marital status',
+      k_occupation: 'Occupation', k_citizenship: 'Citizenship', k_valid_until: 'Valid until', k_domicile_address: 'Address', k_domicile_city: 'City/Regency', k_domicile_province: 'Province', k_domicile_postal_code: 'Postal code (optional)',
+      genderL: 'Male', genderP: 'Female', relIslam: 'Islam', relKristen: 'Protestant', relKatolik: 'Catholic', relHindu: 'Hindu', relBuddha: 'Buddhist', relKonghucu: 'Confucian', relKepercayaan: 'Kepercayaan terhadap Tuhan YME',
+      marBelum: 'Not married', marKawin: 'Married', marCeraiHidup: 'Divorced', marCeraiMati: 'Widowed', citWNI: 'WNI (Indonesian)', citWNA: 'WNA (foreign)',
       termsLine: v => `T&C ${v}`, joinPaused: 'Sign-ups are closed', joinCta: 'Join as an affiliate', joined: 'Welcome aboard! Share your link to start earning.',
       saveContinue: 'Save and continue', save: 'Save', bankSaved: 'Payout account saved', payHint: (min, max) => `Minimum ${min}, up to ${max}.`,
       schedule: d => `Withdrawals are transferred on 20FIT’s payout schedule. Next date: ${d}.`, payoutDone: (amt, d, acc) => `${amt} will be transferred to ${acc || 'your account'} on ${d}. You can follow it under Withdrawals.`,
@@ -5942,6 +6099,20 @@ class Component extends DCLogic {
       clicksEmpty: 'Belum ada yang membuka link-mu di app. Klik dihitung saat link-mu dibuka di app 20FIT.',
       clicksNote: (c, f) => `Total ${c} klik sejauh ini; ${f} teman sudah membeli lewat link-mu.`,
       friendsCount: n => `${n} orang`, friendSince: d => 'sejak ' + d,
+      stepTitle: 'Gabung', stepsLabel: 'Langkah pendaftaran', stepKtp: 'Data KTP', stepDom: 'Domisili', stepBank: 'Rekening', next: 'Lanjut', back: 'Kembali', saveKtp: 'Simpan data KTP',
+      ktpTitle: 'Data KTP', ktpHint: 'Isi persis seperti di KTP. Golongan darah tidak perlu diisi.', ktpLockNote: 'Periksa lagi: data KTP tidak bisa diubah setelah bergabung. Yang bisa diubah hanya domisili dan rekening.',
+      domTitle: 'Domisili', domHint: 'Alamat tempat tinggalmu sekarang, kalau beda dengan alamat KTP.', sameAsKtp: 'Sama dengan alamat KTP',
+      reviewTitle: 'Periksa datamu', completeTitle: 'Lengkapi data KTP', completeBody: 'Affiliate yang bergabung lewat app 20FIT cukup mengisi ini sekali. Penarikan saldo terbuka setelah data tersimpan.',
+      ktpBannerTitle: 'Lengkapi data KTP', ktpBannerBody: 'Saldo bisa ditarik setelah data KTP tersimpan. Cuma sebentar.', completeKtp: 'Lengkapi data KTP',
+      ktpNone: 'Data KTP belum diisi.', locked: 'Terkunci', ktpLockedNote: 'Data KTP tidak bisa diubah. Kalau ada yang salah, hubungi tim affiliate 20FIT.', domSaved: 'Domisili tersimpan',
+      ttl: 'Tempat, tanggal lahir', ktpAddress: 'Alamat (KTP)', pickOne: 'Pilih', holderLockedNote: 'Harus sama dengan nama di KTP.',
+      errRequired: 'Wajib diisi.', errNik: 'NIK harus 16 angka.', errBirth: 'Isi tanggal lahir yang valid.', errPostal: 'Kode pos 5 angka.',
+      balNoKtp: 'Lengkapi data KTP dulu sebelum menarik saldo.',
+      k_nik: 'NIK', k_full_name: 'Nama lengkap', k_birth_place: 'Tempat lahir', k_birth_date: 'Tanggal lahir', k_gender: 'Jenis kelamin', k_address: 'Alamat', k_rt_rw: 'RT/RW',
+      k_kelurahan: 'Kelurahan/Desa', k_kecamatan: 'Kecamatan', k_kabupaten: 'Kabupaten/Kota', k_provinsi: 'Provinsi', k_religion: 'Agama', k_marital_status: 'Status perkawinan',
+      k_occupation: 'Pekerjaan', k_citizenship: 'Kewarganegaraan', k_valid_until: 'Berlaku hingga', k_domicile_address: 'Alamat', k_domicile_city: 'Kota/Kabupaten', k_domicile_province: 'Provinsi', k_domicile_postal_code: 'Kode pos (opsional)',
+      genderL: 'Laki-laki', genderP: 'Perempuan', relIslam: 'Islam', relKristen: 'Kristen', relKatolik: 'Katolik', relHindu: 'Hindu', relBuddha: 'Buddha', relKonghucu: 'Konghucu', relKepercayaan: 'Kepercayaan terhadap Tuhan YME',
+      marBelum: 'Belum kawin', marKawin: 'Kawin', marCeraiHidup: 'Cerai hidup', marCeraiMati: 'Cerai mati', citWNI: 'WNI', citWNA: 'WNA',
       termsLine: v => `S&K ${v}`, joinPaused: 'Pendaftaran sedang ditutup', joinCta: 'Gabung jadi affiliate', joined: 'Selamat bergabung! Bagikan link-mu untuk mulai dapat komisi.',
       saveContinue: 'Simpan dan lanjut', save: 'Simpan', bankSaved: 'Rekening tersimpan', payHint: (min, max) => `Minimal ${min}, maksimal ${max}.`,
       schedule: d => `Penarikan ditransfer sesuai jadwal pencairan 20FIT. Jadwal berikutnya: ${d}.`, payoutDone: (amt, d, acc) => `${amt} akan ditransfer ke ${acc || 'rekeningmu'} pada ${d}. Statusnya bisa kamu pantau di Riwayat penarikan.`,
@@ -6002,7 +6173,7 @@ class Component extends DCLogic {
       initials: letters.length ? (letters[0] + (letters.length > 1 ? letters[letters.length - 1] : '')).toUpperCase() : '?',
       profileCurrent: page === 'profile' ? 'page' : 'false', avatarLabel: W.avatarLabel(this.D.user.email || ''),
       photo: acc && acc.photo ? `var(--color-surface) url("${acc.photo}") center / cover no-repeat` : 'none',
-      tabs: [['home', 'Home', '/dashboard', 'ph ph-house'], ['sales', 'Sales', '/dashboard/sales', 'ph ph-chart-bar']]
+      tabs: (s.joined ? [['home', 'Home', '/dashboard', 'ph ph-house'], ['sales', 'Sales', '/dashboard/sales', 'ph ph-chart-bar']] : [])
         .map(([k, label, href, icon]) => ({ label, href, icon, current: k === page ? 'page' : 'false' }))
     };
 
@@ -6014,9 +6185,11 @@ class Component extends DCLogic {
 
     // balance and withdrawals
     const activePayout = s.payouts.find(p => p.status === 'requested' || p.status === 'processing');
-    const payDisabled = s.busy || suspended || !aff || avail < MIN || avail <= 0;
+    const ident = s.identity;
+    const payDisabled = s.busy || suspended || !aff || !ident || avail < MIN || avail <= 0;
     let bnote;
     if (suspended) bnote = W.balSuspended;
+    else if (aff && !ident) bnote = W.balNoKtp;
     else if (aff && !aff.bank) bnote = W.balNoBank;
     else if (avail >= MIN && avail > 0) bnote = W.balReady(next);
     else if (avail > 0 || pend > 0) bnote = W.balBelow(f(MIN));
@@ -6110,11 +6283,62 @@ class Component extends DCLogic {
       onF[k] = e => { let v = e.target.value; if (k === 'acct') v = v.replace(/\D/g, ''); this.setState(st3 => ({ form: { ...st3.form, [k]: v }, errors: { ...st3.errors, [k]: '' } })); };
     });
     const openPayout = () => this.setState({ dialog: 'payout', payAmount: String(this.state.stats.available || ''), payErr: '' });
-    const showJoin = !s.joined && !s.error && page !== 'profile';
+    // /gabung: new affiliates go 1 → 2 → 3; affiliates who joined in the app
+    // without KTP details fill steps 1 → 2 only.
+    const complete = s.joined && !ident;
+    const k = s.kyc;
+    const gl = { L: W.genderL, P: W.genderP };
+    const ktpRows = id => [
+      [W.k_nik, id.nik], [W.k_full_name, id.full_name], [W.ttl, `${id.birth_place}, ${fd(id.birth_date)}`], [W.k_gender, gl[id.gender] || id.gender],
+      [W.ktpAddress, [id.address, 'RT/RW ' + id.rt_rw, id.kelurahan, id.kecamatan, id.kabupaten, id.provinsi].filter(Boolean).join(', ')],
+      [W.k_religion, id.religion], [W.k_marital_status, id.marital_status], [W.k_occupation, id.occupation], [W.k_citizenship, id.citizenship], [W.k_valid_until, id.valid_until]
+    ].map(([kk, v]) => ({ k: kk, v: v || '–' }));
+    const domLine = id => [id.domicile_address, id.domicile_city, id.domicile_province, id.domicile_postal_code].filter(Boolean).join(', ');
+    const step = complete ? Math.min(s.step, 2) : s.step;
+    const stepLabels = complete ? [W.stepKtp, W.stepDom] : [W.stepKtp, W.stepDom, W.stepBank];
+    const reviewId = ident || { nik: k.nik ? '************' + k.nik.slice(-4) : '', full_name: k.full_name, birth_place: k.birth_place, birth_date: k.birth_date, domicile_address: k.domicile_address, domicile_city: k.domicile_city, domicile_province: k.domicile_province, domicile_postal_code: k.domicile_postal_code };
+    const jn = {
+      title: complete ? W.completeTitle : t.heroTitle, body: complete ? W.completeBody : W.heroBody, showHow: !s.joined && step === 1,
+      steps: stepLabels.map((label, i) => ({ n: i + 1, label, current: i + 1 === step ? 'step' : 'false', done: i + 1 < step ? 'true' : 'false' })),
+      s1: step === 1, s2: step === 2, s3: step === 3, canEditKtp: !ident, next2Label: complete ? W.saveKtp : W.next,
+      review: [[W.k_full_name, reviewId.full_name], [W.k_nik, reviewId.nik], [W.ttl, `${reviewId.birth_place || ''}, ${fd(reviewId.birth_date)}`], [W.domTitle, domLine(reviewId)]].map(([kk, v]) => ({ k: kk, v: v || '–' }))
+    };
+    const onK = {};
+    Object.keys(this.emptyKyc()).forEach(f => {
+      onK[f] = e => {
+        let v = e.target.value;
+        if (f === 'nik' || f === 'domicile_postal_code') v = v.replace(/\D/g, '');
+        this.setState(st3 => {
+          const kyc = { ...st3.kyc, [f]: v };
+          if (st3.sameAsKtp && ['address', 'rt_rw', 'kelurahan', 'kecamatan', 'kabupaten', 'provinsi'].includes(f)) Object.assign(kyc, this.ktpAsDomicile(kyc));
+          return { kyc, kerr: { ...st3.kerr, [f]: '' }, form: f === 'full_name' && !st3.identity ? { ...st3.form, holder: v } : st3.form };
+        });
+      };
+    });
+    const ktp = { has: !!ident, none: !ident, cta: s.joined ? W.completeKtp : W.joinNow, rows: ident ? ktpRows(ident) : [], domicile: ident ? domLine(ident) : '' };
+    const holderLocked = !!ident || page === 'join';
 
     return {
       rootRef: this.rootRef, themeAttr: this.dark() ? 'dark' : 'light', lang: s.lang, tr: W, t, head, note, links: { support: L.support || '#', hasSupport: !!L.support },
-      pg: { max: page === 'sales' ? '1040px' : '760px', showJoin, home: page === 'home' && s.joined, sales: page === 'sales' && s.joined, profile: page === 'profile' },
+      pg: { max: page === 'sales' ? '1040px' : '760px', join: page === 'join', home: page === 'home' && s.joined, sales: page === 'sales' && s.joined, profile: page === 'profile' },
+      jn, kyc: k, kerr: s.kerr, onK, ktp, ktpBanner: s.joined && !ident && page === 'home', sameAsKtp: s.sameAsKtp,
+      holderLocked, holderNote: holderLocked ? W.holderLockedNote : '',
+      toggleSame: () => this.setState(st3 => { const on = !st3.sameAsKtp; return { sameAsKtp: on, kyc: on ? { ...st3.kyc, ...this.ktpAsDomicile(st3.kyc) } : st3.kyc }; }),
+      next1: () => { const e = this.validateKtp(this.state.kyc, W); if (Object.keys(e).length) return this.setState({ kerr: e }); this.setState({ step: 2 }); window.scrollTo(0, 0); },
+      next2: () => {
+        const e = this.validateDom(this.state.kyc, W);
+        if (Object.keys(e).length) return this.setState({ kerr: e });
+        if (!complete) { this.setState({ step: 3 }); return window.scrollTo(0, 0); }
+        this.run(async () => { await this.api('POST', 'identity', this.state.kyc); location.assign('/dashboard/profile'); });
+      },
+      back: () => { this.setState(st3 => ({ step: Math.max(1, st3.step - 1) })); window.scrollTo(0, 0); },
+      toStep1: () => { this.setState({ step: 1 }); window.scrollTo(0, 0); },
+      openDomEdit: () => this.setState({ dialog: 'dom', kerr: {}, kyc: { ...this.state.kyc, domicile_address: ident.domicile_address, domicile_city: ident.domicile_city, domicile_province: ident.domicile_province, domicile_postal_code: ident.domicile_postal_code || '' } }),
+      saveDom: () => {
+        const e = this.validateDom(this.state.kyc, W);
+        if (Object.keys(e).length) return this.setState({ kerr: e });
+        this.run(async () => { const r = await this.api('POST', 'domicile', this.state.kyc); this.setState({ identity: r.identity, dialog: null }); this.flash(W.domSaved); });
+      },
       reload: () => location.reload(),
       agreed: s.agreed, joinDisabled: paused || s.busy, joinLabel: paused ? W.joinPaused : W.joinCta,
       toggleAgree: () => this.setState(st3 => ({ agreed: !st3.agreed })),
@@ -6123,9 +6347,8 @@ class Component extends DCLogic {
         if (Object.keys(e).length) return this.setState({ errors: e });
         if (!this.state.agreed) return this.flash(W.errAgree);
         this.run(async () => {
-          await this.api('POST', 'join', { agree: true, ...this.bankBody(this.state.form) });
-          await this.refresh();
-          this.flash(W.joined);
+          await this.api('POST', 'join', { agree: true, ...this.bankBody(this.state.form), identity: this.state.identity ? undefined : this.state.kyc });
+          location.assign('/dashboard');
         });
       },
       bal: { available: f(avail), pending: f(pend), total: f(total), minLabel: W.minimum(f(MIN)), pendingNote: W.heldNote(days),
@@ -6133,6 +6356,7 @@ class Component extends DCLogic {
         payDisabled, payLabel: W.payBtn(!payDisabled ? f(avail) : ''), note: bnote },
       po: activePayout ? { show: true, title: W.payoutActive, label: W.po[activePayout.status], amount: f(activePayout.amount), detail: W.payoutDetail(next, activePayout.bank ? `${activePayout.bank} ${activePayout.account}` : '') } : { show: false },
       startPayout: () => {
+        if (!this.state.identity) return location.assign('/gabung');
         if (!this.state.aff.bank) return this.setState({ dialog: 'bank', payoutFlow: true, form: this.bankForm(), errors: {} });
         openPayout();
       },
@@ -6150,7 +6374,7 @@ class Component extends DCLogic {
       },
       pref: { light: s.theme === 'light', dark: s.theme === 'dark', system: s.theme === 'system', id: s.lang === 'id', en: s.lang === 'en' },
       setLight: setTheme('light'), setDark: setTheme('dark'), setSystem: setTheme('system'), setId: setLang('id'), setEn: setLang('en'),
-      dlg: { open: !!s.dialog, bank: s.dialog === 'bank', payout: s.dialog === 'payout', done: s.dialog === 'done' },
+      dlg: { open: !!s.dialog, bank: s.dialog === 'bank', dom: s.dialog === 'dom', payout: s.dialog === 'payout', done: s.dialog === 'done' },
       backdrop: e => { if (e.target === e.currentTarget) this.setState({ dialog: null }); },
       closeDialog: () => this.setState({ dialog: null }),
       form: s.form, err: s.errors, onF, busy: s.busy,
