@@ -5309,6 +5309,11 @@ button, input, select, textarea { font-family: inherit; }
 .af-chart{display:flex;align-items:stretch;gap:4px;height:190px}
 .af-barbtn{flex:1;min-width:0;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:4px;padding:0;margin:0;border:0;background:none;color:inherit;font:inherit;cursor:pointer;border-radius:8px}
 .af-barbtn:focus-visible{outline:2px solid var(--color-accent);outline-offset:2px}
+.af-chartnav{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.af-navbtn{display:grid;place-items:center;width:32px;height:32px;padding:0;border:0;border-radius:999px;background:var(--af-panel);box-shadow:var(--af-panel-shadow);color:var(--color-text);cursor:pointer}
+.af-navbtn:focus-visible{outline:2px solid var(--color-accent);outline-offset:2px}
+.af-navbtn[aria-disabled="true"]{opacity:.35;pointer-events:none}
+.af-chart .af-barbtn{max-width:72px}
 .af-bar-n{font-size:11px;line-height:1;min-height:11px;color:var(--color-neutral-300);font-variant-numeric:tabular-nums}
 .af-bar-fill{width:100%;max-width:30px;border-radius:7px 7px 3px 3px;background:color-mix(in srgb, var(--color-accent-700) 75%, transparent);transition:background .15s}
 .af-barbtn:hover .af-bar-fill{background:color-mix(in srgb, var(--color-accent-500) 55%, transparent)}
@@ -5603,6 +5608,7 @@ button, input, select, textarea { font-family: inherit; }
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,400px),1fr));gap:16px">
         <section class="card af-glass" style="padding:20px;gap:14px;min-width:0">
           <div style="display:flex;justify-content:space-between;align-items:baseline;gap:8px;flex-wrap:wrap"><h4 style="margin:0">{{ sales.week.title }}</h4><span class="text-muted" style="font-size:12px">{{ sales.week.range }}</span></div>
+          <div class="af-chartnav"><button class="af-navbtn" aria-label="{{ sales.week.prevLabel }}" title="{{ sales.week.prevLabel }}" aria-disabled="{{ sales.week.canPrev }}" sc-camel-on-click="{{ sales.week.prev }}"><i class="ph ph-caret-left"></i></button><span class="af-num" style="font-size:13px;font-weight:500">{{ sales.week.span }}</span><button class="af-navbtn" aria-label="{{ sales.week.nextLabel }}" title="{{ sales.week.nextLabel }}" aria-disabled="{{ sales.week.canNext }}" sc-camel-on-click="{{ sales.week.next }}"><i class="ph ph-caret-right"></i></button></div>
           <div class="af-chart" role="group" aria-label="{{ sales.week.title }}">
             <sc-for list="{{ sales.week.bars }}" as="b" hint-placeholder-count="12">
               <button class="af-barbtn" aria-pressed="{{ b.on }}" aria-label="{{ b.aria }}" title="{{ b.aria }}" sc-camel-on-click="{{ b.pick }}"><span class="af-bar-n">{{ b.n }}</span><span class="af-bar-fill" style="height:{{ b.h }};min-height:{{ b.min }};opacity:{{ b.op }}"></span><span class="af-bar-x">{{ b.x }}</span></button>
@@ -5617,6 +5623,7 @@ button, input, select, textarea { font-family: inherit; }
         </section>
         <section class="card af-glass" style="padding:20px;gap:14px;min-width:0">
           <div style="display:flex;justify-content:space-between;align-items:baseline;gap:8px;flex-wrap:wrap"><h4 style="margin:0">{{ sales.month.title }}</h4><span class="text-muted" style="font-size:12px">{{ sales.month.range }}</span></div>
+          <div class="af-chartnav"><button class="af-navbtn" aria-label="{{ sales.month.prevLabel }}" title="{{ sales.month.prevLabel }}" aria-disabled="{{ sales.month.canPrev }}" sc-camel-on-click="{{ sales.month.prev }}"><i class="ph ph-caret-left"></i></button><span class="af-num" style="font-size:13px;font-weight:500">{{ sales.month.span }}</span><button class="af-navbtn" aria-label="{{ sales.month.nextLabel }}" title="{{ sales.month.nextLabel }}" aria-disabled="{{ sales.month.canNext }}" sc-camel-on-click="{{ sales.month.next }}"><i class="ph ph-caret-right"></i></button></div>
           <div class="af-chart" role="group" aria-label="{{ sales.month.title }}">
             <sc-for list="{{ sales.month.bars }}" as="b" hint-placeholder-count="12">
               <button class="af-barbtn" aria-pressed="{{ b.on }}" aria-label="{{ b.aria }}" title="{{ b.aria }}" sc-camel-on-click="{{ b.pick }}"><span class="af-bar-n">{{ b.n }}</span><span class="af-bar-fill" style="height:{{ b.h }};min-height:{{ b.min }};opacity:{{ b.op }}"></span><span class="af-bar-x">{{ b.x }}</span></button>
@@ -5837,7 +5844,7 @@ class Component extends DCLogic {
     this.state = Object.assign(this.fromState(D.state || { error: this.words(lang).loadFailed }), {
       lang, theme: this.pref('af_theme', ['light', 'dark', 'system'], 'system'), sysDark: !!(this.mq && this.mq.matches),
       narrow: false, toast: '', dialog: null, payoutFlow: false, form: { bank: '', acct: '', holder: '' }, errors: {}, bankOpen: false, bankOther: false, bankHi: -1, bankQ: '', busy: false,
-      agreed: false, payAmount: '', payErr: '', doneText: '', selWeek: -1, selMonth: -1,
+      agreed: false, payAmount: '', payErr: '', doneText: '', selWeek: -1, selMonth: -1, weekOff: 0, monthOff: 0,
       kyc: this.emptyKyc(acct), kerr: {}, sameAsKtp: false, step: (D.state && D.state.identity) ? 3 : 1,
       account: acct, accountMissing: !!(D.account && !D.account.found), acctForm: { name: acct ? acct.name : '', phone: acct ? acct.phone : '' }, acctErr: {}, acctStatus: ''
     });
@@ -6114,20 +6121,21 @@ class Component extends DCLogic {
     return e;
   }
 
-  // Weekly (Monday start) or monthly periods ending now, in Asia/Jakarta,
-  // with the commission and number of non-cancelled purchases in each.
-  periods(kind, n, rows) {
+  // Every weekly (Monday start) or monthly period from the one holding `from`
+  // (join date or first purchase, whichever is earlier) up to the current one,
+  // in Asia/Jakarta, with the commission and number of non-cancelled purchases
+  // in each. New weeks and months appear on their own as time passes.
+  periods(kind, from, rows) {
     const day = 86400000;
     const today = this.jkt(new Date().toISOString()); today.setUTCHours(0, 0, 0, 0);
+    const begin = new Date(Math.min(from, today.getTime())); begin.setUTCHours(0, 0, 0, 0);
+    const startOf = d => kind === 'week'
+      ? d.getTime() - ((d.getUTCDay() + 6) % 7) * day
+      : Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), 1);
+    const next = t => { if (kind === 'week') return t + 7 * day; const d = new Date(t); return Date.UTC(d.getUTCFullYear(), d.getUTCMonth() + 1, 1); };
     const out = [];
-    for (let i = n - 1; i >= 0; i--) {
-      let s, e;
-      if (kind === 'week') {
-        const mon = today.getTime() - ((today.getUTCDay() + 6) % 7) * day;
-        s = mon - i * 7 * day; e = s + 7 * day;
-      } else {
-        s = Date.UTC(today.getUTCFullYear(), today.getUTCMonth() - i, 1); e = Date.UTC(today.getUTCFullYear(), today.getUTCMonth() - i + 1, 1);
-      }
+    for (let s = startOf(begin), last = startOf(today); s <= last; s = next(s)) {
+      const e = next(s);
       const xs = rows.filter(r => r.t >= s && r.t < e);
       out.push({ start: this.ymd(new Date(s)), end: this.ymd(new Date(e - day)), transactions: xs.length, commission: xs.reduce((a, r) => a + r.amount, 0) });
     }
@@ -6210,7 +6218,7 @@ class Component extends DCLogic {
       bankRows: ['Bank', 'Account number', 'Account holder'], bankEdit: 'Change', bankAdd: 'Add account',
       cards: { total: 'Total', valid: 'Valid', pending: 'Pending' }, recapNotes: d => ['Total = Valid + Pending', 'Valid: past the hold period (withdrawable or withdrawn)', `Pending: still in the ${d}-day hold`],
       txUnit: n => n === 1 ? 'purchase' : 'purchases', commissionAmt: a => a + ' commission', cancelledLine: n => `${n} cancelled ${n === 1 ? 'purchase is' : 'purchases are'} not counted.`,
-      weekly: 'Per week', monthly: 'Per month', lastN: (n, unit) => `Last ${n} ${unit}`, weeksUnit: 'weeks', monthsUnit: 'months', txCount: n => `${n} ${n === 1 ? 'purchase' : 'purchases'}`,
+      weekly: 'Per week', monthly: 'Per month', sinceDate: d => `Since ${d}`, olderPeriods: 'Earlier periods', newerPeriods: 'Later periods', txCount: n => `${n} ${n === 1 ? 'purchase' : 'purchases'}`,
       barAria: (p, t, c) => `${p}: ${t}, ${c}`, accountMissing: 'Your 20FIT profile isn’t set up yet. Complete it in the 20FIT app first.', profileSaved: 'Profile saved', unsaved: 'Unsaved changes'
     };
     return {
@@ -6287,14 +6295,22 @@ class Component extends DCLogic {
       bankRows: ['Bank', 'Nomor rekening', 'Pemilik rekening'], bankEdit: 'Ubah', bankAdd: 'Isi rekening',
       cards: { total: 'Total', valid: 'Valid', pending: 'Pending' }, recapNotes: d => ['Total = Valid + Pending', 'Valid: sudah lewat masa tahan (bisa atau sudah ditarik)', `Pending: masih dalam masa tahan ${d} hari`],
       txUnit: () => 'transaksi', commissionAmt: a => a + ' komisi', cancelledLine: n => `${n} transaksi batal tidak dihitung.`,
-      weekly: 'Per minggu', monthly: 'Per bulan', lastN: (n, unit) => `${n} ${unit} terakhir`, weeksUnit: 'minggu', monthsUnit: 'bulan', txCount: n => `${n} transaksi`,
+      weekly: 'Per minggu', monthly: 'Per bulan', sinceDate: d => `Sejak ${d}`, olderPeriods: 'Periode sebelumnya', newerPeriods: 'Periode berikutnya', txCount: n => `${n} transaksi`,
       barAria: (p, t, c) => `${p}: ${t}, ${c}`, accountMissing: 'Profil 20FIT kamu belum ada. Lengkapi dulu di aplikasi 20FIT.', profileSaved: 'Profile tersimpan', unsaved: 'Belum disimpan'
     };
   }
 
   // One chart (weekly or monthly): bar height = commission, number = transactions.
-  chart(rows, sel, onPick, kind, W) {
-    rows = rows || [];
+  // Shows a window of up to 12 periods; `off` = how many windows back from the
+  // latest one. ‹ › page through every period since `since`.
+  chart(all, off, sel, onPage, onPick, kind, since, W) {
+    all = all || [];
+    const N = 12;
+    const pages = Math.max(1, Math.ceil(all.length / N));
+    const o = Math.min(Math.max(0, off || 0), pages - 1);
+    // The oldest window is always a full 12 (the first periods), never a stub.
+    const end = Math.max(Math.min(N, all.length), all.length - o * N);
+    const rows = all.slice(Math.max(0, end - N), end);
     const max = Math.max(0, ...rows.map(r => Number(r.commission) || 0));
     const i = sel >= 0 && sel < rows.length ? sel : rows.length - 1;
     const short = r => kind === 'week' ? this.fd(r.start, { year: undefined }) : this.fd(r.start, { day: undefined, year: undefined });
@@ -6307,7 +6323,14 @@ class Component extends DCLogic {
         aria: W.barAria(long(r), W.txCount(t), W.commissionAmt(this.fmt(c))), pick: () => onPick(k) };
     });
     const s = rows[i];
-    return { bars, range: W.lastN(rows.length, kind === 'week' ? W.weeksUnit : W.monthsUnit),
+    const first = rows[0], lastRow = rows[last];
+    const span = !first ? '–' : kind === 'week'
+      ? `${this.fd(first.start, { year: undefined })} – ${this.fd(lastRow.end)}`
+      : `${this.fd(first.start, { day: undefined })} – ${this.fd(lastRow.start, { day: undefined })}`;
+    return { bars, range: since ? W.sinceDate(this.fd(since)) : '', span,
+      canPrev: o < pages - 1 ? 'false' : 'true', canNext: o > 0 ? 'false' : 'true',
+      prev: () => onPage(o + 1), next: () => onPage(o - 1),
+      prevLabel: W.olderPeriods, nextLabel: W.newerPeriods,
       sel: s ? { period: long(s), tx: this.num(s.transactions), comm: this.fmt(s.commission) } : { period: '–', tx: '–', comm: '–' } };
   }
 
@@ -6406,6 +6429,12 @@ class Component extends DCLogic {
 
     // Sales: recap, weekly and monthly charts, products (from the ledger)
     const live = s.commissions.filter(c => c.status !== 'cancelled').map(c => ({ ...c, t: (this.jkt(c.at) || new Date(0)).getTime() }));
+    // Charts start at the period the affiliate joined, or of their first
+    // purchase if that came earlier; without either, at the current period.
+    const firstSale = s.commissions.map(c => this.jkt(c.at)).filter(Boolean).reduce((m, d) => Math.min(m, d.getTime()), Infinity);
+    const joined = aff && this.jkt(aff.joinedAt);
+    const since = Math.min(joined ? joined.getTime() : Infinity, firstSale);
+    const sinceIso = isFinite(since) ? new Date(since - 7 * 3600000).toISOString() : '';
     const sum = st2 => s.commissions.filter(c => c.status === st2);
     const amt = xs => xs.reduce((a, c) => a + c.amount, 0);
     const valid = sum('available'), pending = sum('pending'), cancelledN = sum('cancelled').length;
@@ -6420,8 +6449,8 @@ class Component extends DCLogic {
         { label: W.cards.pending, icon: 'ph ph-hourglass-medium', count: this.num(pending.length), unit: W.txUnit(pending.length), comm: f(amt(pending)) }
       ],
       notes: W.recapNotes(days).concat(cancelledN ? [W.cancelledLine(cancelledN)] : []).map(text => ({ text })),
-      week: Object.assign(this.chart(this.periods('week', 12, live), s.selWeek, k => this.setState({ selWeek: k }), 'week', W), { title: W.weekly }),
-      month: Object.assign(this.chart(this.periods('month', 12, live), s.selMonth, k => this.setState({ selMonth: k }), 'month', W), { title: W.monthly }),
+      week: Object.assign(this.chart(this.periods('week', since, live), s.weekOff, s.selWeek, o => this.setState({ weekOff: o, selWeek: -1 }), k => this.setState({ selWeek: k }), 'week', sinceIso, W), { title: W.weekly }),
+      month: Object.assign(this.chart(this.periods('month', since, live), s.monthOff, s.selMonth, o => this.setState({ monthOff: o, selMonth: -1 }), k => this.setState({ selMonth: k }), 'month', sinceIso, W), { title: W.monthly }),
       noProducts: !prods.length,
       products: prods.map((p, k) => ({ rank: k + 1, name: p.product, tx: W.txCount(p.n), comm: W.commissionAmt(f(p.comm)),
         w: Math.max(3, Math.round(p.n / maxP * 100)) + '%', badgeBg: k < 3 ? 'var(--color-accent)' : 'var(--af-panel)', badgeColor: k < 3 ? '#ffffff' : 'var(--color-text)' }))
