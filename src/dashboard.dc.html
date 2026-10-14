@@ -5791,7 +5791,7 @@ class Component extends DCLogic {
     this.rootRef = React.createRef();
     const D = window.__AF_DATA__ || {};
     this.D = { user: D.user || { name: '', email: '' }, settings: D.settings || {}, links: D.links || {}, qrSrc: D.qrSrc || '',
-      page: ['home', 'sales', 'profile'].includes(D.page) ? D.page : 'home' };
+      page: ['home', 'sales', 'profile', 'join'].includes(D.page) ? D.page : 'home' };
     const lang = this.pref('af_lang', ['id', 'en'], 'id');
     this.mq = window.matchMedia ? window.matchMedia('(prefers-color-scheme: dark)') : null;
     const acct = D.account && D.account.found ? D.account : null;
@@ -5834,7 +5834,7 @@ class Component extends DCLogic {
     de.lang = this.state.lang;
     de.style.colorScheme = dark ? 'dark' : 'light';
     document.body.style.background = dark ? '#121011' : '#f6f4f4';
-    document.title = ({ home: 'Home', sales: 'Sales', profile: 'Profile' })[this.D.page] + ' · ' + W.siteName;
+    document.title = ({ home: 'Home', sales: 'Sales', profile: 'Profile', join: W.stepTitle })[this.D.page] + ' · ' + W.siteName;
   }
 
   fromState(st) {
@@ -6025,7 +6025,7 @@ class Component extends DCLogic {
       clicksEmpty: 'Nobody has opened your link in the app yet. A click is counted when your link is opened in the 20FIT app.',
       clicksNote: (c, f) => `${c} ${c === 1 ? 'click' : 'clicks'} in total so far; ${f} ${f === 1 ? 'friend has' : 'friends have'} bought through your link.`,
       friendsCount: n => `${n} ${n === 1 ? 'person' : 'people'}`, friendSince: d => 'since ' + d,
-      stepsLabel: 'Sign-up steps', stepKtp: 'KTP details', stepDom: 'Domisili', stepBank: 'Payout account', next: 'Continue', back: 'Back', saveKtp: 'Save KTP details',
+      stepTitle: 'Join', stepsLabel: 'Sign-up steps', stepKtp: 'KTP details', stepDom: 'Domisili', stepBank: 'Payout account', next: 'Continue', back: 'Back', saveKtp: 'Save KTP details',
       ktpTitle: 'KTP details', ktpHint: 'Fill these in exactly as on your KTP. Blood type isn’t needed.', ktpLockNote: 'Check them carefully: KTP details can’t be changed after you join. Only your domisili and payout account can.',
       domTitle: 'Domisili', domHint: 'Where you live now, if it’s different from your KTP address.', sameAsKtp: 'Same as my KTP address',
       reviewTitle: 'Check your details', completeTitle: 'Complete your KTP details', completeBody: 'Affiliates who joined in the 20FIT app fill this in once. Withdrawals open after it’s saved.',
@@ -6095,7 +6095,7 @@ class Component extends DCLogic {
       clicksEmpty: 'Belum ada yang membuka link-mu di app. Klik dihitung saat link-mu dibuka di app 20FIT.',
       clicksNote: (c, f) => `Total ${c} klik sejauh ini; ${f} teman sudah membeli lewat link-mu.`,
       friendsCount: n => `${n} orang`, friendSince: d => 'sejak ' + d,
-      stepsLabel: 'Langkah pendaftaran', stepKtp: 'Data KTP', stepDom: 'Domisili', stepBank: 'Rekening', next: 'Lanjut', back: 'Kembali', saveKtp: 'Simpan data KTP',
+      stepTitle: 'Gabung', stepsLabel: 'Langkah pendaftaran', stepKtp: 'Data KTP', stepDom: 'Domisili', stepBank: 'Rekening', next: 'Lanjut', back: 'Kembali', saveKtp: 'Simpan data KTP',
       ktpTitle: 'Data KTP', ktpHint: 'Isi persis seperti di KTP. Golongan darah tidak perlu diisi.', ktpLockNote: 'Periksa lagi: data KTP tidak bisa diubah setelah bergabung. Yang bisa diubah hanya domisili dan rekening.',
       domTitle: 'Domisili', domHint: 'Alamat tempat tinggalmu sekarang, kalau beda dengan alamat KTP.', sameAsKtp: 'Sama dengan alamat KTP',
       reviewTitle: 'Periksa datamu', completeTitle: 'Lengkapi data KTP', completeBody: 'Affiliate yang bergabung lewat app 20FIT cukup mengisi ini sekali. Penarikan saldo terbuka setelah data tersimpan.',
