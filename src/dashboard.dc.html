@@ -5356,6 +5356,7 @@ textarea.input { min-height: 90px; resize: vertical; }
           <li class="af-step" aria-current="{{ st.current }}" data-done="{{ st.done }}"><span class="af-step-n">{{ st.n }}</span><span>{{ st.label }}</span></li>
         </sc-for>
       </ol>
+      <div class="text-muted" style="font-size:12px;margin-top:-6px;display:flex;gap:6px;align-items:center"><i class="ph ph-floppy-disk"></i><span>{{ tr.draftNote }}</span></div>
 
       <sc-if value="{{ jn.s1 }}" hint-placeholder-val="{{ true }}">
         <section class="card af-glass" style="padding:22px;gap:14px">
@@ -5722,7 +5723,7 @@ textarea.input { min-height: 90px; resize: vertical; }
       </div>
     </section>
 
-    <div style="display:flex;justify-content:flex-end"><a class="btn af-btn2" href="/logout"><i class="ph ph-sign-out"></i><span>{{ tr.signOut }}</span></a></div>
+    <div style="display:flex;justify-content:flex-end"><a class="btn af-btn2" href="/logout" sc-camel-on-click="{{ signOut }}"><i class="ph ph-sign-out"></i><span>{{ tr.signOut }}</span></a></div>
   </sc-if>
 </main>
 
@@ -5830,6 +5831,8 @@ class Component extends DCLogic {
     });
     const id0 = this.state.identity;
     this.state.form.holder = id0 ? id0.full_name : (acct ? acct.name : '');
+    this.clearDrafts(k => k !== this.draftKey() || (this.D.page !== 'join' && id0 && this.state.joined));
+    if (this.D.page === 'join') this.restoreDraft(acct);
   }
   componentDidMount() {
     const el = this.rootRef.current;
@@ -5844,7 +5847,7 @@ class Component extends DCLogic {
     this.applyDocument();
     if (this.D.page === 'profile' && !this.state.account && !this.state.accountMissing) this.loadAccount();
   }
-  componentDidUpdate() { this.applyDocument(); }
+  componentDidUpdate() { this.applyDocument(); if (this.D.page === 'join') this.saveDraft(); }
   componentWillUnmount() {
     this.ro && this.ro.disconnect(); clearTimeout(this.tt);
     if (this.mq) (this.mq.removeEventListener ? this.mq.removeEventListener('change', this.onScheme) : this.mq.removeListener(this.onScheme));
@@ -5854,6 +5857,42 @@ class Component extends DCLogic {
   // ── theme and language (this browser only) ──
   pref(key, allowed, fallback) { try { const v = localStorage.getItem(key); return allowed.includes(v) ? v : fallback; } catch (e) { return fallback; } }
   savePref(key, value) { try { localStorage.setItem(key, value); } catch (e) {} }
+
+  // ── /gabung draft (this tab only) ──
+  // What's been filled in on /gabung is kept in sessionStorage, per signed-in
+  // user, so a refresh picks up at the same step with the same answers. It
+  // goes away when the tab is closed and once the sign-up is sent; the T&C
+  // tick isn't kept, so agreeing is always a fresh action.
+  draftKey() { return 'af_join_draft:' + String(this.D.user.email || '').toLowerCase(); }
+  clearDraft() { this.clearDrafts(k => k === this.draftKey()); }
+  // Drafts of other accounts that used this tab go as soon as the dashboard
+  // loads, and all of them on signing out.
+  clearDrafts(which) {
+    this._draft = '';
+    try { Object.keys(sessionStorage).filter(k => k.startsWith('af_join_draft:') && which(k)).forEach(k => sessionStorage.removeItem(k)); } catch (e) {}
+  }
+  saveDraft() {
+    const s = this.state, ident = !!s.identity;
+    const json = JSON.stringify({ v: 1, step: s.step, kyc: ident ? {} : s.kyc, sameAsKtp: s.sameAsKtp, bank: s.form.bank, bankOther: s.bankOther, acct: s.form.acct });
+    if (json === this._draft) return;
+    this._draft = json;
+    try { sessionStorage.setItem(this.draftKey(), json); } catch (e) {}
+  }
+  restoreDraft(acct) {
+    let d = null;
+    try { d = JSON.parse(sessionStorage.getItem(this.draftKey()) || 'null'); } catch (e) {}
+    if (!d || d.v !== 1) return;
+    const st = this.state, ident = st.identity, W = this.words(st.lang), str = (v, n) => (typeof v === 'string' ? v : '').slice(0, n);
+    const kyc = this.emptyKyc(acct);
+    if (!ident && d.kyc) Object.keys(kyc).forEach(k => { if (typeof d.kyc[k] === 'string') kyc[k] = str(d.kyc[k], 300); });
+    // Same step as before, unless an earlier step isn't complete.
+    let step = ident ? 3 : Math.min(Math.max(1, Number(d.step) || 1), st.joined ? 2 : 3);
+    if (!ident && step > 1 && Object.keys(this.validateKtp(kyc, W)).length) step = 1;
+    if (!ident && step > 2 && Object.keys(this.validateDom(kyc, W)).length) step = 2;
+    const bank = str(d.bank, 80);
+    Object.assign(st, { kyc: ident ? st.kyc : kyc, sameAsKtp: !ident && !!d.sameAsKtp, step, bankOther: !!d.bankOther && !!bank.trim(),
+      form: { ...st.form, bank, acct: str(d.acct, 20).replace(/\D/g, ''), holder: ident ? st.form.holder : (kyc.full_name || st.form.holder) } });
+  }
   dark() { return this.state.theme === 'dark' || (this.state.theme === 'system' && this.state.sysDark); }
   applyDocument() {
     const dark = this.dark(), W = this.words(this.state.lang), de = document.documentElement;
@@ -6136,7 +6175,7 @@ class Component extends DCLogic {
       clicksEmpty: 'Nobody has opened your link in the app yet. A click is counted when your link is opened in the 20FIT app.',
       clicksNote: (c, f) => `${c} ${c === 1 ? 'click' : 'clicks'} in total so far; ${f} ${f === 1 ? 'friend has' : 'friends have'} bought through your link.`,
       friendsCount: n => `${n} ${n === 1 ? 'person' : 'people'}`, friendSince: d => 'since ' + d,
-      stepTitle: 'Join', stepsLabel: 'Sign-up steps', stepKtp: 'KTP details', stepDom: 'Domisili', stepBank: 'Payout account', next: 'Continue', back: 'Back', saveKtp: 'Save KTP details',
+      stepTitle: 'Join', stepsLabel: 'Sign-up steps', draftNote: 'Your answers are saved in this tab, so refreshing the page won’t lose them.', stepKtp: 'KTP details', stepDom: 'Domisili', stepBank: 'Payout account', next: 'Continue', back: 'Back', saveKtp: 'Save KTP details',
       ktpTitle: 'KTP details', ktpHint: 'Fill these in exactly as on your KTP. Blood type isn’t needed.', ktpLockNote: 'Check them carefully: KTP details can’t be changed after you join. Only your domisili and payout account can.',
       domTitle: 'Domisili', domHint: 'Where you live now, if it’s different from your KTP address.', sameAsKtp: 'Same as my KTP address',
       reviewTitle: 'Check your details', completeTitle: 'Complete your KTP details', completeBody: 'Affiliates who joined in the 20FIT app fill this in once. Withdrawals open after it’s saved.',
@@ -6211,7 +6250,7 @@ class Component extends DCLogic {
       clicksEmpty: 'Belum ada yang membuka link-mu di app. Klik dihitung saat link-mu dibuka di app 20FIT.',
       clicksNote: (c, f) => `Total ${c} klik sejauh ini; ${f} teman sudah membeli lewat link-mu.`,
       friendsCount: n => `${n} orang`, friendSince: d => 'sejak ' + d,
-      stepTitle: 'Gabung', stepsLabel: 'Langkah pendaftaran', stepKtp: 'Data KTP', stepDom: 'Domisili', stepBank: 'Rekening', next: 'Lanjut', back: 'Kembali', saveKtp: 'Simpan data KTP',
+      stepTitle: 'Gabung', stepsLabel: 'Langkah pendaftaran', draftNote: 'Isianmu tersimpan di tab ini, jadi aman kalau halaman di-refresh.', stepKtp: 'Data KTP', stepDom: 'Domisili', stepBank: 'Rekening', next: 'Lanjut', back: 'Kembali', saveKtp: 'Simpan data KTP',
       ktpTitle: 'Data KTP', ktpHint: 'Isi persis seperti di KTP. Golongan darah tidak perlu diisi.', ktpLockNote: 'Periksa lagi: data KTP tidak bisa diubah setelah bergabung. Yang bisa diubah hanya domisili dan rekening.',
       domTitle: 'Domisili', domHint: 'Alamat tempat tinggalmu sekarang, kalau beda dengan alamat KTP.', sameAsKtp: 'Sama dengan alamat KTP',
       reviewTitle: 'Periksa datamu', completeTitle: 'Lengkapi data KTP', completeBody: 'Affiliate yang bergabung lewat app 20FIT cukup mengisi ini sekali. Penarikan saldo terbuka setelah data tersimpan.',
@@ -6480,7 +6519,7 @@ class Component extends DCLogic {
         const e = this.validateDom(this.state.kyc, W);
         if (Object.keys(e).length) return this.setState({ kerr: e });
         if (!complete) { this.setState({ step: 3 }); return window.scrollTo(0, 0); }
-        this.run(async () => { await this.api('POST', 'identity', this.state.kyc); location.assign('/dashboard/profile'); });
+        this.run(async () => { await this.api('POST', 'identity', this.state.kyc); this.clearDraft(); location.assign('/dashboard/profile'); });
       },
       back: () => { this.setState(st3 => ({ step: Math.max(1, st3.step - 1) })); window.scrollTo(0, 0); },
       toStep1: () => { this.setState({ step: 1 }); window.scrollTo(0, 0); },
@@ -6491,6 +6530,7 @@ class Component extends DCLogic {
         this.run(async () => { const r = await this.api('POST', 'domicile', this.state.kyc); this.setState({ identity: r.identity, dialog: null }); this.flash(W.domSaved); });
       },
       reload: () => location.reload(),
+      signOut: () => this.clearDrafts(() => true),
       agreed: s.agreed, joinDisabled: paused || s.busy, joinLabel: paused ? W.joinPaused : W.joinCta,
       toggleAgree: () => this.setState(st3 => ({ agreed: !st3.agreed })),
       join: () => {
@@ -6499,6 +6539,7 @@ class Component extends DCLogic {
         if (!this.state.agreed) return this.flash(W.errAgree);
         this.run(async () => {
           await this.api('POST', 'join', { agree: true, ...this.bankBody(this.state.form), identity: this.state.identity ? undefined : this.state.kyc });
+          this.clearDraft();
           location.assign('/dashboard');
         });
       },
