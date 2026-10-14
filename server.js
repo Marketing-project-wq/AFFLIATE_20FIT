@@ -9,7 +9,7 @@ const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
 const { createAffiliateData } = require('./lib/affiliate-data');
-const { renderLanding } = require('./lib/landing-view');
+const { renderLanding, APP_STORE, PLAY_STORE } = require('./lib/landing-view');
 const { renderSettingsPage, parseForm } = require('./lib/admin-settings-view');
 const { loginPage, forgotPage } = require('./lib/auth-pages');
 const { createDashboardApi, friendly } = require('./lib/dashboard-api');
@@ -76,16 +76,17 @@ const qrScript = versioned('qrcode.js');
 // ── helpers ─────────────────────────────────────────────────────────────
 
 // App store and support links: an environment variable wins, otherwise
-// affiliate_settings.landing_content. Missing ones are simply not shown.
+// affiliate_settings.landing_content; the store links fall back to the ones
+// the landing page uses. Missing ones are simply not shown.
 function siteLinks(settings) {
   const content = (settings && settings.landingContent) || {};
-  const pick = (env, key) => {
-    const v = String(process.env[env] || content[key] || '').trim();
+  const pick = (env, key, fallback = '') => {
+    const v = String(process.env[env] || content[key] || fallback).trim();
     return /^https:\/\/\S+$/.test(v) ? v : '';
   };
   return {
-    appStore: pick('APP_STORE_URL', 'app_store_url'),
-    playStore: pick('PLAY_STORE_URL', 'play_store_url'),
+    appStore: pick('APP_STORE_URL', 'app_store_url', APP_STORE),
+    playStore: pick('PLAY_STORE_URL', 'play_store_url', PLAY_STORE),
     support: pick('SUPPORT_URL', 'support_url'),
     terms: (settings && /^https:\/\//.test(settings.termsUrl || '') && settings.termsUrl) || '',
   };

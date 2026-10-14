@@ -5345,10 +5345,18 @@ textarea.input { min-height: 90px; resize: vertical; }
         <p class="text-muted" style="max-width:600px;font-size:15px;text-wrap:pretty;margin:0">{{ jn.body }}</p>
       </div>
       <sc-if value="{{ jn.showHow }}" hint-placeholder-val="{{ false }}">
-        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px">
-          <div class="card af-glass" style="padding:16px;gap:6px"><span style="font-size:13px;color:var(--color-accent-300)">01</span><div class="card-title">{{ tr.step1Title }}</div><p class="card-body">{{ tr.step1Body }}</p></div>
-          <div class="card af-glass" style="padding:16px;gap:6px"><span style="font-size:13px;color:var(--color-accent-300)">02</span><div class="card-title">{{ tr.step2Title }}</div><p class="card-body">{{ tr.step2Body }}</p></div>
-          <div class="card af-glass" style="padding:16px;gap:6px"><span style="font-size:13px;color:var(--color-accent-300)">03</span><div class="card-title">{{ tr.step3Title }}</div><p class="card-body">{{ t.stepEarn }}</p></div>
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <div><h4 style="margin:0">{{ tr.howTitle }}</h4><div class="text-muted" style="font-size:13px;margin-top:2px">{{ tr.howSub }}</div></div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:12px">
+            <div class="card af-glass" style="padding:16px;gap:6px"><span style="font-size:13px;color:var(--color-accent-300)">01</span><div class="card-title">{{ tr.how1Title }}</div><p class="card-body">{{ tr.how1Body }}</p>
+              <sc-if value="{{ links.hasStores }}" hint-placeholder-val="{{ false }}"><div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:4px">
+                <sc-if value="{{ links.appStore }}" hint-placeholder-val="{{ false }}"><a class="btn af-btn2" style="font-size:12px;padding:6px 10px" href="{{ links.appStore }}" target="_blank" rel="noopener"><i class="ph ph-apple-logo"></i><span>App Store</span></a></sc-if>
+                <sc-if value="{{ links.playStore }}" hint-placeholder-val="{{ false }}"><a class="btn af-btn2" style="font-size:12px;padding:6px 10px" href="{{ links.playStore }}" target="_blank" rel="noopener"><i class="ph ph-google-play-logo"></i><span>Google Play</span></a></sc-if>
+              </div></sc-if></div>
+            <div class="card af-glass" style="padding:16px;gap:6px"><span style="font-size:13px;color:var(--color-accent-300)">02</span><div class="card-title">{{ tr.how2Title }}</div><p class="card-body">{{ tr.how2Body }}</p></div>
+            <div class="card af-glass" style="padding:16px;gap:6px"><span style="font-size:13px;color:var(--color-accent-300)">03</span><div class="card-title">{{ tr.how3Title }}</div><p class="card-body">{{ tr.how3Body }}</p></div>
+            <div class="card af-glass" style="padding:16px;gap:6px"><span style="font-size:13px;color:var(--color-accent-300)">04</span><div class="card-title">{{ tr.step3Title }}</div><p class="card-body">{{ t.stepEarn }}</p></div>
+          </div>
         </div>
       </sc-if>
       <ol class="af-steps" aria-label="{{ tr.stepsLabel }}">
@@ -5356,6 +5364,7 @@ textarea.input { min-height: 90px; resize: vertical; }
           <li class="af-step" aria-current="{{ st.current }}" data-done="{{ st.done }}"><span class="af-step-n">{{ st.n }}</span><span>{{ st.label }}</span></li>
         </sc-for>
       </ol>
+      <div class="text-muted" style="font-size:12px;margin-top:-6px;display:flex;gap:6px;align-items:center"><i class="ph ph-floppy-disk"></i><span>{{ tr.draftNote }}</span></div>
 
       <sc-if value="{{ jn.s1 }}" hint-placeholder-val="{{ true }}">
         <section class="card af-glass" style="padding:22px;gap:14px">
@@ -5722,7 +5731,7 @@ textarea.input { min-height: 90px; resize: vertical; }
       </div>
     </section>
 
-    <div style="display:flex;justify-content:flex-end"><a class="btn af-btn2" href="/logout"><i class="ph ph-sign-out"></i><span>{{ tr.signOut }}</span></a></div>
+    <div style="display:flex;justify-content:flex-end"><a class="btn af-btn2" href="/logout" sc-camel-on-click="{{ signOut }}"><i class="ph ph-sign-out"></i><span>{{ tr.signOut }}</span></a></div>
   </sc-if>
 </main>
 
@@ -5830,6 +5839,8 @@ class Component extends DCLogic {
     });
     const id0 = this.state.identity;
     this.state.form.holder = id0 ? id0.full_name : (acct ? acct.name : '');
+    this.clearDrafts(k => k !== this.draftKey() || (this.D.page !== 'join' && id0 && this.state.joined));
+    if (this.D.page === 'join') this.restoreDraft(acct);
   }
   componentDidMount() {
     const el = this.rootRef.current;
@@ -5844,7 +5855,7 @@ class Component extends DCLogic {
     this.applyDocument();
     if (this.D.page === 'profile' && !this.state.account && !this.state.accountMissing) this.loadAccount();
   }
-  componentDidUpdate() { this.applyDocument(); }
+  componentDidUpdate() { this.applyDocument(); if (this.D.page === 'join') this.saveDraft(); }
   componentWillUnmount() {
     this.ro && this.ro.disconnect(); clearTimeout(this.tt);
     if (this.mq) (this.mq.removeEventListener ? this.mq.removeEventListener('change', this.onScheme) : this.mq.removeListener(this.onScheme));
@@ -5854,6 +5865,42 @@ class Component extends DCLogic {
   // ── theme and language (this browser only) ──
   pref(key, allowed, fallback) { try { const v = localStorage.getItem(key); return allowed.includes(v) ? v : fallback; } catch (e) { return fallback; } }
   savePref(key, value) { try { localStorage.setItem(key, value); } catch (e) {} }
+
+  // ── /gabung draft (this tab only) ──
+  // What's been filled in on /gabung is kept in sessionStorage, per signed-in
+  // user, so a refresh picks up at the same step with the same answers. It
+  // goes away when the tab is closed and once the sign-up is sent; the T&C
+  // tick isn't kept, so agreeing is always a fresh action.
+  draftKey() { return 'af_join_draft:' + String(this.D.user.email || '').toLowerCase(); }
+  clearDraft() { this.clearDrafts(k => k === this.draftKey()); }
+  // Drafts of other accounts that used this tab go as soon as the dashboard
+  // loads, and all of them on signing out.
+  clearDrafts(which) {
+    this._draft = '';
+    try { Object.keys(sessionStorage).filter(k => k.startsWith('af_join_draft:') && which(k)).forEach(k => sessionStorage.removeItem(k)); } catch (e) {}
+  }
+  saveDraft() {
+    const s = this.state, ident = !!s.identity;
+    const json = JSON.stringify({ v: 1, step: s.step, kyc: ident ? {} : s.kyc, sameAsKtp: s.sameAsKtp, bank: s.form.bank, bankOther: s.bankOther, acct: s.form.acct });
+    if (json === this._draft) return;
+    this._draft = json;
+    try { sessionStorage.setItem(this.draftKey(), json); } catch (e) {}
+  }
+  restoreDraft(acct) {
+    let d = null;
+    try { d = JSON.parse(sessionStorage.getItem(this.draftKey()) || 'null'); } catch (e) {}
+    if (!d || d.v !== 1) return;
+    const st = this.state, ident = st.identity, W = this.words(st.lang), str = (v, n) => (typeof v === 'string' ? v : '').slice(0, n);
+    const kyc = this.emptyKyc(acct);
+    if (!ident && d.kyc) Object.keys(kyc).forEach(k => { if (typeof d.kyc[k] === 'string') kyc[k] = str(d.kyc[k], 300); });
+    // Same step as before, unless an earlier step isn't complete.
+    let step = ident ? 3 : Math.min(Math.max(1, Number(d.step) || 1), st.joined ? 2 : 3);
+    if (!ident && step > 1 && Object.keys(this.validateKtp(kyc, W)).length) step = 1;
+    if (!ident && step > 2 && Object.keys(this.validateDom(kyc, W)).length) step = 2;
+    const bank = str(d.bank, 80);
+    Object.assign(st, { kyc: ident ? st.kyc : kyc, sameAsKtp: !ident && !!d.sameAsKtp, step, bankOther: !!d.bankOther && !!bank.trim(),
+      form: { ...st.form, bank, acct: str(d.acct, 20).replace(/\D/g, ''), holder: ident ? st.form.holder : (kyc.full_name || st.form.holder) } });
+  }
   dark() { return this.state.theme === 'dark' || (this.state.theme === 'system' && this.state.sysDark); }
   applyDocument() {
     const dark = this.dark(), W = this.words(this.state.lang), de = document.documentElement;
@@ -6089,8 +6136,10 @@ class Component extends DCLogic {
       siteName: '20FIT Affiliate', logoLabel: '20FIT Affiliate program', navLabel: 'Dashboard', signOut: 'Sign out', avatarLabel: e => 'Profile · ' + e,
       reload: 'Reload', contactTeam: 'Contact the affiliate team', programKicker: '20FIT affiliate program',
       heroBody: 'Share your 20FIT affiliate link with friends. When they buy in the 20FIT app after opening your link, you earn a commission.',
-      step1Title: 'Join and share your link', step1Body: 'Join here, then share your affiliate link on WhatsApp, social media, or as a QR code.',
-      step2Title: 'Your friend buys in the app', step2Body: 'Your friend opens your link and buys in the 20FIT app. New and existing accounts both count.',
+      howTitle: 'How to join', howSub: 'Four steps, from downloading the app to your first commission.',
+      how1Title: 'Download the 20FIT app', how1Body: 'It’s on the App Store and Google Play. Create an account there if you don’t have one, then sign in here with the same account.',
+      how2Title: 'Fill in your details here', how2Body: 'Complete your KTP details, domisili and payout account below, then agree to the T&C. You’re in straight away, no approval needed.',
+      how3Title: 'Share products from the app', how3Body: 'Open a product in the 20FIT app and share its link from there on WhatsApp, social media or as a QR code. Only products shared through the app earn a commission.',
       step3Title: 'You earn a commission', termsSummary: 'Terms summary', bankTitle: 'Payout account', bankHint: 'Your commission is transferred here. Use an account in your own name.',
       homeTitle: 'Affiliate dashboard', availableKicker: 'Available to withdraw', pending: 'On hold', totalEarned: 'Total earned', totalEarnedNote: 'Available + on hold',
       myLink: 'My link', linkHint: 'One link for every product in the 20FIT app. Purchases after a friend opens it count toward your commission.', copyLink: 'Copy link', downloadQr: 'Download QR',
@@ -6118,7 +6167,7 @@ class Component extends DCLogic {
       errBank: 'Choose or type your bank.', errBankOther: 'Type the bank name (at least 3 letters).', errAccount: 'Enter a valid account number (6–20 digits).', errHolder: 'Enter the account holder’s name.', errName: 'Enter a name of 2–80 characters.', errPhone: 'Use 8–15 digits, optionally starting with +.',
       errAgree: 'Tick the T&C agreement first.', errMin: m => 'The minimum withdrawal is ' + m + '.', errMax: m => 'Your available balance is ' + m + '.',
       heroTitle: r => `Earn ${r} of every in-app purchase made through your link.`, stepEarn: r => `${r} of the order value after discounts, for purchases in the app through your link.`, joinedSub: r => `${r} of every 20FIT app purchase through your link.`,
-      terms: (r, days, min) => ['Only purchases in the 20FIT app count.', `You earn ${r} of the order value after discounts, for purchases made after a friend opens your link (the last link opened counts).`,
+      terms: (r, days, min) => ['Commission only applies to products you share through the 20FIT app: open the product in the app and share its link from there.', 'Only purchases in the 20FIT app count.', `You earn ${r} of the order value after discounts, for purchases made after a friend opens your link (the last link opened counts).`,
         'Purchases through your own link don’t count.', `Commission is held for ${days} days after payment. A refund in that time cancels it.`, `Withdraw from ${min}, transferred to a bank account in your name on 20FIT’s payout schedule.`],
       agreeLabel: v => `I have read and agree to the Affiliate T&C ${v}.`, readTermsLabel: v => `Read the full Affiliate T&C (${v})`,
       noteError: 'The data couldn’t be loaded', noteSuspended: 'Your affiliate account is deactivated', noteSuspendedBody: s => 'You can still see your data, but withdrawals are unavailable for now.' + (s ? '' : ' Contact the 20FIT affiliate team for details.'),
@@ -6136,7 +6185,7 @@ class Component extends DCLogic {
       clicksEmpty: 'Nobody has opened your link in the app yet. A click is counted when your link is opened in the 20FIT app.',
       clicksNote: (c, f) => `${c} ${c === 1 ? 'click' : 'clicks'} in total so far; ${f} ${f === 1 ? 'friend has' : 'friends have'} bought through your link.`,
       friendsCount: n => `${n} ${n === 1 ? 'person' : 'people'}`, friendSince: d => 'since ' + d,
-      stepTitle: 'Join', stepsLabel: 'Sign-up steps', stepKtp: 'KTP details', stepDom: 'Domisili', stepBank: 'Payout account', next: 'Continue', back: 'Back', saveKtp: 'Save KTP details',
+      stepTitle: 'Join', stepsLabel: 'Sign-up steps', draftNote: 'Your answers are saved in this tab, so refreshing the page won’t lose them.', stepKtp: 'KTP details', stepDom: 'Domisili', stepBank: 'Payout account', next: 'Continue', back: 'Back', saveKtp: 'Save KTP details',
       ktpTitle: 'KTP details', ktpHint: 'Fill these in exactly as on your KTP. Blood type isn’t needed.', ktpLockNote: 'Check them carefully: KTP details can’t be changed after you join. Only your domisili and payout account can.',
       domTitle: 'Domisili', domHint: 'Where you live now, if it’s different from your KTP address.', sameAsKtp: 'Same as my KTP address',
       reviewTitle: 'Check your details', completeTitle: 'Complete your KTP details', completeBody: 'Affiliates who joined in the 20FIT app fill this in once. Withdrawals open after it’s saved.',
@@ -6164,8 +6213,10 @@ class Component extends DCLogic {
       siteName: '20FIT Affiliate', logoLabel: 'Program affiliate 20FIT', navLabel: 'Dashboard', signOut: 'Keluar', avatarLabel: e => 'Profile · ' + e,
       reload: 'Muat ulang', contactTeam: 'Hubungi tim affiliate', programKicker: 'Program affiliate 20FIT',
       heroBody: 'Bagikan link affiliate 20FIT-mu ke teman. Saat mereka membeli di app 20FIT setelah membuka link-mu, kamu dapat komisi.',
-      step1Title: 'Gabung dan bagikan link', step1Body: 'Gabung di sini, lalu bagikan link affiliate-mu lewat WhatsApp, media sosial, atau QR code.',
-      step2Title: 'Temanmu beli di app', step2Body: 'Temanmu membuka link-mu dan membeli di app 20FIT. Akun baru maupun lama sama-sama dihitung.',
+      howTitle: 'Cara gabung', howSub: 'Empat langkah, dari download app sampai komisi pertama.',
+      how1Title: 'Download app 20FIT', how1Body: 'Ada di App Store dan Google Play. Buat akun di app kalau belum punya, lalu masuk ke sini dengan akun yang sama.',
+      how2Title: 'Isi data di halaman ini', how2Body: 'Lengkapi Data KTP, domisili, dan rekening pencairan di bawah, lalu setujui S&K. Langsung terdaftar tanpa menunggu approval.',
+      how3Title: 'Bagikan produk dari app', how3Body: 'Buka produknya di app 20FIT, lalu bagikan link-nya dari app lewat WhatsApp, media sosial, atau QR code. Hanya produk yang dibagikan lewat app yang dapat komisi.',
       step3Title: 'Kamu dapat komisi', termsSummary: 'Ringkasan S&K', bankTitle: 'Rekening pencairan', bankHint: 'Komisimu ditransfer ke sini. Pakai rekening atas namamu sendiri.',
       homeTitle: 'Dashboard affiliate', availableKicker: 'Tersedia untuk ditarik', pending: 'Tertahan', totalEarned: 'Total pendapatan', totalEarnedNote: 'Tersedia + tertahan',
       myLink: 'Link saya', linkHint: 'Satu link untuk semua produk di app 20FIT. Pembelian setelah temanmu membuka link ini dihitung jadi komisimu.', copyLink: 'Salin link', downloadQr: 'Unduh QR',
@@ -6193,7 +6244,7 @@ class Component extends DCLogic {
       errBank: 'Pilih atau ketik nama bank.', errBankOther: 'Ketik nama bank (minimal 3 huruf).', errAccount: 'Isi nomor rekening yang valid (6–20 angka).', errHolder: 'Isi nama pemilik rekening.', errName: 'Isi nama 2–80 karakter.', errPhone: 'Pakai 8–15 angka, boleh diawali +.',
       errAgree: 'Centang persetujuan S&K dulu.', errMin: m => 'Minimal penarikan ' + m + '.', errMax: m => 'Saldo Tersedia kamu ' + m + '.',
       heroTitle: r => `Dapat ${r} dari setiap pembelian di app lewat link-mu.`, stepEarn: r => `${r} dari nilai pesanan setelah diskon, untuk pembelian di app lewat link-mu.`, joinedSub: r => `${r} dari setiap pembelian di app 20FIT lewat link-mu.`,
-      terms: (r, days, min) => ['Hanya pembelian di app 20FIT yang dihitung.', `Kamu dapat ${r} dari nilai pesanan setelah diskon, untuk pembelian setelah temanmu membuka link-mu (link terakhir yang dibuka yang dihitung).`,
+      terms: (r, days, min) => ['Komisi hanya berlaku untuk produk yang kamu bagikan lewat app 20FIT: buka produknya di app, lalu bagikan link-nya dari sana.', 'Hanya pembelian di app 20FIT yang dihitung.', `Kamu dapat ${r} dari nilai pesanan setelah diskon, untuk pembelian setelah temanmu membuka link-mu (link terakhir yang dibuka yang dihitung).`,
         'Pembelian lewat link sendiri tidak dihitung.', `Komisi ditahan ${days} hari setelah pembayaran. Refund di masa itu membatalkan komisinya.`, `Penarikan mulai ${min}, ditransfer ke rekening atas namamu sesuai jadwal pencairan 20FIT.`],
       agreeLabel: v => `Saya sudah membaca dan setuju dengan S&K Affiliate ${v}.`, readTermsLabel: v => `Baca S&K Affiliate lengkap (${v})`,
       noteError: 'Data belum bisa dimuat', noteSuspended: 'Akun affiliate kamu sedang dinonaktifkan', noteSuspendedBody: s => 'Data tetap bisa dilihat, tapi penarikan tidak tersedia untuk sementara.' + (s ? '' : ' Hubungi tim affiliate 20FIT untuk info lebih lanjut.'),
@@ -6211,7 +6262,7 @@ class Component extends DCLogic {
       clicksEmpty: 'Belum ada yang membuka link-mu di app. Klik dihitung saat link-mu dibuka di app 20FIT.',
       clicksNote: (c, f) => `Total ${c} klik sejauh ini; ${f} teman sudah membeli lewat link-mu.`,
       friendsCount: n => `${n} orang`, friendSince: d => 'sejak ' + d,
-      stepTitle: 'Gabung', stepsLabel: 'Langkah pendaftaran', stepKtp: 'Data KTP', stepDom: 'Domisili', stepBank: 'Rekening', next: 'Lanjut', back: 'Kembali', saveKtp: 'Simpan data KTP',
+      stepTitle: 'Gabung', stepsLabel: 'Langkah pendaftaran', draftNote: 'Isianmu tersimpan di tab ini, jadi aman kalau halaman di-refresh.', stepKtp: 'Data KTP', stepDom: 'Domisili', stepBank: 'Rekening', next: 'Lanjut', back: 'Kembali', saveKtp: 'Simpan data KTP',
       ktpTitle: 'Data KTP', ktpHint: 'Isi persis seperti di KTP. Golongan darah tidak perlu diisi.', ktpLockNote: 'Periksa lagi: data KTP tidak bisa diubah setelah bergabung. Yang bisa diubah hanya domisili dan rekening.',
       domTitle: 'Domisili', domHint: 'Alamat tempat tinggalmu sekarang, kalau beda dengan alamat KTP.', sameAsKtp: 'Sama dengan alamat KTP',
       reviewTitle: 'Periksa datamu', completeTitle: 'Lengkapi data KTP', completeBody: 'Affiliate yang bergabung lewat app 20FIT cukup mengisi ini sekali. Penarikan saldo terbuka setelah data tersimpan.',
@@ -6470,7 +6521,7 @@ class Component extends DCLogic {
     const holderLocked = !!ident || page === 'join';
 
     return {
-      rootRef: this.rootRef, themeAttr: this.dark() ? 'dark' : 'light', lang: s.lang, tr: W, t, head, note, links: { support: L.support || '#', hasSupport: !!L.support },
+      rootRef: this.rootRef, themeAttr: this.dark() ? 'dark' : 'light', lang: s.lang, tr: W, t, head, note, links: { support: L.support || '#', hasSupport: !!L.support, appStore: L.appStore || '', playStore: L.playStore || '', hasStores: !!(L.appStore || L.playStore) },
       pg: { max: page === 'sales' ? '1040px' : '760px', join: page === 'join', home: page === 'home' && s.joined, sales: page === 'sales' && s.joined, profile: page === 'profile' },
       jn, kyc: k, kerr: s.kerr, onK, ktp, ktpBanner: s.joined && !ident && page === 'home', sameAsKtp: s.sameAsKtp,
       holderLocked, holderNote: holderLocked ? W.holderLockedNote : '',
@@ -6480,7 +6531,7 @@ class Component extends DCLogic {
         const e = this.validateDom(this.state.kyc, W);
         if (Object.keys(e).length) return this.setState({ kerr: e });
         if (!complete) { this.setState({ step: 3 }); return window.scrollTo(0, 0); }
-        this.run(async () => { await this.api('POST', 'identity', this.state.kyc); location.assign('/dashboard/profile'); });
+        this.run(async () => { await this.api('POST', 'identity', this.state.kyc); this.clearDraft(); location.assign('/dashboard/profile'); });
       },
       back: () => { this.setState(st3 => ({ step: Math.max(1, st3.step - 1) })); window.scrollTo(0, 0); },
       toStep1: () => { this.setState({ step: 1 }); window.scrollTo(0, 0); },
@@ -6491,6 +6542,7 @@ class Component extends DCLogic {
         this.run(async () => { const r = await this.api('POST', 'domicile', this.state.kyc); this.setState({ identity: r.identity, dialog: null }); this.flash(W.domSaved); });
       },
       reload: () => location.reload(),
+      signOut: () => this.clearDrafts(() => true),
       agreed: s.agreed, joinDisabled: paused || s.busy, joinLabel: paused ? W.joinPaused : W.joinCta,
       toggleAgree: () => this.setState(st3 => ({ agreed: !st3.agreed })),
       join: () => {
@@ -6499,6 +6551,7 @@ class Component extends DCLogic {
         if (!this.state.agreed) return this.flash(W.errAgree);
         this.run(async () => {
           await this.api('POST', 'join', { agree: true, ...this.bankBody(this.state.form), identity: this.state.identity ? undefined : this.state.kyc });
+          this.clearDraft();
           location.assign('/dashboard');
         });
       },
