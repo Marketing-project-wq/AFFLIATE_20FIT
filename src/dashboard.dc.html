@@ -5235,6 +5235,17 @@ textarea.input { min-height: 90px; resize: vertical; }
 .af-num{font-variant-numeric:tabular-nums}
 .af-err{font-size:12px;color:var(--color-accent-300);margin-top:4px}
 .af-err:empty{display:none}
+/* bank picker: type to search, or use any bank name ("Lainnya") */
+.af-combo-field{position:relative}
+.af-combo-ic{position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:16px;color:var(--color-neutral-300);pointer-events:none}
+.input.af-combo-in{padding-left:38px}
+.af-combo-list{margin-top:6px;max-height:280px;overflow:auto;padding:6px;border-radius:16px;background:var(--color-surface);box-shadow:var(--af-glass-shadow)}
+.af-combo-h{padding:10px 10px 4px;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--color-accent)}
+.af-combo-o{display:flex;width:100%;align-items:baseline;justify-content:space-between;gap:10px;padding:9px 10px;border:0;border-radius:10px;background:none;color:inherit;font:inherit;font-size:14px;text-align:left;cursor:pointer}
+.af-combo-o:hover,.af-combo-o[aria-selected=true]{background:color-mix(in srgb, var(--color-neutral-100) 10%, transparent)}
+.af-combo-sub{font-size:12px;color:var(--color-neutral-300);text-align:right}
+.af-combo-none{padding:10px;font-size:13px;color:var(--color-neutral-300)}
+.af-combo-other{margin-top:4px;border-top:1px solid var(--color-divider);border-radius:0 0 10px 10px;color:var(--color-accent)}
 
 /* header: the landing page's logo, Home · Sales, and the profile photo (opens Profile) */
 .af-head{position:sticky;top:10px;z-index:40;display:flex;align-items:center;gap:8px;width:calc(100% - 32px);max-width:1160px;margin:14px auto 4px;padding:6px 6px 6px 18px;border-radius:999px}
@@ -5396,9 +5407,21 @@ textarea.input { min-height: 90px; resize: vertical; }
           <div class="af-rule-top" style="display:flex;flex-direction:column;gap:12px;padding-top:14px">
             <div><div style="font-size:14px;font-weight:500">{{ tr.bankTitle }}</div><div class="text-muted" style="font-size:13px">{{ tr.bankHint }}</div></div>
           <div class="field"><label>Bank</label>
-            <sc-raw-select class="input af-input" value="{{ form.bank }}" sc-camel-on-change="{{ onF.bank }}">
-              <option value="">{{ tr.pickBank }}</option><option>BCA</option><option>Mandiri</option><option>BNI</option><option>BRI</option><option>CIMB Niaga</option><option>Permata</option><option>BSI</option><option>Bank Jago</option>
-            </sc-raw-select>
+            <div class="af-combo">
+              <div class="af-combo-field"><i class="ph ph-magnifying-glass af-combo-ic"></i>
+              <input class="input af-input af-combo-in" value="{{ form.bank }}" placeholder="{{ bk.placeholder }}" autocomplete="off" spellcheck="false" maxlength="80" role="combobox" aria-expanded="{{ bk.open }}" sc-camel-on-change="{{ onF.bank }}" sc-camel-on-focus="{{ bk.focus }}" sc-camel-on-blur="{{ bk.blur }}" sc-camel-on-key-down="{{ bk.key }}"></div>
+              <sc-if value="{{ bk.open }}" hint-placeholder-val="{{ false }}">
+                <div class="af-combo-list" role="listbox">
+                  <sc-for list="{{ bk.rows }}" as="o" hint-placeholder-count="6">
+                    <sc-if value="{{ o.head }}" hint-placeholder-val="{{ false }}"><div class="af-combo-h">{{ o.label }}</div></sc-if>
+                    <sc-if value="{{ o.item }}" hint-placeholder-val="{{ false }}"><button type="button" class="af-combo-o" role="option" aria-selected="{{ o.on }}" sc-camel-on-mouse-down="{{ o.pick }}"><span>{{ o.label }}</span><span class="af-combo-sub">{{ o.sub }}</span></button></sc-if>
+                  </sc-for>
+                  <sc-if value="{{ bk.empty }}" hint-placeholder-val="{{ false }}"><div class="af-combo-none">{{ tr.bankNoMatch }}</div></sc-if>
+                  <button type="button" class="af-combo-o af-combo-other" role="option" aria-selected="{{ bk.otherOn }}" sc-camel-on-mouse-down="{{ bk.other }}"><span><i class="ph ph-pencil-simple-line"></i> {{ bk.otherLabel }}</span></button>
+                </div>
+              </sc-if>
+            </div>
+            <sc-if value="{{ bk.isOther }}" hint-placeholder-val="{{ false }}"><div class="text-muted" style="font-size:12px;margin-top:4px">{{ tr.bankOtherNote }}</div></sc-if>
             <div class="af-err">{{ err.bank }}</div></div>
           <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px">
             <div class="field"><label>{{ tr.accountNo }}</label><input class="input af-input" inputmode="numeric" autocomplete="off" value="{{ form.acct }}" sc-camel-on-change="{{ onF.acct }}"><div class="af-err">{{ err.acct }}</div></div>
@@ -5711,9 +5734,21 @@ textarea.input { min-height: 90px; resize: vertical; }
         <div><div class="dialog-title">{{ tr.bankTitle }}</div><div class="text-muted" style="font-size:13px;margin-top:4px">{{ tr.bankDialogHint }}</div></div>
         <div style="display:flex;flex-direction:column;gap:12px">
           <div class="field"><label>Bank</label>
-            <sc-raw-select class="input af-input" value="{{ form.bank }}" sc-camel-on-change="{{ onF.bank }}">
-              <option value="">{{ tr.pickBank }}</option><option>BCA</option><option>Mandiri</option><option>BNI</option><option>BRI</option><option>CIMB Niaga</option><option>Permata</option><option>BSI</option><option>Bank Jago</option>
-            </sc-raw-select>
+            <div class="af-combo">
+              <div class="af-combo-field"><i class="ph ph-magnifying-glass af-combo-ic"></i>
+              <input class="input af-input af-combo-in" value="{{ form.bank }}" placeholder="{{ bk.placeholder }}" autocomplete="off" spellcheck="false" maxlength="80" role="combobox" aria-expanded="{{ bk.open }}" sc-camel-on-change="{{ onF.bank }}" sc-camel-on-focus="{{ bk.focus }}" sc-camel-on-blur="{{ bk.blur }}" sc-camel-on-key-down="{{ bk.key }}"></div>
+              <sc-if value="{{ bk.open }}" hint-placeholder-val="{{ false }}">
+                <div class="af-combo-list" role="listbox">
+                  <sc-for list="{{ bk.rows }}" as="o" hint-placeholder-count="6">
+                    <sc-if value="{{ o.head }}" hint-placeholder-val="{{ false }}"><div class="af-combo-h">{{ o.label }}</div></sc-if>
+                    <sc-if value="{{ o.item }}" hint-placeholder-val="{{ false }}"><button type="button" class="af-combo-o" role="option" aria-selected="{{ o.on }}" sc-camel-on-mouse-down="{{ o.pick }}"><span>{{ o.label }}</span><span class="af-combo-sub">{{ o.sub }}</span></button></sc-if>
+                  </sc-for>
+                  <sc-if value="{{ bk.empty }}" hint-placeholder-val="{{ false }}"><div class="af-combo-none">{{ tr.bankNoMatch }}</div></sc-if>
+                  <button type="button" class="af-combo-o af-combo-other" role="option" aria-selected="{{ bk.otherOn }}" sc-camel-on-mouse-down="{{ bk.other }}"><span><i class="ph ph-pencil-simple-line"></i> {{ bk.otherLabel }}</span></button>
+                </div>
+              </sc-if>
+            </div>
+            <sc-if value="{{ bk.isOther }}" hint-placeholder-val="{{ false }}"><div class="text-muted" style="font-size:12px;margin-top:4px">{{ tr.bankOtherNote }}</div></sc-if>
             <div class="af-err">{{ err.bank }}</div></div>
           <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px">
             <div class="field"><label>{{ tr.accountNo }}</label><input class="input af-input" inputmode="numeric" autocomplete="off" value="{{ form.acct }}" sc-camel-on-change="{{ onF.acct }}"><div class="af-err">{{ err.acct }}</div></div>
@@ -5788,7 +5823,7 @@ class Component extends DCLogic {
     const acct = D.account && D.account.found ? D.account : null;
     this.state = Object.assign(this.fromState(D.state || { error: this.words(lang).loadFailed }), {
       lang, theme: this.pref('af_theme', ['light', 'dark', 'system'], 'system'), sysDark: !!(this.mq && this.mq.matches),
-      narrow: false, toast: '', dialog: null, payoutFlow: false, form: { bank: '', acct: '', holder: '' }, errors: {}, busy: false,
+      narrow: false, toast: '', dialog: null, payoutFlow: false, form: { bank: '', acct: '', holder: '' }, errors: {}, bankOpen: false, bankOther: false, bankHi: -1, bankQ: '', busy: false,
       agreed: false, payAmount: '', payErr: '', doneText: '', selWeek: -1, selMonth: -1,
       kyc: this.emptyKyc(acct), kerr: {}, sameAsKtp: false, step: (D.state && D.state.identity) ? 3 : 1,
       account: acct, accountMissing: !!(D.account && !D.account.found), acctForm: { name: acct ? acct.name : '', phone: acct ? acct.phone : '' }, acctErr: {}, acctStatus: ''
@@ -5900,9 +5935,86 @@ class Component extends DCLogic {
   }
 
   // ── forms ──
-  // Bank codes the app's backend stores (Xendit channel codes); banks
-  // without a known code are sent by name only.
-  bankCode(name) { return ({ BCA: 'BCA', Mandiri: 'MANDIRI', BNI: 'BNI', BRI: 'BRI', 'CIMB Niaga': 'CIMB', Permata: 'PERMATA' })[name] || ''; }
+  // Banks offered in the bank picker, grouped by country: Indonesian banks
+  // first, then banks Indonesians commonly use abroad. Each entry is
+  // [name stored, full name or app shown beside it, extra search words,
+  // code]. The code is the bank code the app's backend stores (Xendit
+  // channel code) and is set only where it's known; other banks, and any
+  // bank typed in by hand ("Lainnya"), are sent by name only.
+  bankGroups() {
+    return [
+      ['id', [
+        ['BCA', 'Bank Central Asia', '', 'BCA'], ['Mandiri', 'Bank Mandiri', 'livin', 'MANDIRI'], ['BNI', 'Bank Negara Indonesia', 'wondr', 'BNI'],
+        ['BRI', 'Bank Rakyat Indonesia', 'brimo', 'BRI'], ['BTN', 'Bank Tabungan Negara'], ['BSI', 'Bank Syariah Indonesia', 'syariah'],
+        ['CIMB Niaga', 'Bank CIMB Niaga', 'octo', 'CIMB'], ['Permata', 'PermataBank', '', 'PERMATA'], ['Danamon', 'Bank Danamon'],
+        ['OCBC Indonesia', 'Bank OCBC Indonesia', 'nyala nisp'], ['Panin Bank', 'Bank Panin'], ['Maybank Indonesia', 'Bank Maybank Indonesia'],
+        ['SMBC Indonesia', 'dulu BTPN', 'btpn'], ['UOB Indonesia', 'Bank UOB Indonesia', 'tmrw'], ['DBS Indonesia', 'Bank DBS Indonesia', 'digibank'],
+        ['HSBC Indonesia', 'Bank HSBC Indonesia'], ['Standard Chartered Indonesia', 'Standard Chartered Bank', 'stanchart'],
+        ['Bank Mega', 'Bank Mega'], ['Bank Sinarmas', 'Bank Sinarmas'], ['KB Bank', 'dulu Bank Bukopin', 'bukopin kb'], ['Bank MNC', 'MotionBank', 'motion'],
+        ['Bank Mayapada', 'Bank Mayapada'], ['Bank Artha Graha', 'Bank Artha Graha'], ['QNB Indonesia', 'Bank QNB Indonesia'],
+        ['Bank Woori Saudara', 'Bank Woori Saudara', 'bws'], ['Bank Shinhan Indonesia', 'Bank Shinhan Indonesia'], ['ICBC Indonesia', 'Bank ICBC Indonesia'],
+        ['Bank Muamalat', 'Bank Muamalat Indonesia', 'syariah'], ['BCA Syariah', 'Bank BCA Syariah', 'syariah'], ['BTPN Syariah', 'Bank BTPN Syariah', 'syariah'],
+        ['Bank Mega Syariah', 'Bank Mega Syariah', 'syariah'], ['Bank Raya', 'Bank Raya Indonesia', 'bri']
+      ]],
+      ['idDigital', [
+        ['Bank Jago', 'Bank Jago', 'digital'], ['Jenius', 'SMBC Indonesia', 'btpn digital'], ['blu', 'BCA Digital', 'bca digital'], ['SeaBank', 'Bank Seabank Indonesia', 'shopee'],
+        ['Allo Bank', 'Allo Bank Indonesia'], ['Bank Neo Commerce', 'neobank', 'neo bnc'], ['Superbank', 'Superbank Indonesia', 'grab'],
+        ['LINE Bank', 'KEB Hana Bank', 'hana'], ['Krom Bank', 'Krom Bank Indonesia'], ['Hibank', 'Bank Hibank Indonesia'], ['Aladin Syariah', 'Bank Aladin Syariah', 'syariah']
+      ]],
+      ['idRegional', [
+        ['Bank BJB', 'Bank Jawa Barat & Banten', 'jabar'], ['Bank DKI', 'Bank DKI Jakarta', 'jakarta jakone'], ['Bank Jatim', 'Bank Jawa Timur'],
+        ['Bank Jateng', 'Bank Jawa Tengah'], ['BPD DIY', 'Bank BPD DIY', 'jogja yogyakarta'], ['Bank Banten', 'Bank Banten'], ['BPD Bali', 'Bank BPD Bali'],
+        ['Bank Sumut', 'Bank Sumatera Utara', 'medan'], ['Bank Nagari', 'Bank Sumatera Barat', 'padang sumbar'], ['Bank Sumsel Babel', 'Bank Sumsel Babel', 'palembang'],
+        ['Bank Riau Kepri Syariah', 'BRK Syariah', 'riau kepri'], ['Bank Jambi', 'Bank Jambi'], ['Bank Lampung', 'Bank Lampung'], ['Bank Bengkulu', 'Bank Bengkulu'],
+        ['Bank Aceh Syariah', 'Bank Aceh', 'aceh'], ['Bank Kalbar', 'Bank Kalimantan Barat', 'pontianak'], ['Bank Kalsel', 'Bank Kalimantan Selatan', 'banjarmasin'],
+        ['Bank Kalteng', 'Bank Kalimantan Tengah'], ['Bank Kaltimtara', 'Bank Kaltim & Kaltara', 'kaltim'], ['Bank Sulselbar', 'Bank Sulawesi Selatan & Barat', 'makassar'],
+        ['Bank SulutGo', 'Bank Sulut & Gorontalo', 'manado'], ['Bank Sulteng', 'Bank Sulawesi Tengah'], ['Bank Sultra', 'Bank Sulawesi Tenggara'],
+        ['Bank NTB Syariah', 'Bank NTB', 'lombok mataram'], ['Bank NTT', 'Bank NTT', 'kupang'], ['Bank Maluku Malut', 'Bank Maluku & Maluku Utara', 'ambon'],
+        ['Bank Papua', 'Bank Papua', 'jayapura']
+      ]],
+      ['sg', [['DBS / POSB', 'DBS Bank Singapore', 'dbs posb'], ['OCBC Singapore', 'OCBC Bank'], ['UOB Singapore', 'United Overseas Bank'],
+        ['Standard Chartered Singapore', 'Standard Chartered Bank'], ['HSBC Singapore', 'HSBC Bank Singapore'], ['Maybank Singapore', 'Maybank'], ['Citibank Singapore', 'Citibank', 'citi']]],
+      ['my', [['Maybank', 'Malayan Banking'], ['CIMB Bank', 'CIMB Malaysia'], ['Public Bank', 'Public Bank Berhad'], ['RHB Bank', 'RHB Bank Berhad'],
+        ['Hong Leong Bank', 'Hong Leong Bank Berhad'], ['Bank Islam', 'Bank Islam Malaysia']]],
+      ['au', [['Commonwealth Bank', 'CommBank', 'cba commbank'], ['ANZ', 'ANZ Bank'], ['Westpac', 'Westpac Banking'], ['NAB', 'National Australia Bank']]],
+      ['jp', [['MUFG Bank', 'Mitsubishi UFJ', 'mitsubishi'], ['SMBC', 'Sumitomo Mitsui Banking', 'sumitomo'], ['Mizuho Bank', 'Mizuho'],
+        ['Japan Post Bank', 'Yucho Ginko', 'yucho']]],
+      ['kr', [['KB Kookmin Bank', 'Kookmin', 'kookmin'], ['Shinhan Bank', 'Shinhan'], ['Woori Bank', 'Woori'], ['Hana Bank', 'KEB Hana']]],
+      ['hk', [['HSBC Hong Kong', 'HSBC'], ['Bank of China (Hong Kong)', 'BOCHK', 'boc'], ['Hang Seng Bank', 'Hang Seng'], ['Standard Chartered Hong Kong', 'Standard Chartered']]],
+      ['tw', [['Chunghwa Post', 'Taiwan post office', 'post'], ['CTBC Bank', 'Chinatrust', 'chinatrust'], ['Bank of Taiwan', 'Bank of Taiwan']]],
+      ['sa', [['Al Rajhi Bank', 'Al Rajhi', 'rajhi'], ['Saudi National Bank', 'SNB', 'snb ahli']]],
+      ['ae', [['Emirates NBD', 'Emirates NBD', 'enbd'], ['First Abu Dhabi Bank', 'FAB', 'fab']]],
+      ['us', [['Chase', 'JPMorgan Chase', 'jpmorgan'], ['Bank of America', 'BofA', 'bofa'], ['Wells Fargo', 'Wells Fargo'], ['Citibank', 'Citi', 'citi']]],
+      ['uk', [['HSBC UK', 'HSBC'], ['Barclays', 'Barclays Bank'], ['Lloyds Bank', 'Lloyds'], ['NatWest', 'NatWest'], ['Monzo', 'Monzo Bank']]],
+      ['nl', [['ING', 'ING Bank'], ['ABN AMRO', 'ABN AMRO Bank'], ['Rabobank', 'Rabobank']]],
+      ['de', [['Deutsche Bank', 'Deutsche Bank'], ['Commerzbank', 'Commerzbank'], ['Sparkasse', 'Sparkasse'], ['N26', 'N26 Bank']]],
+      ['ca', [['RBC Royal Bank', 'Royal Bank of Canada', 'rbc'], ['TD Bank', 'TD Canada Trust', 'td']]],
+      ['intl', [['Wise', 'multi-mata uang', 'transferwise'], ['Revolut', 'multi-mata uang'], ['Payoneer', 'multi-mata uang']]]
+    ];
+  }
+  bankList() {
+    if (!this._banks) this._banks = this.bankGroups().flatMap(([g, items]) => items.map(([name, sub, words, code]) =>
+      ({ g, name, sub, code: code || '', words: [name, sub, words || ''].join(' ').toLowerCase().split(/[^a-z0-9]+/).filter(Boolean) })));
+    return this._banks;
+  }
+  findBank(name) { const n = String(name || '').trim().toLowerCase(); return n ? this.bankList().find(b => b.name.toLowerCase() === n) || null : null; }
+  bankCode(name) { const b = this.findBank(name); return b ? b.code : ''; }
+  // Typing in the bank picker: the list opens (unless a bank not in the
+  // list is being typed) with the first match highlighted; clearing the
+  // field goes back to searching the list.
+  bankTyped(st, v) {
+    const other = !!v.trim() && st.bankOther;
+    return { bankOther: other, bankOpen: !other, bankQ: v, bankHi: v.trim() && !this.findBank(v) ? 0 : -1 };
+  }
+  // What the bank picker shows for the text typed so far (everything when
+  // nothing has been typed yet): banks where every typed word starts a word
+  // of the bank's name, full name, app or country, under their country
+  // headings, in list order.
+  bankMatches(q, W) {
+    const typed = String(q || '').toLowerCase().split(/[^a-z0-9]+/).filter(Boolean);
+    const country = g => String(W.bankGroup[g] || '').toLowerCase().split(/[^a-z0-9]+/);
+    return this.bankList().filter(b => typed.every(w => b.words.some(x => x.startsWith(w)) || country(b.g).some(x => x.startsWith(w))));
+  }
   bankForm() {
     const b = this.state.aff && this.state.aff.bank, a = this.state.account, id = this.state.identity;
     return { bank: '', acct: '', holder: (id && id.full_name) || (b && b.holder) || (a && a.name) || '' };
@@ -5934,12 +6046,14 @@ class Component extends DCLogic {
   }
   validateBank(f, W) {
     const e = {};
-    if (!f.bank) e.bank = W.errBank;
+    const bank = f.bank.trim();
+    if (!bank) e.bank = W.errBank;
+    else if (!this.findBank(bank) && bank.length < 3) e.bank = W.errBankOther;
     if (!/^\d{6,20}$/.test(f.acct)) e.acct = W.errAccount;
     if (!f.holder.trim()) e.holder = W.errHolder;
     return e;
   }
-  bankBody(f) { return { bank: f.bank, account: f.acct, holder: f.holder.trim(), code: this.bankCode(f.bank) }; }
+  bankBody(f) { const b = this.findBank(f.bank); return { bank: b ? b.name : f.bank.trim(), account: f.acct, holder: f.holder.trim(), code: this.bankCode(f.bank) }; }
   validateAccount(f, W) {
     const e = {};
     const name = f.name.trim();
@@ -5994,9 +6108,14 @@ class Component extends DCLogic {
       appearance: 'Appearance', appearanceHint: 'Saved in this browser only.', theme: 'Theme', themeLight: 'Light', themeDark: 'Dark', themeSystem: 'System', language: 'Language',
       bankDialogHint: 'Commission is transferred to this account. Use an account in your own name.', cancel: 'Cancel',
       payoutTitle: 'Withdraw balance', payoutAmount: 'Amount', transferTo: 'Transfer to', change: 'Change', submitPayout: 'Request withdrawal', payoutSubmitted: 'Withdrawal requested', done: 'Done',
-      pickBank: 'Choose a bank', accountNo: 'Account number', accountHolder: 'Account holder name',
+      pickBank: 'Choose a bank', bankSearch: 'Search or type your bank', bankOtherPh: 'Type your bank’s full name', bankNoMatch: 'No bank in the list matches.',
+      bankOther: 'Other — my bank isn’t listed', bankUseOther: q => `Use “${q}” (other bank)`, bankOtherNote: 'Not in the list: make sure the bank name is complete and correct.',
+      bankGroup: { id: 'Indonesia', idDigital: 'Indonesia · digital banks', idRegional: 'Indonesia · regional banks (BPD)', sg: 'Singapore', my: 'Malaysia', au: 'Australia',
+        jp: 'Japan', kr: 'South Korea', hk: 'Hong Kong', tw: 'Taiwan', sa: 'Saudi Arabia', ae: 'United Arab Emirates', us: 'United States', uk: 'United Kingdom',
+        nl: 'Netherlands', de: 'Germany', ca: 'Canada', intl: 'International accounts' },
+      accountNo: 'Account number', accountHolder: 'Account holder name',
       loadFailed: 'The dashboard data could not be loaded.', sessionEnded: 'Session ended', genericError: 'Something went wrong. Please try again.', qrFailed: 'Couldn’t make the QR code. Please try again.', qrDownloaded: 'QR code downloaded',
-      errBank: 'Choose a bank.', errAccount: 'Enter a valid account number (6–20 digits).', errHolder: 'Enter the account holder’s name.', errName: 'Enter a name of 2–80 characters.', errPhone: 'Use 8–15 digits, optionally starting with +.',
+      errBank: 'Choose or type your bank.', errBankOther: 'Type the bank name (at least 3 letters).', errAccount: 'Enter a valid account number (6–20 digits).', errHolder: 'Enter the account holder’s name.', errName: 'Enter a name of 2–80 characters.', errPhone: 'Use 8–15 digits, optionally starting with +.',
       errAgree: 'Tick the T&C agreement first.', errMin: m => 'The minimum withdrawal is ' + m + '.', errMax: m => 'Your available balance is ' + m + '.',
       heroTitle: r => `Earn ${r} of every in-app purchase made through your link.`, stepEarn: r => `${r} of the order value after discounts, for purchases in the app through your link.`, joinedSub: r => `${r} of every 20FIT app purchase through your link.`,
       terms: (r, days, min) => ['Only purchases in the 20FIT app count.', `You earn ${r} of the order value after discounts, for purchases made after a friend opens your link (the last link opened counts).`,
@@ -6064,9 +6183,14 @@ class Component extends DCLogic {
       appearance: 'Tampilan', appearanceHint: 'Disimpan di browser ini saja.', theme: 'Tema', themeLight: 'Terang', themeDark: 'Gelap', themeSystem: 'Ikut sistem', language: 'Bahasa',
       bankDialogHint: 'Komisi ditransfer ke rekening ini. Pakai rekening atas namamu sendiri.', cancel: 'Batal',
       payoutTitle: 'Tarik saldo', payoutAmount: 'Jumlah', transferTo: 'Transfer ke', change: 'Ubah', submitPayout: 'Ajukan penarikan', payoutSubmitted: 'Penarikan diajukan', done: 'Selesai',
-      pickBank: 'Pilih bank', accountNo: 'Nomor rekening', accountHolder: 'Nama pemilik rekening',
+      pickBank: 'Pilih bank', bankSearch: 'Cari atau ketik nama bank', bankOtherPh: 'Ketik nama lengkap bankmu', bankNoMatch: 'Tidak ada bank yang cocok di daftar.',
+      bankOther: 'Lainnya — bankku tidak ada di daftar', bankUseOther: q => `Pakai “${q}” (bank lain)`, bankOtherNote: 'Tidak ada di daftar: pastikan nama bank ditulis lengkap dan benar.',
+      bankGroup: { id: 'Indonesia', idDigital: 'Indonesia · bank digital', idRegional: 'Indonesia · bank daerah (BPD)', sg: 'Singapura', my: 'Malaysia', au: 'Australia',
+        jp: 'Jepang', kr: 'Korea Selatan', hk: 'Hong Kong', tw: 'Taiwan', sa: 'Arab Saudi', ae: 'Uni Emirat Arab', us: 'Amerika Serikat', uk: 'Inggris',
+        nl: 'Belanda', de: 'Jerman', ca: 'Kanada', intl: 'Akun internasional' },
+      accountNo: 'Nomor rekening', accountHolder: 'Nama pemilik rekening',
       loadFailed: 'Data dashboard tidak bisa dimuat.', sessionEnded: 'Sesi habis', genericError: 'Terjadi kesalahan. Coba lagi.', qrFailed: 'QR tidak bisa dibuat. Coba lagi.', qrDownloaded: 'QR code diunduh',
-      errBank: 'Pilih bank.', errAccount: 'Isi nomor rekening yang valid (6–20 angka).', errHolder: 'Isi nama pemilik rekening.', errName: 'Isi nama 2–80 karakter.', errPhone: 'Pakai 8–15 angka, boleh diawali +.',
+      errBank: 'Pilih atau ketik nama bank.', errBankOther: 'Ketik nama bank (minimal 3 huruf).', errAccount: 'Isi nomor rekening yang valid (6–20 angka).', errHolder: 'Isi nama pemilik rekening.', errName: 'Isi nama 2–80 karakter.', errPhone: 'Pakai 8–15 angka, boleh diawali +.',
       errAgree: 'Centang persetujuan S&K dulu.', errMin: m => 'Minimal penarikan ' + m + '.', errMax: m => 'Saldo Tersedia kamu ' + m + '.',
       heroTitle: r => `Dapat ${r} dari setiap pembelian di app lewat link-mu.`, stepEarn: r => `${r} dari nilai pesanan setelah diskon, untuk pembelian di app lewat link-mu.`, joinedSub: r => `${r} dari setiap pembelian di app 20FIT lewat link-mu.`,
       terms: (r, days, min) => ['Hanya pembelian di app 20FIT yang dihitung.', `Kamu dapat ${r} dari nilai pesanan setelah diskon, untuk pembelian setelah temanmu membuka link-mu (link terakhir yang dibuka yang dihitung).`,
@@ -6268,8 +6392,47 @@ class Component extends DCLogic {
 
     const onF = {};
     ['bank', 'acct', 'holder'].forEach(k => {
-      onF[k] = e => { let v = e.target.value; if (k === 'acct') v = v.replace(/\D/g, ''); this.setState(st3 => ({ form: { ...st3.form, [k]: v }, errors: { ...st3.errors, [k]: '' } })); };
+      onF[k] = e => {
+        let v = e.target.value; if (k === 'acct') v = v.replace(/\D/g, '');
+        this.setState(st3 => ({ form: { ...st3.form, [k]: v }, errors: { ...st3.errors, [k]: '' },
+          ...(k === 'bank' ? this.bankTyped(st3, v) : {}) }));
+      };
     });
+    // Bank picker: typing filters the list; a bank from the list or any
+    // other name ("Lainnya") can be used.
+    const bq = s.form.bank, bExact = this.findBank(bq), bMatches = s.bankOther ? [] : this.bankMatches(s.bankQ, W);
+    const pickBank = b => this.setState(st3 => ({ form: { ...st3.form, bank: b.name }, errors: { ...st3.errors, bank: '' }, bankOpen: false, bankOther: false, bankHi: -1 }));
+    const pickOther = () => this.setState(st3 => ({ bankOpen: false, bankOther: true, bankHi: -1, errors: { ...st3.errors, bank: '' } }));
+    const bRows = [];
+    bMatches.forEach((b, i) => {
+      if (!i || bMatches[i - 1].g !== b.g) bRows.push({ head: true, item: false, label: W.bankGroup[b.g] });
+      bRows.push({ head: false, item: true, label: b.name, sub: b.sub, on: s.bankHi === i || (s.bankHi < 0 && bExact === b),
+        pick: e => { e.preventDefault(); pickBank(b); } });
+    });
+    const bq1 = bq.trim();
+    const bk = {
+      open: s.bankOpen && !s.bankOther, rows: bRows, empty: !bMatches.length, isOther: !!bq1 && !bExact && !s.bankOpen,
+      placeholder: s.bankOther ? W.bankOtherPh : W.bankSearch,
+      otherLabel: bq1 && !bExact ? W.bankUseOther(bq1) : W.bankOther, otherOn: s.bankHi === bMatches.length,
+      other: e => { e.preventDefault(); pickOther(); },
+      focus: () => { if (!this.state.bankOther) this.setState({ bankOpen: true, bankQ: '' }); },
+      blur: () => this.setState(st3 => { const b = this.findBank(st3.form.bank); return { bankOpen: false, bankHi: -1, form: b ? { ...st3.form, bank: b.name } : st3.form }; }),
+      key: e => {
+        const n = bMatches.length;
+        if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+          e.preventDefault();
+          this.setState(st3 => {
+            const hi = e.key === 'ArrowDown' ? Math.min(n, st3.bankHi + 1) : Math.max(0, st3.bankHi - 1);
+            return { bankOpen: true, bankOther: false, bankHi: hi };
+          });
+        } else if (e.key === 'Enter') {
+          if (!this.state.bankOpen) return;
+          e.preventDefault();
+          const hi = this.state.bankHi;
+          if (hi >= 0 && hi < n) pickBank(bMatches[hi]); else if (hi === n || !n) pickOther(); else if (bExact) pickBank(bExact);
+        } else if (e.key === 'Escape') this.setState({ bankOpen: false, bankHi: -1 });
+      }
+    };
     const openPayout = () => this.setState({ dialog: 'payout', payAmount: String(this.state.stats.available || ''), payErr: '' });
     // /gabung: new affiliates go 1 → 2 → 3; affiliates who joined in the app
     // without KTP details fill steps 1 → 2 only.
@@ -6345,7 +6508,7 @@ class Component extends DCLogic {
       po: activePayout ? { show: true, title: W.payoutActive, label: W.po[activePayout.status], amount: f(activePayout.amount), detail: W.payoutDetail(next, activePayout.bank ? `${activePayout.bank} ${activePayout.account}` : '') } : { show: false },
       startPayout: () => {
         if (!this.state.identity) return location.assign('/gabung');
-        if (!this.state.aff.bank) return this.setState({ dialog: 'bank', payoutFlow: true, form: this.bankForm(), errors: {} });
+        if (!this.state.aff.bank) return this.setState({ dialog: 'bank', payoutFlow: true, form: this.bankForm(), errors: {}, bankOpen: false, bankOther: false, bankHi: -1, bankQ: '' });
         openPayout();
       },
       share, copyLink: () => url && this.copy(url, W.linkCopied), downloadQr: () => this.downloadQr(),
@@ -6365,8 +6528,8 @@ class Component extends DCLogic {
       dlg: { open: !!s.dialog, bank: s.dialog === 'bank', dom: s.dialog === 'dom', payout: s.dialog === 'payout', done: s.dialog === 'done' },
       backdrop: e => { if (e.target === e.currentTarget) this.setState({ dialog: null }); },
       closeDialog: () => this.setState({ dialog: null }),
-      form: s.form, err: s.errors, onF, busy: s.busy,
-      openBankEdit: () => this.setState({ dialog: 'bank', payoutFlow: false, form: this.bankForm(), errors: {} }),
+      form: s.form, err: s.errors, onF, bk, busy: s.busy,
+      openBankEdit: () => this.setState({ dialog: 'bank', payoutFlow: false, form: this.bankForm(), errors: {}, bankOpen: false, bankOther: false, bankHi: -1, bankQ: '' }),
       bankCta: s.payoutFlow ? W.saveContinue : W.save,
       saveBank: () => {
         const e = this.validateBank(this.state.form, W);
@@ -6381,7 +6544,7 @@ class Component extends DCLogic {
       pay: { available: f(avail), amount: s.payAmount, err: s.payErr, hint: W.payHint(f(MIN), f(avail)),
         account: aff && aff.bank ? acctLabel(aff.bank) : '', holder: aff && aff.bank ? aff.bank.holder : '', schedule: W.schedule(next) },
       onPayAmount: e => this.setState({ payAmount: e.target.value.replace(/\D/g, ''), payErr: '' }),
-      editBankFromPayout: () => this.setState({ dialog: 'bank', payoutFlow: true, form: this.bankForm(), errors: {} }),
+      editBankFromPayout: () => this.setState({ dialog: 'bank', payoutFlow: true, form: this.bankForm(), errors: {}, bankOpen: false, bankOther: false, bankHi: -1, bankQ: '' }),
       submitPayout: () => {
         const n = Number(this.state.payAmount);
         if (!n || n < MIN) return this.setState({ payErr: W.errMin(f(MIN)) });

@@ -144,7 +144,7 @@ fields the page shows (bank account numbers masked).
 | `POST join` `{agree:true, identity, bank, account, holder, code?}` | `affiliate_identity_save` (if not saved yet), then `affiliate` `join` |
 | `POST identity` `{nik, full_name, …, domicile_*}` | `affiliate_identity_save` (once) |
 | `POST domicile` `{domicile_*}` | `affiliate_identity_update_domicile` |
-| `POST bank` `{bank, account, holder, code?}` | `affiliate` `update_bank` (holder must match the KTP name) |
+| `POST bank` `{bank, account, holder, code?}` | `affiliate` `update_bank` (holder must match the KTP name; `bank` is a bank from the dashboard's bank picker or any name typed in under "Lainnya", `code` only for listed banks with a known bank code) |
 | `POST payout` `{amount}` | `affiliate` `request_payout` (needs KTP details; minimum and balance checked by the function) |
 | `POST account` `{name, phone}` | updates `full_name` and `phone` of the user's own `my20fit_profile` row (RLS); email can't change |
 
