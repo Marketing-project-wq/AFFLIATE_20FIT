@@ -309,9 +309,13 @@ function scriptJson(value) {
 // tools/unbundle.py) and serves Home, Sales and Profile; the server fills
 // in the affiliate's own data first so it never paints empty, and later
 // actions go through /api/affiliate/*.
-const DASHBOARD_PAGES = { [DASHBOARD_PATH]: 'home', [`${DASHBOARD_PATH}/sales`]: 'sales', [`${DASHBOARD_PATH}/profile`]: 'profile' };
-const PAGE_TITLES = { home: 'Home', sales: 'Sales', profile: 'Profile' };
+const JOIN_PATH = '/gabung';
+const DASHBOARD_PAGES = { [DASHBOARD_PATH]: 'home', [`${DASHBOARD_PATH}/sales`]: 'sales', [`${DASHBOARD_PATH}/profile`]: 'profile', [JOIN_PATH]: 'join' };
+const PAGE_TITLES = { home: 'Home', sales: 'Sales', profile: 'Profile', join: 'Gabung' };
 
+// Returns { body } or { redirect }: people who haven't joined go to the
+// sign-up at /gabung (Profile stays open to them); people who have joined
+// and given their KTP details are sent from /gabung to the dashboard.
 async function renderDashboard(user, token, page) {
   const { settings } = await affiliateData.get();
   const [state, account] = await Promise.all([
@@ -325,6 +329,10 @@ async function renderDashboard(user, token, page) {
       return null;
     }),
   ]);
+  if (!state.error) {
+    if (!state.joined && (page === 'home' || page === 'sales')) return { redirect: JOIN_PATH };
+    if (state.joined && state.identity && page === 'join') return { redirect: DASHBOARD_PATH };
+  }
   const data = {
     page,
     user: { name: (account && account.found && account.name) || displayName(user), email: user.email || '' },
@@ -335,7 +343,7 @@ async function renderDashboard(user, token, page) {
     qrSrc: qrScript,
   };
   const head = `<title>${PAGE_TITLES[page]} · 20FIT Affiliate</title><script>window.__AF_DATA__ = ${scriptJson(data)};</script>`;
-  return pages.dashboard.replace('<head>', `<head>${head}`).split('__AF_LOGO_SRC__').join(escapeHtml(landingAssets.logoHref));
+  return { body: pages.dashboard.replace('<head>', `<head>${head}`).split('__AF_LOGO_SRC__').join(escapeHtml(landingAssets.logoHref)) };
 }
 
 async function renderLogin(opts) {
@@ -447,7 +455,8 @@ async function handle(req, res) {
       case DASHBOARD_PATH:
       case `${DASHBOARD_PATH}/sales`:
       case `${DASHBOARD_PATH}/profile`:
-        return serveProtected(req, res, url, async (user, token) => ({ body: await renderDashboard(user, token, DASHBOARD_PAGES[p]) }));
+      case JOIN_PATH:
+        return serveProtected(req, res, url, (user, token) => renderDashboard(user, token, DASHBOARD_PAGES[p]));
       case '/admin.html':
         return redirect(res, '/admin');
       case '/admin':
@@ -607,8 +616,10 @@ async function handleApi(req, res, url, route, method) {
         if (body.agree !== true) return sendJson(res, 400, { error: 'Centang persetujuan S&K dulu.' }, headers);
         const { settings } = await affiliateData.get();
         if (settings && settings.programStatus === 'paused') return sendJson(res, 400, { error: 'Pendaftaran affiliate sedang ditutup sementara.' }, headers);
-        return ok({ affiliate: await dashboardApi.join(token, body) });
+        return ok(await dashboardApi.join(token, body));
       }
+      if (route === 'identity') return ok({ identity: await dashboardApi.saveIdentity(token, body) });
+      if (route === 'domicile') return ok({ identity: await dashboardApi.updateDomicile(token, body) });
       if (route === 'bank') return ok({ affiliate: await dashboardApi.updateBank(token, body) });
       if (route === 'payout') return ok({ payout: await dashboardApi.requestPayout(token, body.amount) });
       if (route === 'account') return ok({ account: await dashboardApi.saveAccount(token, auth.user && auth.user.id, body) });
