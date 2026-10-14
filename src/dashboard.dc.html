@@ -5361,7 +5361,6 @@ textarea.input { min-height: 90px; resize: vertical; }
 <div class="field"><label>{{ tr.k_address }}</label><input class="input af-input" value="{{ kyc.address }}" sc-camel-on-change="{{ onK.address }}" maxlength="200"><div class="af-err">{{ kerr.address }}</div></div>
 <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px">
 <div class="field"><label>{{ tr.k_rt_rw }}</label><input class="input af-input" value="{{ kyc.rt_rw }}" sc-camel-on-change="{{ onK.rt_rw }}" maxlength="12" placeholder="001/002"><div class="af-err">{{ kerr.rt_rw }}</div></div>
-<div class="field"><label>{{ tr.k_kelurahan }}</label><input class="input af-input" value="{{ kyc.kelurahan }}" sc-camel-on-change="{{ onK.kelurahan }}" maxlength="80"><div class="af-err">{{ kerr.kelurahan }}</div></div>
 <div class="field"><label>{{ tr.k_kecamatan }}</label><input class="input af-input" value="{{ kyc.kecamatan }}" sc-camel-on-change="{{ onK.kecamatan }}" maxlength="80"><div class="af-err">{{ kerr.kecamatan }}</div></div>
 </div>
 <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px">
@@ -5908,16 +5907,16 @@ class Component extends DCLogic {
     const b = this.state.aff && this.state.aff.bank, a = this.state.account, id = this.state.identity;
     return { bank: '', acct: '', holder: (id && id.full_name) || (b && b.holder) || (a && a.name) || '' };
   }
-  // KTP details: what's on the KTP except blood type, religion, marital
-  // status, occupation and the validity date, plus domisili.
+  // KTP details: what's on the KTP except kelurahan/desa, blood type,
+  // religion, marital status, occupation and the validity date, plus domisili.
   emptyKyc(acct) {
-    return { nik: '', full_name: (acct && acct.name) || '', birth_place: '', birth_date: '', gender: '', address: '', rt_rw: '', kelurahan: '', kecamatan: '',
+    return { nik: '', full_name: (acct && acct.name) || '', birth_place: '', birth_date: '', gender: '', address: '', rt_rw: '', kecamatan: '',
       kabupaten: '', provinsi: '', citizenship: 'WNI',
       domicile_address: '', domicile_city: '', domicile_province: '', domicile_postal_code: '' };
   }
   validateKtp(k, W) {
     const e = {};
-    ['full_name', 'birth_place', 'birth_date', 'gender', 'address', 'rt_rw', 'kelurahan', 'kecamatan', 'kabupaten', 'provinsi',
+    ['full_name', 'birth_place', 'birth_date', 'gender', 'address', 'rt_rw', 'kecamatan', 'kabupaten', 'provinsi',
       'citizenship'].forEach(f => { if (!String(k[f] || '').trim()) e[f] = W.errRequired; });
     if (!/^\d{16}$/.test(k.nik)) e.nik = W.errNik;
     const bd = Date.parse(k.birth_date);
@@ -5925,7 +5924,7 @@ class Component extends DCLogic {
     return e;
   }
   ktpAsDomicile(k) {
-    return { domicile_address: [k.address, k.rt_rw && 'RT/RW ' + k.rt_rw, k.kelurahan, k.kecamatan].filter(Boolean).join(', '), domicile_city: k.kabupaten, domicile_province: k.provinsi };
+    return { domicile_address: [k.address, k.rt_rw && 'RT/RW ' + k.rt_rw, k.kecamatan].filter(Boolean).join(', '), domicile_city: k.kabupaten, domicile_province: k.provinsi };
   }
   validateDom(k, W) {
     const e = {};
@@ -6028,7 +6027,7 @@ class Component extends DCLogic {
       errRequired: 'Required.', errNik: 'NIK must be 16 digits.', errBirth: 'Enter a valid date of birth.', errPostal: 'Postal code is 5 digits.',
       balNoKtp: 'Complete your KTP details before withdrawing.',
       k_nik: 'NIK', k_full_name: 'Full name', k_birth_place: 'Place of birth', k_birth_date: 'Date of birth', k_gender: 'Sex', k_address: 'Address', k_rt_rw: 'RT/RW',
-      k_kelurahan: 'Kelurahan/Desa', k_kecamatan: 'Kecamatan', k_kabupaten: 'Kabupaten/Kota', k_provinsi: 'Province',
+      k_kecamatan: 'Kecamatan', k_kabupaten: 'Kabupaten/Kota', k_provinsi: 'Province',
       k_citizenship: 'Citizenship', k_domicile_address: 'Address', k_domicile_city: 'City/Regency', k_domicile_province: 'Province', k_domicile_postal_code: 'Postal code (optional)',
       genderL: 'Male', genderP: 'Female',
       citWNI: 'WNI (Indonesian)', citWNA: 'WNA (foreign)',
@@ -6098,7 +6097,7 @@ class Component extends DCLogic {
       errRequired: 'Wajib diisi.', errNik: 'NIK harus 16 angka.', errBirth: 'Isi tanggal lahir yang valid.', errPostal: 'Kode pos 5 angka.',
       balNoKtp: 'Lengkapi data KTP dulu sebelum menarik saldo.',
       k_nik: 'NIK', k_full_name: 'Nama lengkap', k_birth_place: 'Tempat lahir', k_birth_date: 'Tanggal lahir', k_gender: 'Jenis kelamin', k_address: 'Alamat', k_rt_rw: 'RT/RW',
-      k_kelurahan: 'Kelurahan/Desa', k_kecamatan: 'Kecamatan', k_kabupaten: 'Kabupaten/Kota', k_provinsi: 'Provinsi',
+      k_kecamatan: 'Kecamatan', k_kabupaten: 'Kabupaten/Kota', k_provinsi: 'Provinsi',
       k_citizenship: 'Kewarganegaraan', k_domicile_address: 'Alamat', k_domicile_city: 'Kota/Kabupaten', k_domicile_province: 'Provinsi', k_domicile_postal_code: 'Kode pos (opsional)',
       genderL: 'Laki-laki', genderP: 'Perempuan',
       citWNI: 'WNI', citWNA: 'WNA',
@@ -6279,7 +6278,7 @@ class Component extends DCLogic {
     const gl = { L: W.genderL, P: W.genderP };
     const ktpRows = id => [
       [W.k_nik, id.nik], [W.k_full_name, id.full_name], [W.ttl, `${id.birth_place}, ${fd(id.birth_date)}`], [W.k_gender, gl[id.gender] || id.gender],
-      [W.ktpAddress, [id.address, 'RT/RW ' + id.rt_rw, id.kelurahan, id.kecamatan, id.kabupaten, id.provinsi].filter(Boolean).join(', ')],
+      [W.ktpAddress, [id.address, 'RT/RW ' + id.rt_rw, id.kecamatan, id.kabupaten, id.provinsi].filter(Boolean).join(', ')],
       [W.k_citizenship, id.citizenship]
     ].map(([kk, v]) => ({ k: kk, v: v || '–' }));
     const domLine = id => [id.domicile_address, id.domicile_city, id.domicile_province, id.domicile_postal_code].filter(Boolean).join(', ');
@@ -6299,7 +6298,7 @@ class Component extends DCLogic {
         if (f === 'nik' || f === 'domicile_postal_code') v = v.replace(/\D/g, '');
         this.setState(st3 => {
           const kyc = { ...st3.kyc, [f]: v };
-          if (st3.sameAsKtp && ['address', 'rt_rw', 'kelurahan', 'kecamatan', 'kabupaten', 'provinsi'].includes(f)) Object.assign(kyc, this.ktpAsDomicile(kyc));
+          if (st3.sameAsKtp && ['address', 'rt_rw', 'kecamatan', 'kabupaten', 'provinsi'].includes(f)) Object.assign(kyc, this.ktpAsDomicile(kyc));
           return { kyc, kerr: { ...st3.kerr, [f]: '' }, form: f === 'full_name' && !st3.identity ? { ...st3.form, holder: v } : st3.form };
         });
       };
