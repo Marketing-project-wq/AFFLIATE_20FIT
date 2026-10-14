@@ -47,7 +47,6 @@ const MIME = {
 
 const pages = {
   dashboard: read('dashboard.html'),
-  admin: read('admin.html'),
 };
 
 function read(name) {
@@ -452,8 +451,9 @@ async function handle(req, res) {
       case '/admin.html':
         return redirect(res, '/admin');
       case '/admin':
-        return serveProtected(req, res, url, async (user, token) =>
-          (await adminRole(token)) ? { body: pages.admin } : { status: 403, body: forbiddenPage(user.email || '') });
+        // The admin console design still runs on sample data, so admins land
+        // on the real settings page until the console reads the app's data.
+        return redirect(res, '/admin/settings');
       case '/admin/settings':
         return serveProtected(req, res, url, async (user, token) => {
           const role = await adminRole(token);

@@ -9,7 +9,7 @@ The 20FIT affiliate site, deployed on Railway as a small Node server
 | `/dashboard`          | Affiliate dashboard: Home | Any signed-in 20FIT account                 |
 | `/dashboard/sales`    | Dashboard: Sales        | Any signed-in 20FIT account                   |
 | `/dashboard/profile`  | Dashboard: Profile      | Any signed-in 20FIT account                   |
-| `/admin`              | Affiliate admin console | Accounts listed in `public.affiliate_admins`  |
+| `/admin`              | Redirects to `/admin/settings` | Accounts listed in `public.affiliate_admins`  |
 | `/admin/settings`     | Program settings        | Accounts listed in `public.affiliate_admins`  |
 | `/login`, `/logout`   | Sign in / out           | Public                                        |
 | `/lupa-password`      | Reset the app password  | Public                                        |
@@ -113,8 +113,9 @@ aren't used here.
   Theme (light, dark, system) and language (Bahasa Indonesia, English) are
   kept in the browser's localStorage (`af_theme`, `af_lang`). QR codes are
   drawn in the browser (`public/assets/qrcode.js`, MIT).
-- **Admin console** (`/admin`): still the design's prototype with sample
-  data; `/admin/settings` is real.
+- **Admin console**: the design's prototype (`public/admin.html`) still runs
+  on sample data, so `/admin` redirects to `/admin/settings`, which is real,
+  until the console reads the app's affiliate data.
 
 The earlier web-only program (`affiliate`, `affiliate_link`,
 `affiliate_commission`, `affiliate_claim`, the `affiliate_my_*` functions)
