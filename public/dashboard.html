@@ -5371,10 +5371,6 @@ button, input, select, textarea { font-family: inherit; }
 <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px">
 <div class="field"><label>{{ tr.k_kabupaten }}</label><input class="input af-input" value="{{ kyc.kabupaten }}" sc-camel-on-change="{{ onK.kabupaten }}" maxlength="80"><div class="af-err">{{ kerr.kabupaten }}</div></div>
 <div class="field"><label>{{ tr.k_provinsi }}</label><input class="input af-input" value="{{ kyc.provinsi }}" sc-camel-on-change="{{ onK.provinsi }}" maxlength="80"><div class="af-err">{{ kerr.provinsi }}</div></div>
-</div>
-<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px">
-<div class="field"><label>{{ tr.k_religion }}</label><sc-raw-select class="input af-input" value="{{ kyc.religion }}" sc-camel-on-change="{{ onK.religion }}"><option value="">{{ tr.pickOne }}</option><option value="Islam">{{ tr.relIslam }}</option><option value="Kristen">{{ tr.relKristen }}</option><option value="Katolik">{{ tr.relKatolik }}</option><option value="Hindu">{{ tr.relHindu }}</option><option value="Buddha">{{ tr.relBuddha }}</option><option value="Konghucu">{{ tr.relKonghucu }}</option><option value="Kepercayaan terhadap Tuhan YME">{{ tr.relKepercayaan }}</option></sc-raw-select><div class="af-err">{{ kerr.religion }}</div></div>
-<div class="field"><label>{{ tr.k_marital_status }}</label><sc-raw-select class="input af-input" value="{{ kyc.marital_status }}" sc-camel-on-change="{{ onK.marital_status }}"><option value="">{{ tr.pickOne }}</option><option value="Belum kawin">{{ tr.marBelum }}</option><option value="Kawin">{{ tr.marKawin }}</option><option value="Cerai hidup">{{ tr.marCeraiHidup }}</option><option value="Cerai mati">{{ tr.marCeraiMati }}</option></sc-raw-select><div class="af-err">{{ kerr.marital_status }}</div></div>
 <div class="field"><label>{{ tr.k_citizenship }}</label><sc-raw-select class="input af-input" value="{{ kyc.citizenship }}" sc-camel-on-change="{{ onK.citizenship }}"><option value="">{{ tr.pickOne }}</option><option value="WNI">{{ tr.citWNI }}</option><option value="WNA">{{ tr.citWNA }}</option></sc-raw-select><div class="af-err">{{ kerr.citizenship }}</div></div>
 </div>
           <div class="af-panel" style="padding:12px;border-radius:14px;font-size:12px;color:var(--color-neutral-300);display:flex;gap:8px;align-items:flex-start"><i class="ph ph-lock-simple" style="font-size:16px;color:var(--color-accent-300)"></i><span>{{ tr.ktpLockNote }}</span></div>
@@ -5916,17 +5912,17 @@ class Component extends DCLogic {
     const b = this.state.aff && this.state.aff.bank, a = this.state.account, id = this.state.identity;
     return { bank: '', acct: '', holder: (id && id.full_name) || (b && b.holder) || (a && a.name) || '' };
   }
-  // KTP details: what's on the KTP except blood type, occupation and the
-  // validity date, plus domisili.
+  // KTP details: what's on the KTP except blood type, religion, marital
+  // status, occupation and the validity date, plus domisili.
   emptyKyc(acct) {
     return { nik: '', full_name: (acct && acct.name) || '', birth_place: '', birth_date: '', gender: '', address: '', rt_rw: '', kelurahan: '', kecamatan: '',
-      kabupaten: '', provinsi: '', religion: '', marital_status: '', citizenship: 'WNI',
+      kabupaten: '', provinsi: '', citizenship: 'WNI',
       domicile_address: '', domicile_city: '', domicile_province: '', domicile_postal_code: '' };
   }
   validateKtp(k, W) {
     const e = {};
-    ['full_name', 'birth_place', 'birth_date', 'gender', 'address', 'rt_rw', 'kelurahan', 'kecamatan', 'kabupaten', 'provinsi', 'religion',
-      'marital_status', 'citizenship'].forEach(f => { if (!String(k[f] || '').trim()) e[f] = W.errRequired; });
+    ['full_name', 'birth_place', 'birth_date', 'gender', 'address', 'rt_rw', 'kelurahan', 'kecamatan', 'kabupaten', 'provinsi',
+      'citizenship'].forEach(f => { if (!String(k[f] || '').trim()) e[f] = W.errRequired; });
     if (!/^\d{16}$/.test(k.nik)) e.nik = W.errNik;
     const bd = Date.parse(k.birth_date);
     if (k.birth_date && (isNaN(bd) || bd > Date.now() || k.birth_date < '1900-01-01')) e.birth_date = W.errBirth;
@@ -6036,10 +6032,10 @@ class Component extends DCLogic {
       errRequired: 'Required.', errNik: 'NIK must be 16 digits.', errBirth: 'Enter a valid date of birth.', errPostal: 'Postal code is 5 digits.',
       balNoKtp: 'Complete your KTP details before withdrawing.',
       k_nik: 'NIK', k_full_name: 'Full name', k_birth_place: 'Place of birth', k_birth_date: 'Date of birth', k_gender: 'Sex', k_address: 'Address', k_rt_rw: 'RT/RW',
-      k_kelurahan: 'Kelurahan/Desa', k_kecamatan: 'Kecamatan', k_kabupaten: 'Kabupaten/Kota', k_provinsi: 'Province', k_religion: 'Religion', k_marital_status: 'Marital status',
+      k_kelurahan: 'Kelurahan/Desa', k_kecamatan: 'Kecamatan', k_kabupaten: 'Kabupaten/Kota', k_provinsi: 'Province',
       k_citizenship: 'Citizenship', k_domicile_address: 'Address', k_domicile_city: 'City/Regency', k_domicile_province: 'Province', k_domicile_postal_code: 'Postal code (optional)',
-      genderL: 'Male', genderP: 'Female', relIslam: 'Islam', relKristen: 'Protestant', relKatolik: 'Catholic', relHindu: 'Hindu', relBuddha: 'Buddhist', relKonghucu: 'Confucian', relKepercayaan: 'Kepercayaan terhadap Tuhan YME',
-      marBelum: 'Not married', marKawin: 'Married', marCeraiHidup: 'Divorced', marCeraiMati: 'Widowed', citWNI: 'WNI (Indonesian)', citWNA: 'WNA (foreign)',
+      genderL: 'Male', genderP: 'Female',
+      citWNI: 'WNI (Indonesian)', citWNA: 'WNA (foreign)',
       termsLine: v => `T&C ${v}`, joinPaused: 'Sign-ups are closed', joinCta: 'Join as an affiliate', joined: 'Welcome aboard! Share your link to start earning.',
       saveContinue: 'Save and continue', save: 'Save', bankSaved: 'Payout account saved', payHint: (min, max) => `Minimum ${min}, up to ${max}.`,
       schedule: d => `Withdrawals are transferred on 20FIT’s payout schedule. Next date: ${d}.`, payoutDone: (amt, d, acc) => `${amt} will be transferred to ${acc || 'your account'} on ${d}. You can follow it under Withdrawals.`,
@@ -6106,10 +6102,10 @@ class Component extends DCLogic {
       errRequired: 'Wajib diisi.', errNik: 'NIK harus 16 angka.', errBirth: 'Isi tanggal lahir yang valid.', errPostal: 'Kode pos 5 angka.',
       balNoKtp: 'Lengkapi data KTP dulu sebelum menarik saldo.',
       k_nik: 'NIK', k_full_name: 'Nama lengkap', k_birth_place: 'Tempat lahir', k_birth_date: 'Tanggal lahir', k_gender: 'Jenis kelamin', k_address: 'Alamat', k_rt_rw: 'RT/RW',
-      k_kelurahan: 'Kelurahan/Desa', k_kecamatan: 'Kecamatan', k_kabupaten: 'Kabupaten/Kota', k_provinsi: 'Provinsi', k_religion: 'Agama', k_marital_status: 'Status perkawinan',
+      k_kelurahan: 'Kelurahan/Desa', k_kecamatan: 'Kecamatan', k_kabupaten: 'Kabupaten/Kota', k_provinsi: 'Provinsi',
       k_citizenship: 'Kewarganegaraan', k_domicile_address: 'Alamat', k_domicile_city: 'Kota/Kabupaten', k_domicile_province: 'Provinsi', k_domicile_postal_code: 'Kode pos (opsional)',
-      genderL: 'Laki-laki', genderP: 'Perempuan', relIslam: 'Islam', relKristen: 'Kristen', relKatolik: 'Katolik', relHindu: 'Hindu', relBuddha: 'Buddha', relKonghucu: 'Konghucu', relKepercayaan: 'Kepercayaan terhadap Tuhan YME',
-      marBelum: 'Belum kawin', marKawin: 'Kawin', marCeraiHidup: 'Cerai hidup', marCeraiMati: 'Cerai mati', citWNI: 'WNI', citWNA: 'WNA',
+      genderL: 'Laki-laki', genderP: 'Perempuan',
+      citWNI: 'WNI', citWNA: 'WNA',
       termsLine: v => `S&K ${v}`, joinPaused: 'Pendaftaran sedang ditutup', joinCta: 'Gabung jadi affiliate', joined: 'Selamat bergabung! Bagikan link-mu untuk mulai dapat komisi.',
       saveContinue: 'Simpan dan lanjut', save: 'Simpan', bankSaved: 'Rekening tersimpan', payHint: (min, max) => `Minimal ${min}, maksimal ${max}.`,
       schedule: d => `Penarikan ditransfer sesuai jadwal pencairan 20FIT. Jadwal berikutnya: ${d}.`, payoutDone: (amt, d, acc) => `${amt} akan ditransfer ke ${acc || 'rekeningmu'} pada ${d}. Statusnya bisa kamu pantau di Riwayat penarikan.`,
@@ -6288,7 +6284,7 @@ class Component extends DCLogic {
     const ktpRows = id => [
       [W.k_nik, id.nik], [W.k_full_name, id.full_name], [W.ttl, `${id.birth_place}, ${fd(id.birth_date)}`], [W.k_gender, gl[id.gender] || id.gender],
       [W.ktpAddress, [id.address, 'RT/RW ' + id.rt_rw, id.kelurahan, id.kecamatan, id.kabupaten, id.provinsi].filter(Boolean).join(', ')],
-      [W.k_religion, id.religion], [W.k_marital_status, id.marital_status], [W.k_citizenship, id.citizenship]
+      [W.k_citizenship, id.citizenship]
     ].map(([kk, v]) => ({ k: kk, v: v || '–' }));
     const domLine = id => [id.domicile_address, id.domicile_city, id.domicile_province, id.domicile_postal_code].filter(Boolean).join(', ');
     const step = complete ? Math.min(s.step, 2) : s.step;
