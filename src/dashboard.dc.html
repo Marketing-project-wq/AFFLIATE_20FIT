@@ -5337,6 +5337,18 @@ textarea.input { min-height: 90px; resize: vertical; }
           <sc-for list="{{ t.termsList }}" as="item" hint-placeholder-count="5"><li>{{ item.text }}</li></sc-for>
         </ul>
         <sc-if value="{{ t.hasTermsUrl }}" hint-placeholder-val="{{ false }}"><a href="{{ t.termsUrl }}" target="_blank" rel="noopener" style="font-size:14px">{{ t.readTermsLabel }}</a></sc-if>
+        <div class="af-rule-top" style="display:flex;flex-direction:column;gap:12px;padding-top:14px">
+          <div><div style="font-size:14px;font-weight:500">{{ tr.bankTitle }}</div><div class="text-muted" style="font-size:13px">{{ tr.bankHint }}</div></div>
+          <div class="field"><label>Bank</label>
+            <sc-raw-select class="input af-input" value="{{ form.bank }}" sc-camel-on-change="{{ onF.bank }}">
+              <option value="">{{ tr.pickBank }}</option><option>BCA</option><option>Mandiri</option><option>BNI</option><option>BRI</option><option>CIMB Niaga</option><option>Permata</option><option>BSI</option><option>Bank Jago</option>
+            </sc-raw-select>
+            <div class="af-err">{{ err.bank }}</div></div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px">
+            <div class="field"><label>{{ tr.accountNo }}</label><input class="input af-input" inputmode="numeric" autocomplete="off" value="{{ form.acct }}" sc-camel-on-change="{{ onF.acct }}"><div class="af-err">{{ err.acct }}</div></div>
+            <div class="field"><label>{{ tr.accountHolder }}</label><input class="input af-input" value="{{ form.holder }}" sc-camel-on-change="{{ onF.holder }}"><div class="af-err">{{ err.holder }}</div></div>
+          </div>
+        </div>
         <label style="display:flex;gap:10px;align-items:flex-start;font-size:14px;cursor:pointer"><input type="checkbox" checked="{{ agreed }}" sc-camel-on-change="{{ toggleAgree }}" style="accent-color:var(--color-accent);margin-top:3px">{{ t.agreeLabel }}</label>
         <div><button class="btn af-btn1" style="padding:10px 18px" disabled="{{ joinDisabled }}" sc-camel-on-click="{{ join }}">{{ joinLabel }}</button></div>
       </div>
@@ -5350,25 +5362,6 @@ textarea.input { min-height: 90px; resize: vertical; }
       <p class="text-muted" style="margin:0;font-size:14px">{{ t.joinedSub }}</p>
     </div>
 
-    <sc-if value="{{ showTermsBanner }}" hint-placeholder-val="{{ false }}">
-      <div class="af-accent-panel" style="display:flex;flex-wrap:wrap;gap:12px 16px;align-items:center;padding:14px 16px;border-radius:16px">
-        <i class="ph ph-file-text" style="font-size:22px;color:var(--color-accent)"></i>
-        <div style="flex:1;min-width:220px;font-size:14px"><div style="font-weight:500">{{ t.updatedLabel }}</div><div style="color:var(--color-neutral-300)">{{ tr.termsBannerBody }}</div></div>
-        <button class="btn af-btn1" sc-camel-on-click="{{ openConsent }}">{{ tr.readAndAccept }}</button>
-      </div>
-    </sc-if>
-
-    <sc-if value="{{ showRejected }}" hint-placeholder-val="{{ false }}">
-      <div class="af-panel" style="display:flex;flex-wrap:wrap;gap:12px 16px;align-items:center;padding:14px 16px;border-radius:16px">
-        <i class="ph ph-warning-circle" style="font-size:22px;color:var(--color-accent-300)"></i>
-        <div style="flex:1;min-width:220px;font-size:14px"><div style="font-weight:500">{{ rejected.title }}</div><div style="color:var(--color-neutral-300)">{{ rejected.reason }}</div></div>
-        <div style="display:flex;gap:8px;flex-wrap:wrap">
-          <button class="btn af-btn2" sc-camel-on-click="{{ dismissRejected }}">{{ tr.close }}</button>
-          <button class="btn af-btn1" sc-camel-on-click="{{ openPayoutEdit }}">{{ tr.updatePayout }}</button>
-        </div>
-      </div>
-    </sc-if>
-
     <section class="card af-glass elev-sm" style="padding:20px;gap:14px">
       <div style="display:flex;justify-content:space-between;align-items:center;gap:8px"><span class="card-kicker">{{ tr.availableKicker }}</span><span class="text-muted" style="font-size:12px">{{ bal.minLabel }}</span></div>
       <div class="af-num" style="font-size:40px;font-weight:500;letter-spacing:-.02em;line-height:1">{{ bal.available }}</div>
@@ -5379,175 +5372,94 @@ textarea.input { min-height: 90px; resize: vertical; }
         </div>
       </sc-if>
       <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;padding-top:4px">
-        <div><div class="text-muted" style="font-size:12px;display:flex;align-items:center;gap:4px"><span>{{ tr.held }}</span><i class="ph ph-hourglass-medium"></i></div><div class="af-num" style="font-size:17px">{{ bal.held }}</div><div class="text-muted" style="font-size:11px">{{ bal.heldNote }}</div></div>
-        <div><div class="text-muted" style="font-size:12px">{{ tr.paidOut }}</div><div class="af-num" style="font-size:17px">{{ bal.paid }}</div><div class="text-muted" style="font-size:11px">{{ tr.allTime }}</div></div>
+        <div><div class="text-muted" style="font-size:12px;display:flex;align-items:center;gap:4px"><span>{{ tr.pending }}</span><i class="ph ph-hourglass-medium"></i></div><div class="af-num" style="font-size:17px">{{ bal.pending }}</div><div class="text-muted" style="font-size:11px">{{ bal.pendingNote }}</div></div>
+        <div><div class="text-muted" style="font-size:12px">{{ tr.totalEarned }}</div><div class="af-num" style="font-size:17px">{{ bal.total }}</div><div class="text-muted" style="font-size:11px">{{ tr.totalEarnedNote }}</div></div>
       </div>
-      <sc-if value="{{ ac.show }}" hint-placeholder-val="{{ false }}">
+      <sc-if value="{{ po.show }}" hint-placeholder-val="{{ false }}">
         <div class="af-accent-panel" style="padding:12px;border-radius:16px;display:flex;flex-direction:column;gap:4px">
-          <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:13px"><span>{{ ac.title }}</span><span style="border-radius:999px" class="tag tag-outline">{{ ac.label }}</span></div>
-          <div class="af-num" style="font-size:20px">{{ ac.net }}</div>
-          <div style="font-size:12px;color:var(--color-neutral-300)">{{ ac.detail }}</div>
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:13px"><span>{{ po.title }}</span><span style="border-radius:999px" class="tag tag-outline">{{ po.label }}</span></div>
+          <div class="af-num" style="font-size:20px">{{ po.amount }}</div>
+          <div style="font-size:12px;color:var(--color-neutral-300)">{{ po.detail }}</div>
         </div>
       </sc-if>
-      <button class="btn af-btn1 btn-block" style="padding:10px 14px" disabled="{{ bal.claimDisabled }}" sc-camel-on-click="{{ startClaim }}">{{ bal.claimLabel }}</button>
+      <button class="btn af-btn1 btn-block" style="padding:10px 14px" disabled="{{ bal.payDisabled }}" sc-camel-on-click="{{ startPayout }}">{{ bal.payLabel }}</button>
       <div class="text-muted" style="font-size:12px;margin-top:-6px">{{ bal.note }}</div>
     </section>
 
     <section class="card af-glass" style="padding:20px;gap:12px">
       <div style="display:flex;justify-content:space-between;align-items:center;gap:8px">
-        <span class="card-kicker">{{ tr.myLinks }}</span>
+        <span class="card-kicker">{{ tr.myLink }}</span>
         <span class="text-muted" style="font-size:12px">{{ share.rateLabel }}</span>
       </div>
-      <div class="text-muted" style="font-size:13px">{{ share.hint }}</div>
-      <div role="group" aria-label="{{ tr.pickProduct }}" style="display:flex;flex-wrap:wrap;gap:6px">
-        <sc-for list="{{ share.products }}" as="o" hint-placeholder-count="6">
-          <button class="btn af-chip" aria-pressed="{{ o.pressed }}" disabled="{{ o.disabled }}" sc-camel-on-click="{{ o.pick }}">{{ o.label }}</button>
-        </sc-for>
+      <div class="text-muted" style="font-size:13px">{{ tr.linkHint }}</div>
+      <div class="af-panel" style="display:flex;flex-direction:column;gap:2px;padding:12px;border-radius:16px">
+        <div class="text-muted" style="font-size:12px">{{ share.codeLabel }}</div>
+        <div style="font-size:15px;font-weight:500;word-break:break-all">{{ share.url }}</div>
       </div>
-      <sc-if value="{{ share.loading }}" hint-placeholder-val="{{ false }}">
-        <div class="text-muted" style="font-size:13px">{{ tr.preparingLink }}</div>
-      </sc-if>
-      <sc-if value="{{ share.hasLink }}" hint-placeholder-val="{{ false }}">
-        <div class="af-panel" style="display:flex;flex-direction:column;gap:2px;padding:12px;border-radius:16px">
-          <div class="text-muted" style="font-size:12px">{{ share.product }}</div>
-          <div style="font-size:15px;font-weight:500;word-break:break-all">{{ share.url }}</div>
-        </div>
-        <div style="display:flex;flex-wrap:wrap;gap:8px">
-          <button class="btn af-btn2" sc-camel-on-click="{{ copyLink }}"><i class="ph ph-link"></i><span>{{ tr.copyLink }}</span></button>
-          <a class="btn af-btn2" href="{{ share.wa }}" target="_blank" rel="noopener"><i class="ph ph-whatsapp-logo"></i><span>WhatsApp</span></a>
-          <button class="btn af-btn2" sc-camel-on-click="{{ downloadQr }}"><i class="ph ph-qr-code"></i><span>{{ tr.downloadQr }}</span></button>
-        </div>
-      </sc-if>
-      <div class="af-rule-top" style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:8px;padding-top:10px">
-        <span style="font-size:13px"><span class="text-muted">{{ tr.affiliateCode }} </span><strong style="letter-spacing:.08em">{{ code }}</strong></span>
-        <sc-if value="{{ share.canEdit }}" hint-placeholder-val="{{ false }}"><a class="btn btn-ghost" style="font-size:13px" href="/dashboard/profile">{{ tr.changeCodeInProfile }}</a></sc-if>
+      <div style="display:flex;flex-wrap:wrap;gap:8px">
+        <button class="btn af-btn2" sc-camel-on-click="{{ copyLink }}"><i class="ph ph-link"></i><span>{{ tr.copyLink }}</span></button>
+        <a class="btn af-btn2" href="{{ share.wa }}" target="_blank" rel="noopener"><i class="ph ph-whatsapp-logo"></i><span>WhatsApp</span></a>
+        <button class="btn af-btn2" sc-camel-on-click="{{ downloadQr }}"><i class="ph ph-qr-code"></i><span>{{ tr.downloadQr }}</span></button>
       </div>
     </section>
 
     <section class="card af-glass" style="padding:20px;gap:16px;min-width:0">
-      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px">
-        <h4 style="margin:0">{{ tr.linkPerformance }}</h4>
-        <div class="seg af-seg">
-          <label class="seg-opt"><input type="radio" name="period" checked="{{ p7 }}" sc-camel-on-change="{{ setP7 }}">{{ tr.days7 }}</label>
-          <label class="seg-opt"><input type="radio" name="period" checked="{{ p30 }}" sc-camel-on-change="{{ setP30 }}">{{ tr.days30 }}</label>
-          <label class="seg-opt"><input type="radio" name="period" checked="{{ pAll }}" sc-camel-on-change="{{ setPAll }}">{{ tr.allPeriod }}</label>
+      <div style="display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:8px">
+        <h4 style="margin:0">{{ tr.clicksTitle }}</h4>
+        <span class="text-muted" style="font-size:12px">{{ clicks.last }}</span>
+      </div>
+      <div class="af-recap">
+        <sc-for list="{{ clicks.cards }}" as="c" hint-placeholder-count="3">
+          <div class="af-stat">
+            <div class="af-stat-k"><i class="{{ c.icon }}"></i><span>{{ c.label }}</span></div>
+            <div class="af-stat-n"><span class="af-num">{{ c.count }}</span><small>{{ c.unit }}</small></div>
+          </div>
+        </sc-for>
+      </div>
+      <div role="img" aria-label="{{ clicks.aria }}" style="display:flex;align-items:flex-end;gap:2px;height:90px">
+        <sc-for list="{{ clicks.days }}" as="d" hint-placeholder-count="30">
+          <div title="{{ d.tip }}" style="flex:1;min-width:2px;height:{{ d.h }};min-height:{{ d.min }};border-radius:3px 3px 1px 1px;background:{{ d.bg }}"></div>
+        </sc-for>
+      </div>
+      <div class="text-muted" style="display:flex;justify-content:space-between;gap:8px;font-size:12px;margin-top:-8px"><span>{{ clicks.from }}</span><span>{{ clicks.to }}</span></div>
+      <div class="text-muted" style="font-size:13px">{{ clicks.note }}</div>
+      <div class="af-rule-top" style="display:flex;flex-direction:column;gap:8px;padding-top:14px">
+        <div style="display:flex;justify-content:space-between;align-items:baseline;gap:8px;flex-wrap:wrap"><h5 style="margin:0">{{ tr.friendsTitle }}</h5><span class="text-muted" style="font-size:12px">{{ friends.count }}</span></div>
+        <sc-if value="{{ friends.empty }}" hint-placeholder-val="{{ false }}"><div class="text-muted" style="font-size:14px">{{ tr.friendsEmpty }}</div></sc-if>
+        <div style="display:flex;flex-wrap:wrap;gap:8px">
+          <sc-for list="{{ friends.rows }}" as="f" hint-placeholder-count="3">
+            <span class="af-panel" style="display:inline-flex;align-items:center;gap:8px;padding:6px 12px 6px 6px;border-radius:999px;font-size:13px"><span style="width:26px;height:26px;border-radius:50%;display:grid;place-items:center;background:var(--color-accent);color:#ffffff;font-size:12px;font-weight:600">{{ f.initial }}</span><span>{{ f.name }}</span><span class="text-muted" style="font-size:12px">{{ f.date }}</span></span>
+          </sc-for>
         </div>
       </div>
-      <sc-if value="{{ perf.empty }}" hint-placeholder-val="{{ false }}">
-        <div style="display:flex;flex-direction:column;gap:10px;align-items:flex-start;padding:8px 0">
-          <div style="font-size:16px">{{ perf.emptyTitle }}</div>
-          <div class="text-muted" style="font-size:13px;max-width:440px">{{ perf.emptyBody }}</div>
-        </div>
-      </sc-if>
-      <sc-if value="{{ perf.has }}" hint-placeholder-val="{{ true }}">
-        <div style="display:flex;flex-direction:column;gap:12px">
-          <sc-for list="{{ perf.rows }}" as="r" hint-placeholder-count="3">
-            <div style="display:grid;grid-template-columns:96px minmax(0,1fr) minmax(88px,auto);gap:12px;align-items:center">
-              <span class="text-muted" style="font-size:13px">{{ r.label }}</span>
-              <div class="af-track"><div class="af-fill" style="width:{{ r.w }}"></div></div>
-              <span class="af-num" style="text-align:right"><span style="font-weight:500">{{ r.value }}</span> <span class="text-muted" style="font-size:12px">{{ r.sub }}</span></span>
+    </section>
+
+    <section class="card af-glass" style="padding:20px;gap:12px;min-width:0">
+      <div><h4 style="margin:0 0 4px">{{ tr.historyTitle }}</h4><div class="text-muted" style="font-size:13px">{{ tr.historyHint }}</div></div>
+      <sc-if value="{{ hist.empty }}" hint-placeholder-val="{{ false }}"><div class="text-muted" style="font-size:14px;padding:12px 0">{{ tr.historyEmpty }}</div></sc-if>
+      <sc-if value="{{ hist.has }}" hint-placeholder-val="{{ true }}">
+        <div style="display:flex;flex-direction:column">
+          <sc-for list="{{ hist.rows }}" as="r" hint-placeholder-count="5">
+            <div class="af-rule-bottom" style="display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 12px;align-items:center;padding:10px 0;opacity:{{ r.op }}">
+              <div style="min-width:0"><div style="font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ r.product }}</div><div class="text-muted" style="font-size:12px">{{ r.sub }}</div></div>
+              <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px"><span class="af-num" style="font-size:14px;text-decoration:{{ r.deco }}">{{ r.amount }}</span><span class="{{ r.cls }}">{{ r.label }}</span></div>
             </div>
           </sc-for>
-          <div class="af-rule-top" style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding-top:12px;margin-top:4px">
-            <span class="text-muted" style="font-size:13px">{{ perf.commLabel }}</span>
-            <span class="af-num" style="font-size:24px;font-weight:500">{{ perf.comm }}</span>
-          </div>
-          <div style="overflow-x:auto;margin-top:4px">
-            <sc-raw-table class="table" style="min-width:520px">
-              <sc-raw-thead><sc-raw-tr><sc-raw-th>{{ tr.colProduct }}</sc-raw-th><sc-raw-th style="text-align:right">{{ tr.colOpened }}</sc-raw-th><sc-raw-th style="text-align:right">{{ tr.colBuyers }}</sc-raw-th><sc-raw-th style="text-align:right">{{ tr.colTransactions }}</sc-raw-th><sc-raw-th style="text-align:right">{{ tr.colCommission }}</sc-raw-th><sc-raw-th></sc-raw-th></sc-raw-tr></sc-raw-thead>
-              <sc-raw-tbody>
-                <sc-for list="{{ perf.links }}" as="l" hint-placeholder-count="3">
-                  <sc-raw-tr>
-                    <sc-raw-td>{{ l.product }}</sc-raw-td>
-                    <sc-raw-td class="af-num" style="text-align:right">{{ l.opens }}</sc-raw-td>
-                    <sc-raw-td class="af-num" style="text-align:right">{{ l.buyers }}</sc-raw-td>
-                    <sc-raw-td class="af-num" style="text-align:right">{{ l.transactions }}</sc-raw-td>
-                    <sc-raw-td class="af-num" style="text-align:right">{{ l.commission }}</sc-raw-td>
-                    <sc-raw-td style="text-align:right"><button class="btn btn-ghost" style="font-size:13px;padding:4px 10px" sc-camel-on-click="{{ l.open }}">{{ tr.detail }}</button></sc-raw-td>
-                  </sc-raw-tr>
-                </sc-for>
-              </sc-raw-tbody>
-            </sc-raw-table>
-          </div>
-          <sc-if value="{{ detail.show }}" hint-placeholder-val="{{ false }}">
-            <div class="af-panel" style="display:flex;flex-direction:column;gap:12px;padding:14px;border-radius:16px">
-              <div style="display:flex;justify-content:space-between;align-items:center;gap:8px">
-                <div><div style="font-weight:500">{{ detail.product }}</div><div class="text-muted" style="font-size:12px">{{ detail.sub }}</div></div>
-                <button class="btn btn-ghost" style="font-size:13px" aria-label="{{ tr.closeDetail }}" sc-camel-on-click="{{ closeDetail }}"><i class="ph ph-x"></i></button>
-              </div>
-              <sc-if value="{{ detail.loading }}" hint-placeholder-val="{{ false }}"><div class="text-muted" style="font-size:13px">{{ tr.loading }}</div></sc-if>
-              <sc-if value="{{ detail.ready }}" hint-placeholder-val="{{ true }}">
-                <div role="img" aria-label="{{ detail.aria }}" style="display:flex;align-items:flex-end;gap:2px;height:120px;padding-top:8px">
-                  <sc-for list="{{ detail.days }}" as="d" hint-placeholder-count="30">
-                    <div title="{{ d.tip }}" style="flex:1;min-width:2px;height:100%;display:flex;flex-direction:column;justify-content:flex-end;gap:2px">
-                      <div style="height:{{ d.hOpen }};min-height:{{ d.minOpen }};border-radius:3px 3px 0 0;background:color-mix(in srgb, var(--color-accent-700) 70%, transparent)"></div>
-                      <div style="height:{{ d.hTx }};min-height:{{ d.minTx }};border-radius:3px;background:var(--color-accent)"></div>
-                    </div>
-                  </sc-for>
-                </div>
-                <div style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;font-size:12px" class="text-muted">
-                  <span style="display:flex;align-items:center;gap:4px"><span style="display:inline-block;width:10px;height:10px;border-radius:3px;background:color-mix(in srgb, var(--color-accent-700) 70%, transparent)"></span><span>{{ tr.colOpened }}</span><span style="display:inline-block;width:10px;height:10px;border-radius:3px;background:var(--color-accent);margin-left:8px"></span><span>{{ tr.colTransactions }}</span></span>
-                  <span>{{ detail.range }}</span>
-                </div>
-              </sc-if>
-              <div><button class="btn af-btn2" sc-camel-on-click="{{ detail.showPurchases }}"><i class="ph ph-list"></i><span>{{ tr.seePurchases }}</span></button></div>
+        </div>
+    </section>
+
+    <section class="card af-glass" style="padding:20px;gap:12px;min-width:0">
+      <h4 style="margin:0">{{ tr.payoutHistory }}</h4>
+      <sc-if value="{{ pays.empty }}" hint-placeholder-val="{{ false }}"><div class="text-muted" style="font-size:14px;padding:12px 0">{{ pays.emptyText }}</div></sc-if>
+      <sc-if value="{{ pays.has }}" hint-placeholder-val="{{ true }}">
+        <div style="display:flex;flex-direction:column">
+          <sc-for list="{{ pays.rows }}" as="p" hint-placeholder-count="2">
+            <div class="af-rule-bottom" style="display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 12px;align-items:center;padding:10px 0">
+              <div style="min-width:0"><div style="font-size:14px">{{ p.date }}</div><div class="text-muted" style="font-size:12px">{{ p.detail }}</div></div>
+              <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px"><span class="af-num" style="font-size:14px">{{ p.amount }}</span><span class="{{ p.cls }}">{{ p.label }}</span></div>
             </div>
-          </sc-if>
+          </sc-for>
         </div>
-      </sc-if>
-    </section>
-
-    <section class="card af-glass" style="padding:20px;gap:12px;min-width:0">
-      <div><h4 style="margin:0 0 4px">{{ tr.purchasesTitle }}</h4><div class="text-muted" style="font-size:13px">{{ tr.purchasesHint }}</div></div>
-      <sc-if value="{{ txs.filtered }}" hint-placeholder-val="{{ false }}">
-        <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px;font-size:13px"><span class="tag tag-outline" style="border-radius:999px">{{ txs.filterLabel }}</span><button class="btn btn-ghost" style="font-size:13px" sc-camel-on-click="{{ clearFilter }}">{{ tr.showAll }}</button></div>
-      </sc-if>
-      <sc-if value="{{ txEmpty }}" hint-placeholder-val="{{ false }}">
-        <div class="text-muted" style="font-size:14px;padding:12px 0">{{ txs.empty }}</div>
-      </sc-if>
-      <sc-if value="{{ txHas }}" hint-placeholder-val="{{ true }}">
-        <div style="overflow-x:auto">
-          <sc-raw-table class="table" style="min-width:560px">
-            <sc-raw-thead><sc-raw-tr><sc-raw-th>{{ tr.colBuyer }}</sc-raw-th><sc-raw-th>{{ tr.colProduct }}</sc-raw-th><sc-raw-th>{{ tr.colDate }}</sc-raw-th><sc-raw-th style="text-align:right">{{ tr.colCommission }}</sc-raw-th><sc-raw-th>{{ tr.colStatus }}</sc-raw-th></sc-raw-tr></sc-raw-thead>
-            <sc-raw-tbody>
-              <sc-for list="{{ txRows }}" as="r" hint-placeholder-count="5">
-                <sc-raw-tr style="opacity:{{ r.op }}">
-                  <sc-raw-td>{{ r.who }}</sc-raw-td>
-                  <sc-raw-td style="color:var(--color-neutral-300)">{{ r.product }}</sc-raw-td>
-                  <sc-raw-td style="white-space:nowrap;color:var(--color-neutral-300)">{{ r.date }}</sc-raw-td>
-                  <sc-raw-td class="af-num" style="text-align:right;text-decoration:{{ r.deco }}">{{ r.amount }}</sc-raw-td>
-                  <sc-raw-td><span class="{{ r.cls }}" title="{{ r.note }}">{{ r.label }}</span></sc-raw-td>
-                </sc-raw-tr>
-              </sc-for>
-            </sc-raw-tbody>
-          </sc-raw-table>
-        </div>
-      </sc-if>
-    </section>
-
-    <section class="card af-glass" style="padding:20px;gap:12px;min-width:0">
-      <h4 style="margin:0">{{ tr.claimHistory }}</h4>
-      <sc-if value="{{ claimsEmpty }}" hint-placeholder-val="{{ false }}">
-        <div class="text-muted" style="font-size:14px;padding:12px 0">{{ claimsEmptyText }}</div>
-      </sc-if>
-      <sc-if value="{{ claimsHas }}" hint-placeholder-val="{{ true }}">
-        <div style="overflow-x:auto">
-          <sc-raw-table class="table" style="min-width:560px">
-            <sc-raw-thead><sc-raw-tr><sc-raw-th>{{ tr.colClaim }}</sc-raw-th><sc-raw-th>{{ tr.colSubmitted }}</sc-raw-th><sc-raw-th style="text-align:right">{{ tr.colAmount }}</sc-raw-th><sc-raw-th>{{ tr.colStatus }}</sc-raw-th><sc-raw-th>{{ tr.colNote }}</sc-raw-th></sc-raw-tr></sc-raw-thead>
-            <sc-raw-tbody>
-              <sc-for list="{{ claimRows }}" as="c" hint-placeholder-count="2">
-                <sc-raw-tr>
-                  <sc-raw-td style="white-space:nowrap">{{ c.id }}</sc-raw-td>
-                  <sc-raw-td style="white-space:nowrap;color:var(--color-neutral-300)">{{ c.date }}</sc-raw-td>
-                  <sc-raw-td class="af-num" style="text-align:right;white-space:nowrap">{{ c.amount }}<div class="text-muted" style="font-size:11px">{{ c.net }}</div></sc-raw-td>
-                  <sc-raw-td><span class="{{ c.cls }}">{{ c.label }}</span></sc-raw-td>
-                  <sc-raw-td style="font-size:13px;color:var(--color-neutral-300);max-width:260px">{{ c.detail }}<sc-if value="{{ c.hasProof }}" hint-placeholder-val="{{ false }}"> · <a href="{{ c.proofHref }}" target="_blank" rel="noopener">{{ tr.proof }}</a></sc-if></sc-raw-td>
-                </sc-raw-tr>
-              </sc-for>
-            </sc-raw-tbody>
-          </sc-raw-table>
-        </div>
-      </sc-if>
     </section>
 
     <section class="text-muted" style="display:flex;flex-wrap:wrap;gap:8px 20px;align-items:center;font-size:13px;padding:4px 2px;min-width:0">
@@ -5564,27 +5476,22 @@ textarea.input { min-height: 90px; resize: vertical; }
       <h2 style="margin:0">Sales</h2>
       <p class="text-muted" style="margin:0;font-size:14px">{{ tr.salesSub }}</p>
     </div>
-    <sc-if value="{{ sales.loading }}" hint-placeholder-val="{{ false }}"><div class="text-muted" style="font-size:14px">{{ tr.loading }}</div></sc-if>
-    <sc-if value="{{ sales.failed }}" hint-placeholder-val="{{ false }}">
-      <div class="af-panel" style="display:flex;flex-wrap:wrap;gap:12px;align-items:center;padding:14px 16px;border-radius:16px;font-size:14px"><span style="flex:1;min-width:200px">{{ sales.error }}</span><button class="btn af-btn2" sc-camel-on-click="{{ loadSales }}">{{ tr.tryAgain }}</button></div>
-    </sc-if>
-    <sc-if value="{{ sales.ready }}" hint-placeholder-val="{{ false }}">
-      <section class="card af-glass" style="padding:18px 20px;gap:14px">
-        <div class="af-recap">
-          <sc-for list="{{ sales.cards }}" as="c" hint-placeholder-count="3">
-            <div class="af-stat">
-              <div class="af-stat-k"><i class="{{ c.icon }}"></i><span>{{ c.label }}</span></div>
-              <div class="af-stat-n"><span class="af-num">{{ c.count }}</span><small>{{ c.unit }}</small></div>
-              <div class="af-stat-c"><span class="af-num">{{ c.comm }}</span><small>{{ tr.commissionWord }}</small></div>
-            </div>
-          </sc-for>
-        </div>
-        <div class="af-rule-top text-muted" style="display:flex;flex-wrap:wrap;gap:4px 14px;padding-top:12px;font-size:12px">
-          <sc-for list="{{ sales.notes }}" as="n" hint-placeholder-count="3"><span>{{ n.text }}</span></sc-for>
-        </div>
-      </section>
+    <section class="card af-glass" style="padding:18px 20px;gap:14px">
+      <div class="af-recap">
+        <sc-for list="{{ sales.cards }}" as="c" hint-placeholder-count="3">
+          <div class="af-stat">
+            <div class="af-stat-k"><i class="{{ c.icon }}"></i><span>{{ c.label }}</span></div>
+            <div class="af-stat-n"><span class="af-num">{{ c.count }}</span><small>{{ c.unit }}</small></div>
+            <div class="af-stat-c"><span class="af-num">{{ c.comm }}</span><small>{{ tr.commissionWord }}</small></div>
+          </div>
+        </sc-for>
+      </div>
+      <div class="af-rule-top text-muted" style="display:flex;flex-wrap:wrap;gap:4px 14px;padding-top:12px;font-size:12px">
+        <sc-for list="{{ sales.notes }}" as="n" hint-placeholder-count="3"><span>{{ n.text }}</span></sc-for>
+      </div>
+    </section>
 
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,400px),1fr));gap:16px">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,400px),1fr));gap:16px">
         <section class="card af-glass" style="padding:20px;gap:14px;min-width:0">
           <div style="display:flex;justify-content:space-between;align-items:baseline;gap:8px;flex-wrap:wrap"><h4 style="margin:0">{{ sales.week.title }}</h4><span class="text-muted" style="font-size:12px">{{ sales.week.range }}</span></div>
           <div class="af-chart" role="group" aria-label="{{ sales.week.title }}">
@@ -5613,26 +5520,26 @@ textarea.input { min-height: 90px; resize: vertical; }
           </div>
           <div class="text-muted" style="font-size:12px">{{ tr.chartLegend }}</div>
         </section>
-      </div>
+    </div>
 
-      <section class="card af-glass" style="padding:20px;gap:6px;min-width:0">
-        <div style="display:flex;justify-content:space-between;align-items:baseline;gap:8px;flex-wrap:wrap"><h4 style="margin:0">Most Bought Products</h4><span class="text-muted" style="font-size:12px">{{ tr.productsHint }}</span></div>
-        <sc-if value="{{ sales.noProducts }}" hint-placeholder-val="{{ false }}"><div class="text-muted" style="font-size:14px;padding:12px 0">{{ tr.noSalesYet }}</div></sc-if>
-        <sc-for list="{{ sales.products }}" as="p" hint-placeholder-count="4">
-          <div class="af-rule-bottom" style="display:grid;grid-template-columns:28px minmax(0,1fr) auto;gap:12px;align-items:center;padding:12px 0">
-            <span class="af-num" style="width:28px;height:28px;border-radius:50%;display:grid;place-items:center;font-size:13px;background:{{ p.badgeBg }};color:{{ p.badgeColor }}">{{ p.rank }}</span>
-            <div style="min-width:0;display:flex;flex-direction:column;gap:6px"><div style="font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ p.name }}</div><div class="af-track" style="height:6px"><div class="af-fill" style="width:{{ p.w }}"></div></div></div>
-            <div class="af-num" style="text-align:right"><div style="font-size:14px;font-weight:500">{{ p.tx }}</div><div class="text-muted" style="font-size:12px">{{ p.comm }}</div></div>
-            <div class="af-plink">
-              <i class="ph ph-link-simple" style="color:var(--color-accent-300)"></i>
-              <span class="af-plink-url" title="{{ p.url }}">{{ p.urlLabel }}</span>
-              <button class="btn af-btn2 af-mini" disabled="{{ p.busy }}" sc-camel-on-click="{{ p.copy }}"><i class="ph ph-copy"></i><span>{{ tr.copyLink }}</span></button>
-              <sc-if value="{{ p.hasUrl }}" hint-placeholder-val="{{ false }}"><a class="btn af-btn2 af-mini" href="{{ p.wa }}" target="_blank" rel="noopener" aria-label="WhatsApp" title="WhatsApp"><i class="ph ph-whatsapp-logo"></i></a></sc-if>
-            </div>
-          </div>
-        </sc-for>
-      </section>
-    </sc-if>
+    <section class="card af-glass" style="padding:20px;gap:6px;min-width:0">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;gap:8px;flex-wrap:wrap"><h4 style="margin:0">Most Bought Products</h4><span class="text-muted" style="font-size:12px">{{ tr.productsHint }}</span></div>
+      <div class="af-panel" style="display:flex;align-items:center;gap:8px;min-width:0;padding:8px 8px 8px 12px;border-radius:14px;margin:6px 0 4px">
+        <i class="ph ph-link-simple" style="color:var(--color-accent-300)"></i>
+        <span class="af-plink-url" title="{{ share.url }}">{{ share.urlShort }}</span>
+        <button class="btn af-btn2 af-mini" sc-camel-on-click="{{ copyLink }}"><i class="ph ph-copy"></i><span>{{ tr.copyLink }}</span></button>
+        <a class="btn af-btn2 af-mini" href="{{ share.wa }}" target="_blank" rel="noopener" aria-label="WhatsApp" title="WhatsApp"><i class="ph ph-whatsapp-logo"></i></a>
+      </div>
+      <div class="text-muted" style="font-size:12px">{{ tr.oneLinkNote }}</div>
+      <sc-if value="{{ sales.noProducts }}" hint-placeholder-val="{{ false }}"><div class="text-muted" style="font-size:14px;padding:12px 0">{{ tr.noSalesYet }}</div></sc-if>
+      <sc-for list="{{ sales.products }}" as="p" hint-placeholder-count="4">
+        <div class="af-rule-bottom" style="display:grid;grid-template-columns:28px minmax(0,1fr) auto;gap:12px;align-items:center;padding:12px 0">
+          <span class="af-num" style="width:28px;height:28px;border-radius:50%;display:grid;place-items:center;font-size:13px;background:{{ p.badgeBg }};color:{{ p.badgeColor }}">{{ p.rank }}</span>
+          <div style="min-width:0;display:flex;flex-direction:column;gap:6px"><div style="font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ p.name }}</div><div class="af-track" style="height:6px"><div class="af-fill" style="width:{{ p.w }}"></div></div></div>
+          <div class="af-num" style="text-align:right"><div style="font-size:14px;font-weight:500">{{ p.tx }}</div><div class="text-muted" style="font-size:12px">{{ p.comm }}</div></div>
+        </div>
+      </sc-for>
+    </section>
   </sc-if>
 
   <!-- ═════════ Profile ═════════ -->
@@ -5663,30 +5570,18 @@ textarea.input { min-height: 90px; resize: vertical; }
       </sc-if>
       <sc-if value="{{ affd.has }}" hint-placeholder-val="{{ true }}">
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:14px 20px;font-size:14px">
-          <div><div class="text-muted" style="font-size:12px">{{ tr.affiliateCode }}</div><div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap"><strong style="letter-spacing:.08em">{{ code }}</strong><sc-if value="{{ share.canEdit }}" hint-placeholder-val="{{ false }}"><button class="btn btn-ghost" style="font-size:13px;padding:2px 8px" sc-camel-on-click="{{ startEditCode }}">{{ tr.changeCode }}</button></sc-if></div></div>
-          <sc-for list="{{ affd.rows }}" as="r" hint-placeholder-count="4">
-            <div><div class="text-muted" style="font-size:12px">{{ r.k }}</div><div>{{ r.v }}</div></div>
+          <sc-for list="{{ affd.rows }}" as="r" hint-placeholder-count="5">
+            <div style="min-width:0"><div class="text-muted" style="font-size:12px">{{ r.k }}</div><div style="word-break:break-all">{{ r.v }}</div></div>
           </sc-for>
         </div>
-        <sc-if value="{{ share.editing }}" hint-placeholder-val="{{ false }}">
-          <div class="field af-panel" style="display:flex;flex-direction:column;gap:6px;padding:14px;border-radius:16px">
-            <label>{{ tr.newCodeLabel }}</label>
-            <input class="input af-input" style="text-transform:uppercase;letter-spacing:.08em" maxlength="12" value="{{ codeDraft }}" sc-camel-on-change="{{ onCodeDraft }}">
-            <div class="af-err">{{ codeError }}</div>
-            <div style="display:flex;gap:8px"><button class="btn af-btn1" disabled="{{ busy }}" sc-camel-on-click="{{ saveCode }}">{{ tr.saveCode }}</button><button class="btn af-btn2" sc-camel-on-click="{{ cancelCode }}">{{ tr.cancel }}</button></div>
-          </div>
-        </sc-if>
-        <div class="text-muted" style="font-size:12px">{{ share.note }}</div>
         <div class="af-rule-top" style="display:flex;justify-content:space-between;align-items:center;gap:8px;padding-top:14px">
-          <h5 style="margin:0">{{ tr.payoutData }}</h5>
-          <button class="btn btn-ghost" style="font-size:13px" sc-camel-on-click="{{ openPayoutEdit }}">{{ payout.cta }}</button>
+          <h5 style="margin:0">{{ tr.bankTitle }}</h5>
+          <button class="btn btn-ghost" style="font-size:13px" sc-camel-on-click="{{ openBankEdit }}">{{ bank.cta }}</button>
         </div>
-        <sc-if value="{{ payout.none }}" hint-placeholder-val="{{ true }}">
-          <div class="text-muted" style="font-size:14px">{{ tr.payoutNone }}</div>
-        </sc-if>
-        <sc-if value="{{ payout.has }}" hint-placeholder-val="{{ false }}">
+        <sc-if value="{{ bank.none }}" hint-placeholder-val="{{ false }}"><div class="text-muted" style="font-size:14px">{{ tr.bankNone }}</div></sc-if>
+        <sc-if value="{{ bank.has }}" hint-placeholder-val="{{ true }}">
           <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px 20px;font-size:14px">
-            <sc-for list="{{ payout.rows }}" as="p" hint-placeholder-count="6">
+            <sc-for list="{{ bank.rows }}" as="p" hint-placeholder-count="3">
               <div><div class="text-muted" style="font-size:12px">{{ p.k }}</div><div>{{ p.v }}</div></div>
             </sc-for>
           </div>
@@ -5721,60 +5616,39 @@ textarea.input { min-height: 90px; resize: vertical; }
   <div class="dialog-backdrop" style="background:var(--af-scrim);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);z-index:50" sc-camel-on-click="{{ backdrop }}">
     <div class="dialog" style="background:var(--af-dialog);backdrop-filter:blur(28px) saturate(170%);-webkit-backdrop-filter:blur(28px) saturate(170%);box-shadow:var(--af-glass-shadow);border-radius:28px;width:min(480px,100%);max-height:calc(100vh - 32px);overflow:auto">
 
-      <sc-if value="{{ dlg.consent }}" hint-placeholder-val="{{ false }}">
-        <div class="dialog-title">{{ t.consentTitle }}</div>
-        <div class="dialog-body" style="display:flex;flex-direction:column;gap:10px">
-          <div>{{ tr.summaryColon }}</div>
-          <ul style="margin:0;padding-left:18px;display:flex;flex-direction:column;gap:6px;color:var(--color-neutral-300)">
-            <sc-for list="{{ t.consentList }}" as="item" hint-placeholder-count="5"><li>{{ item.text }}</li></sc-for>
-          </ul>
-          <sc-if value="{{ t.hasTermsUrl }}" hint-placeholder-val="{{ false }}"><a href="{{ t.termsUrl }}" target="_blank" rel="noopener">{{ tr.readFullTerms }}</a></sc-if>
-          <label style="display:flex;gap:10px;align-items:flex-start;cursor:pointer;padding-top:4px"><input type="checkbox" checked="{{ consentChecked }}" sc-camel-on-change="{{ toggleConsent }}" style="accent-color:var(--color-accent);margin-top:3px">{{ t.consentLabel }}</label>
+      <sc-if value="{{ dlg.bank }}" hint-placeholder-val="{{ false }}">
+        <div><div class="dialog-title">{{ tr.bankTitle }}</div><div class="text-muted" style="font-size:13px;margin-top:4px">{{ tr.bankDialogHint }}</div></div>
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <div class="field"><label>Bank</label>
+            <sc-raw-select class="input af-input" value="{{ form.bank }}" sc-camel-on-change="{{ onF.bank }}">
+              <option value="">{{ tr.pickBank }}</option><option>BCA</option><option>Mandiri</option><option>BNI</option><option>BRI</option><option>CIMB Niaga</option><option>Permata</option><option>BSI</option><option>Bank Jago</option>
+            </sc-raw-select>
+            <div class="af-err">{{ err.bank }}</div></div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px">
+            <div class="field"><label>{{ tr.accountNo }}</label><input class="input af-input" inputmode="numeric" autocomplete="off" value="{{ form.acct }}" sc-camel-on-change="{{ onF.acct }}"><div class="af-err">{{ err.acct }}</div></div>
+            <div class="field"><label>{{ tr.accountHolder }}</label><input class="input af-input" value="{{ form.holder }}" sc-camel-on-change="{{ onF.holder }}"><div class="af-err">{{ err.holder }}</div></div>
+          </div>
         </div>
-        <div class="dialog-actions"><button class="btn af-btn2" sc-camel-on-click="{{ closeDialog }}">{{ tr.later }}</button><button class="btn af-btn1" disabled="{{ consentDisabled }}" sc-camel-on-click="{{ acceptTerms }}">{{ consentCta }}</button></div>
+        <div class="dialog-actions"><button class="btn af-btn2" sc-camel-on-click="{{ closeDialog }}">{{ tr.cancel }}</button><button class="btn af-btn1" disabled="{{ busy }}" sc-camel-on-click="{{ saveBank }}">{{ bankCta }}</button></div>
       </sc-if>
 
       <sc-if value="{{ dlg.payout }}" hint-placeholder-val="{{ false }}">
-        <div><div class="dialog-title">{{ tr.payoutData }}</div><div class="text-muted" style="font-size:13px;margin-top:4px">{{ tr.payoutDialogHint }}</div></div>
-        <div style="display:flex;flex-direction:column;gap:12px">
-          <div class="field"><label>{{ tr.ktpName }}</label><input class="input af-input" value="{{ form.name }}" sc-camel-on-change="{{ onF.name }}"><div class="af-err">{{ err.name }}</div></div>
-          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px">
-            <div class="field"><label>NIK</label><input class="input af-input" inputmode="numeric" maxlength="16" placeholder="{{ tr.nikPlaceholder }}" value="{{ form.nik }}" sc-camel-on-change="{{ onF.nik }}"><div class="af-err">{{ err.nik }}</div></div>
-            <div class="field"><label>{{ tr.npwpOptional }}</label><input class="input af-input" inputmode="numeric" maxlength="16" placeholder="{{ tr.npwpPlaceholder }}" value="{{ form.npwp }}" sc-camel-on-change="{{ onF.npwp }}"><div class="af-err">{{ err.npwp }}</div></div>
-          </div>
-          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px">
-            <div class="field"><label>Bank</label>
-              <sc-raw-select class="input af-input" value="{{ form.bank }}" sc-camel-on-change="{{ onF.bank }}">
-                <option value="">{{ tr.pickBank }}</option><option>BCA</option><option>Mandiri</option><option>BNI</option><option>BRI</option><option>CIMB Niaga</option><option>Permata</option><option>BSI</option><option>Bank Jago</option>
-              </sc-raw-select>
-              <div class="af-err">{{ err.bank }}</div></div>
-            <div class="field"><label>{{ tr.accountNo }}</label><input class="input af-input" inputmode="numeric" value="{{ form.acct }}" sc-camel-on-change="{{ onF.acct }}"><div class="af-err">{{ err.acct }}</div></div>
-          </div>
-          <div class="field"><label>{{ tr.accountHolder }}</label><input class="input af-input" value="{{ form.holder }}" sc-camel-on-change="{{ onF.holder }}"><div class="af-err">{{ err.holder }}</div></div>
-          <div class="text-muted" style="font-size:12px">{{ taxHint }}</div>
-        </div>
-        <div class="dialog-actions"><button class="btn af-btn2" sc-camel-on-click="{{ closeDialog }}">{{ tr.cancel }}</button><button class="btn af-btn1" disabled="{{ busy }}" sc-camel-on-click="{{ savePayout }}">{{ payoutCta }}</button></div>
-      </sc-if>
-
-      <sc-if value="{{ dlg.summary }}" hint-placeholder-val="{{ false }}">
-        <div class="dialog-title">{{ tr.claimCommission }}</div>
-        <div style="display:flex;flex-direction:column;gap:10px;font-size:14px">
-          <div style="display:flex;justify-content:space-between;gap:12px"><span class="text-muted">{{ tr.availableCommission }}</span><span class="af-num">{{ sum.gross }}</span></div>
-          <div style="display:flex;justify-content:space-between;gap:12px"><span class="text-muted">{{ sum.taxLabel }}</span><span class="af-num">{{ sum.tax }}</span></div>
-          <sc-if value="{{ sum.hasAdjustment }}" hint-placeholder-val="{{ false }}"><div style="display:flex;justify-content:space-between;gap:12px"><span class="text-muted">{{ tr.adjustment }}</span><span class="af-num">{{ sum.adjustment }}</span></div></sc-if>
-          <div class="af-rule-top" style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding-top:10px"><span>{{ tr.youReceive }}</span><span class="af-num" style="font-size:24px;font-weight:500">{{ sum.net }}</span></div>
+        <div class="dialog-title">{{ tr.payoutTitle }}</div>
+        <div style="display:flex;flex-direction:column;gap:12px;font-size:14px">
+          <div style="display:flex;justify-content:space-between;gap:12px"><span class="text-muted">{{ tr.availableKicker }}</span><span class="af-num">{{ pay.available }}</span></div>
+          <div class="field"><label>{{ tr.payoutAmount }}</label><input class="input af-input af-num" inputmode="numeric" value="{{ pay.amount }}" sc-camel-on-change="{{ onPayAmount }}"><div class="af-err">{{ pay.err }}</div><div class="text-muted" style="font-size:12px;margin-top:4px">{{ pay.hint }}</div></div>
           <div class="af-panel" style="display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px;border-radius:16px">
-            <div><div class="text-muted" style="font-size:12px">{{ tr.transferTo }}</div><div>{{ sum.account }}</div><div class="text-muted" style="font-size:12px">{{ sum.holder }}</div></div>
-            <button class="btn btn-ghost" style="font-size:13px" sc-camel-on-click="{{ editFromSummary }}">{{ tr.change }}</button>
+            <div><div class="text-muted" style="font-size:12px">{{ tr.transferTo }}</div><div>{{ pay.account }}</div><div class="text-muted" style="font-size:12px">{{ pay.holder }}</div></div>
+            <button class="btn btn-ghost" style="font-size:13px" sc-camel-on-click="{{ editBankFromPayout }}">{{ tr.change }}</button>
           </div>
-          <div class="text-muted" style="font-size:12px">{{ tr.claimSummaryNote }}</div>
+          <div class="text-muted" style="font-size:12px">{{ pay.schedule }}</div>
         </div>
-        <div class="dialog-actions"><button class="btn af-btn2" sc-camel-on-click="{{ closeDialog }}">{{ tr.cancel }}</button><button class="btn af-btn1" disabled="{{ busy }}" sc-camel-on-click="{{ submitClaim }}">{{ tr.submitClaim }}</button></div>
+        <div class="dialog-actions"><button class="btn af-btn2" sc-camel-on-click="{{ closeDialog }}">{{ tr.cancel }}</button><button class="btn af-btn1" disabled="{{ busy }}" sc-camel-on-click="{{ submitPayout }}">{{ tr.submitPayout }}</button></div>
       </sc-if>
 
       <sc-if value="{{ dlg.done }}" hint-placeholder-val="{{ false }}">
         <span style="width:44px;height:44px;border-radius:50%;display:grid;place-items:center;box-shadow:inset 0 0 0 1px var(--color-accent);color:var(--color-accent);font-size:22px"><i class="ph ph-check"></i></span>
-        <div class="dialog-title">{{ tr.claimSubmitted }}</div>
+        <div class="dialog-title">{{ tr.payoutSubmitted }}</div>
         <div class="dialog-body">{{ doneText }}</div>
         <div class="dialog-actions"><button class="btn af-btn1" sc-camel-on-click="{{ closeDialog }}">{{ tr.done }}</button></div>
       </sc-if>
@@ -5790,12 +5664,13 @@ textarea.input { min-height: 90px; resize: vertical; }
 <script type="text/x-dc" data-dc-script="">
 // Affiliate dashboard: Home (/dashboard), Sales (/dashboard/sales) and
 // Profile (/dashboard/profile), one page with a `page` set by the server.
-// The server puts the signed-in affiliate's data in window.__AF_DATA__
-// before the page paints; every action after that goes through
-// /api/affiliate/*, which calls Supabase with the session cookie. Nothing
-// here holds a token. All numbers and rules (rate, minimum claim, hold
-// days, tax, terms) come from the data. Theme and language are this
-// browser's choice, kept in localStorage.
+// The program is the 20FIT app's: the server reads it from the app's
+// `affiliate` function (me) and the affiliate's own commission, payout and
+// click rows, and puts it in window.__AF_DATA__ before the page paints.
+// Actions (join, bank details, payout requests) go through /api/affiliate/*
+// with the session cookie; nothing here holds a token. Rate, minimum
+// payout and hold days come from affiliate_settings, the payout date from
+// the app. Theme and language are this browser's choice (localStorage).
 class Component extends DCLogic {
   constructor(props) {
     super(props);
@@ -5808,13 +5683,11 @@ class Component extends DCLogic {
     const acct = D.account && D.account.found ? D.account : null;
     this.state = Object.assign(this.fromState(D.state || { error: this.words(lang).loadFailed }), {
       lang, theme: this.pref('af_theme', ['light', 'dark', 'system'], 'system'), sysDark: !!(this.mq && this.mq.matches),
-      narrow: false, toast: '', dialog: null, claimFlow: false, form: null, errors: {}, busy: false,
-      agreed: false, consentChecked: false, rejectDismissed: false, editingCode: false, codeDraft: '', codeError: '',
-      period: '30', share: { slug: '', url: '', product: '', loading: false }, detail: null, txFilter: null, filtered: null, preview: null, doneText: '',
-      sales: D.sales || null, salesError: '', salesLoading: false, selWeek: -1, selMonth: -1,
+      narrow: false, toast: '', dialog: null, payoutFlow: false, form: { bank: '', acct: '', holder: '' }, errors: {}, busy: false,
+      agreed: false, payAmount: '', payErr: '', doneText: '', selWeek: -1, selMonth: -1,
       account: acct, accountMissing: !!(D.account && !D.account.found), acctForm: { name: acct ? acct.name : '', phone: acct ? acct.phone : '' }, acctErr: {}, acctStatus: ''
     });
-    this.state.form = this.emptyForm(null);
+    if (acct && !this.state.joined) this.state.form.holder = acct.name;
   }
   componentDidMount() {
     const el = this.rootRef.current;
@@ -5827,7 +5700,6 @@ class Component extends DCLogic {
     this.onKey = e => { if (e.key === 'Escape' && this.state.dialog) this.setState({ dialog: null }); };
     document.addEventListener('keydown', this.onKey);
     this.applyDocument();
-    if (this.D.page === 'sales' && this.state.joined && !this.state.sales) this.loadSales();
     if (this.D.page === 'profile' && !this.state.account && !this.state.accountMissing) this.loadAccount();
   }
   componentDidUpdate() { this.applyDocument(); }
@@ -5851,8 +5723,8 @@ class Component extends DCLogic {
 
   fromState(st) {
     return {
-      error: st.error || '', joined: !!st.joined, products: st.products || [], aff: st.affiliate || null, summary: st.summary || null,
-      links: st.links || [], commissions: st.commissions || [], claims: st.claims || [], adjustments: st.adjustments || [], profile: st.payoutProfile || null
+      error: st.error || '', joined: !!st.joined, aff: st.affiliate || null, stats: st.stats || {}, referrals: st.referrals || [],
+      commissions: st.commissions || [], payouts: st.payouts || [], clicks: st.clicks || []
     };
   }
 
@@ -5866,8 +5738,9 @@ class Component extends DCLogic {
     const d = iso && this.date(iso);
     return d ? d.toLocaleDateString(this.loc(), Object.assign({ day: 'numeric', month: 'short', year: 'numeric' }, opts || {}, { timeZone: 'Asia/Jakarta' })) : '';
   }
-  claimNo(c) { return c && c.no ? 'CLM-' + String(c.no).padStart(4, '0') : this.words(this.state ? this.state.lang : 'id').claim; }
-  emptyForm(p) { const a = this.state && this.state.account; return { name: (p && p.ktp_name) || (a && a.name) || this.D.user.name || '', nik: '', npwp: '', bank: (p && p.bank_name) || '', acct: '', holder: (p && p.account_holder) || '' }; }
+  // A timestamp as a Date whose UTC fields read as the Jakarta wall clock.
+  jkt(iso) { const t = Date.parse(iso || ''); return isNaN(t) ? null : new Date(t + 7 * 3600000); }
+  ymd(d) { return d.toISOString().slice(0, 10); }
   flash(msg) { clearTimeout(this.tt); this.setState({ toast: msg }); this.tt = setTimeout(() => this.setState({ toast: '' }), 2600); }
   copy(text, msg) { try { navigator.clipboard && navigator.clipboard.writeText(text).catch(() => {}); } catch (e) {} this.flash(msg); }
 
@@ -5887,50 +5760,13 @@ class Component extends DCLogic {
     this.setState({ busy: true });
     try { await fn(); } catch (e) { this.flash(e.message); } finally { this.setState({ busy: false }); }
   }
-  async refresh() {
-    const st = await this.api('GET', 'state');
-    this.setState(this.fromState(st));
-    if (this.state.period !== '30') await this.loadLinks(this.state.period);
-  }
-  async loadLinks(p) {
-    const r = await this.api('GET', 'links?days=' + (p === 'all' ? 'all' : p));
-    this.setState({ links: r.links, period: p });
-  }
-  async loadSales() {
-    this.setState({ salesLoading: true, salesError: '' });
-    try { const r = await this.api('GET', 'sales'); this.setState({ sales: r.sales, salesLoading: false, selWeek: -1, selMonth: -1 }); }
-    catch (e) { this.setState({ salesLoading: false, salesError: e.message }); }
-  }
+  async refresh() { this.setState(this.fromState(await this.api('GET', 'state'))); }
   async loadAccount() {
     try {
       const r = await this.api('GET', 'account');
       if (!r.account || !r.account.found) return this.setState({ accountMissing: true });
       this.setState({ account: r.account, acctForm: { name: r.account.name, phone: r.account.phone } });
     } catch (e) { this.flash(e.message); }
-  }
-  async openDetail(l) {
-    this.setState({ detail: { id: l.id, product: l.product, rows: null } });
-    try {
-      const p = this.state.period;
-      const r = await this.api('GET', 'links/' + l.id + '/daily?days=' + (p === 'all' ? 'all' : p));
-      if (this.state.detail && this.state.detail.id === l.id) this.setState({ detail: { id: l.id, product: l.product, rows: r.rows } });
-    } catch (e) { this.flash(e.message); this.setState({ detail: null }); }
-  }
-  async showPurchases(id, product) {
-    try {
-      const r = await this.api('GET', 'commissions?link=' + encodeURIComponent(id));
-      this.setState({ txFilter: { id, product }, filtered: r.rows });
-    } catch (e) { this.flash(e.message); }
-  }
-  pickProduct(slug) {
-    const p = this.state.products.find(x => x.slug === slug);
-    this.setState({ share: { slug, url: '', product: p ? p.name : '', loading: true } });
-    this.api('POST', 'link', { slug })
-      .then(r => {
-        this.setState({ share: { slug, url: r.url, product: r.product, loading: false } });
-        if (!this.state.links.some(l => l.id === r.id)) this.loadLinks(this.state.period).catch(() => {});
-      })
-      .catch(e => { this.setState({ share: { slug: '', url: '', product: '', loading: false } }); this.flash(e.message); });
   }
   loadQr() {
     if (window.qrcode) return Promise.resolve(window.qrcode);
@@ -5941,38 +5777,34 @@ class Component extends DCLogic {
     });
   }
   async downloadQr() {
-    const { url, slug } = this.state.share;
-    if (!url) return;
+    const a0 = this.state.aff;
+    if (!a0 || !a0.link) return;
     try {
       const qrcode = await this.loadQr();
-      const qr = qrcode(0, 'M'); qr.addData(url); qr.make();
+      const qr = qrcode(0, 'M'); qr.addData(a0.link); qr.make();
       const n = qr.getModuleCount(), cell = 10, pad = 4 * cell, size = n * cell + pad * 2;
       const c = document.createElement('canvas'); c.width = c.height = size;
       const g = c.getContext('2d'); g.fillStyle = '#ffffff'; g.fillRect(0, 0, size, size); g.fillStyle = '#141414';
       for (let r = 0; r < n; r++) for (let k = 0; k < n; k++) if (qr.isDark(r, k)) g.fillRect(pad + k * cell, pad + r * cell, cell, cell);
-      const a = document.createElement('a'); a.href = c.toDataURL('image/png'); a.download = 'qr-20fit-' + (this.state.aff ? this.state.aff.code : '') + '-' + slug + '.png';
+      const a = document.createElement('a'); a.href = c.toDataURL('image/png'); a.download = 'qr-20fit-' + a0.code + '.png';
       document.body.appendChild(a); a.click(); a.remove();
       this.flash(this.words(this.state.lang).qrDownloaded);
     } catch (e) { this.flash(e.message); }
   }
 
-  // ── claim flow ──
-  termsOutdated() { const s = this.state; return !!(s.aff && this.D.settings.termsVersion && s.aff.termsVersion !== this.D.settings.termsVersion); }
-  async openSummary() {
-    const preview = await this.api('GET', 'claim-preview');
-    this.setState({ preview, dialog: 'summary' });
-  }
-  validate(f, W) {
+  // ── forms ──
+  // Bank codes the app's backend stores (Xendit channel codes); banks
+  // without a known code are sent by name only.
+  bankCode(name) { return ({ BCA: 'BCA', Mandiri: 'MANDIRI', BNI: 'BNI', BRI: 'BRI', 'CIMB Niaga': 'CIMB', Permata: 'PERMATA' })[name] || ''; }
+  bankForm() { const b = this.state.aff && this.state.aff.bank; const a = this.state.account; return { bank: '', acct: '', holder: (b && b.holder) || (a && a.name) || '' }; }
+  validateBank(f, W) {
     const e = {};
-    if (!f.name.trim()) e.name = W.errKtpName;
-    if (!/^\d{16}$/.test(f.nik)) e.nik = W.errNik;
-    if (f.npwp && !/^\d{15,16}$/.test(f.npwp)) e.npwp = W.errNpwp;
     if (!f.bank) e.bank = W.errBank;
     if (!/^\d{6,20}$/.test(f.acct)) e.acct = W.errAccount;
     if (!f.holder.trim()) e.holder = W.errHolder;
-    else if (f.name.trim() && f.holder.trim().toLowerCase() !== f.name.trim().toLowerCase()) e.holder = W.errHolderMatch;
     return e;
   }
+  bankBody(f) { return { bank: f.bank, account: f.acct, holder: f.holder.trim(), code: this.bankCode(f.bank) }; }
   validateAccount(f, W) {
     const e = {};
     const name = f.name.trim();
@@ -5982,130 +5814,138 @@ class Component extends DCLogic {
     return e;
   }
 
+  // Weekly (Monday start) or monthly periods ending now, in Asia/Jakarta,
+  // with the commission and number of non-cancelled purchases in each.
+  periods(kind, n, rows) {
+    const day = 86400000;
+    const today = this.jkt(new Date().toISOString()); today.setUTCHours(0, 0, 0, 0);
+    const out = [];
+    for (let i = n - 1; i >= 0; i--) {
+      let s, e;
+      if (kind === 'week') {
+        const mon = today.getTime() - ((today.getUTCDay() + 6) % 7) * day;
+        s = mon - i * 7 * day; e = s + 7 * day;
+      } else {
+        s = Date.UTC(today.getUTCFullYear(), today.getUTCMonth() - i, 1); e = Date.UTC(today.getUTCFullYear(), today.getUTCMonth() - i + 1, 1);
+      }
+      const xs = rows.filter(r => r.t >= s && r.t < e);
+      out.push({ start: this.ymd(new Date(s)), end: this.ymd(new Date(e - day)), transactions: xs.length, commission: xs.reduce((a, r) => a + r.amount, 0) });
+    }
+    return out;
+  }
+
   // ── words: Bahasa Indonesia (default) and English ──
   words(lang) {
     if (lang === 'en') return {
-      siteName: '20FIT Affiliate', logoLabel: '20FIT Affiliate program', navLabel: 'Dashboard', signOut: 'Sign out', avatarLabel: e => 'Profile · ' + e, reload: 'Reload', contactTeam: 'Contact the affiliate team', programKicker: '20FIT affiliate program',
-      heroBody: 'Share 20FIT product links with friends. Each time they buy that product in the 20FIT app through your link, you earn a commission.',
-      step1Title: 'Share a product link', step1Body: 'Pick a 20FIT product in this dashboard, then share its link on WhatsApp, social media, or as a QR code.',
-      step2Title: 'Your friend buys in the app', step2Body: 'Your friend opens your link and buys that product in the 20FIT app. New and existing accounts both count.',
-      step3Title: 'You earn a commission', termsSummary: 'Terms summary', homeTitle: 'Affiliate dashboard', termsBannerBody: 'Read and accept them before your next claim.', readAndAccept: 'Read and accept',
-      close: 'Close', updatePayout: 'Update payout details', availableKicker: 'Available to claim', held: 'On hold', paidOut: 'Paid out', allTime: 'All time',
-      myLinks: 'My links', pickProduct: 'Pick a product', preparingLink: 'Preparing your link…', copyLink: 'Copy link', downloadQr: 'Download QR', affiliateCode: 'Affiliate code', changeCodeInProfile: 'Change in Profile',
-      linkPerformance: 'Link performance', days7: '7 days', days30: '30 days', allPeriod: 'All', colProduct: 'Product', colOpened: 'Opened', colBuyers: 'Buyers', colTransactions: 'Transactions', colCommission: 'Commission',
-      detail: 'Details', closeDetail: 'Close details', loading: 'Loading…', seePurchases: 'See purchases through this link', purchasesTitle: 'Purchases through your links',
-      purchasesHint: 'Only your commission is shown. Buyer names are masked and what they paid is not shown.', showAll: 'Show all', colBuyer: 'Buyer', colDate: 'Date', colStatus: 'Status',
-      claimHistory: 'Claim history', colClaim: 'Claim', colSubmitted: 'Submitted', colAmount: 'Amount', colNote: 'Notes', proof: 'Proof of transfer', termsShort: 'Affiliate T&C', howItWorks: 'How it works & FAQ',
-      salesSub: 'Purchases in the 20FIT app through your links, and the commission you earn from them.', tryAgain: 'Try again', productsHint: 'Excluding cancelled purchases', noSalesYet: 'No purchases through your links yet.',
-      period: 'Period', chartLegend: 'Bar height = your commission · number = transactions. Tap a bar for its totals.',
+      siteName: '20FIT Affiliate', logoLabel: '20FIT Affiliate program', navLabel: 'Dashboard', signOut: 'Sign out', avatarLabel: e => 'Profile · ' + e,
+      reload: 'Reload', contactTeam: 'Contact the affiliate team', programKicker: '20FIT affiliate program',
+      heroBody: 'Share your 20FIT affiliate link with friends. When they buy in the 20FIT app after opening your link, you earn a commission.',
+      step1Title: 'Join and share your link', step1Body: 'Join here, then share your affiliate link on WhatsApp, social media, or as a QR code.',
+      step2Title: 'Your friend buys in the app', step2Body: 'Your friend opens your link and buys in the 20FIT app. New and existing accounts both count.',
+      step3Title: 'You earn a commission', termsSummary: 'Terms summary', bankTitle: 'Payout account', bankHint: 'Your commission is transferred here. Use an account in your own name.',
+      homeTitle: 'Affiliate dashboard', availableKicker: 'Available to withdraw', pending: 'On hold', totalEarned: 'Total earned', totalEarnedNote: 'Available + on hold',
+      myLink: 'My link', linkHint: 'One link for every product in the 20FIT app. Purchases after a friend opens it count toward your commission.', copyLink: 'Copy link', downloadQr: 'Download QR',
+      clicksTitle: 'Link clicks', friendsTitle: 'Friends who bought', friendsEmpty: 'No purchases through your link yet.',
+      historyTitle: 'Earnings history', historyHint: 'Your commission per purchase through your link. What your friends paid is not shown.', historyEmpty: 'No commission yet. Share your link to start earning.',
+      colCommission: 'Commission', payoutHistory: 'Withdrawals',
+      termsShort: 'Affiliate T&C', howItWorks: 'How it works & FAQ',
+      salesSub: 'Purchases in the 20FIT app through your link, and the commission you earn from them.', commissionWord: 'commission', productsHint: 'Excluding cancelled purchases',
+      oneLinkNote: 'The same link works for every product.', noSalesYet: 'No purchases through your link yet.',
+      period: 'Period', colTransactions: 'Transactions', chartLegend: 'Bar height = your commission · number = transactions. Tap a bar for its totals.',
       profileSub: 'Your account, affiliate details, and how this dashboard looks.', editProfile: 'Edit profile', editProfileHint: 'Your 20FIT account name and phone number.',
       fullName: 'Full name', phone: 'Phone number', email: 'Email', emailLocked: 'Your email is your 20FIT sign-in and can’t be changed here.', saveProfile: 'Save profile',
-      profileDownstream: 'This is your 20FIT account: the same name and number appear in the 20FIT app and on my.20fit.id. Your FITCO account is not updated. When you buy through someone else’s link, they see your name masked.',
-      affiliateData: 'Affiliate details', notJoinedYet: 'You haven’t joined the affiliate program yet.', joinNow: 'Join now', changeCode: 'Change code', newCodeLabel: 'New code · 4–12 letters or digits · can be changed only once',
-      saveCode: 'Save code', cancel: 'Cancel', payoutData: 'Payout details', payoutNone: 'Your ID card and bank details are asked for at your first claim. Stored encrypted.',
+      profileDownstream: 'This is your 20FIT account: the same name and number appear in the 20FIT app and on my.20fit.id. Your FITCO account is not updated. When you buy through someone else’s link, they see your first name.',
+      affiliateData: 'Affiliate details', notJoinedYet: 'You haven’t joined the affiliate program yet.', joinNow: 'Join now', bankNone: 'No payout account yet.',
       appearance: 'Appearance', appearanceHint: 'Saved in this browser only.', theme: 'Theme', themeLight: 'Light', themeDark: 'Dark', themeSystem: 'System', language: 'Language',
-      summaryColon: 'Summary:', readFullTerms: 'Read the full T&C', later: 'Not now', payoutDialogHint: 'Just once, for transferring your commission and withholding tax. Stored encrypted.',
-      ktpName: 'Full name (as on your KTP)', nikPlaceholder: '16 digits', npwpOptional: 'NPWP (optional)', npwpPlaceholder: '15 or 16 digits', pickBank: 'Choose a bank', accountNo: 'Account number', accountHolder: 'Account holder name',
-      claimCommission: 'Claim commission', availableCommission: 'Available commission', adjustment: 'Adjustment (refund after payout)', youReceive: 'You receive', transferTo: 'Transfer to', change: 'Change',
-      claimSummaryNote: 'Your whole Available balance goes into this claim. The tax withheld may be adjusted after the 20FIT finance team checks it.', submitClaim: 'Submit claim', claimSubmitted: 'Claim submitted', done: 'Done',
-      claim: 'Claim', loadFailed: 'The dashboard data could not be loaded.', sessionEnded: 'Session ended', genericError: 'Something went wrong. Please try again.', qrFailed: 'Couldn’t make the QR code. Please try again.', qrDownloaded: 'QR code downloaded',
-      errKtpName: 'Enter your name as on your KTP.', errNik: 'NIK must be 16 digits.', errNpwp: 'NPWP must be 15 or 16 digits.', errBank: 'Choose a bank.', errAccount: 'Enter a valid account number.', errHolder: 'Enter the account holder’s name.',
-      errHolderMatch: 'Must match the name on your KTP exactly, or the transfer will be rejected.', errName: 'Enter a name of 2–80 characters.', errPhone: 'Use 8–15 digits, optionally starting with +.', errCode: 'Use 4–12 letters or digits.',
-      heroTitle: r => `Earn ${r} of every in-app purchase made through your link.`, stepEarn: r => `${r} of what the buyer pays, for every in-app purchase through your link.`, joinedSub: r => `${r} of every 20FIT app purchase through your product links.`,
-      terms: (days, min) => ['Only purchases in the 20FIT app count — not the website, Cafe or Clinic counters.', 'New and existing buyer accounts both count. Purchases through your own link don’t.',
-        `Commission is held for ${days} days after payment. A refund in that time cancels it.`, `Claim from ${min} Available balance, paid by bank transfer.`, '20FIT may change the rate for future purchases or end the program.'],
-      agreeLabel: v => `I have read and agree to the Affiliate T&C ${v}.`, consentLabel: v => `I agree to the Affiliate T&C ${v}`, consentTitle: v => `Affiliate T&C ${v}`, readTermsLabel: v => `Read the full Affiliate T&C (${v})`, updatedLabel: v => `Affiliate T&C updated (${v})`,
-      noteError: 'The data couldn’t be loaded', noteSuspended: 'Your affiliate account is deactivated', noteSuspendedBody: s => 'You can still see your data, but claims and new links are unavailable for now.' + (s ? '' : ' Contact the 20FIT affiliate team for details.'),
-      notePaused: j => j ? 'The affiliate program is paused' : 'Affiliate sign-ups are closed', notePausedBody: j => j ? 'New links can’t be created. Commission already recorded is safe and can be claimed.' : 'You can’t join right now. Please try again later.',
-      balSuspended: 'Claims are unavailable while your account is deactivated.', balActive: 'One claim at a time. You can claim again once this one is paid.', balAdjust: 'Your balance is still used up by deductions for refunds after payout.',
-      balReady: 'Paid by bank transfer to an account in your name.', balBelow: m => `You can claim once your Available balance reaches ${m}.`, balNone: d => `Commission becomes Available ${d} days after the purchase is paid, if it isn’t refunded.`,
-      tx: { held: 'On hold', available: 'Available', claimed: 'Claimed', paid: 'Paid', cancelled: 'Cancelled' }, cl: { submitted: 'Submitted', processing: 'Processing', paid: 'Paid', rejected: 'Rejected' },
-      reasons: { refund: 'Refunded', refunded: 'Refunded', self_purchase: 'Bought through own link', product_mismatch: 'Different product from the link', product_inactive: 'Product inactive', affiliate_inactive: 'Affiliate account inactive', link_inactive: 'Link disabled', program_paused: 'Program paused' }, cancelledGeneric: 'Cancelled',
-      paidDetail: (ref, d) => `Ref ${ref} · paid ${d}`, rejectedDefault: 'Rejected', estTransfer: d => `Estimated transfer ${d}`, processingDetail: 'Being processed by the 20FIT finance team', waitingDetail: 'Waiting for the 20FIT finance team',
-      availableOn: d => `Available ${d}`, txEmptyLink: 'No purchases through this link yet.', txEmptyNoLinks: 'No links yet. Pick a product in My links, then share it with friends.',
-      txEmptyNoOpens: 'Your links haven’t been opened in the app yet. Purchases through your links will show here.', txEmptyOpens: 'Your links have been opened, but no purchases yet. In-app purchases through your links will show here.',
-      received: v => 'Received ' + v, periods: { '7': 'last 7 days', '30': 'last 30 days', all: 'all time' }, last90: 'last 90 days', commissionPeriod: p => 'Commission · ' + p,
-      openedInApp: 'Opened in app', buyers: 'Buyers', transactions: 'Transactions', perfNoLinks: ['No links yet.', 'Pick a product in My links and share it. Opens, buyers, and transactions will show here.'],
-      perfNoOpens: all => ['Nobody has opened your links ' + (all ? 'yet.' : 'in this period.'), 'Share your link on WhatsApp or social media. Data shows once a link is opened in the 20FIT app.'],
-      detailSub: (o, t, c, p) => `${o} opened · ${t} transactions · ${c} commission · ${p}`, detailAria: (o, t) => `Daily chart: opened ${o} times, ${t} transactions`, dayTip: (d, o, t, c) => `${d}: ${o} opened, ${t} transactions, ${c}`,
-      perTransaction: r => `${r} per transaction`, shareHint: 'Pick a product, then share its link. Commission comes from purchases of that product in the app through your link.', shareOff: 'New links can’t be created right now.',
-      waText: (p, u) => `Check out ${p} in the 20FIT app with this link: ${u}`, codeLocked: 'Your code has already been changed and can’t be changed again. Links with the old code no longer work.',
-      codeHint: 'Your code is in every link and can be changed once. After that, links with the old code stop working.', filterLink: p => 'Link: ' + p,
-      claimsEmpty: m => `No claims yet. You can claim once your Available balance reaches ${m}.`, activeClaim: id => 'Claim ' + id, toAccount: a => ' · to ' + a,
-      rejectedTitle: (id, amt) => `${id} for ${amt} was rejected.`, rejectedTail: 'Your commission is back in your Available balance.',
-      minimum: m => 'Minimum ' + m, heldNote: d => `Becomes Available ${d} days after payment`, toGo: m => `${m} more to claim`, claimBtn: a => a ? 'Claim ' + a : 'Claim',
-      joinPaused: 'Sign-ups are closed', joinCta: 'Join as an affiliate', joined: 'Welcome aboard! Pick a product and share your first link.',
-      termsLine: (v, d) => `T&C ${v}` + (d ? ' · accepted ' + d : ''), termsAccepted: 'T&C accepted', acceptContinue: 'Accept and continue', accept: 'Accept',
-      taxNpwp: p => `With an NPWP, about ${p} PPh 21 is withheld.`, taxNoNpwp: p => `Without an NPWP, more PPh 21 is withheld, about ${p}.`, taxGeneric: 'PPh 21 is withheld at claim time as required.',
-      saveContinue: 'Save and continue', save: 'Save', payoutSaved: 'Payout details saved', taxLabel: (r, n) => `PPh 21 withheld (${r}${n === true ? ', with NPWP' : n === false ? ', without NPWP' : ''})`,
-      doneText: (net, acc, id) => `${net} will be transferred to ${acc || 'your account'}. You can follow claim ${id} in Claim history.`, linkCopied: 'Link copied', codeChanged: 'Code changed. Create the links you want to share again.',
-      payoutRows: ['Name (KTP)', 'NIK', 'NPWP', 'Bank', 'Account number', 'Account holder'], npwpYes: 'Registered', npwpNo: 'None', payoutEdit: 'Change', payoutAdd: 'Add details',
-      affRows: { status: 'Status', joined: 'Joined', terms: 'T&C', links: 'Active links' }, statusActive: 'Active', statusInactive: 'Deactivated', accepted: d => 'accepted ' + d,
-      cards: { total: 'Total', valid: 'Valid', pending: 'Pending' }, commissionWord: 'commission', linkNotLoaded: 'Tap Copy link to get your link', linkReady: 'Your link is ready. Tap Copy link again.', recapNotes: d => ['Total = Valid + Pending', 'Valid: available, claimed, or paid', `Pending: still in the ${d}-day hold`], txUnit: n => n === 1 ? 'transaction' : 'transactions',
-      commissionAmt: a => a + ' commission', cancelledLine: n => `${n} cancelled ${n === 1 ? 'purchase is' : 'purchases are'} not counted.`, weekly: 'Per week', monthly: 'Per month',
-      lastN: (n, unit) => `Last ${n} ${unit}`, weeksUnit: 'weeks', monthsUnit: 'months', txCount: n => `${n} transaction${n === 1 ? '' : 's'}`,
+      bankDialogHint: 'Commission is transferred to this account. Use an account in your own name.', cancel: 'Cancel',
+      payoutTitle: 'Withdraw balance', payoutAmount: 'Amount', transferTo: 'Transfer to', change: 'Change', submitPayout: 'Request withdrawal', payoutSubmitted: 'Withdrawal requested', done: 'Done',
+      pickBank: 'Choose a bank', accountNo: 'Account number', accountHolder: 'Account holder name',
+      loadFailed: 'The dashboard data could not be loaded.', sessionEnded: 'Session ended', genericError: 'Something went wrong. Please try again.', qrFailed: 'Couldn’t make the QR code. Please try again.', qrDownloaded: 'QR code downloaded',
+      errBank: 'Choose a bank.', errAccount: 'Enter a valid account number (6–20 digits).', errHolder: 'Enter the account holder’s name.', errName: 'Enter a name of 2–80 characters.', errPhone: 'Use 8–15 digits, optionally starting with +.',
+      errAgree: 'Tick the T&C agreement first.', errMin: m => 'The minimum withdrawal is ' + m + '.', errMax: m => 'Your available balance is ' + m + '.',
+      heroTitle: r => `Earn ${r} of every in-app purchase made through your link.`, stepEarn: r => `${r} of the order value after discounts, for purchases in the app through your link.`, joinedSub: r => `${r} of every 20FIT app purchase through your link.`,
+      terms: (r, days, min) => ['Only purchases in the 20FIT app count.', `You earn ${r} of the order value after discounts, for purchases made after a friend opens your link (the last link opened counts).`,
+        'Purchases through your own link don’t count.', `Commission is held for ${days} days after payment. A refund in that time cancels it.`, `Withdraw from ${min}, transferred to a bank account in your name on 20FIT’s payout schedule.`],
+      agreeLabel: v => `I have read and agree to the Affiliate T&C ${v}.`, readTermsLabel: v => `Read the full Affiliate T&C (${v})`,
+      noteError: 'The data couldn’t be loaded', noteSuspended: 'Your affiliate account is deactivated', noteSuspendedBody: s => 'You can still see your data, but withdrawals are unavailable for now.' + (s ? '' : ' Contact the 20FIT affiliate team for details.'),
+      notePaused: j => j ? 'The affiliate program is paused' : 'Affiliate sign-ups are closed', notePausedBody: j => j ? 'Commission already recorded is safe and can be withdrawn.' : 'You can’t join right now. Please try again later.',
+      minimum: m => 'Minimum ' + m, heldNote: d => `Becomes available ${d} days after payment`, toGo: m => `${m} more to withdraw`, payBtn: a => a ? 'Withdraw ' + a : 'Withdraw',
+      balSuspended: 'Withdrawals are unavailable while your account is deactivated.', balNoBank: 'Add your payout account before withdrawing.',
+      balReady: d => `Transferred to your account on the next payout date, ${d}.`, balBelow: m => `You can withdraw once your available balance reaches ${m}.`, balNone: d => `Commission becomes available ${d} days after the purchase is paid, if it isn’t refunded.`,
+      payoutActive: 'Withdrawal in progress', payoutDetail: (d, acc) => `Next payout date ${d}` + (acc ? ' · to ' + acc : ''),
+      tx: { pending: 'On hold', available: 'Available', cancelled: 'Cancelled' }, po: { requested: 'Requested', processing: 'Processing', paid: 'Paid' },
+      availableOn: d => `Available ${d}`, paidOn: d => 'paid ' + d, paysEmpty: m => `No withdrawals yet. You can withdraw from ${m}.`,
+      perTransaction: r => `${r} per purchase`, codeLabel: c => 'Affiliate code ' + c, waText: u => `Try 20FIT with my link: ${u}`, linkCopied: 'Link copied',
+      clickCards: { d7: '7 days', d30: '30 days', friends: 'Bought' }, clickUnit: n => n === 1 ? 'click' : 'clicks', peopleUnit: n => n === 1 ? 'person' : 'people',
+      clicksAria: (n) => `Clicks per day over the last 30 days: ${n} in total`, dayTip: (d, n) => `${d}: ${n} ${n === 1 ? 'click' : 'clicks'}`,
+      lastClick: (d, s) => 'Last click ' + d + (s ? ' · ' + s : ''), noClicks: 'No clicks yet',
+      clicksEmpty: 'Nobody has opened your link in the app yet. A click is counted when your link is opened in the 20FIT app.',
+      clicksNote: (c, f) => `${c} ${c === 1 ? 'click' : 'clicks'} in total so far; ${f} ${f === 1 ? 'friend has' : 'friends have'} bought through your link.`,
+      friendsCount: n => `${n} ${n === 1 ? 'person' : 'people'}`, friendSince: d => 'since ' + d,
+      termsLine: v => `T&C ${v}`, joinPaused: 'Sign-ups are closed', joinCta: 'Join as an affiliate', joined: 'Welcome aboard! Share your link to start earning.',
+      saveContinue: 'Save and continue', save: 'Save', bankSaved: 'Payout account saved', payHint: (min, max) => `Minimum ${min}, up to ${max}.`,
+      schedule: d => `Withdrawals are transferred on 20FIT’s payout schedule. Next date: ${d}.`, payoutDone: (amt, d, acc) => `${amt} will be transferred to ${acc || 'your account'} on ${d}. You can follow it under Withdrawals.`,
+      affRows: { code: 'Affiliate code', link: 'Link', status: 'Status', joined: 'Joined', terms: 'T&C' }, statusActive: 'Active', statusInactive: 'Deactivated',
+      bankRows: ['Bank', 'Account number', 'Account holder'], bankEdit: 'Change', bankAdd: 'Add account',
+      cards: { total: 'Total', valid: 'Valid', pending: 'Pending' }, recapNotes: d => ['Total = Valid + Pending', 'Valid: past the hold period (withdrawable or withdrawn)', `Pending: still in the ${d}-day hold`],
+      txUnit: n => n === 1 ? 'purchase' : 'purchases', commissionAmt: a => a + ' commission', cancelledLine: n => `${n} cancelled ${n === 1 ? 'purchase is' : 'purchases are'} not counted.`,
+      weekly: 'Per week', monthly: 'Per month', lastN: (n, unit) => `Last ${n} ${unit}`, weeksUnit: 'weeks', monthsUnit: 'months', txCount: n => `${n} ${n === 1 ? 'purchase' : 'purchases'}`,
       barAria: (p, t, c) => `${p}: ${t}, ${c}`, accountMissing: 'Your 20FIT profile isn’t set up yet. Complete it in the 20FIT app first.', profileSaved: 'Profile saved', unsaved: 'Unsaved changes'
     };
     return {
-      siteName: '20FIT Affiliate', logoLabel: 'Program affiliate 20FIT', navLabel: 'Dashboard', signOut: 'Keluar', avatarLabel: e => 'Profile · ' + e, reload: 'Muat ulang', contactTeam: 'Hubungi tim affiliate', programKicker: 'Program affiliate 20FIT',
-      heroBody: 'Bagikan link produk 20FIT ke teman. Setiap kali mereka membeli produk itu di app 20FIT lewat link-mu, kamu dapat komisi.',
-      step1Title: 'Bagikan link produk', step1Body: 'Pilih produk 20FIT di dashboard ini, lalu bagikan link-nya lewat WhatsApp, media sosial, atau QR code.',
-      step2Title: 'Temanmu beli di app', step2Body: 'Temanmu membuka link-mu dan membeli produk itu di app 20FIT. Akun baru maupun lama sama-sama dihitung.',
-      step3Title: 'Kamu dapat komisi', termsSummary: 'Ringkasan S&K', homeTitle: 'Dashboard affiliate', termsBannerBody: 'Baca dan setujui dulu sebelum klaim berikutnya.', readAndAccept: 'Baca dan setujui',
-      close: 'Tutup', updatePayout: 'Perbarui data pencairan', availableKicker: 'Tersedia untuk klaim', held: 'Tertahan', paidOut: 'Sudah dibayar', allTime: 'Sepanjang waktu',
-      myLinks: 'Link saya', pickProduct: 'Pilih produk', preparingLink: 'Menyiapkan link…', copyLink: 'Salin link', downloadQr: 'Unduh QR', affiliateCode: 'Kode affiliate', changeCodeInProfile: 'Ubah di Profile',
-      linkPerformance: 'Performa link', days7: '7 hari', days30: '30 hari', allPeriod: 'Semua', colProduct: 'Produk', colOpened: 'Dibuka', colBuyers: 'Pembeli', colTransactions: 'Transaksi', colCommission: 'Komisi',
-      detail: 'Detail', closeDetail: 'Tutup detail', loading: 'Memuat…', seePurchases: 'Lihat pembelian lewat link ini', purchasesTitle: 'Pembelian lewat link-mu',
-      purchasesHint: 'Yang tampil hanya komisimu. Nama pembeli disamarkan dan nominal yang mereka bayar tidak ditampilkan.', showAll: 'Tampilkan semua', colBuyer: 'Pembeli', colDate: 'Tanggal', colStatus: 'Status',
-      claimHistory: 'Riwayat klaim', colClaim: 'Klaim', colSubmitted: 'Diajukan', colAmount: 'Jumlah', colNote: 'Keterangan', proof: 'Bukti transfer', termsShort: 'S&K Affiliate', howItWorks: 'Cara kerja & FAQ',
-      salesSub: 'Pembelian di app 20FIT lewat link-mu, dan komisi yang kamu dapat dari situ.', tryAgain: 'Coba lagi', productsHint: 'Tanpa pembelian yang batal', noSalesYet: 'Belum ada pembelian lewat link-mu.',
-      period: 'Periode', chartLegend: 'Tinggi batang = komisimu · angka = jumlah transaksi. Ketuk batang untuk melihat totalnya.',
+      siteName: '20FIT Affiliate', logoLabel: 'Program affiliate 20FIT', navLabel: 'Dashboard', signOut: 'Keluar', avatarLabel: e => 'Profile · ' + e,
+      reload: 'Muat ulang', contactTeam: 'Hubungi tim affiliate', programKicker: 'Program affiliate 20FIT',
+      heroBody: 'Bagikan link affiliate 20FIT-mu ke teman. Saat mereka membeli di app 20FIT setelah membuka link-mu, kamu dapat komisi.',
+      step1Title: 'Gabung dan bagikan link', step1Body: 'Gabung di sini, lalu bagikan link affiliate-mu lewat WhatsApp, media sosial, atau QR code.',
+      step2Title: 'Temanmu beli di app', step2Body: 'Temanmu membuka link-mu dan membeli di app 20FIT. Akun baru maupun lama sama-sama dihitung.',
+      step3Title: 'Kamu dapat komisi', termsSummary: 'Ringkasan S&K', bankTitle: 'Rekening pencairan', bankHint: 'Komisimu ditransfer ke sini. Pakai rekening atas namamu sendiri.',
+      homeTitle: 'Dashboard affiliate', availableKicker: 'Tersedia untuk ditarik', pending: 'Tertahan', totalEarned: 'Total pendapatan', totalEarnedNote: 'Tersedia + tertahan',
+      myLink: 'Link saya', linkHint: 'Satu link untuk semua produk di app 20FIT. Pembelian setelah temanmu membuka link ini dihitung jadi komisimu.', copyLink: 'Salin link', downloadQr: 'Unduh QR',
+      clicksTitle: 'Klik link', friendsTitle: 'Teman yang sudah beli', friendsEmpty: 'Belum ada yang membeli lewat link-mu.',
+      historyTitle: 'Riwayat pendapatan', historyHint: 'Komisimu per pembelian lewat link-mu. Nominal yang dibayar temanmu tidak ditampilkan.', historyEmpty: 'Belum ada komisi. Bagikan link-mu untuk mulai dapat komisi.',
+      colCommission: 'Komisi', payoutHistory: 'Riwayat penarikan',
+      termsShort: 'S&K Affiliate', howItWorks: 'Cara kerja & FAQ',
+      salesSub: 'Pembelian di app 20FIT lewat link-mu, dan komisi yang kamu dapat dari situ.', commissionWord: 'komisi', productsHint: 'Tanpa pembelian yang batal',
+      oneLinkNote: 'Link yang sama berlaku untuk semua produk.', noSalesYet: 'Belum ada pembelian lewat link-mu.',
+      period: 'Periode', colTransactions: 'Transaksi', chartLegend: 'Tinggi batang = komisimu · angka = jumlah transaksi. Ketuk batang untuk melihat totalnya.',
       profileSub: 'Akunmu, data affiliate, dan tampilan dashboard ini.', editProfile: 'Atur profile', editProfileHint: 'Nama dan nomor HP akun 20FIT kamu.',
       fullName: 'Nama lengkap', phone: 'Nomor HP', email: 'Email', emailLocked: 'Email dipakai untuk masuk ke 20FIT dan tidak bisa diganti di sini.', saveProfile: 'Simpan profile',
-      profileDownstream: 'Ini akun 20FIT kamu: nama dan nomor yang sama tampil di aplikasi 20FIT dan my.20fit.id. Akun FITCO tidak ikut berubah. Kalau kamu beli lewat link orang lain, mereka melihat namamu dalam bentuk disamarkan.',
-      affiliateData: 'Data affiliate', notJoinedYet: 'Kamu belum bergabung di program affiliate.', joinNow: 'Gabung sekarang', changeCode: 'Ubah kode', newCodeLabel: 'Kode baru · 4–12 huruf atau angka · hanya bisa diganti sekali',
-      saveCode: 'Simpan kode', cancel: 'Batal', payoutData: 'Data pencairan', payoutNone: 'Data KTP dan rekening diminta saat klaim pertama. Disimpan terenkripsi.',
+      profileDownstream: 'Ini akun 20FIT kamu: nama dan nomor yang sama tampil di aplikasi 20FIT dan my.20fit.id. Akun FITCO tidak ikut berubah. Kalau kamu beli lewat link orang lain, mereka melihat nama depanmu.',
+      affiliateData: 'Data affiliate', notJoinedYet: 'Kamu belum bergabung di program affiliate.', joinNow: 'Gabung sekarang', bankNone: 'Belum ada rekening pencairan.',
       appearance: 'Tampilan', appearanceHint: 'Disimpan di browser ini saja.', theme: 'Tema', themeLight: 'Terang', themeDark: 'Gelap', themeSystem: 'Ikut sistem', language: 'Bahasa',
-      summaryColon: 'Ringkasan:', readFullTerms: 'Baca S&K lengkap', later: 'Nanti saja', payoutDialogHint: 'Cukup sekali, untuk transfer komisi dan pemotongan pajak. Disimpan terenkripsi.',
-      ktpName: 'Nama lengkap (sesuai KTP)', nikPlaceholder: '16 digit', npwpOptional: 'NPWP (opsional)', npwpPlaceholder: '15 atau 16 digit', pickBank: 'Pilih bank', accountNo: 'Nomor rekening', accountHolder: 'Nama pemilik rekening',
-      claimCommission: 'Klaim komisi', availableCommission: 'Komisi Tersedia', adjustment: 'Penyesuaian (refund setelah pencairan)', youReceive: 'Yang kamu terima', transferTo: 'Transfer ke', change: 'Ubah',
-      claimSummaryNote: 'Seluruh saldo Tersedia masuk ke klaim ini. Potongan pajak bisa disesuaikan setelah dicek tim finance 20FIT.', submitClaim: 'Ajukan klaim', claimSubmitted: 'Klaim diajukan', done: 'Selesai',
-      claim: 'Klaim', loadFailed: 'Data dashboard tidak bisa dimuat.', sessionEnded: 'Sesi habis', genericError: 'Terjadi kesalahan. Coba lagi.', qrFailed: 'QR tidak bisa dibuat. Coba lagi.', qrDownloaded: 'QR code diunduh',
-      errKtpName: 'Isi nama sesuai KTP.', errNik: 'NIK harus 16 digit.', errNpwp: 'NPWP harus 15 atau 16 digit.', errBank: 'Pilih bank.', errAccount: 'Isi nomor rekening yang valid.', errHolder: 'Isi nama pemilik rekening.',
-      errHolderMatch: 'Harus sama persis dengan nama di KTP, atau transfer akan ditolak.', errName: 'Isi nama 2–80 karakter.', errPhone: 'Pakai 8–15 angka, boleh diawali +.', errCode: 'Pakai 4–12 huruf atau angka.',
-      heroTitle: r => `Dapat ${r} dari setiap pembelian di app lewat link-mu.`, stepEarn: r => `${r} dari yang dibayar pembeli, untuk setiap transaksi di app lewat link-mu.`, joinedSub: r => `${r} dari setiap transaksi di app 20FIT lewat link produkmu.`,
-      terms: (days, min) => ['Hanya pembelian di app 20FIT yang dihitung, bukan web, kasir Cafe, atau Clinic.', 'Akun pembeli baru maupun lama sama-sama dihitung. Pembelian lewat link sendiri tidak dihitung.',
-        `Komisi ditahan ${days} hari setelah pembayaran lunas. Refund di masa itu membatalkan komisinya.`, `Klaim mulai ${min} saldo Tersedia, dibayar lewat transfer bank.`, '20FIT bisa mengubah rate untuk transaksi berikutnya atau menghentikan program.'],
-      agreeLabel: v => `Saya sudah membaca dan setuju dengan S&K Affiliate ${v}.`, consentLabel: v => `Saya setuju dengan S&K Affiliate ${v}`, consentTitle: v => `S&K Affiliate ${v}`, readTermsLabel: v => `Baca S&K Affiliate lengkap (${v})`, updatedLabel: v => `S&K Affiliate diperbarui (${v})`,
-      noteError: 'Data belum bisa dimuat', noteSuspended: 'Akun affiliate kamu sedang dinonaktifkan', noteSuspendedBody: s => 'Data tetap bisa dilihat, tapi klaim dan link baru tidak tersedia untuk sementara.' + (s ? '' : ' Hubungi tim affiliate 20FIT untuk info lebih lanjut.'),
-      notePaused: j => j ? 'Program affiliate sedang dijeda' : 'Pendaftaran affiliate sedang ditutup', notePausedBody: j => j ? 'Link baru belum bisa dibuat. Komisi yang sudah tercatat tetap aman dan bisa diklaim.' : 'Kamu belum bisa bergabung sekarang. Coba lagi nanti.',
-      balSuspended: 'Klaim tidak tersedia selama akun dinonaktifkan.', balActive: 'Satu klaim dalam satu waktu. Kamu bisa klaim lagi setelah klaim ini dibayar.', balAdjust: 'Saldo masih habis untuk potongan refund setelah pencairan.',
-      balReady: 'Dibayar lewat transfer bank ke rekening atas namamu.', balBelow: m => `Klaim bisa diajukan setelah saldo Tersedia mencapai ${m}.`, balNone: d => `Komisi jadi Tersedia ${d} hari setelah pembelian lunas, kalau tidak direfund.`,
-      tx: { held: 'Tertahan', available: 'Tersedia', claimed: 'Diklaim', paid: 'Dibayar', cancelled: 'Batal' }, cl: { submitted: 'Diajukan', processing: 'Diproses', paid: 'Dibayar', rejected: 'Ditolak' },
-      reasons: { refund: 'Direfund', refunded: 'Direfund', self_purchase: 'Pembelian lewat link sendiri', product_mismatch: 'Produk berbeda dari link', product_inactive: 'Produk tidak aktif', affiliate_inactive: 'Akun affiliate tidak aktif', link_inactive: 'Link dinonaktifkan', program_paused: 'Program sedang dijeda' }, cancelledGeneric: 'Dibatalkan',
-      paidDetail: (ref, d) => `Ref ${ref} · dibayar ${d}`, rejectedDefault: 'Ditolak', estTransfer: d => `Perkiraan transfer ${d}`, processingDetail: 'Sedang diproses tim finance 20FIT', waitingDetail: 'Menunggu dicek tim finance 20FIT',
-      availableOn: d => `Tersedia ${d}`, txEmptyLink: 'Belum ada pembelian lewat link ini.', txEmptyNoLinks: 'Belum ada link. Pilih produk di Link saya, lalu bagikan ke temanmu.',
-      txEmptyNoOpens: 'Link-mu belum pernah dibuka di app. Pembelian lewat link-mu akan muncul di sini.', txEmptyOpens: 'Link-mu sudah dibuka, tapi belum ada pembelian. Pembelian di app lewat link-mu akan muncul di sini.',
-      received: v => 'Diterima ' + v, periods: { '7': '7 hari terakhir', '30': '30 hari terakhir', all: 'sepanjang waktu' }, last90: '90 hari terakhir', commissionPeriod: p => 'Komisi · ' + p,
-      openedInApp: 'Dibuka di app', buyers: 'Pembeli', transactions: 'Transaksi', perfNoLinks: ['Belum ada link.', 'Pilih produk di Link saya, lalu bagikan. Link yang dibuka, pembeli, dan transaksi akan muncul di sini.'],
-      perfNoOpens: all => ['Belum ada yang membuka link-mu ' + (all ? 'sejauh ini.' : 'di periode ini.'), 'Bagikan link-mu lewat WhatsApp atau media sosial. Data muncul setelah link dibuka di app 20FIT.'],
-      detailSub: (o, t, c, p) => `${o} dibuka · ${t} transaksi · ${c} komisi · ${p}`, detailAria: (o, t) => `Grafik harian: ${o} kali dibuka, ${t} transaksi`, dayTip: (d, o, t, c) => `${d}: ${o} dibuka, ${t} transaksi, ${c}`,
-      perTransaction: r => `${r} per transaksi`, shareHint: 'Pilih produk, lalu bagikan link-nya. Komisi dihitung dari pembelian produk itu di app lewat link-mu.', shareOff: 'Link baru belum bisa dibuat saat ini.',
-      waText: (p, u) => `Cek ${p} di app 20FIT lewat link ini: ${u}`, codeLocked: 'Kode sudah pernah diganti dan tidak bisa diganti lagi. Link lama dengan kode sebelumnya tidak berlaku lagi.',
-      codeHint: 'Kode ada di setiap link-mu dan bisa diganti sekali. Setelah diganti, link dengan kode lama tidak berlaku lagi.', filterLink: p => 'Link: ' + p,
-      claimsEmpty: m => `Belum ada klaim. Kamu bisa klaim setelah saldo Tersedia mencapai ${m}.`, activeClaim: id => 'Klaim ' + id, toAccount: a => ' · ke ' + a,
-      rejectedTitle: (id, amt) => `${id} sebesar ${amt} ditolak.`, rejectedTail: 'Komisimu sudah kembali ke saldo Tersedia.',
-      minimum: m => 'Minimum ' + m, heldNote: d => `Jadi Tersedia ${d} hari setelah lunas`, toGo: m => `${m} lagi untuk bisa klaim`, claimBtn: a => a ? 'Klaim ' + a : 'Klaim',
-      joinPaused: 'Pendaftaran sedang ditutup', joinCta: 'Gabung jadi affiliate', joined: 'Selamat bergabung! Pilih produk dan bagikan link pertamamu.',
-      termsLine: (v, d) => `S&K ${v}` + (d ? ' · disetujui ' + d : ''), termsAccepted: 'S&K disetujui', acceptContinue: 'Setujui dan lanjut', accept: 'Setujui',
-      taxNpwp: p => `Dengan NPWP, PPh 21 dipotong sekitar ${p}.`, taxNoNpwp: p => `Tanpa NPWP, PPh 21 dipotong lebih tinggi, sekitar ${p}.`, taxGeneric: 'PPh 21 dipotong saat klaim sesuai ketentuan.',
-      saveContinue: 'Simpan dan lanjut', save: 'Simpan', payoutSaved: 'Data pencairan tersimpan', taxLabel: (r, n) => `Potongan PPh 21 (${r}${n === true ? ', dengan NPWP' : n === false ? ', tanpa NPWP' : ''})`,
-      doneText: (net, acc, id) => `${net} akan ditransfer ke ${acc || 'rekeningmu'}. Status klaim ${id} bisa kamu pantau di Riwayat klaim.`, linkCopied: 'Link disalin', codeChanged: 'Kode diganti. Buat ulang link yang mau kamu bagikan.',
-      payoutRows: ['Nama (KTP)', 'NIK', 'NPWP', 'Bank', 'Nomor rekening', 'Pemilik rekening'], npwpYes: 'Terdaftar', npwpNo: 'Tidak ada', payoutEdit: 'Ubah', payoutAdd: 'Isi data',
-      affRows: { status: 'Status', joined: 'Bergabung', terms: 'S&K', links: 'Link aktif' }, statusActive: 'Aktif', statusInactive: 'Dinonaktifkan', accepted: d => 'disetujui ' + d,
-      cards: { total: 'Total', valid: 'Valid', pending: 'Pending' }, commissionWord: 'komisi', linkNotLoaded: 'Ketuk Salin link untuk mengambil link-mu', linkReady: 'Link siap. Ketuk Salin link sekali lagi.', recapNotes: d => ['Total = Valid + Pending', 'Valid: tersedia, diklaim, atau sudah dibayar', `Pending: masih dalam masa tahan ${d} hari`], txUnit: () => 'transaksi',
-      commissionAmt: a => a + ' komisi', cancelledLine: n => `${n} transaksi batal tidak dihitung.`, weekly: 'Per minggu', monthly: 'Per bulan',
-      lastN: (n, unit) => `${n} ${unit} terakhir`, weeksUnit: 'minggu', monthsUnit: 'bulan', txCount: n => `${n} transaksi`,
+      bankDialogHint: 'Komisi ditransfer ke rekening ini. Pakai rekening atas namamu sendiri.', cancel: 'Batal',
+      payoutTitle: 'Tarik saldo', payoutAmount: 'Jumlah', transferTo: 'Transfer ke', change: 'Ubah', submitPayout: 'Ajukan penarikan', payoutSubmitted: 'Penarikan diajukan', done: 'Selesai',
+      pickBank: 'Pilih bank', accountNo: 'Nomor rekening', accountHolder: 'Nama pemilik rekening',
+      loadFailed: 'Data dashboard tidak bisa dimuat.', sessionEnded: 'Sesi habis', genericError: 'Terjadi kesalahan. Coba lagi.', qrFailed: 'QR tidak bisa dibuat. Coba lagi.', qrDownloaded: 'QR code diunduh',
+      errBank: 'Pilih bank.', errAccount: 'Isi nomor rekening yang valid (6–20 angka).', errHolder: 'Isi nama pemilik rekening.', errName: 'Isi nama 2–80 karakter.', errPhone: 'Pakai 8–15 angka, boleh diawali +.',
+      errAgree: 'Centang persetujuan S&K dulu.', errMin: m => 'Minimal penarikan ' + m + '.', errMax: m => 'Saldo Tersedia kamu ' + m + '.',
+      heroTitle: r => `Dapat ${r} dari setiap pembelian di app lewat link-mu.`, stepEarn: r => `${r} dari nilai pesanan setelah diskon, untuk pembelian di app lewat link-mu.`, joinedSub: r => `${r} dari setiap pembelian di app 20FIT lewat link-mu.`,
+      terms: (r, days, min) => ['Hanya pembelian di app 20FIT yang dihitung.', `Kamu dapat ${r} dari nilai pesanan setelah diskon, untuk pembelian setelah temanmu membuka link-mu (link terakhir yang dibuka yang dihitung).`,
+        'Pembelian lewat link sendiri tidak dihitung.', `Komisi ditahan ${days} hari setelah pembayaran. Refund di masa itu membatalkan komisinya.`, `Penarikan mulai ${min}, ditransfer ke rekening atas namamu sesuai jadwal pencairan 20FIT.`],
+      agreeLabel: v => `Saya sudah membaca dan setuju dengan S&K Affiliate ${v}.`, readTermsLabel: v => `Baca S&K Affiliate lengkap (${v})`,
+      noteError: 'Data belum bisa dimuat', noteSuspended: 'Akun affiliate kamu sedang dinonaktifkan', noteSuspendedBody: s => 'Data tetap bisa dilihat, tapi penarikan tidak tersedia untuk sementara.' + (s ? '' : ' Hubungi tim affiliate 20FIT untuk info lebih lanjut.'),
+      notePaused: j => j ? 'Program affiliate sedang dijeda' : 'Pendaftaran affiliate sedang ditutup', notePausedBody: j => j ? 'Komisi yang sudah tercatat tetap aman dan bisa ditarik.' : 'Kamu belum bisa bergabung sekarang. Coba lagi nanti.',
+      minimum: m => 'Minimum ' + m, heldNote: d => `Jadi Tersedia ${d} hari setelah lunas`, toGo: m => `${m} lagi untuk bisa ditarik`, payBtn: a => a ? 'Tarik ' + a : 'Tarik saldo',
+      balSuspended: 'Penarikan tidak tersedia selama akun dinonaktifkan.', balNoBank: 'Isi rekening pencairan dulu sebelum menarik saldo.',
+      balReady: d => `Ditransfer ke rekeningmu pada jadwal pencairan berikutnya, ${d}.`, balBelow: m => `Saldo bisa ditarik setelah Tersedia mencapai ${m}.`, balNone: d => `Komisi jadi Tersedia ${d} hari setelah pembelian lunas, kalau tidak direfund.`,
+      payoutActive: 'Penarikan sedang diproses', payoutDetail: (d, acc) => `Jadwal pencairan berikutnya ${d}` + (acc ? ' · ke ' + acc : ''),
+      tx: { pending: 'Tertahan', available: 'Tersedia', cancelled: 'Batal' }, po: { requested: 'Diajukan', processing: 'Diproses', paid: 'Dibayar' },
+      availableOn: d => `Tersedia ${d}`, paidOn: d => 'dibayar ' + d, paysEmpty: m => `Belum ada penarikan. Kamu bisa tarik saldo mulai ${m}.`,
+      perTransaction: r => `${r} per pembelian`, codeLabel: c => 'Kode affiliate ' + c, waText: u => `Yuk cobain 20FIT lewat link ini: ${u}`, linkCopied: 'Link disalin',
+      clickCards: { d7: '7 hari', d30: '30 hari', friends: 'Teman beli' }, clickUnit: () => 'klik', peopleUnit: () => 'orang',
+      clicksAria: (n) => `Klik per hari selama 30 hari terakhir: total ${n}`, dayTip: (d, n) => `${d}: ${n} klik`,
+      lastClick: (d, s) => 'Klik terakhir ' + d + (s ? ' · ' + s : ''), noClicks: 'Belum ada klik',
+      clicksEmpty: 'Belum ada yang membuka link-mu di app. Klik dihitung saat link-mu dibuka di app 20FIT.',
+      clicksNote: (c, f) => `Total ${c} klik sejauh ini; ${f} teman sudah membeli lewat link-mu.`,
+      friendsCount: n => `${n} orang`, friendSince: d => 'sejak ' + d,
+      termsLine: v => `S&K ${v}`, joinPaused: 'Pendaftaran sedang ditutup', joinCta: 'Gabung jadi affiliate', joined: 'Selamat bergabung! Bagikan link-mu untuk mulai dapat komisi.',
+      saveContinue: 'Simpan dan lanjut', save: 'Simpan', bankSaved: 'Rekening tersimpan', payHint: (min, max) => `Minimal ${min}, maksimal ${max}.`,
+      schedule: d => `Penarikan ditransfer sesuai jadwal pencairan 20FIT. Jadwal berikutnya: ${d}.`, payoutDone: (amt, d, acc) => `${amt} akan ditransfer ke ${acc || 'rekeningmu'} pada ${d}. Statusnya bisa kamu pantau di Riwayat penarikan.`,
+      affRows: { code: 'Kode affiliate', link: 'Link', status: 'Status', joined: 'Bergabung', terms: 'S&K' }, statusActive: 'Aktif', statusInactive: 'Dinonaktifkan',
+      bankRows: ['Bank', 'Nomor rekening', 'Pemilik rekening'], bankEdit: 'Ubah', bankAdd: 'Isi rekening',
+      cards: { total: 'Total', valid: 'Valid', pending: 'Pending' }, recapNotes: d => ['Total = Valid + Pending', 'Valid: sudah lewat masa tahan (bisa atau sudah ditarik)', `Pending: masih dalam masa tahan ${d} hari`],
+      txUnit: () => 'transaksi', commissionAmt: a => a + ' komisi', cancelledLine: n => `${n} transaksi batal tidak dihitung.`,
+      weekly: 'Per minggu', monthly: 'Per bulan', lastN: (n, unit) => `${n} ${unit} terakhir`, weeksUnit: 'minggu', monthsUnit: 'bulan', txCount: n => `${n} transaksi`,
       barAria: (p, t, c) => `${p}: ${t}, ${c}`, accountMissing: 'Profil 20FIT kamu belum ada. Lengkapi dulu di aplikasi 20FIT.', profileSaved: 'Profile tersimpan', unsaved: 'Belum disimpan'
     };
   }
@@ -6131,27 +5971,23 @@ class Component extends DCLogic {
 
   renderVals() {
     const s = this.state, S = this.D.settings, L = this.D.links, W = this.words(s.lang), f = n => this.fmt(n), fd = d => this.fd(d), page = this.D.page;
-    const sm = s.summary || {};
+    const day = 86400000;
     const rate = this.pct(S.commissionRate || 0);
-    const MIN = Number(sm.min_claim != null ? sm.min_claim : S.minWithdrawal) || 0;
-    const days = Number(sm.pending_days != null ? sm.pending_days : S.pendingDays) || 0;
+    const MIN = Number(S.minWithdrawal) || 0;
+    const days = Number(S.pendingDays) || 0;
     const paused = S.programStatus === 'paused';
-    const suspended = !!(s.aff && s.aff.status !== 'active');
-    const avail = Number(sm.available) || 0, held = Number(sm.held) || 0, paid = Number(sm.paid) || 0;
-    const active = s.claims.find(c => c.status === 'submitted' || c.status === 'processing');
-    const latest = s.claims[0];
-    const needTerms = this.termsOutdated();
-    const taxNpwp = Number(sm.tax_rate_npwp), taxNo = Number(sm.tax_rate_no_npwp);
+    const aff = s.aff;
+    const suspended = !!(aff && aff.status !== 'active');
+    const st = s.stats || {};
+    const avail = Number(st.available) || 0, pend = Number(st.pending) || 0, total = Number(st.total) || 0, friendsN = Number(st.friends) || 0;
     const tv = S.termsVersion || '';
+    const next = aff ? fd(aff.nextPayoutDate) : '';
+    const acctLabel = b => b ? `${b.name} ${b.account}` : '';
 
-    const termsList = W.terms(days, f(MIN));
-    // The admin's own summary (affiliate_settings.terms_summary) is shown as written.
-    const summaryLines = String(S.termsSummary || '').split(/\n+/).map(x => x.replace(/^[-•*]\s*/, '').trim()).filter(Boolean);
     const t = {
       heroTitle: W.heroTitle(rate), stepEarn: W.stepEarn(rate), joinedSub: W.joinedSub(rate),
-      termsList: termsList.map(text => ({ text })), consentList: (summaryLines.length ? summaryLines : termsList).map(text => ({ text })),
-      termsUrl: S.termsUrl || '#', hasTermsUrl: !!S.termsUrl,
-      agreeLabel: W.agreeLabel(tv), consentLabel: W.consentLabel(tv), consentTitle: W.consentTitle(tv), readTermsLabel: W.readTermsLabel(tv), updatedLabel: W.updatedLabel(tv)
+      termsList: W.terms(rate, days, f(MIN)).map(text => ({ text })),
+      termsUrl: S.termsUrl || '#', hasTermsUrl: !!S.termsUrl, agreeLabel: W.agreeLabel(tv), readTermsLabel: W.readTermsLabel(tv)
     };
 
     // header
@@ -6172,117 +6008,80 @@ class Component extends DCLogic {
     else if (suspended) note = { show: true, title: W.noteSuspended, body: W.noteSuspendedBody(!!L.support), reload: false, hasSupport: !!L.support };
     else if (paused && page !== 'profile') note = { show: true, title: W.notePaused(s.joined), body: W.notePausedBody(s.joined), reload: false, hasSupport: false };
 
-    // balance
+    // balance and withdrawals
+    const activePayout = s.payouts.find(p => p.status === 'requested' || p.status === 'processing');
+    const payDisabled = s.busy || suspended || !aff || avail < MIN || avail <= 0;
     let bnote;
     if (suspended) bnote = W.balSuspended;
-    else if (active) bnote = W.balActive;
-    else if (sm.claim_blocker === 'adjustments_exceed_balance') bnote = W.balAdjust;
-    else if (avail >= MIN) bnote = W.balReady;
-    else if (avail > 0) bnote = W.balBelow(f(MIN));
+    else if (aff && !aff.bank) bnote = W.balNoBank;
+    else if (avail >= MIN && avail > 0) bnote = W.balReady(next);
+    else if (avail > 0 || pend > 0) bnote = W.balBelow(f(MIN));
     else bnote = W.balNone(days);
-    const TXC = { held: 'tag tag-neutral', available: 'tag tag-accent', claimed: 'tag tag-outline', paid: 'tag tag-neutral', cancelled: 'tag tag-neutral' };
-    const CLC = { submitted: 'tag tag-outline', processing: 'tag tag-outline', paid: 'tag tag-accent', rejected: 'tag tag-neutral' };
-    const reason = r => W.reasons[r] || (r ? W.cancelledGeneric : '');
-    const acct = c => c.bank ? `${c.bank} ${c.account}` : '';
-    const claimDetail = c => c.status === 'paid' ? W.paidDetail(c.transferRef || '–', fd(c.paidAt))
-      : c.status === 'rejected' ? (c.rejectReason || W.rejectedDefault)
-      : c.status === 'processing' ? (c.estimatedTransfer ? W.estTransfer(fd(c.estimatedTransfer)) : W.processingDetail)
-      : W.waitingDetail;
+    const POC = { requested: 'tag tag-outline', processing: 'tag tag-outline', paid: 'tag tag-accent' };
+    const TXC = { pending: 'tag tag-neutral', available: 'tag tag-accent', cancelled: 'tag tag-neutral' };
 
-    // purchases (all, or one link)
-    const txSource = s.txFilter ? (s.filtered || []) : s.commissions;
-    const txRows = txSource.map(x => ({ who: x.buyer || '–', product: x.product, date: fd(x.at), amount: f(x.amount), label: W.tx[x.status] || x.status, cls: TXC[x.status] || 'tag tag-neutral',
-      note: x.status === 'cancelled' ? reason(x.cancelReason) : x.status === 'held' ? W.availableOn(fd(x.availableAt)) : '', op: x.status === 'cancelled' ? 0.6 : 1, deco: x.status === 'cancelled' ? 'line-through' : 'none' }));
-    const totalOpens = s.links.reduce((a, l) => a + l.opens, 0);
-    let txEmpty;
-    if (s.txFilter) txEmpty = W.txEmptyLink;
-    else if (!s.links.length) txEmpty = W.txEmptyNoLinks;
-    else if (!totalOpens) txEmpty = W.txEmptyNoOpens;
-    else txEmpty = W.txEmptyOpens;
+    // link sharing (one link per affiliate, from the app)
+    const url = aff ? aff.link : '';
+    const share = { url, urlShort: url.replace(/^https?:\/\//, ''), codeLabel: aff ? W.codeLabel(aff.code) : '', rateLabel: W.perTransaction(rate),
+      wa: 'https://wa.me/?text=' + encodeURIComponent(W.waText(url)) };
 
-    const claimRows = s.claims.map(c => ({ id: this.claimNo(c), date: fd(c.submittedAt), amount: f(c.gross), net: W.received(f(c.net)), label: W.cl[c.status] || c.status, cls: CLC[c.status] || 'tag tag-neutral',
-      detail: claimDetail(c), hasProof: c.status === 'paid' && c.hasProof, proofHref: '/api/affiliate/claims/' + c.id + '/proof' }));
-
-    // performance
-    const P = W.periods;
-    const tot = k => s.links.reduce((a, l) => a + (Number(l[k]) || 0), 0);
-    const opens = tot('opens'), buyers = tot('buyers'), txs = tot('transactions'), comm = tot('commission');
-    const rel = (a, b) => b ? (Math.round(a / b * 1000) / 10).toLocaleString(this.loc()) + '%' : '–';
-    const w = v => opens ? Math.max(2, Math.round(Math.sqrt(v / opens) * 100)) + '%' : '2%';
-    const perfRows = [
-      { label: W.openedInApp, value: this.num(opens), sub: '', w: '100%' },
-      { label: W.buyers, value: this.num(buyers), sub: rel(buyers, opens), w: w(buyers) },
-      { label: W.transactions, value: this.num(txs), sub: '', w: w(txs) }
-    ];
-    const perfLinks = [...s.links].sort((a, b) => b.commission - a.commission || b.opens - a.opens).map(l => ({
-      product: l.product, opens: this.num(l.opens), buyers: this.num(l.buyers), transactions: this.num(l.transactions), commission: f(l.commission), open: () => this.openDetail(l) }));
-    let perfEmpty = null;
-    if (!s.links.length) perfEmpty = W.perfNoLinks;
-    else if (!opens && !txs) perfEmpty = W.perfNoOpens(s.period === 'all');
-
-    let detail = { show: false };
-    if (s.detail) {
-      const rows = s.detail.rows || [];
-      const maxO = Math.max(1, ...rows.map(r => r.opens)), maxT = Math.max(1, ...rows.map(r => r.transactions));
-      const sumO = rows.reduce((a, r) => a + r.opens, 0), sumT = rows.reduce((a, r) => a + r.transactions, 0), sumC = rows.reduce((a, r) => a + r.commission, 0);
-      detail = { show: true, product: s.detail.product, loading: !s.detail.rows, ready: !!s.detail.rows,
-        sub: s.detail.rows ? W.detailSub(this.num(sumO), this.num(sumT), f(sumC), s.period === 'all' ? W.last90 : P[s.period]) : '',
-        aria: W.detailAria(sumO, sumT),
-        range: rows.length ? `${fd(rows[0].day)} – ${fd(rows[rows.length - 1].day)}` : '',
-        days: rows.map(r => ({ tip: W.dayTip(fd(r.day), r.opens, r.transactions, f(r.commission)),
-          hOpen: Math.round(r.opens / maxO * 60) + '%', minOpen: r.opens ? '3px' : '0', hTx: Math.round(r.transactions / maxT * 35) + '%', minTx: r.transactions ? '3px' : '0' })),
-        showPurchases: () => this.showPurchases(s.detail.id, s.detail.product) };
+    // clicks (my20fit_affiliate_clicks) and friends who bought (me.referrals)
+    const now = Date.now();
+    const clickTimes = s.clicks.map(c => Date.parse(c.at)).filter(x => !isNaN(x));
+    const within = d => clickTimes.filter(x => now - x < d * day).length;
+    const today = this.jkt(new Date(now).toISOString()); today.setUTCHours(0, 0, 0, 0);
+    const per = [];
+    for (let i = 29; i >= 0; i--) {
+      const ds = today.getTime() - i * day;
+      per.push({ d: this.ymd(new Date(ds)), n: s.clicks.filter(c => { const j = this.jkt(c.at); return j && j.getTime() >= ds && j.getTime() < ds + day; }).length });
     }
-
-    // link sharing
-    const canShare = s.joined && !paused && !suspended;
-    const share = {
-      rateLabel: W.perTransaction(rate), hint: canShare ? W.shareHint : W.shareOff,
-      products: s.products.map(p => ({ label: p.name, pressed: s.share.slug === p.slug ? 'true' : 'false', disabled: !canShare || s.share.loading, pick: () => this.pickProduct(p.slug) })),
-      loading: s.share.loading, hasLink: !!s.share.url && !s.share.loading, url: s.share.url, product: s.share.product,
-      wa: 'https://wa.me/?text=' + encodeURIComponent(W.waText(s.share.product, s.share.url)),
-      canEdit: !!(s.aff && s.aff.codeChangeable) && !s.editingCode && !suspended, editing: s.editingCode,
-      note: s.aff && !s.aff.codeChangeable ? W.codeLocked : W.codeHint
+    const maxDay = Math.max(1, ...per.map(p => p.n));
+    const lastClick = s.clicks[0];
+    const clicks = {
+      cards: [
+        { label: W.clickCards.d7, icon: 'ph ph-cursor-click', count: this.num(within(7)), unit: W.clickUnit(within(7)) },
+        { label: W.clickCards.d30, icon: 'ph ph-calendar', count: this.num(within(30)), unit: W.clickUnit(within(30)) },
+        { label: W.clickCards.friends, icon: 'ph ph-users', count: this.num(friendsN), unit: W.peopleUnit(friendsN) }
+      ],
+      days: per.map(p => ({ tip: W.dayTip(fd(p.d), p.n), h: p.n ? Math.max(6, Math.round(p.n / maxDay * 100)) + '%' : '0', min: p.n ? '4px' : '2px',
+        bg: p.n ? 'linear-gradient(180deg, var(--color-accent-600), var(--color-accent-400))' : 'color-mix(in srgb, var(--color-neutral-100) 10%, transparent)' })),
+      aria: W.clicksAria(within(30)), from: fd(per[0].d), to: fd(per[per.length - 1].d),
+      last: lastClick ? W.lastClick(fd(lastClick.at), lastClick.source) : W.noClicks,
+      note: clickTimes.length ? W.clicksNote(this.num(clickTimes.length), this.num(friendsN)) : W.clicksEmpty
     };
+    const friends = { count: W.friendsCount(this.num(friendsN)), empty: !s.referrals.length,
+      rows: s.referrals.map(r => ({ name: r.name || '–', initial: (r.name || '?').charAt(0).toUpperCase(), date: r.at ? W.friendSince(fd(r.at)) : '' })) };
 
-    // Sales (affiliate_my_sales)
-    const sd = s.sales;
-    let sales = { loading: page === 'sales' && s.joined && !sd && !s.salesError, failed: !!s.salesError && !sd, error: s.salesError, ready: false };
-    if (sd) {
-      const sum = sd.summary || {};
-      const prods = sd.products || [];
-      const maxP = Math.max(1, ...prods.map(p => Number(p.transactions) || 0));
-      sales = { loading: false, failed: false, error: '', ready: true,
-        cards: [
-          { label: W.cards.total, icon: 'ph ph-shopping-bag', count: this.num(sum.total), unit: W.txUnit(Number(sum.total)), comm: f(sum.commission_total) },
-          { label: W.cards.valid, icon: 'ph ph-check-circle', count: this.num(sum.valid), unit: W.txUnit(Number(sum.valid)), comm: f(sum.commission_valid) },
-          { label: W.cards.pending, icon: 'ph ph-hourglass-medium', count: this.num(sum.pending), unit: W.txUnit(Number(sum.pending)), comm: f(sum.commission_pending) }
-        ],
-        notes: W.recapNotes(days).concat(Number(sum.cancelled) > 0 ? [W.cancelledLine(Number(sum.cancelled))] : []).map(text => ({ text })),
-        week: Object.assign(this.chart(sd.weekly, s.selWeek, k => this.setState({ selWeek: k }), 'week', W), { title: W.weekly }),
-        month: Object.assign(this.chart(sd.monthly, s.selMonth, k => this.setState({ selMonth: k }), 'month', W), { title: W.monthly }),
-        noProducts: !prods.length,
-        products: prods.map((p, k) => {
-          // The link comes from the affiliate's own links (affiliate_my_links);
-          // a product sold through a link always has one. If it isn't loaded,
-          // Salin link fetches it first (POST link).
-          const link = s.links.find(l => l.product === p.product);
-          const slug = link ? link.slug : (s.products.find(c => c.name === p.product) || {}).slug;
-          const url = link ? link.url : '';
-          return { rank: k + 1, name: p.product, tx: W.txCount(Number(p.transactions) || 0), comm: W.commissionAmt(f(p.commission)),
-          url, urlLabel: url ? url.replace(/^https?:\/\//, '') : W.linkNotLoaded, hasUrl: !!url, busy: s.busy || (!url && !slug),
-          wa: url ? 'https://wa.me/?text=' + encodeURIComponent(W.waText(p.product, url)) : '#',
-          copy: () => url ? this.copy(url, W.linkCopied) : this.run(async () => {
-            // Copying after a network call can be blocked by the browser, so
-            // show the link and let the next tap copy it.
-            await this.api('POST', 'link', { slug });
-            await this.loadLinks(this.state.period);
-            this.flash(W.linkReady);
-          }),
-          w: Math.max(3, Math.round((Number(p.transactions) || 0) / maxP * 100)) + '%',
-          badgeBg: k < 3 ? 'var(--color-accent)' : 'var(--af-panel)', badgeColor: k < 3 ? '#ffffff' : 'var(--color-text)' };
-        }) };
-    }
+    // earnings history and withdrawals
+    const hist = { empty: !s.commissions.length, has: s.commissions.length > 0,
+      rows: s.commissions.slice(0, 100).map(c => ({ sub: [fd(c.at), c.status === 'pending' && c.holdUntil ? W.availableOn(fd(c.holdUntil)) : ''].filter(Boolean).join(' · '), product: c.product, amount: f(c.amount), label: W.tx[c.status] || c.status, cls: TXC[c.status] || 'tag tag-neutral',
+        op: c.status === 'cancelled' ? 0.6 : 1, deco: c.status === 'cancelled' ? 'line-through' : 'none' })) };
+    const pays = { empty: !s.payouts.length, has: s.payouts.length > 0, emptyText: W.paysEmpty(f(MIN)),
+      rows: s.payouts.map(p => ({ date: fd(p.requestedAt), amount: f(p.amount), label: W.po[p.status] || p.status, cls: POC[p.status] || 'tag tag-neutral',
+        detail: [p.bank && `${p.bank} ${p.account}`, p.status === 'paid' && p.processedAt ? W.paidOn(fd(p.processedAt)) : ''].filter(Boolean).join(' · ') })) };
+
+    // Sales: recap, weekly and monthly charts, products (from the ledger)
+    const live = s.commissions.filter(c => c.status !== 'cancelled').map(c => ({ ...c, t: (this.jkt(c.at) || new Date(0)).getTime() }));
+    const sum = st2 => s.commissions.filter(c => c.status === st2);
+    const amt = xs => xs.reduce((a, c) => a + c.amount, 0);
+    const valid = sum('available'), pending = sum('pending'), cancelledN = sum('cancelled').length;
+    const byProduct = {};
+    live.forEach(c => { const p = byProduct[c.product] || (byProduct[c.product] = { product: c.product, n: 0, comm: 0 }); p.n++; p.comm += c.amount; });
+    const prods = Object.values(byProduct).sort((a, b) => b.n - a.n || b.comm - a.comm);
+    const maxP = Math.max(1, ...prods.map(p => p.n));
+    const sales = {
+      cards: [
+        { label: W.cards.total, icon: 'ph ph-shopping-bag', count: this.num(valid.length + pending.length), unit: W.txUnit(valid.length + pending.length), comm: f(amt(valid) + amt(pending)) },
+        { label: W.cards.valid, icon: 'ph ph-check-circle', count: this.num(valid.length), unit: W.txUnit(valid.length), comm: f(amt(valid)) },
+        { label: W.cards.pending, icon: 'ph ph-hourglass-medium', count: this.num(pending.length), unit: W.txUnit(pending.length), comm: f(amt(pending)) }
+      ],
+      notes: W.recapNotes(days).concat(cancelledN ? [W.cancelledLine(cancelledN)] : []).map(text => ({ text })),
+      week: Object.assign(this.chart(this.periods('week', 12, live), s.selWeek, k => this.setState({ selWeek: k }), 'week', W), { title: W.weekly }),
+      month: Object.assign(this.chart(this.periods('month', 12, live), s.selMonth, k => this.setState({ selMonth: k }), 'month', W), { title: W.monthly }),
+      noProducts: !prods.length,
+      products: prods.map((p, k) => ({ rank: k + 1, name: p.product, tx: W.txCount(p.n), comm: W.commissionAmt(f(p.comm)),
+        w: Math.max(3, Math.round(p.n / maxP * 100)) + '%', badgeBg: k < 3 ? 'var(--color-accent)' : 'var(--af-panel)', badgeColor: k < 3 ? '#ffffff' : 'var(--color-text)' }))
+    };
 
     // Profile: account (my20fit_profile), affiliate details, appearance
     const af = s.acctForm;
@@ -6290,80 +6089,52 @@ class Component extends DCLogic {
     const acctView = { ready: !!acc, missing: !acc && s.accountMissing, missingText: W.accountMissing, name: af.name, phone: af.phone, email: (acc && acc.email) || this.D.user.email || '',
       errName: s.acctErr.name || '', errPhone: s.acctErr.phone || '', saveDisabled: s.busy || !changed, status: changed ? W.unsaved : s.acctStatus };
     const onAcct = {};
-    ['name', 'phone'].forEach(k => { onAcct[k] = e => { const v = e.target.value; this.setState(st => ({ acctForm: { ...st.acctForm, [k]: v }, acctErr: { ...st.acctErr, [k]: '' }, acctStatus: '' })); }; });
-    const linksActive = s.links.filter(l => l.status === 'active').length;
-    const affd = { has: !!s.aff, none: !s.aff && !s.error,
-      rows: s.aff ? [
-        { k: W.affRows.status, v: s.aff.status === 'active' ? W.statusActive : W.statusInactive },
-        { k: W.affRows.joined, v: fd(s.aff.joinedAt) || '–' },
-        { k: W.affRows.terms, v: (s.aff.termsVersion || '–') + (s.aff.termsAcceptedAt ? ' · ' + W.accepted(fd(s.aff.termsAcceptedAt)) : '') },
-        { k: W.affRows.links, v: this.num(linksActive) }
+    ['name', 'phone'].forEach(k => { onAcct[k] = e => { const v = e.target.value; this.setState(st3 => ({ acctForm: { ...st3.acctForm, [k]: v }, acctErr: { ...st3.acctErr, [k]: '' }, acctStatus: '' })); }; });
+    const affd = { has: !!aff, none: !aff && !s.error,
+      rows: aff ? [
+        { k: W.affRows.code, v: aff.code }, { k: W.affRows.link, v: share.urlShort },
+        { k: W.affRows.status, v: aff.status === 'active' ? W.statusActive : W.statusInactive },
+        { k: W.affRows.joined, v: fd(aff.joinedAt) || '–' }, { k: W.affRows.terms, v: aff.termsVersion || '–' }
       ] : [] };
+    const bank = { has: !!(aff && aff.bank), none: !!(aff && !aff.bank), cta: aff && aff.bank ? W.bankEdit : W.bankAdd,
+      rows: aff && aff.bank ? [aff.bank.name, aff.bank.account, aff.bank.holder].map((v, k) => ({ k: W.bankRows[k], v })) : [] };
     const setTheme = v => () => { this.savePref('af_theme', v); this.setState({ theme: v }); };
     const setLang = v => () => { this.savePref('af_lang', v); this.setState({ lang: v }); };
 
-    const pf = s.profile;
-    const preview = s.preview || {};
-    const taxRate = Number(preview.tax_rate);
-    const setP = p => () => { if (p !== s.period) this.run(async () => { await this.loadLinks(p); if (this.state.detail) await this.openDetail({ id: this.state.detail.id, product: this.state.detail.product }); }); };
     const onF = {};
-    ['name', 'nik', 'npwp', 'bank', 'acct', 'holder'].forEach(k => {
-      onF[k] = e => { let v = e.target.value; if (['nik', 'npwp', 'acct'].includes(k)) v = v.replace(/\D/g, ''); this.setState(st => ({ form: { ...st.form, [k]: v }, errors: { ...st.errors, [k]: '' } })); };
+    ['bank', 'acct', 'holder'].forEach(k => {
+      onF[k] = e => { let v = e.target.value; if (k === 'acct') v = v.replace(/\D/g, ''); this.setState(st3 => ({ form: { ...st3.form, [k]: v }, errors: { ...st3.errors, [k]: '' } })); };
     });
-    const latestRejected = latest && latest.status === 'rejected';
-    const claimDisabled = this.state.busy || suspended || !!active || !sm.can_claim;
+    const openPayout = () => this.setState({ dialog: 'payout', payAmount: String(this.state.stats.available || ''), payErr: '' });
     const showJoin = !s.joined && !s.error && page !== 'profile';
 
     return {
       rootRef: this.rootRef, themeAttr: this.dark() ? 'dark' : 'light', lang: s.lang, tr: W, t, head, note, links: { support: L.support || '#', hasSupport: !!L.support },
       pg: { max: page === 'sales' ? '1040px' : '760px', showJoin, home: page === 'home' && s.joined, sales: page === 'sales' && s.joined, profile: page === 'profile' },
       reload: () => location.reload(),
-      agreed: s.agreed, joinDisabled: !s.agreed || paused || s.busy,
-      joinLabel: paused ? W.joinPaused : W.joinCta,
-      toggleAgree: () => this.setState(st => ({ agreed: !st.agreed })),
-      join: () => this.run(async () => { await this.api('POST', 'join', { agree: true }); await this.refresh(); this.flash(W.joined); if (this.D.page === 'sales') this.loadSales(); }),
-      showTermsBanner: s.joined && needTerms,
-      openConsent: () => this.setState({ dialog: 'consent', claimFlow: false, consentChecked: false }),
-      showRejected: latestRejected && !s.rejectDismissed,
-      rejected: latestRejected ? { title: W.rejectedTitle(this.claimNo(latest), f(latest.gross)), reason: ((latest.rejectReason || '') + ' ' + W.rejectedTail).trim() } : { title: '', reason: '' },
-      dismissRejected: () => this.setState({ rejectDismissed: true }),
-      openPayoutEdit: () => this.setState({ dialog: 'payout', claimFlow: false, form: this.emptyForm(pf), errors: {} }),
-      bal: { available: f(avail), held: f(held), paid: f(paid), minLabel: W.minimum(f(MIN)), heldNote: W.heldNote(days),
-        showProgress: !active && avail < MIN, pct: Math.min(100, MIN ? avail / MIN * 100 : 100) + '%', toGo: W.toGo(f(Math.max(MIN - avail, 0))),
-        claimDisabled, claimLabel: W.claimBtn(!claimDisabled ? f(avail) : ''), note: bnote },
-      ac: active ? { show: true, title: W.activeClaim(this.claimNo(active)), label: W.cl[active.status], net: f(active.net), detail: claimDetail(active) + (acct(active) ? W.toAccount(acct(active)) : '') } : { show: false },
-      startClaim: () => this.run(async () => {
-        if (needTerms) return this.setState({ dialog: 'consent', claimFlow: true, consentChecked: false });
-        if (!this.state.profile) return this.setState({ dialog: 'payout', claimFlow: true, form: this.emptyForm(null), errors: {} });
-        await this.openSummary();
-      }),
-      code: s.aff ? s.aff.code : '', codeDraft: s.codeDraft, codeError: s.codeError, share, busy: s.busy,
-      startEditCode: () => this.setState({ editingCode: true, codeDraft: s.aff ? s.aff.code : '', codeError: '' }),
-      onCodeDraft: e => this.setState({ codeDraft: e.target.value.toUpperCase().replace(/[^A-Z0-9]/g, ''), codeError: '' }),
-      cancelCode: () => this.setState({ editingCode: false }),
-      saveCode: () => {
-        const c = this.state.codeDraft;
-        if (!/^[A-Z0-9]{4,12}$/.test(c)) return this.setState({ codeError: W.errCode });
-        if (s.aff && c === s.aff.code) return this.setState({ editingCode: false });
-        this.setState({ busy: true });
-        this.api('POST', 'code', { code: c })
-          .then(() => { this.setState({ editingCode: false, share: { slug: '', url: '', product: '', loading: false } }); this.flash(W.codeChanged); return this.refresh(); })
-          .catch(e => this.setState({ codeError: e.message }))
-          .finally(() => this.setState({ busy: false }));
+      agreed: s.agreed, joinDisabled: paused || s.busy, joinLabel: paused ? W.joinPaused : W.joinCta,
+      toggleAgree: () => this.setState(st3 => ({ agreed: !st3.agreed })),
+      join: () => {
+        const e = this.validateBank(this.state.form, W);
+        if (Object.keys(e).length) return this.setState({ errors: e });
+        if (!this.state.agreed) return this.flash(W.errAgree);
+        this.run(async () => {
+          await this.api('POST', 'join', { agree: true, ...this.bankBody(this.state.form) });
+          await this.refresh();
+          this.flash(W.joined);
+        });
       },
-      copyLink: () => s.share.url && this.copy(s.share.url, W.linkCopied),
-      downloadQr: () => this.downloadQr(),
-      p7: s.period === '7', p30: s.period === '30', pAll: s.period === 'all', setP7: setP('7'), setP30: setP('30'), setPAll: setP('all'),
-      perf: { empty: !!perfEmpty, has: !perfEmpty, emptyTitle: perfEmpty ? perfEmpty[0] : '', emptyBody: perfEmpty ? perfEmpty[1] : '',
-        rows: perfRows, comm: f(comm), commLabel: W.commissionPeriod(P[s.period]), links: perfLinks },
-      detail, closeDetail: () => this.setState({ detail: null }),
-      txs: { filtered: !!s.txFilter, filterLabel: s.txFilter ? W.filterLink(s.txFilter.product) : '', empty: txEmpty },
-      clearFilter: () => this.setState({ txFilter: null, filtered: null }),
-      txEmpty: !txRows.length, txHas: txRows.length > 0, txRows,
-      claimsEmpty: !s.claims.length, claimsHas: s.claims.length > 0, claimRows, claimsEmptyText: W.claimsEmpty(f(MIN)),
-      termsLine: s.aff ? W.termsLine(s.aff.termsVersion || '–', s.aff.termsAcceptedAt ? fd(s.aff.termsAcceptedAt) : '') : '',
-      sales, loadSales: () => this.loadSales(),
-      acct: acctView, onAcct, affd,
+      bal: { available: f(avail), pending: f(pend), total: f(total), minLabel: W.minimum(f(MIN)), pendingNote: W.heldNote(days),
+        showProgress: !activePayout && avail < MIN, pct: Math.min(100, MIN ? avail / MIN * 100 : 100) + '%', toGo: W.toGo(f(Math.max(MIN - avail, 0))),
+        payDisabled, payLabel: W.payBtn(!payDisabled ? f(avail) : ''), note: bnote },
+      po: activePayout ? { show: true, title: W.payoutActive, label: W.po[activePayout.status], amount: f(activePayout.amount), detail: W.payoutDetail(next, activePayout.bank ? `${activePayout.bank} ${activePayout.account}` : '') } : { show: false },
+      startPayout: () => {
+        if (!this.state.aff.bank) return this.setState({ dialog: 'bank', payoutFlow: true, form: this.bankForm(), errors: {} });
+        openPayout();
+      },
+      share, copyLink: () => url && this.copy(url, W.linkCopied), downloadQr: () => this.downloadQr(),
+      clicks, friends, hist, pays, sales, termsLine: aff ? W.termsLine(aff.termsVersion || '–') : '',
+      acct: acctView, onAcct, affd, bank,
       saveAccount: () => {
         const fm = this.state.acctForm, e = this.validateAccount(fm, W);
         if (Object.keys(e).length) return this.setState({ acctErr: e });
@@ -6373,47 +6144,38 @@ class Component extends DCLogic {
           this.flash(W.profileSaved);
         });
       },
-      payout: { has: !!pf, none: !pf, cta: pf ? W.payoutEdit : W.payoutAdd,
-        rows: pf ? [pf.ktp_name, pf.nik, pf.has_npwp ? W.npwpYes : W.npwpNo, pf.bank_name, pf.account_no, pf.account_holder].map((v, k) => ({ k: W.payoutRows[k], v })) : [] },
       pref: { light: s.theme === 'light', dark: s.theme === 'dark', system: s.theme === 'system', id: s.lang === 'id', en: s.lang === 'en' },
       setLight: setTheme('light'), setDark: setTheme('dark'), setSystem: setTheme('system'), setId: setLang('id'), setEn: setLang('en'),
-      dlg: { open: !!s.dialog, consent: s.dialog === 'consent', payout: s.dialog === 'payout', summary: s.dialog === 'summary', done: s.dialog === 'done' },
+      dlg: { open: !!s.dialog, bank: s.dialog === 'bank', payout: s.dialog === 'payout', done: s.dialog === 'done' },
       backdrop: e => { if (e.target === e.currentTarget) this.setState({ dialog: null }); },
       closeDialog: () => this.setState({ dialog: null }),
-      consentChecked: s.consentChecked, consentDisabled: !s.consentChecked || s.busy, toggleConsent: () => this.setState(st => ({ consentChecked: !st.consentChecked })),
-      consentCta: s.claimFlow ? W.acceptContinue : W.accept,
-      acceptTerms: () => this.run(async () => {
-        await this.api('POST', 'accept-terms', {});
-        await this.refresh();
-        if (!this.state.claimFlow) { this.setState({ dialog: null }); return this.flash(W.termsAccepted); }
-        if (!this.state.profile) return this.setState({ dialog: 'payout', form: this.emptyForm(null), errors: {} });
-        await this.openSummary();
-      }),
-      form: s.form, err: s.errors, onF,
-      taxHint: (taxNpwp || taxNo) ? (s.form.npwp ? W.taxNpwp(this.pct(taxNpwp)) : W.taxNoNpwp(this.pct(taxNo))) : W.taxGeneric,
-      payoutCta: s.claimFlow ? W.saveContinue : W.save,
-      savePayout: () => {
-        const e = this.validate(this.state.form, W);
+      form: s.form, err: s.errors, onF, busy: s.busy,
+      openBankEdit: () => this.setState({ dialog: 'bank', payoutFlow: false, form: this.bankForm(), errors: {} }),
+      bankCta: s.payoutFlow ? W.saveContinue : W.save,
+      saveBank: () => {
+        const e = this.validateBank(this.state.form, W);
         if (Object.keys(e).length) return this.setState({ errors: e });
-        const fm = this.state.form;
         this.run(async () => {
-          const r = await this.api('POST', 'payout-profile', { name: fm.name, nik: fm.nik, npwp: fm.npwp, bank: fm.bank, account: fm.acct, holder: fm.holder });
-          this.setState({ profile: r.profile, rejectDismissed: true, form: this.emptyForm(r.profile) });
-          if (this.state.claimFlow) { await this.refresh(); await this.openSummary(); }
-          else { this.setState({ dialog: null }); this.flash(W.payoutSaved); }
+          const r = await this.api('POST', 'bank', this.bankBody(this.state.form));
+          this.setState({ aff: r.affiliate });
+          if (this.state.payoutFlow) openPayout();
+          else { this.setState({ dialog: null }); this.flash(W.bankSaved); }
         });
       },
-      sum: { gross: f(preview.gross), tax: '−' + f(preview.tax), net: f(preview.net),
-        taxLabel: W.taxLabel(taxRate ? this.pct(taxRate) : '–', preview.payout_profile ? !!preview.payout_profile.has_npwp : null),
-        hasAdjustment: Number(preview.adjustments) !== 0 && preview.adjustments != null, adjustment: f(preview.adjustments),
-        account: preview.payout_profile ? `${preview.payout_profile.bank_name} ${preview.payout_profile.account_no}` : '', holder: preview.payout_profile ? preview.payout_profile.account_holder : '' },
-      editFromSummary: () => this.setState({ dialog: 'payout', claimFlow: true, form: this.emptyForm(pf), errors: {} }),
-      submitClaim: () => this.run(async () => {
-        const r = await this.api('POST', 'claim', {});
-        const c = r.claim;
-        this.setState({ dialog: 'done', rejectDismissed: true, doneText: W.doneText(f(c.net), c.bank ? c.bank + ' ' + c.account : '', this.claimNo(c)) });
-        await this.refresh();
-      }),
+      pay: { available: f(avail), amount: s.payAmount, err: s.payErr, hint: W.payHint(f(MIN), f(avail)),
+        account: aff && aff.bank ? acctLabel(aff.bank) : '', holder: aff && aff.bank ? aff.bank.holder : '', schedule: W.schedule(next) },
+      onPayAmount: e => this.setState({ payAmount: e.target.value.replace(/\D/g, ''), payErr: '' }),
+      editBankFromPayout: () => this.setState({ dialog: 'bank', payoutFlow: true, form: this.bankForm(), errors: {} }),
+      submitPayout: () => {
+        const n = Number(this.state.payAmount);
+        if (!n || n < MIN) return this.setState({ payErr: W.errMin(f(MIN)) });
+        if (n > avail) return this.setState({ payErr: W.errMax(f(avail)) });
+        this.run(async () => {
+          const r = await this.api('POST', 'payout', { amount: n });
+          this.setState({ dialog: 'done', doneText: W.payoutDone(f(r.payout.amount), fd(r.payout.payoutDate), acctLabel(this.state.aff.bank)) });
+          await this.refresh();
+        });
+      },
       doneText: s.doneText,
       hasToast: !!s.toast, toast: s.toast
     };
