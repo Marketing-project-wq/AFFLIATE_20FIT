@@ -5349,6 +5349,23 @@ textarea.input { min-height: 90px; resize: vertical; }
         <h1 style="font-size:36px;max-width:680px;text-wrap:pretty;margin:10px 0 10px">{{ jn.title }}</h1>
         <p class="text-muted" style="max-width:600px;font-size:15px;text-wrap:pretty;margin:0">{{ jn.body }}</p>
       </div>
+      <sc-if value="{{ jn.locked }}" hint-placeholder-val="{{ false }}">
+        <section class="card af-glass" style="padding:22px;gap:12px">
+          <div style="display:flex;gap:12px;align-items:flex-start">
+            <span style="flex:none;display:grid;place-items:center;width:44px;height:44px;border-radius:14px;background:color-mix(in srgb, var(--color-accent) 12%, transparent);color:var(--color-accent)"><i class="ph ph-device-mobile" style="font-size:24px"></i></span>
+            <div><h4 style="margin:0">{{ tr.appGateTitle }}</h4><p class="text-muted" style="margin:4px 0 0;font-size:14px;text-wrap:pretty">{{ jn.gateBody }}</p></div>
+          </div>
+          <ol style="margin:0;padding-left:20px;font-size:14px;display:flex;flex-direction:column;gap:4px">
+            <li>{{ tr.appGate1 }}</li><li>{{ jn.gate2 }}</li><li>{{ tr.appGate3 }}</li>
+          </ol>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+            <sc-if value="{{ links.appStore }}" hint-placeholder-val="{{ false }}"><a class="btn af-btn2" href="{{ links.appStore }}" target="_blank" rel="noopener"><i class="ph ph-apple-logo"></i><span>App Store</span></a></sc-if>
+            <sc-if value="{{ links.playStore }}" hint-placeholder-val="{{ false }}"><a class="btn af-btn2" href="{{ links.playStore }}" target="_blank" rel="noopener"><i class="ph ph-google-play-logo"></i><span>Google Play</span></a></sc-if>
+            <button class="btn af-btn1" style="margin-left:auto" disabled="{{ busy }}" sc-camel-on-click="{{ checkApp }}"><i class="ph ph-arrows-clockwise"></i><span>{{ tr.appGateCheck }}</span></button>
+          </div>
+          <sc-if value="{{ jn.gateMiss }}" hint-placeholder-val="{{ false }}"><div class="af-err" style="margin:0">{{ jn.gateMissText }}</div></sc-if>
+        </section>
+      </sc-if>
       <sc-if value="{{ jn.showHow }}" hint-placeholder-val="{{ false }}">
         <div style="display:flex;flex-direction:column;gap:12px">
           <div><h4 style="margin:0">{{ tr.howTitle }}</h4><div class="text-muted" style="font-size:13px;margin-top:2px">{{ tr.howSub }}</div></div>
@@ -5364,6 +5381,7 @@ textarea.input { min-height: 90px; resize: vertical; }
           </div>
         </div>
       </sc-if>
+      <sc-if value="{{ jn.unlocked }}" hint-placeholder-val="{{ true }}"><div style="display:flex;flex-direction:column;gap:20px">
       <ol class="af-steps" aria-label="{{ tr.stepsLabel }}">
         <sc-for list="{{ jn.steps }}" as="st" hint-placeholder-count="3">
           <li class="af-step" aria-current="{{ st.current }}" data-done="{{ st.done }}"><span class="af-step-n">{{ st.n }}</span><span>{{ st.label }}</span></li>
@@ -5454,6 +5472,7 @@ textarea.input { min-height: 90px; resize: vertical; }
           <div style="display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap"><sc-if value="{{ jn.canEditKtp }}" hint-placeholder-val="{{ false }}"><button class="btn af-btn2" sc-camel-on-click="{{ back }}">{{ tr.back }}</button></sc-if><span></span><button class="btn af-btn1" style="padding:10px 18px" disabled="{{ joinDisabled }}" sc-camel-on-click="{{ join }}">{{ joinLabel }}</button></div>
         </section>
       </sc-if>
+      </div></sc-if>
     </section>
   </sc-if>
 
@@ -5840,7 +5859,7 @@ class Component extends DCLogic {
     this.state = Object.assign(this.fromState(D.state || { error: this.words(lang).loadFailed }), {
       lang, theme: this.pref('af_theme', ['light', 'dark', 'system'], 'system'), sysDark: !!(this.mq && this.mq.matches),
       narrow: false, toast: '', dialog: null, payoutFlow: false, form: { bank: '', acct: '', holder: '' }, errors: {}, bankOpen: false, bankOther: false, bankHi: -1, bankQ: '', busy: false,
-      agreed: false, payAmount: '', payErr: '', doneText: '', selWeek: -1, selMonth: -1, weekOff: 0, monthOff: 0,
+      agreed: false, appMiss: false, payAmount: '', payErr: '', doneText: '', selWeek: -1, selMonth: -1, weekOff: 0, monthOff: 0,
       kyc: this.emptyKyc(acct), kerr: {}, sameAsKtp: false, step: (D.state && D.state.identity) ? 3 : 1,
       account: acct, accountMissing: !!(D.account && !D.account.found), acctForm: { name: acct ? acct.name : '', phone: acct ? acct.phone : '' }, acctErr: {}, acctStatus: ''
     });
@@ -5920,7 +5939,8 @@ class Component extends DCLogic {
   fromState(st) {
     return {
       error: st.error || '', joined: !!st.joined, aff: st.affiliate || null, stats: st.stats || {}, referrals: st.referrals || [],
-      commissions: st.commissions || [], payouts: st.payouts || [], clicks: st.clicks || [], identity: st.identity || null
+      commissions: st.commissions || [], payouts: st.payouts || [], clicks: st.clicks || [], identity: st.identity || null,
+      appInstalled: !!st.appInstalled
     };
   }
 
@@ -6144,6 +6164,11 @@ class Component extends DCLogic {
       siteName: '20FIT Affiliate', logoLabel: '20FIT Affiliate program', navLabel: 'Dashboard', signOut: 'Sign out', avatarLabel: e => 'Profile · ' + e,
       reload: 'Reload', contactTeam: 'Contact the affiliate team', programKicker: '20FIT affiliate program',
       heroBody: 'Share your 20FIT affiliate link with friends. When they buy in the 20FIT app after opening your link, you earn a commission.',
+      appGateTitle: 'Download the 20FIT app first', appGateBody: e => `The affiliate sign-up opens once you’ve used the 20FIT app signed in as ${e || 'this account'}.`,
+      appGate1: 'Download the 20FIT app from the App Store or Google Play.', appGate2: e => `Open the app and sign in with the same account${e ? ` (${e})` : ''}.`,
+      appGate3: 'Come back here and tap “I’ve got the app, check again”.', appGateCheck: 'I’ve got the app, check again',
+      appGateMiss: e => `We can’t see the app on this account yet. Make sure you’ve opened the 20FIT app and signed in${e ? ` as ${e}` : ''}, then try again.`,
+      appGateOk: 'App found. You can fill in your details now.',
       howTitle: 'How to join', howSub: 'Four steps, from downloading the app to your first commission.',
       how1Title: 'Download the 20FIT app', how1Body: 'It’s on the App Store and Google Play. Create an account there if you don’t have one, then sign in here with the same account.',
       how2Title: 'Fill in your details here', how2Body: 'Complete your KTP details, domisili and payout account below, then agree to the T&C. You’re in straight away, no approval needed.',
@@ -6221,6 +6246,11 @@ class Component extends DCLogic {
       siteName: '20FIT Affiliate', logoLabel: 'Program affiliate 20FIT', navLabel: 'Dashboard', signOut: 'Keluar', avatarLabel: e => 'Profile · ' + e,
       reload: 'Muat ulang', contactTeam: 'Hubungi tim affiliate', programKicker: 'Program affiliate 20FIT',
       heroBody: 'Bagikan link affiliate 20FIT-mu ke teman. Saat mereka membeli di app 20FIT setelah membuka link-mu, kamu dapat komisi.',
+      appGateTitle: 'Download app 20FIT dulu', appGateBody: e => `Form pendaftaran affiliate terbuka setelah kamu memakai app 20FIT dan masuk dengan ${e || 'akun ini'}.`,
+      appGate1: 'Download app 20FIT di App Store atau Google Play.', appGate2: e => `Buka app-nya dan masuk dengan akun yang sama${e ? ` (${e})` : ''}.`,
+      appGate3: 'Kembali ke sini, lalu tekan “Sudah download, cek lagi”.', appGateCheck: 'Sudah download, cek lagi',
+      appGateMiss: e => `App 20FIT belum terdeteksi di akun ini. Pastikan kamu sudah membuka app dan masuk${e ? ` dengan ${e}` : ''}, lalu coba lagi.`,
+      appGateOk: 'App terdeteksi. Sekarang kamu bisa isi datamu.',
       howTitle: 'Cara gabung', howSub: 'Empat langkah, dari download app sampai komisi pertama.',
       how1Title: 'Download app 20FIT', how1Body: 'Ada di App Store dan Google Play. Buat akun di app kalau belum punya, lalu masuk ke sini dengan akun yang sama.',
       how2Title: 'Isi data di halaman ini', how2Body: 'Lengkapi Data KTP, domisili, dan rekening pencairan di bawah, lalu setujui S&K. Langsung terdaftar tanpa menunggu approval.',
@@ -6530,6 +6560,9 @@ class Component extends DCLogic {
     const reviewId = ident || { nik: k.nik ? '************' + k.nik.slice(-4) : '', full_name: k.full_name, birth_place: k.birth_place, birth_date: k.birth_date, domicile_address: k.domicile_address, domicile_city: k.domicile_city, domicile_province: k.domicile_province, domicile_postal_code: k.domicile_postal_code };
     const jn = {
       title: complete ? W.completeTitle : t.heroTitle, body: complete ? W.completeBody : W.heroBody, showHow: !s.joined && step === 1,
+      // Signing up needs the 20FIT app (affiliates who joined in the app have it).
+      locked: !s.joined && !s.appInstalled, unlocked: s.joined || s.appInstalled,
+      gateBody: W.appGateBody(this.D.user.email), gate2: W.appGate2(this.D.user.email), gateMiss: s.appMiss, gateMissText: W.appGateMiss(this.D.user.email),
       steps: stepLabels.map((label, i) => ({ n: i + 1, label, current: i + 1 === step ? 'step' : 'false', done: i + 1 < step ? 'true' : 'false' })),
       s1: step === 1, s2: step === 2, s3: step === 3, canEditKtp: !ident, next2Label: complete ? W.saveKtp : W.next,
       review: [[W.k_full_name, reviewId.full_name], [W.k_nik, reviewId.nik], [W.ttl, `${reviewId.birth_place || ''}, ${fd(reviewId.birth_date)}`], [W.domTitle, domLine(reviewId)]].map(([kk, v]) => ({ k: kk, v: v || '–' }))
@@ -6574,6 +6607,12 @@ class Component extends DCLogic {
       signOut: () => this.clearDrafts(() => true),
       agreed: s.agreed, joinDisabled: paused || s.busy, joinLabel: paused ? W.joinPaused : W.joinCta,
       toggleAgree: () => this.setState(st3 => ({ agreed: !st3.agreed })),
+      checkApp: () => this.run(async () => {
+        const st4 = this.fromState(await this.api('GET', 'state'));
+        if (st4.joined && st4.identity) return location.assign('/dashboard');
+        this.setState({ ...st4, appMiss: !st4.appInstalled });
+        if (st4.appInstalled) this.flash(W.appGateOk);
+      }),
       join: () => {
         const e = this.validateBank(this.state.form, W);
         if (Object.keys(e).length) return this.setState({ errors: e });
