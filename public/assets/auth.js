@@ -50,9 +50,12 @@
       var password = login.password.value;
       errorEl.textContent = '';
 
-      // The account service answers within a second or two; after 8 s the
-      // form stops waiting and checks the password the classic way.
-      postJson(accounts + '/api/fitco-login', { email: email, password: password }, 8000)
+      // The account service can take a while; the button says so, and
+      // after 15 s the form stops waiting and checks the password the
+      // classic way.
+      var slow = setTimeout(function () { button.textContent = 'Masih memeriksa akun 20FIT…'; }, 4000);
+      postJson(accounts + '/api/fitco-login', { email: email, password: password }, 15000)
+        .finally(function () { clearTimeout(slow); })
         .then(function (r) {
           if (!r.ok || !r.data || !r.data.email_otp) throw new Error('fallback');
           // Only the one-time code leaves for this site; the 20FIT app
