@@ -148,6 +148,76 @@ fields the page shows (bank account numbers masked).
 | `POST payout` `{amount}` | `affiliate` `request_payout` (needs KTP details; minimum and balance checked by the function) |
 | `POST account` `{name, phone}` | updates `full_name` and `phone` of the user's own `my20fit_profile` row (RLS); email can't change |
 
+## API for other 20FIT systems (`/api/v1`)
+
+Read-only affiliate data for other 20FIT systems, such as the my.20fit.id
+server or the my 20FIT app's backend (an Edge Function), authenticated with
+an **API key**. It's server-to-server: the key is a secret of the calling
+server, never put in a browser, in the mobile app itself, in chat or in
+code. There is no CORS on `/api/v1`.
+
+### Keys
+
+- **One key per system**, with a label (which system it's for), an
+  environment and the scopes it may use. Only a SHA-256 hash and the first
+  17 characters are stored (`affiliate_api_clients`, no grants).
+- **Created and revoked by a Super admin** in `/admin/settings` → *API keys*.
+  The key is shown **once**, right after it's created. Copy it into the
+  calling system's secret manager as `AFFILIATE_API_KEY`.
+- **Environments.** `afk_live_…` keys are for production and `afk_test_…`
+  keys for staging. A server only accepts the prefix of its own
+  `AFFILIATE_ENV` (default `production`). Don't use a production key for
+  testing.
+- **Rotate**: create a new key for the same system, switch the system to it,
+  then revoke the old one. **Revoke** (*Cabut*) takes effect at once and
+  only for that key.
+- **Audit**: creating and revoking a key is written to `affiliate_audit_log`
+  (`api_key_created` / `api_key_revoked`, by whom, label, environment,
+  scopes, prefix). The list shows who created each key, when, and when it
+  was last used. Server logs show only the key prefix.
+- Each key is limited to `AFFILIATE_API_RATE_PER_MIN` requests a minute
+  (default 120).
+
+The checks happen in the database. The site calls `affiliate_api_*` with its
+publishable key only (no service role), and each function checks the key
+(hash, not revoked) and its scope, then returns only that scope's fields.
+**Bank details, account numbers, KTP/NIK, addresses, buyers, order codes and
+order values are never returned.**
+
+### Endpoints
+
+| Scope | Request | Returns |
+| --- | --- | --- |
+| `program:read` | `GET /api/v1/program` | `commission_rate`, `min_withdrawal`, `pending_days`, `program_status`, `terms_version` |
+| `affiliates:read` | `GET /api/v1/affiliates?limit=100&offset=0` | `total`, `items[]`: `code`, `name`, `status`, `joined_at` (max 500 per page) |
+| `stats:read` | `GET /api/v1/affiliates/{code}/stats` | `clicks`, `referrals`, `pending_balance`, `available_balance`, `total_earned`, `commissions_by_status` {status: {count, amount}} |
+| `commissions:read` | `GET /api/v1/commissions?since=<ISO time>&limit=100&code=<code>` | `items[]`: `id`, `affiliate_code`, `product`, `source_table`, `commission_amount`, `status`, `order_paid_at`, `hold_until`, `released_at`, `cancelled_at`, `created_at`; oldest first, so pass the last `created_at` as the next `since` |
+
+Answers are `{"data": …}`, or `{"error": {"code", "message"}}` with:
+- `401` `missing_key` / `invalid_api_key` (wrong or revoked) / `wrong_environment`;
+- `403` `scope_not_allowed`;
+- `404` `not_found`;
+- `400` `bad_request`;
+- `405` (not GET);
+- `429` `rate_limited`.
+
+```sh
+# The key comes from the calling server's environment, never written out.
+curl -s https://affiliate.20fit.id/api/v1/program \
+  -H "Authorization: Bearer $AFFILIATE_API_KEY"
+
+curl -s "https://affiliate.20fit.id/api/v1/commissions?since=2026-10-01T00:00:00Z&limit=100" \
+  -H "Authorization: Bearer <AFFILIATE_API_KEY>"
+```
+
+```js
+// e.g. in a Supabase Edge Function or a Node server
+const r = await fetch('https://affiliate.20fit.id/api/v1/affiliates/RUDI-K7QX/stats', {
+  headers: { Authorization: `Bearer ${Deno.env.get('AFFILIATE_API_KEY')}` },
+});
+const { data, error } = await r.json();
+```
+
 ## Sign-in
 
 People sign in with their 20FIT app account; there is no sign-up on the
@@ -177,7 +247,9 @@ All optional.
 | `SUPABASE_PUBLISHABLE_KEY` | That project's publishable key           |
 | `PORT`                     | `3000` (Railway sets it)                 |
 | `ACCOUNTS_URL`             | `https://my.20fit.id`                    |
-| `APP_STORE_URL`, `PLAY_STORE_URL`, `SUPPORT_URL` | `landing_content.app_store_url`, `play_store_url`, `support_url`; hidden when neither is set |
+| `APP_STORE_URL`, `PLAY_STORE_URL`, `SUPPORT_URL` | `landing_content.app_store_url`, `play_store_url`, `support_url`; the store links then fall back to the landing page's, support is hidden when unset |
+| `AFFILIATE_ENV`            | `production` (accepts `afk_live_` API keys); `staging` accepts `afk_test_` |
+| `AFFILIATE_API_RATE_PER_MIN` | `120` requests a minute per API key |
 
 Run locally with `npm start`.
 

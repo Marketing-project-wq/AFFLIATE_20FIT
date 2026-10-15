@@ -10,9 +10,10 @@ const path = require('path');
 const crypto = require('crypto');
 const { createAffiliateData } = require('./lib/affiliate-data');
 const { renderLanding, APP_STORE, PLAY_STORE } = require('./lib/landing-view');
-const { renderSettingsPage, parseForm } = require('./lib/admin-settings-view');
+const { renderSettingsPage, parseForm, parseApiKeyForm } = require('./lib/admin-settings-view');
 const { loginPage, forgotPage } = require('./lib/auth-pages');
-const { createDashboardApi, friendly } = require('./lib/dashboard-api');
+const { createDashboardApi, friendly, productLabel } = require('./lib/dashboard-api');
+const { createPublicApi } = require('./lib/public-api');
 
 const PORT = Number(process.env.PORT) || 3000;
 // Public values (the publishable key ships in every Supabase client), so they
@@ -71,6 +72,14 @@ const authScript = versioned('auth.js');
 
 const affiliateData = createAffiliateData({ supabaseUrl: SUPABASE_URL, supabaseKey: SUPABASE_KEY });
 const dashboardApi = createDashboardApi({ supabaseUrl: SUPABASE_URL, supabaseKey: SUPABASE_KEY });
+// /api/v1 for other 20FIT systems (API keys). AFFILIATE_ENV says which keys
+// this server accepts: afk_live_ on production (the default), afk_test_ on
+// staging.
+const publicApi = createPublicApi({
+  supabaseUrl: SUPABASE_URL, supabaseKey: SUPABASE_KEY, productLabel,
+  environment: process.env.AFFILIATE_ENV === 'staging' ? 'staging' : 'production',
+  ratePerMinute: process.env.AFFILIATE_API_RATE_PER_MIN,
+});
 const qrScript = versioned('qrcode.js');
 
 // ── helpers ─────────────────────────────────────────────────────────────
@@ -422,14 +431,18 @@ function sameOrigin(req, requireOrigin = false) {
 }
 
 async function settingsPage(user, accessToken, role, extra = {}) {
-  const [settings, audit] = await Promise.all([
+  const [settings, audit, apiKeys] = await Promise.all([
     affiliateData.adminSettings(accessToken),
     affiliateData.auditLog(accessToken).catch((err) => {
       console.error('audit log:', err.message);
       return null;
     }),
+    role === 'super' ? affiliateData.apiKeys(accessToken).catch((err) => {
+      console.error('api keys:', err.message);
+      return null;
+    }) : [],
   ]);
-  return renderSettingsPage({ settings, audit, role, email: user.email || '', ...extra });
+  return renderSettingsPage({ settings, audit, apiKeys, role, email: user.email || '', ...extra });
 }
 
 async function handle(req, res) {
@@ -468,7 +481,8 @@ async function handle(req, res) {
         return serveProtected(req, res, url, async (user, token) => {
           const role = await adminRole(token);
           if (!role) return { status: 403, body: forbiddenPage(user.email || '') };
-          const notice = url.searchParams.get('saved') ? 'Perubahan disimpan dan dicatat di riwayat.' : '';
+          const notice = url.searchParams.get('saved') ? 'Perubahan disimpan dan dicatat di riwayat.'
+            : url.searchParams.get('revoked') ? 'API key dicabut. Sistem yang memakainya tidak bisa lagi mengakses API.' : '';
           return { body: await settingsPage(user, token, role, { notice }) };
         });
       case '/login': {
@@ -558,6 +572,29 @@ async function handle(req, res) {
     return sendJson(res, 200, { redirect: safeNext(body.next) }, { 'Set-Cookie': sessionCookies(req, session) });
   }
 
+  // API keys for /api/v1: create (the key is shown once, in this response)
+  // and revoke. Super admin only; the database functions check it too.
+  if (method === 'POST' && (p === '/admin/api-keys' || p === '/admin/api-keys/revoke')) {
+    if (!sameOrigin(req)) return send(res, 403, 'Forbidden');
+    const form = new URLSearchParams(await readBody(req, 8 * 1024));
+    return serveProtected(req, res, url, async (user, token) => {
+      const role = await adminRole(token);
+      if (role !== 'super') return { status: 403, body: forbiddenPage(user.email || '') };
+      try {
+        if (p === '/admin/api-keys/revoke') {
+          await affiliateData.revokeApiKey(token, String(form.get('id') || ''));
+          return { redirect: '/admin/settings?revoked=1#api-keys' };
+        }
+        const f = parseApiKeyForm(form);
+        const newKey = await affiliateData.createApiKey(token, f.label, f.environment, f.scopes);
+        return { body: await settingsPage(user, token, role, { newKey, notice: 'API key dibuat. Salin sekarang; key tidak akan ditampilkan lagi.' }) };
+      } catch (err) {
+        console.error('api key:', err.message);
+        return { status: 400, body: await settingsPage(user, token, role, { error: `API key: ${err.message}` }) };
+      }
+    });
+  }
+
   if (method === 'POST' && p === '/admin/settings') {
     if (!sameOrigin(req)) return send(res, 403, 'Forbidden');
     const form = new URLSearchParams(await readBody(req, 64 * 1024));
@@ -583,6 +620,10 @@ async function handle(req, res) {
   }
 
   if (p.startsWith('/api/affiliate/')) return handleApi(req, res, url, p.slice('/api/affiliate/'.length), method);
+  if (p.startsWith('/api/v1/')) {
+    const r = await publicApi.handle(req, url, p.slice('/api/v1/'.length));
+    return sendJson(res, r.status, r.body, { 'X-Content-Type-Options': 'nosniff' });
+  }
 
   send(res, 404, 'Not found');
 }
