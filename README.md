@@ -228,9 +228,12 @@ That service answers with a one-time email code, which `POST /login/otp`
 exchanges for a Supabase session (`/auth/v1/verify`, publishable key). The
 password never reaches this server on that path.
 
-If the account service says no or can't be reached, and when JavaScript is
-off, the form posts to `POST /login`, which checks the Supabase password
-(accounts made on the web). Both share a per-IP attempt limit, and every
+If the account service says no or can't be reached (the browser waits at
+most 8 seconds, showing "Sedang masuk…"), and when JavaScript is off, the
+form posts to `POST /login`, which checks the Supabase password (accounts
+made on the web). Signing in to `/admin` (`/login?next=/admin/…`) is titled
+for admins and goes straight to that password check: admins are 20FIT team
+accounts with an email and password. Both share a per-IP attempt limit, and every
 failure shows the same message. The session is kept in HttpOnly cookies.
 
 `/lupa-password` resets the app password the way the app does: a code by

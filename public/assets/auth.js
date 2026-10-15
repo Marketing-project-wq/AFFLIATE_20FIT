@@ -37,15 +37,22 @@
       if (forgot) forgot.href = '/lupa-password' + (login.email.value ? '?email=' + encodeURIComponent(login.email.value.trim()) : '');
     });
 
+    var label = button.textContent;
+    // Coming back with the Back button shows the form as it was left.
+    window.addEventListener('pageshow', function () { button.disabled = false; button.textContent = label; fallback = false; });
     login.addEventListener('submit', function (e) {
+      // Shown while signing in, so a slow answer doesn't look like a frozen page.
+      button.disabled = true;
+      button.textContent = 'Sedang masuk…';
       if (fallback || !window.fetch || !accounts) return; // plain post to /login
       e.preventDefault();
       var email = login.email.value.trim().toLowerCase();
       var password = login.password.value;
       errorEl.textContent = '';
-      button.disabled = true;
 
-      postJson(accounts + '/api/fitco-login', { email: email, password: password })
+      // The account service answers within a second or two; after 8 s the
+      // form stops waiting and checks the password the classic way.
+      postJson(accounts + '/api/fitco-login', { email: email, password: password }, 8000)
         .then(function (r) {
           if (!r.ok || !r.data || !r.data.email_otp) throw new Error('fallback');
           // Only the one-time code leaves for this site; the 20FIT app
@@ -55,6 +62,7 @@
         .then(function (r) {
           if (r.ok && r.data && r.data.redirect) { location.assign(r.data.redirect); return; }
           button.disabled = false;
+          button.textContent = label;
           errorEl.textContent = (r.data && r.data.error) || GENERIC;
         })
         .catch(function () {
